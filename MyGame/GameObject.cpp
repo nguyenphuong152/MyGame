@@ -1,7 +1,7 @@
 #include <d3dx9.h>
 #include <algorithm>
 
-#include "debug.h"
+#include "Utils.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"

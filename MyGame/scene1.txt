@@ -3,6 +3,7 @@
 0	textures\mario.png	255	255	255
 20	textures\misc.png	176	224	248
 10	textures\enemies.png	3	26	110
+30	textures\world1.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -160,3 +161,6 @@
 # type	l	t	ani_set_id	r	b	scene_id
 50	300	98	0	316	150	2
 
+#id	name	mapwitdh	mapheight	texture_id
+[MAP]
+1	map1.txt	44	10	30

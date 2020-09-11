@@ -1,6 +1,6 @@
 #include "Animations.h"
 
-#include "debug.h"
+#include "Utils.h"
 
 CAnimationSets* CAnimationSets::_instance = NULL;
 
@@ -40,12 +40,12 @@ void CAnimation::Render(float x, float y, int alpha)
 			if (currentFrame == frames.size())
 			{
 				currentFrame = 0;
-				DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
+				//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
 			}
 		}
 	}
 
-	DebugOut(L"currentFrame", currentFrame);
+	
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 

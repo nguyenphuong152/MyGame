@@ -6,6 +6,8 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "Map.h"
+
 
 class CPlayScene : public CScene
 {
@@ -15,11 +17,14 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
+	unordered_map <int, LPMAP > maps;
+
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_MAP(string line);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
@@ -30,7 +35,7 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
-
+	//CMap* GetMap() { return Map; }
 	//friend class CPlayScenceKeyHandler;
 };
 

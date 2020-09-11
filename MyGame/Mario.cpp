@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <assert.h>
-#include "debug.h"
+#include "Utils.h"
 
 #include "Mario.h"
 #include "Game.h"
