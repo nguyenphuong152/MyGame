@@ -14,10 +14,8 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
-
+	
 	vector<LPGAMEOBJECT> objects;
-
-	unordered_map <int, LPMAP > maps;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -35,7 +33,6 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
-	//CMap* GetMap() { return Map; }
 	//friend class CPlayScenceKeyHandler;
 };
 

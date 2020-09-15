@@ -5,9 +5,10 @@
 #include "Textures.h"
 #include "Game.h"
 
-using namespace std;
 
-#define TILE_WITDH 64
+//using namespace std;
+
+#define TILE_WIDTH 64
 
 
 CMap* CMap::__instance = NULL;
@@ -18,13 +19,15 @@ CMap* CMap::GetInstance()
 	return __instance;
 }
 
-void CMap::AddMap(int idMap, LPCWSTR filePath, int witdh, int height, int textureID)
+void CMap::AddMap(int id, LPCWSTR mapFilePath, int mapWidth, int mapHeight, int texId, int tilePerRow, int tilePerColumn)
 {
-	this->id = idMap;
-	this->mapFilePath = filePath;
-	this->mapWidth = witdh;
-	this->mapHeight = height;
-	this->texId = textureID;
+	this->id = id;
+	this->mapFilePath = mapFilePath;
+	this->mapWidth = mapWidth;
+	this->mapHeight = mapHeight;
+	this->texId = texId;
+	this->tilePerRow = tilePerRow;
+	this->tilePerColumn = tilePerColumn;
 }
 
 void CMap::LoadMap()
@@ -46,22 +49,22 @@ void CMap::LoadMap()
 	}
 	file.close();
 
-	int id = 0;
+	int idd = 0;
+	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
-	for (int i = 0;i < 7;i++)
+	for (int i = 0;i < tilePerColumn;i++)
 	{		
-		for (int j = 0;j < 20;j++)
+		for (int j = 0;j < tilePerRow;j++)
 		{
 			
-			int t = i * TILE_WITDH;
-			int l = j * TILE_WITDH;
-			int r = l + TILE_WITDH;
-			int b = t + TILE_WITDH;
+			int t = i * TILE_WIDTH;
+			int l = j * TILE_WIDTH;
+			int r = l + TILE_WIDTH;
+			int b = t + TILE_WIDTH;
 
-			LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
-			CSprites::GetInstance()->Add(id, l, t, r, b, tex);
-			DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", id, l, t, r, b);
-			id++;
+			CSprites::GetInstance()->Add(idd, l, t, r, b, tex);
+		//	DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", id, l, t, r, b);
+			idd++;
 		}
 	}	
 }
@@ -69,12 +72,12 @@ void CMap::LoadMap()
 
 void CMap::RenderMap()
 {
-	
 	for (int i = 0; i < mapHeight;i++)
 	{
-		for (int j = 0;j < mapWidth ;j++)
-		{
-			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(j*TILE_WITDH, i*TILE_WITDH);
+		for (int j = 0;j <mapWidth;j++)
+		{	
+			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(j * TILE_WIDTH, i * TILE_WIDTH);
+			//DebugOut(L"[INFO] draw added: %d, %d, %d\n", a,b,c);	
 		}
 
 	}

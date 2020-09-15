@@ -2,8 +2,7 @@
 [TEXTURES]
 0	textures\mario.png	255	255	255
 20	textures\misc.png	176	224	248
-30	textures\map1.BMP	255	255	255
-
+30	textures\map1.bmp	255	255	255
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # BIG MARIO 
@@ -75,7 +74,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
 # MARIO
-0	17	115	1
+0	10	115	1
 
 # BRICK 
 1	0	135	22
@@ -90,6 +89,6 @@
 # type	l	t	ani_set_id	r	b	scene_id
 50	115	98	0	148	150	1
 
-#id	name	mapwitdh	mapheight	texture_id
+#id	name	mapwitdh	mapheight	texture_id	tileperRow	tileperColumn
 [MAP]
-1	map1.txt	44	10	30
+7000	map1.txt	44	10	30	20	7

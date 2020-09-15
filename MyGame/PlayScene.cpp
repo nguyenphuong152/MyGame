@@ -161,13 +161,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-	case OBJECT_TYPE_PORTAL:
+	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
-	}
+	}*/
 	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -187,15 +187,18 @@ void CPlayScene::_ParseSection_MAP(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 5) return;
+	if (tokens.size() < 7) return;
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
 	int mapWidth = atoi(tokens[2].c_str());
 	int mapHeight = atoi(tokens[3].c_str());
 	int textureId = atoi(tokens[4].c_str());
+	int tilePerRow = atoi(tokens[5].c_str());
+	int tilePerColumn = atoi(tokens[6].c_str());
 
-	CMap::GetInstance()->AddMap(id, path, mapWidth, mapHeight, textureId);
+	CMap::GetInstance()->AddMap(id, path, mapWidth, mapHeight, textureId,tilePerRow,tilePerColumn);
+		
 	CMap::GetInstance()->LoadMap();
 }
 
@@ -252,10 +255,6 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
-	//LPMAP map = maps[1];
-	
-	//CMap::GetInstance()->LoadMap();
 	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -281,18 +280,24 @@ void CPlayScene::Update(DWORD dt)
 	player->GetPosition(cx, cy);
 
 	CGame* game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+
+	cx -= game->GetScreenWidth()/2;
+	cy -= game->GetScreenHeight()/2;
+
+	if (cx < 0)
+		cx = 0;
+
+	if (cx > game->GetScreenWidth())
+		cx = game->GetScreenWidth();
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 
 void CPlayScene::Render()
 {
+	CMap::GetInstance()->RenderMap();
 	for (int i = 0;i < objects.size();i++)
 		objects[i]->Render();
-
-	CMap::GetInstance()->RenderMap();
 }
 
 
