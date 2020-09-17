@@ -58,7 +58,9 @@ public:
 	float dx;   //dx = vx*dt
 	float dy;
 
-	int nx; //huong;
+	int nx; //huong; 
+	//nx = 1 => left
+	//nx = -1 => right
 
 	int state; // trang thai
 
@@ -71,6 +73,7 @@ public:
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx, vy = this->vy; }
+	void SetDirection(float nx) { this->nx = nx; }
 
 	int GetState() { return this->state; }
 

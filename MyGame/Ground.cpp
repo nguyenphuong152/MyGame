@@ -2,21 +2,24 @@
 #include "Textures.h"
 #include "Game.h"
 
-void CGround::RenderGround(float pos_x, float pos_y)
+CGround::CGround(float l, float t, float r, float b)
 {
-	D3DXVECTOR3 p(x, y, 0);
-	RECT rect;
-
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
-
-	float l, t, r, b;
-
-	GetBoundingBox(l, t, r, b);
-
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = (int)r - (int)l;
-	rect.bottom = (int)b - (int)t;
-
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	x = l;
+	y = t;
+	width = r - l + 1;
+	height = b - t + 1;
 }
+
+void CGround::GetBoundingBox(float& l, float& t, float& r, float& b)
+{
+	l = x;
+	t = y;
+	r = x + width;
+	b = y + height;
+}
+
+void CGround::Render()
+{
+	RenderBoundingBox();
+}
+

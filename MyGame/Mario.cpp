@@ -7,14 +7,15 @@
 
 #include "Goomba.h"
 #include "Portal.h"
+#include "Ground.h"
 
 
 CMario::CMario(float x, float y) : CGameObject()
 {
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
-
+	nx = 1;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -26,7 +27,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//calculate dx, dy
 	CGameObject::Update(dt);
 
+	//check whether mario go outside map
+	if (x < 10)
+		x = 15;
+	
 	vy += MARIO_GRAVITY * dt;
+
+	//DebugOut(L"[INFO]vy: %f \n",vy);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -112,9 +119,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+			else if (dynamic_cast<CGround*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					isJumping = false;
+				}
+			}
 
 		}
 	}
+
+	DebugOut(L"[INFO]vy: %f \n", vy);
+
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
 
@@ -123,7 +140,7 @@ void CMario::Render()
 	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
-	else if (level == MARIO_LEVEL_BIG)
+	/*else if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
 		{
@@ -135,20 +152,37 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_WALKING_RIGHT;
 		}
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}
+	}*/
 	else if (level == MARIO_LEVEL_SMALL)
 	{
+		/*switch (state)
+		{
+			case MARIO_STATE_WALKING:
+				ani = MARIO_ANI_SMALL_WALKING;
+				break;
+			case MARIO_STATE_JUMP:
+				if (vy>0)
+				{
+					ani = MARIO_ANI_JUMP;
+				}
+				break;
+			case MARIO_STATE_IDLE:
+				ani = 
+				break;
+		}*/
 		if (vx == 0)
 		{
-			if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-			else ani = MARIO_ANI_SMALL_IDLE_LEFT;
+			ani = MARIO_ANI_SMALL_IDLE;
+			if (vy != 0 && isJumping)
+			{
+				ani = MARIO_ANI_JUMP;
+			}
 		}
-		else if (vx > 0)
+		else if (vx != 0)
 		{
-			ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+			ani = MARIO_ANI_SMALL_WALKING;
 		}
-		else ani = MARIO_ANI_SMALL_WALKING_LEFT;
-	}
+}
 
 
 	int alpha = 255;
@@ -158,7 +192,7 @@ void CMario::Render()
 		alpha = 128;
 
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(ani)->Render(nx,x, y, alpha);
 
 	RenderBoundingBox();
 }
@@ -169,16 +203,17 @@ void  CMario::SetState(int state)
 
 	switch (state)
 	{
-	case MARIO_STATE_WALKING_RIGHT:
-		vx = MARIO_WALKING_SPEED;
-		nx = 1;
-		break;
-	case MARIO_STATE_WALKING_LEFT:
-		vx = -MARIO_WALKING_SPEED;
-		nx = -1;
+	case MARIO_STATE_WALKING:
+		if (nx > 0)
+		{
+			vx = MARIO_WALKING_SPEED;
+		}
+		else
+		{
+			vx = -MARIO_WALKING_SPEED;
+		}
 		break;
 	case MARIO_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		vy = -MARIO_JUMP_SPEED_Y;
 	case MARIO_STATE_IDLE:
 		vx = 0;
@@ -194,16 +229,15 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 
-	if (level == MARIO_LEVEL_BIG)
+	/*if (level == MARIO_LEVEL_BIG)
 	{
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
-	}
-	else
-	{
+	}*/
+	
 		r = x + MARIO_SMALL_BBOX_WIDTH;
 		b = y + MARIO_SMALL_BBOX_HEIGHT;
-	}
+	
 }
 
 /*
@@ -213,8 +247,15 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(MARIO_LEVEL_SMALL);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+	SetDirection(1);
+}
+
+void CMario::Jumping()
+{
+	SetState(MARIO_STATE_JUMP);
+	isJumping = true;
 }
 

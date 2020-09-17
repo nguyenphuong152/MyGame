@@ -36,6 +36,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
 
+#define OBJECT_TYPE_GROUND 60
+
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 2048
@@ -159,16 +161,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	//case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_GROUND:
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		obj = new CGround(x, y, r, b);
+	}
+	break;
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
-	}*/
-	break;
+	}
+	break;*/
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -284,18 +293,20 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth()/2;
 	cy -= game->GetScreenHeight()/2;
 
+	//update camera for map
 	if (cx < 0)
 		cx = 0;
 
-	if (cx > game->GetScreenWidth())
-		cx = game->GetScreenWidth();
+	if (cx > 2540)
+		cx = 2540;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, cy-36);	
 }
 
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
+
 	for (int i = 0;i < objects.size();i++)
 		objects[i]->Render();
 }
@@ -318,13 +329,13 @@ void CPlayScene::Unload()
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		mario->SetState(MARIO_STATE_JUMP);
+		mario->Jumping();
 		break;
 	case DIK_A:
 		mario->Reset();
@@ -340,10 +351,19 @@ void CPlaySceneKeyHandler::KeyState(BYTE* states)
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_RIGHT))
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
+	{
+		mario->SetDirection(1);
+		mario->SetState(MARIO_STATE_WALKING);
+	}
 	else if (game->IsKeyDown(DIK_LEFT))
-		mario->SetState(MARIO_STATE_WALKING_LEFT);
+	{
+		mario->SetDirection(-1);
+		mario->SetState(MARIO_STATE_WALKING);
+	}
 	else
+	{
 		mario->SetState(MARIO_STATE_IDLE);
+	}
+		
 
 }

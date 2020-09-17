@@ -50,8 +50,8 @@ void CGoomBa::Render()
 		ani = GOOMBA_ANI_DIE;
 	}
 
-
-	animation_set->at(ani)->Render(x, y);
+	//change direction for goomba
+	animation_set->at(ani)->Render(1,x, y);
 }
 
 void CGoomBa::SetState(int state)

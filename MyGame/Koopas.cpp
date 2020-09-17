@@ -45,7 +45,8 @@ void CKoopas::Render()
 	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
 
-	animation_set->at(ani)->Render(x, y);
+	//change direction for koopas
+	animation_set->at(ani)->Render(1,x, y);
 
 	RenderBoundingBox();
 }

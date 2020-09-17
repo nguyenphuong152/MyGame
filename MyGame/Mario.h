@@ -9,20 +9,16 @@
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 #define MARIO_STATE_IDLE			0
-#define MARIO_STATE_WALKING_RIGHT	100
-#define MARIO_STATE_WALKING_LEFT	201
-#define MARIO_STATE_JUMP			300
-#define MARIO_STATE_DIE				400
+#define MARIO_STATE_WALKING         100
+#define MARIO_STATE_JUMP			200
+#define MARIO_STATE_DIE				300
 
-#define MARIO_ANI_BIG_IDLE_RIGHT		0
-#define MARIO_ANI_BIG_IDLE_LEFT			1
-#define MARIO_ANI_SMALL_IDLE_RIGHT		2
-#define MARIO_ANI_SMALL_IDLE_LEFT			3
 
-#define MARIO_ANI_BIG_WALKING_RIGHT			4
-#define MARIO_ANI_BIG_WALKING_LEFT			5
-#define MARIO_ANI_SMALL_WALKING_RIGHT		6
-#define MARIO_ANI_SMALL_WALKING_LEFT		7
+//thu tu theo ani add trong file txt
+#define MARIO_ANI_SMALL_IDLE	0
+#define MARIO_ANI_SMALL_WALKING	1
+#define MARIO_ANI_JUMP			2
+#define MARIO_ANI_DIE			3
 
 #define MARIO_ANI_DIE				8
 
@@ -48,6 +44,9 @@ class CMario : public CGameObject
 	float start_y;
 
 public:
+	bool isJumping = false;
+
+
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -58,6 +57,7 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();
+	void Jumping();
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 };

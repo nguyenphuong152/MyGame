@@ -76,7 +76,7 @@ void CMap::RenderMap()
 	{
 		for (int j = 0;j <mapWidth;j++)
 		{	
-			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(j * TILE_WIDTH, i * TILE_WIDTH);
+			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(0,j * TILE_WIDTH, i * TILE_WIDTH);
 			//DebugOut(L"[INFO] draw added: %d, %d, %d\n", a,b,c);	
 		}
 
