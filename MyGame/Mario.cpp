@@ -8,6 +8,8 @@
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
+#include "Box.h"
+#include "Brick.h"
 
 
 CMario::CMario(float x, float y) : CGameObject()
@@ -126,11 +128,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isJumping = false;
 				}
 			}
-
+			else if (dynamic_cast<CBox*>(e->obj))
+			{
+				if (e->ny != 0)
+				{
+					isJumping = false;
+				}
+				else
+				{
+					x += dx;
+				}
+			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				if (e->ny != 0)
+				{
+					isJumping = false;
+				}
+			}
 		}
 	}
 
-	DebugOut(L"[INFO]vy: %f \n", vy);
+	//DebugOut(L"[INFO]vy: %f \n", vy);
 
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }

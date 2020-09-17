@@ -45,8 +45,8 @@ class CMario : public CGameObject
 
 public:
 	bool isJumping = false;
-
-
+	//bool isOnBox = false;
+	//bool isOnGround = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);

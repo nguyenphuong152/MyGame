@@ -8,6 +8,7 @@
 #include "Koopas.h"
 #include "Map.h"
 #include "Ground.h"
+#include "Box.h"
 
 
 class CPlayScene : public CScene

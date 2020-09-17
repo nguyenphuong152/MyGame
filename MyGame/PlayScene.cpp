@@ -37,6 +37,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_KOOPAS	3
 
 #define OBJECT_TYPE_GROUND 60
+#define OBJECT_TYPE_BOX 70
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -161,13 +162,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	//case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_GROUND:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		obj = new CGround(x, y, r, b);
+	}
+	break;
+	case OBJECT_TYPE_BOX:
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		obj = new CBox(x, y, r, b);
 	}
 	break;
 	/*case OBJECT_TYPE_PORTAL:
