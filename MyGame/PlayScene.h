@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Ground.h"
 #include "Box.h"
+#include "Pipe.h"
 
 
 class CPlayScene : public CScene

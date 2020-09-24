@@ -20,8 +20,6 @@
 #define MARIO_ANI_JUMP			2
 #define MARIO_ANI_DIE			3
 
-#define MARIO_ANI_DIE				8
-
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 

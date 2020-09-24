@@ -12,6 +12,7 @@ CGameObject::CGameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
+	isEnable = true;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -71,11 +72,13 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0;i < coObjects->size();i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+		if (!coObjects->at(i)->IsEnable()) return;
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
 		else
 			delete e;
+		
 	}
 
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);

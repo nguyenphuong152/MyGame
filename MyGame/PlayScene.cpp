@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "Pipe.h"
 #include "Animations.h"
 #include "Game.h"
 
@@ -38,6 +39,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
+#define OBJECT_TYPE_PIPE 80
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -178,6 +180,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBox(x, y, r, b);
 	}
 	break;
+	case OBJECT_TYPE_PIPE:
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		obj = new CPipe(x, y, r, b);
+	}
+	break;
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -281,7 +290,10 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1;i < objects.size();i++)
 	{
-		coObjects.push_back(objects[i]);
+		if (objects[i]->IsEnable())
+		{
+			coObjects.push_back(objects[i]);
+		}
 	}
 
 	for (size_t i = 0;i < objects.size();i++)
@@ -294,19 +306,25 @@ void CPlayScene::Update(DWORD dt)
 
 	//update cam follow mario
 	float cx, cy;
+	CGame* game = CGame::GetInstance();
+	
 	player->GetPosition(cx, cy);
 
-	CGame* game = CGame::GetInstance();
-
-	cx -= game->GetScreenWidth()/2;
-	cy -= game->GetScreenHeight()/2;
-
+	cx -= game->GetScreenWidth() / 2;
+	cy -= game->GetScreenHeight() / 2;
+	
 	//update camera for map
+	//hardcode
 	if (cx < 0)
 		cx = 0;
 
 	if (cx > 2540)
 		cx = 2540;
+
+	if (cy > game->GetScreenHeight()+72)
+		cy = game->GetScreenHeight()+72;
+	else if(cy< game->GetScreenHeight()+720 )
+		cy = game->GetScreenHeight()+72 ;
 
 	CGame::GetInstance()->SetCamPos(cx, cy-36);	
 }
@@ -342,7 +360,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_S:
 		mario->Jumping();
 		break;
 	case DIK_A:

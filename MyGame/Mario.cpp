@@ -10,6 +10,7 @@
 #include "Ground.h"
 #include "Box.h"
 #include "Brick.h"
+#include "Pipe.h"
 
 
 CMario::CMario(float x, float y) : CGameObject()
@@ -65,8 +66,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		float rdx = 0, rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		if (state != MARIO_STATE_DIE)
+		{
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		}
 
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
@@ -90,9 +93,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//jummp  on top >> kill goomba and deflect a bit
 				if (e->ny < 0)
 				{
+					isJumping = false;
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
+						goomba->SetEnable(false);
+						goomba->StartDie();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
@@ -102,15 +108,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
-							if (level > MARIO_LEVEL_SMALL)
+							/*if (level > MARIO_LEVEL_SMALL)
 							{
 								level = MARIO_LEVEL_SMALL;
 								StartUntouchable();
-							}
-							else
-							{
-								SetState(MARIO_STATE_DIE);
-							}
+							}*/
+							SetEnable(false);
+							SetState(MARIO_STATE_DIE);
+							
 						}
 					}
 				}
@@ -121,7 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
-			else if (dynamic_cast<CGround*>(e->obj))
+			else if (dynamic_cast<CGround*>(e->obj)|| dynamic_cast<CPipe*>(e->obj))
 			{
 				if (e->ny < 0)
 				{
@@ -157,7 +162,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMario::Render()
 {
 	int ani = -1;
-	if (state == MARIO_STATE_DIE)
+  	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	/*else if (level == MARIO_LEVEL_BIG)
 	{

@@ -2,8 +2,8 @@
 [TEXTURES]
 0	textures\mario1.png	68	145	190
 20	textures\misc.png	176	224	248
-30	textures\map1.bmp	255	255	255
-
+30	textures\map1.BMP	255	255	255
+10	textures\enemies.png	3	26	110
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -19,11 +19,19 @@
 #die
 10099	307	16	324	32	0
 
+#GOOMBA
+30001	5	14	21	29	10
+30002	25	14	41	29	10
+#die
+30003	45	21	61	29	10
+
 #QUESTION BRICK
-40001	300	117	316	133	20
-40002	318	117	334	133	20
-40003	336	117	352	133	20
-40004	355	117	370	133	20
+40001	1140	1	1156	17	20
+40002	1157	1	1173	17	20
+40003	1174	1	1190	17	20
+40004	1191	1	1207	17	20
+40005	1208	1	1224	17	20
+
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -36,11 +44,17 @@
 504	10040	100
 #die
 599	10099	100
+# ==== GOOMBA  =========
+# walk
+701	30001	100	30002	100
+# die
+702	30003	100
+
+
 
 # ==== QUESTION BRICK =========
-602	40001	1000	40001	100	40002	100	40003	100	40004	100
-
-
+602	40001	200	40001	200	40002	200	40003	200	40004	200
+603	40005	100
 #
 # id	ani1	ani2	ani3
 #
@@ -48,16 +62,21 @@
 # MARIO
 1	403	503	504	599
 # QUESTION BRICK 
-22	602
+22	602	603
+# === GOOMBA ====
+2	701	702
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas,
 # MARIO
 0	10	385	1
+#GOOMBA
+2	224	401	2
+2	528	401	2
 
-# BRICK 
-1	175	352	22
+#BRICK
+1	176	352	22
 1	192	352	22
 1	224	304	22
 1	240	304	22
@@ -88,6 +107,9 @@
 70	512	384	0	608	415
 #white
 70	512	304	0	575	415
+
+#PIPE
+80	354	369	0	381	416
 
 #id	name	mapwitdh	mapheight	texture_id	tileperRow	tileperColumn
 [MAP]

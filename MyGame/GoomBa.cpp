@@ -1,9 +1,13 @@
 #include "GoomBa.h"
+#include "Pipe.h"
+#include "Box.h"
+#include "Utils.h"
 
 CGoomBa::CGoomBa()
 {
 	SetState(GOOMBA_STATE_WALKING);
 }
+
 
 void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -19,39 +23,92 @@ void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!isEnable) return;
 	CGameObject::Update(dt, coObjects);
-
-
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
-
-	x += dx;
-	y += dy;
-
-	if (vx < 0 && x < 0)
-	{
-		x = 0;
-		vx = -vx;
+	
+	if (x > POSITION_REACH_GROUND) {
+		vx = -GOOMBA_WALKING_SPEED;
+		x = POSITION_REACH_GROUND;
 	}
 
-	if (vx > 0 && x > 290)
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	if (state != GOOMBA_STATE_DIE)
 	{
-		x = 290;
-		vx = -vx;
+		CalcPotentialCollisions(coObjects, coEvents);
 	}
+	
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		float rdx = 0, rdy = 0;
+
+		if (state != GOOMBA_STATE_DIE)
+		{
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		}
+
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+		//collision logic with other objects
+		for (UINT i = 0;i < coEventsResult.size();i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			
+			if (dynamic_cast<CPipe*>(e->obj)) 
+			{
+				if (e->nx != 0)
+				{
+					 SetState(GOOMBA_STATE_CHANGE_DIRECTION);
+					 x += dx;
+				}
+
+			}
+			else if (dynamic_cast<CBox*>(e->obj)) 
+			{
+				x += dx;
+			}
+		}
+	}
+
+	//DebugOut(L"[INFO]vy: %f \n", vy);
+
+	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
 
 void CGoomBa::Render()
 {
-	int ani = GOOMBA_ANI_WALKING;
-	if (state == GOOMBA_STATE_DIE)
+	int ani;
+	if (isEnable)
 	{
-		ani = GOOMBA_ANI_DIE;
+		if (state == GOOMBA_STATE_WALKING || state == GOOMBA_STATE_CHANGE_DIRECTION)
+		{
+			ani = GOOMBA_ANI_WALKING;
+		}
+		
 	}
-
-	//change direction for goomba
-	animation_set->at(ani)->Render(1,x, y);
+	else {
+		if (GetTickCount() - die_start < GOOMBA_DIE_TIME)
+		{
+			if (state == GOOMBA_STATE_DIE)
+			{
+				ani = GOOMBA_ANI_DIE;
+			}
+		}
+		else return;
+	}
+	
+	//hardcode
+	animation_set->at(ani)->Render(1, x, y);
 }
 
 void CGoomBa::SetState(int state)
@@ -66,6 +123,9 @@ void CGoomBa::SetState(int state)
 		break;
 	case GOOMBA_STATE_WALKING:
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	case GOOMBA_STATE_CHANGE_DIRECTION:
+		vx = GOOMBA_WALKING_SPEED;
 		break;
 	}
 }

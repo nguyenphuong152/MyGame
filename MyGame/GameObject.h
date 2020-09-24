@@ -66,7 +66,11 @@ public:
 
 	DWORD dt; //time
 
+	bool isEnable;
+
 	LPANIMATION_SET animation_set;
+
+	
 
 public:
 	void SetPosition(float x, float y) { this->x = x; this->y = y; }
@@ -95,6 +99,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
+	void SetEnable(bool enable) { this->isEnable = enable; }
+	bool IsEnable() { return this->isEnable; }
 	~CGameObject();
 };
