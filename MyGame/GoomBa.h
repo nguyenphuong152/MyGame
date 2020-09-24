@@ -23,7 +23,6 @@ class CGoomBa : public CGameObject
 {
 	int die;
 	DWORD die_start;
-	
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);

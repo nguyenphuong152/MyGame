@@ -146,9 +146,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
+				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (e->ny != 0)
 				{
 					isJumping = false;
+					if (brick->GetState() == BRICK_STATE_UNTOUCH)
+					{
+						if (e->ny > 0)
+						{
+							brick->SetState(BRICK_STATE_TOUCHED);
+						}
+					}
 				}
 			}
 		}
