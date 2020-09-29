@@ -1,4 +1,4 @@
-#include "Brick.h"
+﻿#include "Brick.h"
 #include "Utils.h"
 #include "Mario.h"
 
@@ -26,8 +26,10 @@ void CBrick::SetState(int state)
 	CGameObject::SetState(state);
 	if (state == BRICK_STATE_TOUCHED)
 	{
+		//nếu touch cục gạch, dùng biến oldY lưu vị trí cũ để khi nó nhảy lên biết vị trí cũ để về
 		oldY = y;
-		y = oldY-BRICK_DEFLECT_POS;
+		// vị trí mới khi bị touch
+		y -= BRICK_DEFLECT_POS;
 	}
 }
 
@@ -38,10 +40,8 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == BRICK_STATE_TOUCHED)
 	{
 		if (y < oldY)
-			y+=3;
+			y++; //để nó nhảy lên xong về lại vị trí cũ
 	}
-
-	
 }
 
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

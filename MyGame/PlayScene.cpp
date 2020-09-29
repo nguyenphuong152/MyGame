@@ -10,6 +10,7 @@
 #include "Pipe.h"
 #include "Animations.h"
 #include "Game.h"
+#include "Items.h"
 
 
 using namespace std;
@@ -35,7 +36,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
-#define OBJECT_TYPE_KOOPAS	3
+
+#define ITEM_COIN 3
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
@@ -112,7 +114,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
 
-	int ani_set_id = atoi(tokens[0].c_str());
+	int ani_set_id = atoi(tokens[0].c_str()); // to int
 
 	LPANIMATION_SET s = new CAnimationSet();
 
@@ -142,7 +144,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
+	float y = atof(tokens[2].c_str());  //to f
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
@@ -164,8 +166,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BRICK: 
+	{
+		obj = new CBrick();
+		obj->SetItemId(atoi(tokens[4].c_str()));
+		obj->SetItemAni(atoi(tokens[5].c_str()));
+	} break;
 	case OBJECT_TYPE_GROUND:
 	{
 		float r = atof(tokens[4].c_str());
@@ -285,6 +291,8 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
+
+
 void CPlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
@@ -300,7 +308,17 @@ void CPlayScene::Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
+	for (int i = 0;i < listItems.size();i++)
+	{
+		if (listItems[i]->IsEnable())
+		{
+			listItems[i]->Update(dt, &coObjects);
+		}
+	}
 
+	DropItem();
+	player->CheckCollisionWithItems(&listItems);
+	
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
@@ -329,14 +347,51 @@ void CPlayScene::Update(DWORD dt)
 	CGame::GetInstance()->SetCamPos(cx, cy-36);	
 }
 
+void CPlayScene::DropItem()
+{
+	for (size_t i = 1;i < objects.size();i++)
+	{
+		LPGAMEOBJECT objectItem = objects[i];
+		int idItem = -1;
+		int aniItem = -1;
+		float x, y;
+		if (objectItem->isDropppedItem) continue;
+
+		if (dynamic_cast<CBrick*>(objectItem) && objectItem->GetState() == BRICK_STATE_TOUCHED)
+		{
+			idItem = objectItem->itemID;
+			aniItem = objectItem->item_ani;
+			objectItem->GetPosition(x, y);
+			objectItem->SetIsDroppedItem(true);
+		}
+
+		if (idItem != -1)
+		{
+			auto item = new CItems();
+			item->SetEnable(true);
+			item->SetPosition(x,y);
+			item->SetState(idItem);
+
+			CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+			LPANIMATION_SET ani_set = animation_sets->Get(aniItem);
+
+			item->SetAnimationSet(ani_set);
+
+			listItems.push_back(item);
+		}
+	}
+}
+
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
 
 	for (int i = 0;i < objects.size();i++)
 		objects[i]->Render();
-}
 
+	for (int i = 0;i < listItems.size();i++)
+		listItems[i]->Render();
+}
 
 /*
 unload current scene
@@ -352,6 +407,8 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
+
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {

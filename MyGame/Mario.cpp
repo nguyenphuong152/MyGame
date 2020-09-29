@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include <assert.h>
 #include "Utils.h"
 
@@ -11,6 +11,7 @@
 #include "Box.h"
 #include "Brick.h"
 #include "Pipe.h"
+#include "Items.h"
 
 
 CMario::CMario(float x, float y) : CGameObject()
@@ -150,6 +151,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isJumping = false;
+					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
 					{
 						if (e->ny > 0)
@@ -225,8 +227,6 @@ void CMario::Render()
 
 
 	animation_set->at(ani)->Render(nx,x, y, alpha);
-
-	RenderBoundingBox();
 }
 
 void  CMario::SetState(int state)
@@ -289,5 +289,34 @@ void CMario::Jumping()
 {
 	SetState(MARIO_STATE_JUMP);
 	isJumping = true;
+}
+
+void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
+{
+	float mario_left, mario_top, mario_right, mario_bottom,
+		item_left, item_top, item_right, item_bottom;
+
+	GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
+
+	for (UINT i = 0;i < listItem->size();i++)
+	{
+		if (!listItem->at(i)->IsEnable()) continue; //nếu k enable thì skip
+
+		listItem->at(i)->GetBoundingBox(item_left, item_top, item_right, item_bottom);
+
+		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
+			item_left, item_top, item_right, item_bottom))
+		{
+			listItem->at(i)->SetEnable(false);
+
+			int state = listItem->at(i)->GetState();
+			switch (state)
+			{
+			case ITEM_COIN:
+				DebugOut(L"vo coin");
+				break;
+			}
+		}
+	}
 }
 

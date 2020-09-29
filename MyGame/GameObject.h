@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 #include <Windows.h>
@@ -67,6 +67,9 @@ public:
 	DWORD dt; //time
 
 	bool isEnable;
+	int itemID;  //item của object; -1 là k có
+	int item_ani;
+	bool isDropppedItem = false;
 
 	LPANIMATION_SET animation_set;
 
@@ -88,6 +91,10 @@ public:
 	//extension of aabb, xet 2 vat dg di chuyen, 1 vat duoc xem la dung yen
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 
+	//aabb xét vật tĩnh đụng nhau
+	bool AABB(float left_a, float top_a, float right_a, float bot_a,
+		float left_b, float top_b, float right_b, float bot_b);
+
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 
 	void FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy);
@@ -101,5 +108,13 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 	void SetEnable(bool enable) { this->isEnable = enable; }
 	bool IsEnable() { return this->isEnable; }
+
+	void SetItemId(int id) { itemID = id; }
+	int GetItemId(int& id) { id = itemID; }
+
+	void SetIsDroppedItem(bool drop) { isDropppedItem = drop; }
+
+	void SetItemAni(int ani) { item_ani = ani; }
+	void GetItemAni(int& ani) { ani = item_ani; }
 	~CGameObject();
 };

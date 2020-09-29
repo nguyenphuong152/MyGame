@@ -10,6 +10,7 @@
 #include "Ground.h"
 #include "Box.h"
 #include "Pipe.h"
+#include "Coin.h"
 
 
 class CPlayScene : public CScene
@@ -19,6 +20,7 @@ protected:
 	CMario* player;
 	
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> listItems;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -34,6 +36,8 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	
+	void DropItem();
 
 	CMario* GetPlayer() { return player; }
 	//friend class CPlayScenceKeyHandler;

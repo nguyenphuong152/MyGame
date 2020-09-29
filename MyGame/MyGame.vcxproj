@@ -145,7 +145,9 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pipe.cpp" />
@@ -165,7 +167,9 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Utils.h" />

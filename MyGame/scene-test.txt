@@ -1,7 +1,7 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario1.png	68	145	190
-20	textures\misc.png	176	224	248
+20	textures\misc.png	224	163	216
 30	textures\map1.BMP	255	255	255
 10	textures\enemies.png	3	26	110
 
@@ -26,12 +26,18 @@
 30003	45	21	61	29	10
 
 #QUESTION BRICK
-40001	1140	1	1156	17	20
+40001	1140	1	1156	17	20	
 40002	1157	1	1173	17	20
 40003	1174	1	1190	17	20
 40004	1191	1	1207	17	20
 40005	1208	1	1224	17	20
 
+#COIN
+40100	953	69	969	85	20
+40101	970	69	986	85	20
+40102	987	69	1003	85	20
+40103	1004	69	1020	85	20
+40104	1021	69	1037	85	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -50,11 +56,13 @@
 # die
 702	30003	100
 
-
-
 # ==== QUESTION BRICK =========
 602	40001	200	40001	200	40002	200	40003	200	40004	200
 603	40005	100
+
+# ===COINS===
+610	40100	50	40101	50	40102	50	40103	50	40104	30
+
 #
 # id	ani1	ani2	ani3
 #
@@ -62,13 +70,16 @@
 # MARIO
 1	403	503	504	599
 # QUESTION BRICK 
-22	602	603
+3	602	603
 # === GOOMBA ====
 2	701	702
+# === COINS ===
+4	610
 
 [OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas,
+# type	x	y	ani_set_id	item_id item_ani_id
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = item
+#item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
 0	10	385	1
 #GOOMBA
@@ -76,13 +87,14 @@
 2	528	401	2
 
 #BRICK
-1	176	352	22
-1	192	352	22
-1	224	304	22
-1	240	304	22
-1	416	320	22
-1	656	384	22
-1	704	352	22
+1	176	352	3	100	4	
+1	192	352	3	100	4
+1	224	304	3	100	4
+1	240	304	3	102	-1
+1	416	320	3	100	4
+1	656	384	3	101	-1
+1	704	352	3	100	4
+	
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
