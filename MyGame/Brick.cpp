@@ -1,6 +1,7 @@
 ﻿#include "Brick.h"
 #include "Utils.h"
 #include "Mario.h"
+#include "Items.h"
 
 CBrick::CBrick()
 {
@@ -40,7 +41,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == BRICK_STATE_TOUCHED)
 	{
 		if (y < oldY)
-			y++; //để nó nhảy lên xong về lại vị trí cũ
+			y++;//để nó nhảy lên xong về lại vị trí cũ
 	}
 }
 
@@ -51,3 +52,5 @@ void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
 }
+
+

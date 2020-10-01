@@ -9,16 +9,19 @@
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 #define MARIO_STATE_IDLE			0
-#define MARIO_STATE_WALKING         100
+#define MARIO_STATE_WALKING       100
 #define MARIO_STATE_JUMP			200
-#define MARIO_STATE_DIE				300
-
+#define MARIO_STATE_DIE			300
 
 //thu tu theo ani add trong file txt
 #define MARIO_ANI_SMALL_IDLE	0
 #define MARIO_ANI_SMALL_WALKING	1
-#define MARIO_ANI_JUMP			2
+#define MARIO_ANI_SMALL_JUMP	2
 #define MARIO_ANI_DIE			3
+#define MARIO_ANI_BIG_IDLE		4
+#define MARIO_ANI_BIG_WALKING	5
+#define MARIO_ANI_BIG_JUMP		6
+
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2

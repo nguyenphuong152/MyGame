@@ -3,8 +3,7 @@
 0	textures\mario1.png	68	145	190
 20	textures\misc.png	224	163	216
 30	textures\map1.BMP	255	255	255
-10	textures\enemies.png	3	26	110
-
+10	textures\enemies.png	68	145	190
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # SMALL MARIO
@@ -12,18 +11,29 @@
 10031	2	16	16	32	0
 # walk
 10032	19	16	35	32	0
-10033	55	16	71	32	0
-10034	73	16	89	32	0
+
 #jump
 10040	37	16	53	32	0
 #die
 10099	307	16	324	32	0
 
+# BIG MARIO
+#idle big
+11000	0	92	15	121	0
+
+#walk
+11001	19	92	35	121	0
+11002	36	92	54	121	0
+
+#jump
+11003	72	92	90	121	0	
+
+
 #GOOMBA
-30001	5	14	21	29	10
-30002	25	14	41	29	10
+30001	0	0	16	16	10
+30002	16	0	32	16	10
 #die
-30003	45	21	61	29	10
+30003	32	6	47	16	10
 
 #QUESTION BRICK
 40001	1140	1	1156	17	20	
@@ -39,17 +49,29 @@
 40103	1004	69	1020	85	20
 40104	1021	69	1037	85	20
 
+#LITTLE RED MUSHROOM
+40110	700	307	717	325	20
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== MARIO =========
 #idle small left
 403	10031	100
 #walk left small
-503	10032	100	10033	100	10034	100
+503	10031	70	10032	70
 #jump
 504	10040	100
 #die
 599	10099	100
+
+#idle big
+404	11000	100
+#walk
+405	11000	70	11001	70	11002	70
+#jump
+406	11003	120
+
 # ==== GOOMBA  =========
 # walk
 701	30001	100	30002	100
@@ -62,19 +84,23 @@
 
 # ===COINS===
 610	40100	50	40101	50	40102	50	40103	50	40104	30
+# ===MUSHROOM===
+620	40110	100
 
 #
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
 # MARIO
-1	403	503	504	599
+1	403	503	504	599	404	405	406
 # QUESTION BRICK 
 3	602	603
 # === GOOMBA ====
 2	701	702
-# === COINS ===
+# === COIN===
 4	610
+# ===MUSHROOM ===
+5	620
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
@@ -90,7 +116,7 @@
 1	176	352	3	100	4	
 1	192	352	3	100	4
 1	224	304	3	100	4
-1	240	304	3	102	-1
+1	240	304	3	102	5
 1	416	320	3	100	4
 1	656	384	3	101	-1
 1	704	352	3	100	4

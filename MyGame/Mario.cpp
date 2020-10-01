@@ -37,7 +37,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	vy += MARIO_GRAVITY * dt;
 
-	//DebugOut(L"[INFO]vy: %f \n",vy);
+	DebugOut(L"[INFO]vy: %f \n",vy);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -116,7 +116,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}*/
 							SetEnable(false);
 							SetState(MARIO_STATE_DIE);
-							
+
 						}
 					}
 				}
@@ -127,7 +127,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
-			else if (dynamic_cast<CGround*>(e->obj)|| dynamic_cast<CPipe*>(e->obj))
+			else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
 			{
 				if (e->ny < 0)
 				{
@@ -174,42 +174,29 @@ void CMario::Render()
 	int ani = -1;
   	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
-	/*else if (level == MARIO_LEVEL_BIG)
+	else if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
 		{
-			if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-			else  ani = MARIO_ANI_BIG_IDLE_LEFT;
+			ani = MARIO_ANI_BIG_IDLE;
+			if (vy != 0 && isJumping)
+			{
+				ani = MARIO_ANI_BIG_JUMP;
+			}
 		}
-		else if (vx > 0)
+		else if (vx != 0)
 		{
-			ani = MARIO_ANI_BIG_WALKING_RIGHT;
+			ani = MARIO_ANI_BIG_WALKING;
 		}
-		else ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}*/
+	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
-		/*switch (state)
-		{
-			case MARIO_STATE_WALKING:
-				ani = MARIO_ANI_SMALL_WALKING;
-				break;
-			case MARIO_STATE_JUMP:
-				if (vy>0)
-				{
-					ani = MARIO_ANI_JUMP;
-				}
-				break;
-			case MARIO_STATE_IDLE:
-				ani = 
-				break;
-		}*/
 		if (vx == 0)
 		{
 			ani = MARIO_ANI_SMALL_IDLE;
 			if (vy != 0 && isJumping)
 			{
-				ani = MARIO_ANI_JUMP;
+				ani = MARIO_ANI_SMALL_JUMP;
 			}
 		}
 		else if (vx != 0)
@@ -227,6 +214,7 @@ void CMario::Render()
 
 
 	animation_set->at(ani)->Render(nx,x, y, alpha);
+	RenderBoundingBox();
 }
 
 void  CMario::SetState(int state)
@@ -260,16 +248,16 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-
-	/*if (level == MARIO_LEVEL_BIG)
+	DebugOut(L"levell ne: %d \n", level);
+	if (level == MARIO_LEVEL_BIG)
 	{
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
-	}*/
-	
+	}
+	else {
 		r = x + MARIO_SMALL_BBOX_WIDTH;
 		b = y + MARIO_SMALL_BBOX_HEIGHT;
-	
+	}
 }
 
 /*
@@ -307,13 +295,15 @@ void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
 		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
 			item_left, item_top, item_right, item_bottom))
 		{
+			DebugOut(L"coli pos: %f ; %f \n", x, y);
 			listItem->at(i)->SetEnable(false);
-
 			int state = listItem->at(i)->GetState();
 			switch (state)
 			{
-			case ITEM_COIN:
-				DebugOut(L"vo coin");
+			case ITEM_MUSHROOM:
+				SetLevel(MARIO_LEVEL_BIG);
+				//xét lại vị trí của mario khi mario ở size bự, nếu k xét bị lọt xuống k có ground để đỡ mario
+				y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
 				break;
 			}
 		}

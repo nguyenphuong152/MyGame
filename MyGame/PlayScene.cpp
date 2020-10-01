@@ -306,7 +306,7 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0;i < objects.size();i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+			objects[i]->Update(dt, &coObjects);
 	}
 	for (int i = 0;i < listItems.size();i++)
 	{
@@ -367,9 +367,13 @@ void CPlayScene::DropItem()
 
 		if (idItem != -1)
 		{
-			auto item = new CItems();
+			auto item = new CItems(player);
 			item->SetEnable(true);
-			item->SetPosition(x,y);
+			item->SetPosition(x, y);
+			if (idItem == ITEM_MUSHROOM)
+			{
+				item->SetPosition(x,y+10);
+			}
 			item->SetState(idItem);
 
 			CAnimationSets* animation_sets = CAnimationSets::GetInstance();
@@ -390,7 +394,12 @@ void CPlayScene::Render()
 		objects[i]->Render();
 
 	for (int i = 0;i < listItems.size();i++)
-		listItems[i]->Render();
+	{
+		if (listItems[i]->IsEnable())
+		{
+			listItems[i]->Render();
+		}
+	}
 }
 
 /*

@@ -1,31 +1,52 @@
 ﻿#include "Items.h"
 #include "Utils.h"
 #include "Brick.h"
+#include "Pipe.h"
+#include "Mario.h"
+#include "Ground.h"
 
-CItems::CItems()
+CItems::CItems(CGameObject *player)
 {
 	timeAppear = -1;
+	this->player = player;
 }
 
 void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 {
-	CGameObject::Update(dt,colObject);
 
 	//xét thời gian tồn tại của một item,nếu thời gian hiện tại - thời gian xuất hiện lớn hơn thời gian tồn tại, tắt enable
 	if (timeAppear == -1)
 		timeAppear = GetTickCount();
 	else
 	{
-		DWORD now = GetTickCount();
-		if (now - timeAppear > ITEM_TIME_ALIVE)
+		if (state != ITEM_MUSHROOM)
 		{
-			SetEnable(false);
-			return;
+			DWORD now = GetTickCount();
+			if (now - timeAppear > ITEM_TIME_ALIVE)
+			{
+				SetEnable(false);
+				return;
+			}
 		}
 	}
-	
 
-	vy += ITEM_GRAVITY * dt;
+	CGameObject::Update(dt, colObject);
+
+	if (state != ITEM_MUSHROOM) vy += ITEM_GRAVITY * dt;
+
+	if (state == ITEM_MUSHROOM)
+	{ 
+
+		//neu cay nam di len tren vien gach vua du, cay nam di ngang
+		if (y <(start_y-9)&&vx==0)
+		{
+			vy = -vy;
+			vy += MUSHROOM_GRAVITY * dt;
+			//check thang mario de xem di chuyen qua trai hay phai
+			if(player->nx==1) vx = -MUSHROOM_VELOCITY_X;
+			else vx = MUSHROOM_VELOCITY_X;
+		}
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -33,71 +54,54 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 	coEvents.clear();
 	CalcPotentialCollisions(colObject, coEvents);
 
+	
+
 	if (coEvents.size() == 0)
 	{
-		x += dx;
+		//di xuyen qua theo chieu y
 		y += dy;
+		x += dx;
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-
 		float rdx = 0, rdy = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		
+		x += dx;
+		y += min_ty * dy +ny*0.4f;
 
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		//collision logic with other objects
 		for (UINT i = 0;i < coEventsResult.size();i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			/*if (dynamic_cast<CBrick*>(e->obj))
+			if (dynamic_cast<CPipe*>(e->obj)&&state==ITEM_MUSHROOM)
 			{
-				if (e->ny >0)
-				{
-					SetEnable(false);
-				}
-
-			}*/
+				vx = -vx;
+			}
 		}
+
+		for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
+
 	}
-
-	//DebugOut(L"[INFO]vy: %f \n", vy);
-
-	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
-	
 }
 
 void CItems::Render()
 {
-	int ani=-1;
-
 	if (IsEnable())
 	{
-		if (state == ITEM_COIN)
-		{
-			ani = ITEM_COIN_ANI;
-		}
-
-		animation_set->at(ani)->Render(1, x, y);
+		animation_set->at(ITEM_ANI)->Render(1, x, y);
 	}
-
+	RenderBoundingBox();
 }
 
 void CItems::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	switch (state)
-	{
-	case ITEM_COIN:
-		r = x + ITEM_COIN_BBOX_WIDTH;
-		b = y + ITEM_COIN_BBOX_WIDTH;
-	break;
-	}
+	r = x + ITEM_BBOX_WIDTH;
+	b = y + ITEM_BBOX_HEIGHT+2;
 }
 
 void CItems::SetState(int state)
@@ -106,7 +110,11 @@ void CItems::SetState(int state)
 	switch (state)
 	{
 	case ITEM_COIN:
-		vy = - COIN_VELOCITY;
+		vy = - COIN_VELOCITY_Y;
+		break;
+	case ITEM_MUSHROOM:
+		start_y = y;
+		vy = -MUSHROOM_VELOCITY_Y;
 		break;
 	}
 }

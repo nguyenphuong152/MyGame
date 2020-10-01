@@ -70,7 +70,7 @@ public:
 	int itemID;  //item của object; -1 là k có
 	int item_ani;
 	bool isDropppedItem = false;
-
+	
 	LPANIMATION_SET animation_set;
 
 	
