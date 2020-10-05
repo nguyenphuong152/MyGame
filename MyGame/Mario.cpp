@@ -16,6 +16,7 @@
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	isEnable = true;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
@@ -32,13 +33,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	//check whether mario go outside map
+	//hardcode
 	if (x < 10)
-		x = 15;
+		x = 10;
 	
 	vy += MARIO_GRAVITY * dt;
-
-	DebugOut(L"[INFO]vy: %f \n",vy);
-
+	if (state != MARIO_STATE_DIE) {
+		if (vx > 0) {
+			vx += -MARIO_ACCELERATION * dt;
+			if (vx < 0)  SetState(MARIO_STATE_IDLE);
+		}
+		else if (vx < 0) {
+			vx += MARIO_ACCELERATION * dt;
+			if (vx > 0)  SetState(MARIO_STATE_IDLE);
+		}
+		else SetState(MARIO_STATE_IDLE);
+	}
+	
+	//DebugOut(L"vx: %f \n", vx);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -94,11 +106,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//jummp  on top >> kill goomba and deflect a bit
 				if (e->ny < 0)
 				{
-					isJumping = false;
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
-						goomba->SetEnable(false);
+						goomba->isEnable = false;
 						goomba->StartDie();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
@@ -109,14 +120,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
-							/*if (level > MARIO_LEVEL_SMALL)
+							if (level > MARIO_LEVEL_SMALL)
 							{
 								level = MARIO_LEVEL_SMALL;
 								StartUntouchable();
-							}*/
-							SetEnable(false);
+							}
 							SetState(MARIO_STATE_DIE);
-
 						}
 					}
 				}
@@ -131,14 +140,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny < 0)
 				{
-					isJumping = false;
+					isOnGround = true;
 				}
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
 			{
 				if (e->ny != 0)
 				{
-					isJumping = false;
+					isOnGround = true;
 				}
 				else
 				{
@@ -150,7 +159,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (e->ny != 0)
 				{
-					isJumping = false;
+					isOnGround = true;
 					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
 					{
@@ -172,46 +181,39 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMario::Render()
 {
 	int ani = -1;
-  	if (state == MARIO_STATE_DIE)
+	if (state == MARIO_STATE_DIE)
+	{
 		ani = MARIO_ANI_DIE;
+	}
 	else if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
-		{
 			ani = MARIO_ANI_BIG_IDLE;
-			if (vy != 0 && isJumping)
-			{
-				ani = MARIO_ANI_BIG_JUMP;
-			}
-		}
-		else if (vx != 0)
-		{
+		else
 			ani = MARIO_ANI_BIG_WALKING;
-		}
+		if (!isOnGround)
+			ani = MARIO_ANI_BIG_JUMP;
+		if (state == MARIO_STATE_STOP_DOING)
+			ani = MARIO_ANI_BIG_STOP;
 	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
-		if (vx == 0)
-		{
+		if (vx==0)
 			ani = MARIO_ANI_SMALL_IDLE;
-			if (vy != 0 && isJumping)
-			{
-				ani = MARIO_ANI_SMALL_JUMP;
-			}
-		}
-		else if (vx != 0)
-		{
+		else 
 			ani = MARIO_ANI_SMALL_WALKING;
-		}
+		if (!isOnGround)
+			ani = MARIO_ANI_SMALL_JUMP;
+		if (state == MARIO_STATE_STOP_DOING)
+			ani = MARIO_ANI_SMALL_STOP;
 }
-
+	
 
 	int alpha = 255;
 
 	if (untouchable)
 
 		alpha = 128;
-
 
 	animation_set->at(ani)->Render(nx,x, y, alpha);
 	RenderBoundingBox();
@@ -221,11 +223,13 @@ void  CMario::SetState(int state)
 {
 	CGameObject::SetState(state);
 
+	//DebugOut(L"state: %d \n", state);
+
 	switch (state)
 	{
 	case MARIO_STATE_WALKING:
 		if (nx > 0)
-		{
+		{ 
 			vx = MARIO_WALKING_SPEED;
 		}
 		else
@@ -234,7 +238,12 @@ void  CMario::SetState(int state)
 		}
 		break;
 	case MARIO_STATE_JUMP:
-		vy = -MARIO_JUMP_SPEED_Y;
+		if (isOnGround)
+		{
+			vy = -MARIO_JUMP_SPEED_Y;
+			isOnGround = false;
+		}
+		break;
 	case MARIO_STATE_IDLE:
 		vx = 0;
 		break;
@@ -248,7 +257,6 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	DebugOut(L"levell ne: %d \n", level);
 	if (level == MARIO_LEVEL_BIG)
 	{
 		r = x + MARIO_BIG_BBOX_WIDTH;
@@ -270,13 +278,7 @@ void CMario::Reset()
 	SetLevel(MARIO_LEVEL_SMALL);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
-	SetDirection(1);
-}
-
-void CMario::Jumping()
-{
-	SetState(MARIO_STATE_JUMP);
-	isJumping = true;
+	nx = 1;
 }
 
 void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
@@ -285,22 +287,23 @@ void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
 		item_left, item_top, item_right, item_bottom;
 
 	GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
+	
 
 	for (UINT i = 0;i < listItem->size();i++)
-	{
-		if (!listItem->at(i)->IsEnable()) continue; //nếu k enable thì skip
-
+	{	
+		if (listItem->at(i)->isStop) continue;
 		listItem->at(i)->GetBoundingBox(item_left, item_top, item_right, item_bottom);
 
 		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
 			item_left, item_top, item_right, item_bottom))
 		{
-			DebugOut(L"coli pos: %f ; %f \n", x, y);
-			listItem->at(i)->SetEnable(false);
+			listItem->at(i)->isEnable = false;
+			listItem->at(i)->isStop = true;
 			int state = listItem->at(i)->GetState();
 			switch (state)
 			{
 			case ITEM_MUSHROOM:
+				
 				SetLevel(MARIO_LEVEL_BIG);
 				//xét lại vị trí của mario khi mario ở size bự, nếu k xét bị lọt xuống k có ground để đỡ mario
 				y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;

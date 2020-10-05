@@ -5,6 +5,7 @@
 
 CGoomBa::CGoomBa()
 {
+	isEnable = true;
 	SetState(GOOMBA_STATE_WALKING);
 }
 
@@ -109,7 +110,7 @@ void CGoomBa::Render()
 	}
 	
 	//hardcode
-	animation_set->at(ani)->Render(1, x, y);
+	animation_set->at(ani)->Render(0, x, y);
 }
 
 void CGoomBa::SetState(int state)

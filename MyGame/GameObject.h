@@ -66,21 +66,17 @@ public:
 
 	DWORD dt; //time
 
-	bool isEnable;
-	int itemID;  //item của object; -1 là k có
-	int item_ani;
-	bool isDropppedItem = false;
+	bool isEnable = false;
+	bool isStop = false;
+	
 	
 	LPANIMATION_SET animation_set;
-
-	
 
 public:
 	void SetPosition(float x, float y) { this->x = x; this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx, vy = this->vy; }
-	void SetDirection(float nx) { this->nx = nx; }
 
 	int GetState() { return this->state; }
 
@@ -106,15 +102,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-	void SetEnable(bool enable) { this->isEnable = enable; }
-	bool IsEnable() { return this->isEnable; }
 
-	void SetItemId(int id) { itemID = id; }
-	int GetItemId(int& id) { id = itemID; }
-
-	void SetIsDroppedItem(bool drop) { isDropppedItem = drop; }
-
-	void SetItemAni(int ani) { item_ani = ani; }
-	void GetItemAni(int& ani) { ani = item_ani; }
 	~CGameObject();
 };

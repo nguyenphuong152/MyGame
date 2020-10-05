@@ -168,9 +168,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
 	case OBJECT_TYPE_BRICK: 
 	{
-		obj = new CBrick();
-		obj->SetItemId(atoi(tokens[4].c_str()));
-		obj->SetItemAni(atoi(tokens[5].c_str()));
+		int typeItem, itemAni;
+		int itemId;
+		if (listItems.size() >= 0) {
+			itemId = listItems.size();
+		}
+
+		typeItem = atoi(tokens[4].c_str());
+		itemAni = atoi(tokens[5].c_str());
+		obj = new CBrick(itemId);
+
+		CItems *item = new CItems(player);
+		item->SetPosition(x, y);
+		item->SetState(typeItem);
+	
+		LPANIMATION_SET item_ani_set = animation_sets->Get(itemAni);
+		
+		item->SetAnimationSet(item_ani_set);
+		
+		listItems.push_back(item);
+
 	} break;
 	case OBJECT_TYPE_GROUND:
 	{
@@ -296,28 +313,43 @@ void CPlayScene::Load()
 void CPlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
+
 	for (size_t i = 1;i < objects.size();i++)
 	{
-		if (objects[i]->IsEnable())
+		if (objects[i]->isEnable)
 		{
+			if (dynamic_cast<CBrick*>(objects[i]))
+			{
+				CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
+				if (brick->isDropItem&& !listItems[brick->itemId]->isStop)
+				{
+					listItems[brick->itemId]->isEnable = true;
+					//brick->isDropItem = false;
+					
+				}
+			}
 			coObjects.push_back(objects[i]);
 		}
 	}
 
-	for (size_t i = 0;i < objects.size();i++)
-	{
-			objects[i]->Update(dt, &coObjects);
-	}
+	player->CheckCollisionWithItems(&listItems);
+	
 	for (int i = 0;i < listItems.size();i++)
 	{
-		if (listItems[i]->IsEnable())
+		if (listItems[i]->isEnable)
 		{
 			listItems[i]->Update(dt, &coObjects);
 		}
 	}
 
-	DropItem();
-	player->CheckCollisionWithItems(&listItems);
+	for (size_t i = 0;i < objects.size();i++)
+	{
+		if (objects[i]->isEnable)
+		{
+			objects[i]->Update(dt, &coObjects);
+		}
+	}
+
 	
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
@@ -347,59 +379,19 @@ void CPlayScene::Update(DWORD dt)
 	CGame::GetInstance()->SetCamPos(cx, cy-36);	
 }
 
-void CPlayScene::DropItem()
-{
-	for (size_t i = 1;i < objects.size();i++)
-	{
-		LPGAMEOBJECT objectItem = objects[i];
-		int idItem = -1;
-		int aniItem = -1;
-		float x, y;
-		if (objectItem->isDropppedItem) continue;
-
-		if (dynamic_cast<CBrick*>(objectItem) && objectItem->GetState() == BRICK_STATE_TOUCHED)
-		{
-			idItem = objectItem->itemID;
-			aniItem = objectItem->item_ani;
-			objectItem->GetPosition(x, y);
-			objectItem->SetIsDroppedItem(true);
-		}
-
-		if (idItem != -1)
-		{
-			auto item = new CItems(player);
-			item->SetEnable(true);
-			item->SetPosition(x, y);
-			if (idItem == ITEM_MUSHROOM)
-			{
-				item->SetPosition(x,y+10);
-			}
-			item->SetState(idItem);
-
-			CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-			LPANIMATION_SET ani_set = animation_sets->Get(aniItem);
-
-			item->SetAnimationSet(ani_set);
-
-			listItems.push_back(item);
-		}
-	}
-}
 
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
 
+	for (int i = 0;i < listItems.size();i++)
+	{
+		listItems[i]->Render();
+	}
 	for (int i = 0;i < objects.size();i++)
 		objects[i]->Render();
 
-	for (int i = 0;i < listItems.size();i++)
-	{
-		if (listItems[i]->IsEnable())
-		{
-			listItems[i]->Render();
-		}
-	}
+	
 }
 
 /*
@@ -427,12 +419,23 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		mario->Jumping();
+		mario->SetState(MARIO_STATE_JUMP);
 		break;
 	case DIK_A:
 		mario->Reset();
 		break;
 	}
+}
+
+void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
+{
+	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	/*switch (KeyCode)
+	{
+	case DIK_LEFT:
+		mario->SetState(MARIO_STATE_STOP_DOING);
+		break;
+	}*/
 }
 
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
@@ -444,18 +447,22 @@ void CPlaySceneKeyHandler::KeyState(BYTE* states)
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		mario->SetDirection(1);
-		mario->SetState(MARIO_STATE_WALKING);
+		//dang di qua trai, nhan tin hieu di qua phai
+		if (mario->vx < 0) mario->SetState(MARIO_STATE_STOP_DOING);
+		else
+		{
+			mario->nx = 1;
+			mario->SetState(MARIO_STATE_WALKING);
+		}
+		DebugOut(L"vx %f \n", mario->vx);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		mario->SetDirection(-1);
-		mario->SetState(MARIO_STATE_WALKING);
+		if (mario->vx > 0) mario->SetState(MARIO_STATE_STOP_DOING);
+		else {
+			mario->nx = -1;
+			mario->SetState(MARIO_STATE_WALKING);
+		}
+		DebugOut(L"vx %f \n", mario->vx);
 	}
-	else
-	{
-		mario->SetState(MARIO_STATE_IDLE);
-	}
-		
-
 }

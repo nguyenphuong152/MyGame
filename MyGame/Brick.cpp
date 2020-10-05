@@ -3,23 +3,25 @@
 #include "Mario.h"
 #include "Items.h"
 
-CBrick::CBrick()
+CBrick::CBrick(int itemId)
 {
+	isEnable = true;
+	this->itemId = itemId;
 	SetState(BRICK_STATE_UNTOUCH);
 }
 
 void CBrick::Render()
 {
-	int ani;
-	if (state == BRICK_STATE_UNTOUCH)
-	{
-		ani = BRICK_ANI_UNTOUCH;
-	}
-	else if (state == BRICK_STATE_TOUCHED)
-	{
-		ani = BRICK_ANI_TOUCHED;
-	}
-	animation_set->at(ani)->Render(0, x, y);
+		int ani;
+		if (state == BRICK_STATE_UNTOUCH)
+		{
+			ani = BRICK_ANI_UNTOUCH;
+		}
+		else if (state == BRICK_STATE_TOUCHED)
+		{
+			ani = BRICK_ANI_TOUCHED;
+		}
+		animation_set->at(ani)->Render(0, x, y);
 }
 
 void CBrick::SetState(int state)
@@ -36,13 +38,22 @@ void CBrick::SetState(int state)
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
-	if (state == BRICK_STATE_TOUCHED)
-	{
-		if (y < oldY)
-			y++;//để nó nhảy lên xong về lại vị trí cũ
-	}
+		if (state == BRICK_STATE_TOUCHED && isDropItem) {
+			//DebugOut(L"drop \n");
+			return;
+		}
+		CGameObject::Update(dt, coObjects);
+		if (state == BRICK_STATE_TOUCHED && !isDropItem)
+		{
+			if (y < oldY)
+			{
+				y++;//để nó nhảy lên xong về lại vị trí cũ
+			}	
+			else {
+				isDropItem = true;
+				//DebugOut(L"vo \n");
+			}
+		}
 }
 
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

@@ -36,8 +36,6 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-	
-	void DropItem();
 
 	CMario* GetPlayer() { return player; }
 	//friend class CPlayScenceKeyHandler;
@@ -48,7 +46,7 @@ class CPlaySceneKeyHandler : public CSceneKeyHandler
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
+	virtual void OnKeyUp(int KeyCode) ;
 	CPlaySceneKeyHandler(CScene* s) : CSceneKeyHandler(s) {};
 };
 

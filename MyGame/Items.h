@@ -1,5 +1,10 @@
 #pragma once
 #include"GameObject.h"
+#include "Utils.h"
+#include "Brick.h"
+#include "Pipe.h"
+#include "Mario.h"
+#include "Ground.h"
 
 #define ITEM_COIN 100 
 #define ITEM_LEAF 101
@@ -13,7 +18,7 @@
 #define COIN_VELOCITY_Y 0.5f
 
 #define ITEM_GRAVITY 0.002f
-#define MUSHROOM_GRAVITY 0.02f
+#define MUSHROOM_GRAVITY 0.04f
 
 #define MUSHROOM_VELOCITY_Y 0.007f
 #define MUSHROOM_VELOCITY_X 0.05f
@@ -24,12 +29,13 @@
 class CItems : public CGameObject
 {
 	//tao player de get huong cho mushroom
-	CGameObject* player;
+	CMario* player;
 	DWORD timeAppear;
 	float start_y;
 
 public:
-	CItems(CGameObject *player);
+	
+	CItems(CMario*player);
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
