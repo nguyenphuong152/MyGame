@@ -54,6 +54,13 @@
 #LITTLE RED MUSHROOM
 40110	701	309	717	325	20
 
+
+#PIPE
+60001	69	35	85	51	20
+60002	86	35	102	51	20
+60003	69	52	85	68	20
+60004	86	52	102	68	20
+
 == trap==
 #PIRANHA PLANT
 #down
@@ -62,6 +69,13 @@
 #up
 61003	160	144	176	176	10
 61004	176	144	192	176	10
+
+#FIREBALL
+62001	164	180	172	188	10
+62002	180	178	188	188	10
+62003	164	196	172	204	10
+62004	180	196	188	205	10
+
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -113,6 +127,9 @@
 804	61003	100
 
 
+# ==== FIREBALL =========
+805	62001	100	62002	100	62003	100	62004	100
+
 #
 # id	ani1	ani2	ani3
 #
@@ -129,13 +146,15 @@
 5	620
 # ===Red venus fire trap ===
 6	801	802	803	804
+#FIREBALL
+7	805
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = item
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	10	385	1
+0	286	385	1
 #GOOMBA
 2	224	401	2
 2	528	401	2
@@ -148,6 +167,18 @@
 1	416	320	3	100	4
 1	656	384	3	100	4
 1	704	352	3	100	4
+
+
+#RED venus
+3	359	380	6
+
+#PIPE
+80	352	368	0	60001
+80	368	368	0	60002
+80	352	384	0	60003
+80	368	384	0	60004
+80	352	400	0	60003
+80	368	400	0	60004
 	
 
 # --- SCENE PORTAL ----
@@ -174,8 +205,6 @@
 #white
 70	512	304	0	575	415
 
-#PIPE
-80	354	369	0	381	416
 
 #id	name	mapwitdh	mapheight	texture_id	tileperRow	tileperColumn
 [MAP]

@@ -21,7 +21,6 @@
 
 class CGoomBa : public CGameObject
 {
-	int die;
 	DWORD die_start;
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
@@ -30,6 +29,6 @@ class CGoomBa : public CGameObject
 public:
 	CGoomBa();
 	virtual void SetState(int state);
-	void StartDie() { die = 1; die_start = GetTickCount(); }
+	void StartDie() { die_start = GetTickCount(); }
 };
 

@@ -1,4 +1,4 @@
-#include "PlayScene.h"
+﻿#include "PlayScene.h"
 #include <iostream>
 #include <fstream>
 
@@ -37,11 +37,13 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
 
-#define ITEM_COIN 3
+#define TRAP_RED_VENUS 3
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
 #define OBJECT_TYPE_PIPE 80
+
+#define FIREBALL 7
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -68,7 +70,6 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 6) return; // skip invalid lines
-	DebugOut(L"[INFO] Tokens size : %d\n", tokens.size());
 
 	int ID = atoi(tokens[0].c_str());
 	int l = atoi(tokens[1].c_str());
@@ -189,6 +190,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		listItems.push_back(item);
 
 	} break;
+	case TRAP_RED_VENUS:
+	{
+		obj = new CRedVenusFireTrap(player);
+	
+	} break;
 	case OBJECT_TYPE_GROUND:
 	{
 		float r = atof(tokens[4].c_str());
@@ -205,9 +211,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_PIPE:
 	{
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
-		obj = new CPipe(x, y, r, b);
+		int spritePipe  = atof(tokens[4].c_str());
+		obj = new CPipe(spritePipe);
 	}
 	break;
 	/*case OBJECT_TYPE_PORTAL:
@@ -324,8 +329,28 @@ void CPlayScene::Update(DWORD dt)
 				if (brick->isDropItem&& !listItems[brick->itemId]->isStop)
 				{
 					listItems[brick->itemId]->isEnable = true;
-					//brick->isDropItem = false;
-					
+				}
+			}
+			if (dynamic_cast<CRedVenusFireTrap*>(objects[i]))
+			{
+				//neu là dg trong trậng thái bắn mới cho bắn, mà trong trạng thái bắn chỉ dc có 1 quả banh thôi, nên có bí
+				//biến hasfireball để check
+				CRedVenusFireTrap* redVenus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
+				if (redVenus->isShooting)
+				{
+					if (redVenus->hasFireBall) continue;
+
+					bool isShootingUp = false;
+					DebugOut(L"state: %d \n", redVenus->state);
+					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) isShootingUp = true;
+					redVenus->hasFireBall = true;
+
+					CFireBall* fireball = new CFireBall(player,isShootingUp);
+					CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+					LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL);
+
+					fireball->SetAnimationSet(ani_set);
+					objects.push_back(fireball);
 				}
 			}
 			coObjects.push_back(objects[i]);
@@ -413,7 +438,6 @@ void CPlayScene::Unload()
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	switch (KeyCode)
@@ -454,7 +478,6 @@ void CPlaySceneKeyHandler::KeyState(BYTE* states)
 			mario->nx = 1;
 			mario->SetState(MARIO_STATE_WALKING);
 		}
-		DebugOut(L"vx %f \n", mario->vx);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
@@ -463,6 +486,5 @@ void CPlaySceneKeyHandler::KeyState(BYTE* states)
 			mario->nx = -1;
 			mario->SetState(MARIO_STATE_WALKING);
 		}
-		DebugOut(L"vx %f \n", mario->vx);
 	}
 }

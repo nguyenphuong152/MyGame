@@ -11,6 +11,8 @@
 #include "Box.h"
 #include "Pipe.h"
 #include "Coin.h"
+#include "RedVenusFireTrap.h"
+#include "FireBall.h"
 
 
 class CPlayScene : public CScene

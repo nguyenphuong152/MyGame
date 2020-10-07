@@ -40,7 +40,6 @@
 
 class CMario : public CGameObject
 {
-	int level;
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -49,7 +48,7 @@ class CMario : public CGameObject
 	float start_y;
 
 public:
-	
+	int level;
 	bool isOnGround = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
