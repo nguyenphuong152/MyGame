@@ -1,10 +1,9 @@
 ﻿#include <algorithm>
 #include <assert.h>
 #include "Utils.h"
-
-#include "Mario.h"
 #include "Game.h"
-
+#include "MarioState.h"
+#include "MarioStateIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
@@ -13,13 +12,12 @@
 #include "Pipe.h"
 #include "Items.h"
 
-
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
-	SetState(MARIO_STATE_IDLE);
+	InitState();
 	nx = 1;
 	start_x = x;
 	start_y = y;
@@ -36,21 +34,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//hardcode
 	if (x < 10)
 		x = 10;
-	
+
 	vy += MARIO_GRAVITY * dt;
-	if (state != MARIO_STATE_DIE) {
-		if (vx > 0) {
-			vx += -MARIO_ACCELERATION * dt;
-			if (vx < 0)  SetState(MARIO_STATE_IDLE);
-		}
-		else if (vx < 0) {
-			vx += MARIO_ACCELERATION * dt;
-			if (vx > 0)  SetState(MARIO_STATE_IDLE);
-		}
-		else SetState(MARIO_STATE_IDLE);
-	}
 	
-	//DebugOut(L"vx: %f \n", vx);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -173,85 +159,66 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	//DebugOut(L"[INFO]vy: %f \n", vy);
+	marioState->Update(dt, *this);
 
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
 
 void CMario::Render()
 {
-	int ani = -1;
-	if (state == MARIO_STATE_DIE)
-	{
-		ani = MARIO_ANI_DIE;
-	}
-	else if (level == MARIO_LEVEL_BIG)
-	{
-		if (vx == 0)
-			ani = MARIO_ANI_BIG_IDLE;
-		else
-			ani = MARIO_ANI_BIG_WALKING;
-		if (!isOnGround)
-			ani = MARIO_ANI_BIG_JUMP;
-		if (state == MARIO_STATE_STOP_DOING)
-			ani = MARIO_ANI_BIG_STOP;
-	}
-	else if (level == MARIO_LEVEL_SMALL)
-	{
-		if (vx==0)
-			ani = MARIO_ANI_SMALL_IDLE;
-		else 
-			ani = MARIO_ANI_SMALL_WALKING;
-		if (!isOnGround)
-			ani = MARIO_ANI_SMALL_JUMP;
-		if (state == MARIO_STATE_STOP_DOING)
-			ani = MARIO_ANI_SMALL_STOP;
-}
-	
-
+	int ani = GetCurrentAnimation();
 	int alpha = 255;
 
-	if (untouchable)
-
-		alpha = 128;
+	if (untouchable) alpha = 128;
 
 	animation_set->at(ani)->Render(nx,x, y, alpha);
 	RenderBoundingBox();
 }
 
-void  CMario::SetState(int state)
-{
-	CGameObject::SetState(state);
+//void  CMario::SetState(int state)
+//{
+//	CGameObject::SetState(state);
+//
+//	//DebugOut(L"state: %d \n", state);
+//
+//	switch (state)
+//	{
+//	case MARIO_STATE_WALKING:
+//		if (nx > 0)
+//		{ 
+//			vx = MARIO_WALKING_SPEED;
+//		}
+//		else
+//		{
+//			vx = -MARIO_WALKING_SPEED;
+//		}
+//		break;
+//	case MARIO_STATE_JUMP:
+//		if (isOnGround)
+//		{
+//			vy = -MARIO_JUMP_SPEED_Y;
+//			isOnGround = false;
+//		}
+//		break;
+//	case MARIO_STATE_IDLE:
+//		vx = 0;
+//		break;
+//	case MARIO_STATE_DIE:
+//		vy = -MARIO_DIE_DEFLECT_SPEED;
+//		break;
+//	}
+//}
 
-	//DebugOut(L"state: %d \n", state);
-
-	switch (state)
-	{
-	case MARIO_STATE_WALKING:
-		if (nx > 0)
-		{ 
-			vx = MARIO_WALKING_SPEED;
-		}
-		else
-		{
-			vx = -MARIO_WALKING_SPEED;
-		}
-		break;
-	case MARIO_STATE_JUMP:
-		if (isOnGround)
-		{
-			vy = -MARIO_JUMP_SPEED_Y;
-			isOnGround = false;
-		}
-		break;
-	case MARIO_STATE_IDLE:
-		vx = 0;
-		break;
-	case MARIO_STATE_DIE:
-		vy = -MARIO_DIE_DEFLECT_SPEED;
-		break;
-	}
+void CMario::InitState() {
+	marioState = CMarioState::idle.GetInstance();
 }
+
+void CMario::HandleInput()
+{
+	marioState->HandleInput(*this);
+	marioState->Enter(*this);
+}
+
 
 void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -266,6 +233,10 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 		r = x + MARIO_SMALL_BBOX_WIDTH;
 		b = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
+	if (isSitting)
+	{
+		b = y + MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
 }
 
 /*
@@ -274,8 +245,8 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CMario::Reset()
 {
-	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_SMALL);
+	InitState();
+	SetLevel(MARIO_LEVEL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;

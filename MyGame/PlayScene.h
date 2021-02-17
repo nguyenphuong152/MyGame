@@ -15,11 +15,13 @@
 #include "FireBall.h"
 
 
+
 class CPlayScene : public CScene
 {
 protected:
 	//create player for play scene
 	CMario* player;
+	
 	
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> listItems;

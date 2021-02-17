@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,8 +152,14 @@
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MarioOnGroundStates.cpp" />
+    <ClCompile Include="MarioState.cpp" />
+    <ClCompile Include="MarioStateJump.cpp" />
+    <ClCompile Include="MarioStateSit.cpp" />
+    <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
+    <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -172,8 +179,14 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="MarioOnGroundStates.h" />
+    <ClInclude Include="MarioStateJump.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MarioState.h" />
+    <ClInclude Include="MarioStateIdle.h" />
+    <ClInclude Include="MarioStateSit.h" />
+    <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="Utils.h" />
