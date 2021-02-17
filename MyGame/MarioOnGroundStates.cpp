@@ -3,6 +3,7 @@
 #include "MarioStateWalk.h"
 #include "MarioStateJump.h"
 #include "MarioStateSit.h"
+#include "MarioStateStop.h"
 
 CMarioOnGroundStates::CMarioOnGroundStates()
 {
@@ -14,12 +15,20 @@ void CMarioOnGroundStates::HandleInput(CMario& mario)
 	CGame* game = CGame::GetInstance();
 	if (game->IsKeyDown(DIK_LEFT))
 	{
+		if (game->IsKeyDown(DIK_RIGHT)) ///state stop
+		{
+			mario.ChangeState(CMarioState::stop.GetInstance());
+		}
 		mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
 		mario.SetVelocityX(-MARIO_WALKING_SPEED);
 		mario.ChangeState(CMarioState::walk.GetInstance());
 	}
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
+		if (game->IsKeyDown(DIK_LEFT))
+		{
+			mario.ChangeState(CMarioState::stop.GetInstance());
+		}
 		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
 		mario.SetVelocityX(MARIO_WALKING_SPEED);
 		mario.ChangeState(CMarioState::walk.GetInstance());

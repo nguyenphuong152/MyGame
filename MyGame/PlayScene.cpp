@@ -443,6 +443,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		mario->Reset();
 		break;
+	case DIK_1:
+		mario->TransformRacoon();
+		break;
 	}
 }
 

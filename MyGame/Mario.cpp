@@ -229,6 +229,10 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
 	}
+	else if(level == MARIO_LEVEL_RACOON) {
+		r = x + MARIO_RACOON_BBOX_WIDTH;
+		b = y + MARIO_RACOON_BBOX_HEIGHT;
+	}
 	else {
 		r = x + MARIO_SMALL_BBOX_WIDTH;
 		b = y + MARIO_SMALL_BBOX_HEIGHT;
@@ -247,6 +251,15 @@ void CMario::Reset()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_BIG);
+	SetPosition(start_x, start_y);
+	SetSpeed(0, 0);
+	nx = 1;
+}
+
+void CMario::TransformRacoon()
+{
+	InitState();
+	SetLevel(MARIO_LEVEL_RACOON);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;

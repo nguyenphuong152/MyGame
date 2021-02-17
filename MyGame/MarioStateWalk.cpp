@@ -16,6 +16,9 @@ void CMarioStateWalk::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_WALKING);
 	}
+	else if(mario.level == MARIO_LEVEL_RACOON) {
+		mario.SetAnimation(MARIO_ANI_RACOON_WALKING);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_WALKING);
 	}

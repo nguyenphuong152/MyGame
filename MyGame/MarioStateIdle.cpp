@@ -18,8 +18,11 @@ void CMarioStateIdle::Enter(CMario &mario)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_IDLE);
 	}
-	else {
+	else if(mario.level == MARIO_LEVEL_BIG) {
 		mario.SetAnimation(MARIO_ANI_BIG_IDLE);
+	}
+	else {
+		mario.SetAnimation(MARIO_ANI_RACOON_IDLE);
 	}
 }
 void CMarioStateIdle::HandleInput(CMario& mario) 

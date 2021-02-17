@@ -105,6 +105,9 @@
     <ClCompile Include="MarioStateSit.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateStop.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="MarioStateSit.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateStop.h">
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
   </ItemGroup>

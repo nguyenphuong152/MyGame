@@ -20,24 +20,49 @@ class CMarioState;
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
+#define MARIO_LEVEL_RACOON	3
 
 
 //thu tu theo ani add trong file txt
 #define MARIO_ANI_SMALL_IDLE	0
 #define MARIO_ANI_SMALL_WALKING	1
 #define MARIO_ANI_SMALL_JUMP	2
-#define MARIO_ANI_SMALL_STOP	3
-#define MARIO_ANI_DIE			4
-#define MARIO_ANI_BIG_IDLE		5
-#define MARIO_ANI_BIG_WALKING	6
-#define MARIO_ANI_BIG_JUMP		7
-#define MARIO_ANI_BIG_STOP		8
-#define MARIO_ANI_BIG_SIT		9
-
+#define MARIO_ANI_SMALL_RUN		3
+#define MARIO_ANI_SMALL_PRE_FLY	4
+#define MARIO_ANI_SMALL_FLY		5
+#define MARIO_ANI_SMALL_STOP	6
+#define MARIO_ANI_SMALL_KICK	7
+#define MARIO_ANI_DIE			8
+//big
+#define MARIO_ANI_BIG_IDLE		9
+#define MARIO_ANI_BIG_WALKING	10
+#define MARIO_ANI_BIG_JUMP		11
+#define MARIO_ANI_BIG_SIT		12
+#define MARIO_ANI_BIG_RUN		13
+#define MARIO_ANI_BIG_PRE_FLY	14
+#define MARIO_ANI_BIG_FLY		15
+#define MARIO_ANI_BIG_STOP		16
+#define MARIO_ANI_BIG_KICK		17
+//racoon
+#define MARIO_ANI_RACOON_IDLE		18
+#define MARIO_ANI_RACOON_WALKING	19
+#define MARIO_ANI_RACOON_SIT		20
+#define MARIO_ANI_RACOON_JUMP		21
+#define MARIO_ANI_RACOON_RUN		22
+#define MARIO_ANI_RACOON_DROP		23
+#define MARIO_ANI_RACOON_PRE_FLY	24
+#define MARIO_ANI_RACOON_FLY		25
+#define MARIO_ANI_RACOON_STOP		26
+#define MARIO_ANI_RACOON_SPIN		27
+#define MARIO_ANI_RACOON_KICK		28
 
 #define MARIO_BIG_BBOX_WIDTH  15
-#define MARIO_BIG_BBOX_HEIGHT 27
-#define MARIO_BIG_BBOX_SIT_HEIGHT 18
+#define MARIO_BIG_BBOX_HEIGHT 26
+#define MARIO_BIG_BBOX_SIT_HEIGHT 17
+
+#define MARIO_RACOON_BBOX_WIDTH  21
+#define MARIO_RACOON_BBOX_HEIGHT 27
+#define MARIO_RACOON_BBOX_SIT_HEIGHT 17
 
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 15
@@ -88,6 +113,7 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();
+	void TransformRacoon();
 	void HandleInput();
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
