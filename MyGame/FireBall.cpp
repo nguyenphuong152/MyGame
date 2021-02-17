@@ -28,7 +28,6 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	if (isShootingUp) dir = 1;
 
 	if (player->x > POSITION_CHANGE_VY) {
-		DebugOut(L"x: %d \n", dir);
 		vy = dir*FIREBALL_VELOCITY_Y_NEAR * vx;
 		
 	}

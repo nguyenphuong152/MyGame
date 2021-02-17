@@ -166,7 +166,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
+	//case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
 	case OBJECT_TYPE_BRICK: 
 	{
 		int typeItem, itemAni;
@@ -190,11 +190,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		listItems.push_back(item);
 
 	} break;
-	case TRAP_RED_VENUS:
+	/*case TRAP_RED_VENUS:
 	{
 		obj = new CRedVenusFireTrap(player);
 	
-	} break;
+	} break;*/
 	case OBJECT_TYPE_GROUND:
 	{
 		float r = atof(tokens[4].c_str());
@@ -341,7 +341,6 @@ void CPlayScene::Update(DWORD dt)
 					if (redVenus->hasFireBall) continue;
 
 					bool isShootingUp = false;
-					DebugOut(L"state: %d \n", redVenus->state);
 					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) isShootingUp = true;
 					redVenus->hasFireBall = true;
 
@@ -358,14 +357,13 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	player->CheckCollisionWithItems(&listItems);
-	
-	for (int i = 0;i < listItems.size();i++)
+	/*for (int i = 0;i < listItems.size();i++)
 	{
 		if (listItems[i]->isEnable)
 		{
 			listItems[i]->Update(dt, &coObjects);
 		}
-	}
+	}*/
 
 	for (size_t i = 0;i < objects.size();i++)
 	{
@@ -404,15 +402,14 @@ void CPlayScene::Update(DWORD dt)
 	CGame::GetInstance()->SetCamPos(cx, cy-36);	
 }
 
-
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
 
-	for (int i = 0;i < listItems.size();i++)
+	/*for (int i = 0;i < listItems.size();i++)
 	{
 		listItems[i]->Render();
-	}
+	}*/
 	for (int i = 0;i < objects.size();i++)
 		objects[i]->Render();
 
@@ -435,10 +432,8 @@ void CPlayScene::Unload()
 }
 
 
-
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
-
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	switch (KeyCode)
 	{
@@ -453,7 +448,8 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
-	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	//CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	//marioState->HandleOnKeyUp(KeyCode);
 	/*switch (KeyCode)
 	{
 	case DIK_LEFT:
@@ -464,27 +460,26 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
-	CGame* game = CGame::GetInstance();
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-
-	// disable control key when Mario die 
-	if (mario->GetState() == MARIO_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		//dang di qua trai, nhan tin hieu di qua phai
-		if (mario->vx < 0) mario->SetState(MARIO_STATE_STOP_DOING);
-		else
-		{
-			mario->nx = 1;
-			mario->SetState(MARIO_STATE_WALKING);
-		}
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (mario->vx > 0) mario->SetState(MARIO_STATE_STOP_DOING);
-		else {
-			mario->nx = -1;
-			mario->SetState(MARIO_STATE_WALKING);
-		}
-	}
+	mario->HandleInput();
+	//// disable control key when Mario die 
+	//if (mario->GetState() == MARIO_STATE_DIE) return;
+	//if (game->IsKeyDown(DIK_RIGHT))
+	//{
+	//	//dang di qua trai, nhan tin hieu di qua phai
+	//	if (mario->vx < 0) mario->SetState(MARIO_STATE_STOP_DOING);
+	//	else
+	//	{
+	//		mario->nx = 1;
+	//		mario->SetState(MARIO_STATE_WALKING);
+	//	}
+	//}
+	//else if (game->IsKeyDown(DIK_LEFT))
+	//{
+	//	if (mario->vx > 0) mario->SetState(MARIO_STATE_STOP_DOING);
+	//	else {
+	//		mario->nx = -1;
+	//		mario->SetState(MARIO_STATE_WALKING);
+	//	}
+	//}
 }

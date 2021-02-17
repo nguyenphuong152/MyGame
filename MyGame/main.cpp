@@ -61,6 +61,7 @@ void Update(DWORD dt)
 	CGame::GetInstance()->GetCurrentScene()->Update(dt);
 }
 
+
 /*
 	Render a frame
 */
@@ -86,6 +87,7 @@ void Render()
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
+
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
 {
