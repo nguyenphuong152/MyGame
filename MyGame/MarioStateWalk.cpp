@@ -1,6 +1,7 @@
 ﻿#include "MarioStateWalk.h"
 #include "MarioStateJump.h"
 #include "MarioStateIdle.h"
+#include "MarioStateStop.h"
 #include "Mario.h"
 
 CMarioStateWalk* CMarioStateWalk::__instance = NULL;

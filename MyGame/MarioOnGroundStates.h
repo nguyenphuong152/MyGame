@@ -12,4 +12,6 @@ public:
 	virtual void HandleInput(CMario& mario);
 	virtual void Enter(CMario& mario) {};
 	virtual void Update(DWORD dt, CMario& mario) {};
+
+	void SetStateWalking(int direction, CMario& mario);
 };

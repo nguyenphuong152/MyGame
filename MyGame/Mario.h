@@ -106,6 +106,8 @@ public:
 		marioState = new_state;
 	}
 
+	//thì enter trong handle input qua bên playscene gọi hanlde input là nó vô lun
+
 	void SetLevel(int l) { level = l; }
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }

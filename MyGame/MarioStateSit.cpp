@@ -38,8 +38,6 @@ void CMarioStateSit::HandleInput(CMario& mario)
 		{
 			mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 		}
-		
-		DebugOut(L"[STATE] y: %f", mario.y);
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
 	else

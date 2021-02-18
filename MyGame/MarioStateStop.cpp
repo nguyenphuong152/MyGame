@@ -1,14 +1,11 @@
-#include "Mario.h"
+﻿#include "Mario.h"
 #include "MarioStateStop.h"
-#include "MarioStateIdle.h"
-
-
+#include "MarioStateWalk.h"
 
 CMarioStateStop* CMarioStateStop::__instance = NULL;
 
 CMarioStateStop::CMarioStateStop() {
 	DebugOut(L"[STATE] create stop \n");
-
 }
 
 void CMarioStateStop::Enter(CMario& mario)
@@ -25,7 +22,6 @@ void CMarioStateStop::Enter(CMario& mario)
 	else
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_STOP);
-		DebugOut(L"stiop \n");
 	}
 }
 void CMarioStateStop::HandleInput(CMario& mario)
@@ -35,10 +31,7 @@ void CMarioStateStop::HandleInput(CMario& mario)
 
 void CMarioStateStop::Update(DWORD dt, CMario& mario)
 {
-	/*if (mario.vx == 0)
-	{
-		mario.ChangeState(CMarioState::idle.GetInstance());
-	}*/
+
 }
 
 CMarioStateStop* CMarioStateStop::GetInstance()

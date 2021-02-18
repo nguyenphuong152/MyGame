@@ -13,27 +13,51 @@ CMarioOnGroundStates::CMarioOnGroundStates()
 void CMarioOnGroundStates::HandleInput(CMario& mario)
 {
 	CGame* game = CGame::GetInstance();
-	if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (game->IsKeyDown(DIK_RIGHT)) ///state stop
+	if (game->IsKeyDown(DIK_LEFT)) {
+		DebugOut(L"mario vx: %f \n", mario.vx);
+		if (mario.vx > 0 )
 		{
-			mario.ChangeState(CMarioState::stop.GetInstance());
+			if (GetCurrentState() == MarioStates::STOP)
+			{
+				DebugOut(L"mario vo xet vx: %f \n", mario.vx);
+				mario.SetDirection(-1);
+				mario.ChangeState(CMarioState::walk.GetInstance());
+			}
+			else {
+				mario.SetDirection(1);
+				mario.ChangeState(CMarioState::stop.GetInstance());
+			}	
 		}
-		mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
-		mario.SetVelocityX(-MARIO_WALKING_SPEED);
-		mario.ChangeState(CMarioState::walk.GetInstance());
-	}
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		if (game->IsKeyDown(DIK_LEFT))
+		else
 		{
-			mario.ChangeState(CMarioState::stop.GetInstance());
+			SetStateWalking(DIRECTION_RIGHT_TO_LEFT, mario);
 		}
-		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
-		mario.SetVelocityX(MARIO_WALKING_SPEED);
-		mario.ChangeState(CMarioState::walk.GetInstance());
 	}
-	if (game->IsKeyDown(DIK_S))
+	else if (game->IsKeyDown(DIK_RIGHT))
+	{
+
+		DebugOut(L"mario vx: %f \n", mario.vx);
+		if (mario.vx < 0 )
+		{
+			DebugOut(L"mario vo xet vx: %f \n", mario.vx);
+			if (GetCurrentState() == MarioStates::STOP)
+			{
+				mario.SetDirection(1);
+				mario.ChangeState(CMarioState::walk.GetInstance());
+				}
+			else
+			{
+				mario.SetDirection(-1);
+				mario.ChangeState(CMarioState::stop.GetInstance());
+			}
+			
+		}
+		else {
+			
+			SetStateWalking(DIRECTION_LEFT_TO_RIGHT, mario);
+		}
+	}
+	else if (game->IsKeyDown(DIK_S))
 	{
 		if (mario.isOnGround)
 		{
@@ -42,7 +66,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario)
 			mario.ChangeState(CMarioState::jump.GetInstance());
 		}
 	}
-	if (game->IsKeyDown(DIK_DOWN))
+	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		if (mario.level!=MARIO_LEVEL_SMALL && mario.isOnGround)
 		{
@@ -50,4 +74,11 @@ void CMarioOnGroundStates::HandleInput(CMario& mario)
 			mario.ChangeState(CMarioState::sit.GetInstance());
 		}
 	}
+}
+
+void CMarioOnGroundStates::SetStateWalking(int direction,CMario& mario)
+{
+	mario.SetDirection(direction);
+	mario.SetVelocityX(direction*MARIO_WALKING_SPEED);
+	mario.ChangeState(CMarioState::walk.GetInstance());
 }

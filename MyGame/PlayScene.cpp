@@ -437,9 +437,15 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_S:
-		mario->SetState(MARIO_STATE_JUMP);
-		break;
+		//tai nay xai keý dowwn //bỏ được á, em bị lỗi cái nhảy lên đụng cục gạch nó xuyên lên th
+		//co khi nao bỏ nó lỗi k ta 
+		// co do hahaha
+	//case DIK_S://bt
+	//	mario->SetState(MARIO_STATE_JUMP);// cai do k xai
+	//	// ko xai thi bo di
+
+	//	//loi
+	//	break;
 	case DIK_A:
 		mario->Reset();
 		break;
