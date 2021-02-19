@@ -7,6 +7,7 @@ class CMarioStateStop;
 #include "Utils.h"
 #include <dinput.h>
 #include "Game.h"
+#include "Input.h"
 
 class CMarioState
 {
@@ -19,6 +20,7 @@ public:
 		SIT,
 		STOP
 	};
+
 	static CMarioStateIdle idle;
 	static CMarioStateWalk walk;
 	static CMarioStateJump jump;
@@ -32,7 +34,8 @@ public:
 	void SetCurrentState(CMarioState::MarioStates current_state);
 
 	virtual void Enter(CMario& mario) = 0;
-    virtual void HandleInput(CMario &mario) = 0;
+   // virtual void HandleInput(CMario &mario) = 0;
+	virtual void HandleInput(CMario& mario, Input input) = 0;
 	virtual void Update(DWORD dt,CMario& mario) = 0;
 	
 

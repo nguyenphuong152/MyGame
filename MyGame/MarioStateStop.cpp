@@ -24,10 +24,10 @@ void CMarioStateStop::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_SMALL_STOP);
 	}
 }
-void CMarioStateStop::HandleInput(CMario& mario)
+void CMarioStateStop::HandleInput(CMario& mario,Input input)
 {
 	//
-	CMarioOnGroundStates::HandleInput(mario);
+	CMarioOnGroundStates::HandleInput(mario,input);
 }
 
 void CMarioStateStop::Update(DWORD dt, CMario& mario)

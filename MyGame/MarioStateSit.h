@@ -9,9 +9,10 @@ public:
 	CMarioStateSit();
 	virtual ~CMarioStateSit() {};
 
-	virtual void HandleInput(CMario& mario);
+	virtual void HandleInput(CMario& mario, Input input);
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt, CMario& mario);
+	void SetPositionAferSitting(CMario& mario);
 	static CMarioStateSit* GetInstance();
 
 };

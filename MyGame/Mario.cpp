@@ -213,11 +213,12 @@ void CMario::InitState() {
 	marioState = CMarioState::idle.GetInstance();
 }
 
-void CMario::HandleInput()
+void CMario::HandleInput(Input input)
 {
-	marioState->HandleInput(*this);
+	marioState->HandleInput(*this, input);
 	marioState->Enter(*this);
 }
+
 
 
 void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)

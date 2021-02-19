@@ -25,9 +25,9 @@ void CMarioStateIdle::Enter(CMario &mario)
 		mario.SetAnimation(MARIO_ANI_RACOON_IDLE);
 	}
 }
-void CMarioStateIdle::HandleInput(CMario& mario) 
+void CMarioStateIdle::HandleInput(CMario& mario,Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario);
+	CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateIdle::Update(DWORD dt,CMario& mario)

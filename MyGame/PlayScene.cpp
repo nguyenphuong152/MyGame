@@ -11,6 +11,8 @@
 #include "Animations.h"
 #include "Game.h"
 #include "Items.h"
+#include "MarioState.h"
+
 
 
 using namespace std;
@@ -166,8 +168,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	//case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	case OBJECT_TYPE_BRICK: 
+		//case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
+	case OBJECT_TYPE_BRICK:
 	{
 		int typeItem, itemAni;
 		int itemId;
@@ -179,21 +181,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		itemAni = atoi(tokens[5].c_str());
 		obj = new CBrick(itemId);
 
-		CItems *item = new CItems(player);
+		CItems* item = new CItems(player);
 		item->SetPosition(x, y);
 		item->SetState(typeItem);
-	
+
 		LPANIMATION_SET item_ani_set = animation_sets->Get(itemAni);
-		
+
 		item->SetAnimationSet(item_ani_set);
-		
+
 		listItems.push_back(item);
 
 	} break;
 	/*case TRAP_RED_VENUS:
 	{
 		obj = new CRedVenusFireTrap(player);
-	
+
 	} break;*/
 	case OBJECT_TYPE_GROUND:
 	{
@@ -211,7 +213,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_PIPE:
 	{
-		int spritePipe  = atof(tokens[4].c_str());
+		int spritePipe = atof(tokens[4].c_str());
 		obj = new CPipe(spritePipe);
 	}
 	break;
@@ -251,8 +253,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	int tilePerRow = atoi(tokens[5].c_str());
 	int tilePerColumn = atoi(tokens[6].c_str());
 
-	CMap::GetInstance()->AddMap(id, path, mapWidth, mapHeight, textureId,tilePerRow,tilePerColumn);
-		
+	CMap::GetInstance()->AddMap(id, path, mapWidth, mapHeight, textureId, tilePerRow, tilePerColumn);
+
 	CMap::GetInstance()->LoadMap();
 }
 
@@ -309,7 +311,7 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -319,14 +321,14 @@ void CPlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
 
-	for (size_t i = 1;i < objects.size();i++)
+	for (size_t i = 1; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{
 			if (dynamic_cast<CBrick*>(objects[i]))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
-				if (brick->isDropItem&& !listItems[brick->itemId]->isStop)
+				if (brick->isDropItem && !listItems[brick->itemId]->isStop)
 				{
 					listItems[brick->itemId]->isEnable = true;
 				}
@@ -344,7 +346,7 @@ void CPlayScene::Update(DWORD dt)
 					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) isShootingUp = true;
 					redVenus->hasFireBall = true;
 
-					CFireBall* fireball = new CFireBall(player,isShootingUp);
+					CFireBall* fireball = new CFireBall(player, isShootingUp);
 					CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 					LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL);
 
@@ -365,7 +367,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}*/
 
-	for (size_t i = 0;i < objects.size();i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{
@@ -373,19 +375,19 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	
+
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
 	//update cam follow mario
 	float cx, cy;
 	CGame* game = CGame::GetInstance();
-	
+
 	player->GetPosition(cx, cy);
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
-	
+
 	//update camera for map
 	//hardcode
 	if (cx < 0)
@@ -394,12 +396,12 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > 2540)
 		cx = 2540;
 
-	if (cy > game->GetScreenHeight()+72)
-		cy = game->GetScreenHeight()+72;
-	else if(cy< game->GetScreenHeight()+720 )
-		cy = game->GetScreenHeight()+72 ;
+	if (cy > game->GetScreenHeight() + 72)
+		cy = game->GetScreenHeight() + 72;
+	else if (cy < game->GetScreenHeight() + 720)
+		cy = game->GetScreenHeight() + 72;
 
-	CGame::GetInstance()->SetCamPos(cx, cy-36);	
+	CGame::GetInstance()->SetCamPos(cx, cy - 36);
 }
 
 void CPlayScene::Render()
@@ -410,10 +412,10 @@ void CPlayScene::Render()
 	{
 		listItems[i]->Render();
 	}*/
-	for (int i = 0;i < objects.size();i++)
+	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
-	
+
 }
 
 /*
@@ -422,7 +424,7 @@ unload current scene
 
 void CPlayScene::Unload()
 {
-	for (int i = 0;i < objects.size();i++)
+	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
 	objects.clear();
@@ -435,17 +437,17 @@ void CPlayScene::Unload()
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	Input input;
 	switch (KeyCode)
 	{
-		//tai nay xai keý dowwn //bỏ được á, em bị lỗi cái nhảy lên đụng cục gạch nó xuyên lên th
-		//co khi nao bỏ nó lỗi k ta 
-		// co do hahaha
-	//case DIK_S://bt
-	//	mario->SetState(MARIO_STATE_JUMP);// cai do k xai
-	//	// ko xai thi bo di
-
-	//	//loi
-	//	break;
+	case DIK_S:
+		input = Input::PRESS_S;
+		mario->HandleInput(input);	
+		break;
+	case DIK_DOWN:
+		input = Input::PRESS_DOWN;
+		mario->HandleInput(input);
+		break;
 	case DIK_A:
 		mario->Reset();
 		break;
@@ -457,20 +459,31 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
-	//CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	//marioState->HandleOnKeyUp(KeyCode);
-	/*switch (KeyCode)
+	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	Input input;
+	switch (KeyCode)
 	{
-	case DIK_LEFT:
-		mario->SetState(MARIO_STATE_STOP_DOING);
+	/*case DIK_S:
+		input = Input::PRESS_S;
+		mario->HandleInput(input);
+		break;*/
+	case DIK_DOWN:
+		input = Input::RELEASE_DOWN;
+		mario->HandleInput(input);
 		break;
-	}*/
+	/*case DIK_A:
+		mario->Reset();
+		break;
+	case DIK_1:
+		mario->TransformRacoon();
+		break;*/
+	}
 }
 
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	mario->HandleInput();
+	mario->HandleInput(Input::KEYSTATE);
 	//// disable control key when Mario die 
 	//if (mario->GetState() == MARIO_STATE_DIE) return;
 	//if (game->IsKeyDown(DIK_RIGHT))

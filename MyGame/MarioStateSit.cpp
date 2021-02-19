@@ -1,19 +1,20 @@
 #include "Mario.h"
 #include "MarioStateSit.h"
 #include "MarioStateIdle.h"
+#include "MarioStateWalk.h"
 
 
 CMarioStateSit* CMarioStateSit::__instance = NULL;
 
 CMarioStateSit::CMarioStateSit() {
-	DebugOut(L"[STATE] create jump \n");
+	DebugOut(L"[STATE] create sit \n");
 
 }
 
 void CMarioStateSit::Enter(CMario& mario)
 {
-	mario.isOnGround = true;
 	mario.isSitting = true;
+	mario.SetVelocityX(0);
 	SetCurrentState(MarioStates::SIT);
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
@@ -24,31 +25,45 @@ void CMarioStateSit::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_RACOON_SIT);
 	}
 }
-void CMarioStateSit::HandleInput(CMario& mario)
+void CMarioStateSit::HandleInput(CMario& mario,Input input)
 {
 	CGame* game = CGame::GetInstance();
-	if (!game->IsKeyDown(DIK_DOWN))
+
+	if (input == Input::RELEASE_DOWN)
 	{
-		mario.isSitting = false;
-		if (mario.level == MARIO_LEVEL_BIG)
-		{
-			mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
-		}
-		else
-		{
-			mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
-		}
+		SetPositionAferSitting(mario);
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
-	else
+	else  if (input == Input::PRESS_S)
 	{
-		CMarioOnGroundStates::HandleInput(mario);
+		if (mario.isOnGround)
+		{
+			mario.isOnGround = false;
+			mario.SetVelocityY(-MARIO_JUMP_SPEED_Y);
+		}
 	}
-
+	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+	{
+		SetPositionAferSitting(mario);
+		mario.ChangeState(CMarioState::walk.GetInstance());
+	}
 }
 
 void CMarioStateSit::Update(DWORD dt, CMario& mario)
 {
+}
+
+void CMarioStateSit::SetPositionAferSitting(CMario& mario)
+{
+	mario.isSitting = false;
+	if (mario.level == MARIO_LEVEL_BIG)
+	{
+		mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
+	else
+	{
+		mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
 }
 
 CMarioStateSit* CMarioStateSit::GetInstance()

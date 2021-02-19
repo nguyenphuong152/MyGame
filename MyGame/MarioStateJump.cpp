@@ -13,6 +13,7 @@ CMarioStateJump::CMarioStateJump() {
 void CMarioStateJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
+	mario.canFlyHigh = false;
 	SetCurrentState(MarioStates::JUMP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
@@ -25,15 +26,16 @@ void CMarioStateJump::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_BIG_JUMP);
 	}
 }
-void CMarioStateJump::HandleInput(CMario& mario)
+void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario);
+	//DebugOut(L"vodoo \n";)
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
 	if (mario.isOnGround)
 	{
+		mario.canFlyHigh = true;
 		mario.ChangeState(CMarioState::idle.GetInstance());
     }
 }

@@ -9,7 +9,7 @@ public:
 	CMarioStateStop();
 	virtual ~CMarioStateStop() {};
 
-	virtual void HandleInput(CMario& mario);
+	virtual void HandleInput(CMario& mario, Input input);
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt, CMario& mario);
 

@@ -3,10 +3,12 @@
 class CMarioState;
 
 #include "GameObject.h"
+#include "Input.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
 //0.1f
-#define MARIO_JUMP_SPEED_Y		0.5f
+#define MARIO_JUMP_SPEED_Y		0.45f
+#define MARIO_JUMP_HIGH_SPEED_Y		0.6f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_ACCELERATION		0.0004f//giam lai con 0.0001f
@@ -87,6 +89,7 @@ public:
 	int animation;
 	bool isOnGround = false;
 	bool isSitting = false;
+	bool canFlyHigh = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -106,7 +109,6 @@ public:
 		marioState = new_state;
 	}
 
-	//thì enter trong handle input qua bên playscene gọi hanlde input là nó vô lun
 
 	void SetLevel(int l) { level = l; }
 	void SetAnimation(int ani) { animation = ani; }
@@ -116,7 +118,7 @@ public:
 
 	void Reset();
 	void TransformRacoon();
-	void HandleInput();
+	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 

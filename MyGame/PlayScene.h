@@ -34,6 +34,7 @@ protected:
 	void _ParseSection_MAP(string line);
 
 public:
+
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();

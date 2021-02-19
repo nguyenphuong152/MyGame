@@ -2,6 +2,7 @@
 #include "MarioStateJump.h"
 #include "MarioStateIdle.h"
 #include "MarioStateStop.h"
+#include "MarioStateSit.h"
 #include "Mario.h"
 
 CMarioStateWalk* CMarioStateWalk::__instance = NULL;
@@ -24,9 +25,9 @@ void CMarioStateWalk::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_BIG_WALKING);
 	}
 }
-void CMarioStateWalk::HandleInput(CMario& mario)
+void CMarioStateWalk::HandleInput(CMario& mario,Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario);
+	CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateWalk::Update(DWORD dt, CMario& mario)
@@ -44,13 +45,27 @@ void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& 
 	if (mario.vx > 0) {
 		mario.vx += -accelerate * dt;
 		if (mario.vx < 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
+			if (mario.isSitting)
+			{
+				mario.ChangeState(CMarioState::sit.GetInstance());
+			}
+			else
+			{
+				mario.ChangeState(CMarioState::idle.GetInstance());
+			}
 		}
 	}
 	else if (mario.vx < 0) {
 		mario.vx += accelerate * dt;
 		if (mario.vx > 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
+			if (mario.isSitting)
+			{
+				mario.ChangeState(CMarioState::sit.GetInstance());
+			}
+			else
+			{
+				mario.ChangeState(CMarioState::idle.GetInstance());
+			}
 		}
 	}
 }
