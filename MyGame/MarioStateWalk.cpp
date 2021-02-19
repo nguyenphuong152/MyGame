@@ -31,24 +31,28 @@ void CMarioStateWalk::HandleInput(CMario& mario)
 
 void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 {
-	if (mario.vx > 0) {
-		mario.vx += -MARIO_ACCELERATION * dt;
-		if (mario.vx < 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
-		}
-	}
-	else if (mario.vx < 0) {
-		mario.vx += MARIO_ACCELERATION * dt;
-		if (mario.vx > 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
-		}
-	}
-
+	CalculateAcceleration(MARIO_ACCELERATION, dt, mario);
 	if (mario.vx == 0)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
    
+}
+
+void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& mario)
+{
+	if (mario.vx > 0) {
+		mario.vx += -accelerate * dt;
+		if (mario.vx < 0) {
+			mario.ChangeState(CMarioState::idle.GetInstance());
+		}
+	}
+	else if (mario.vx < 0) {
+		mario.vx += accelerate * dt;
+		if (mario.vx > 0) {
+			mario.ChangeState(CMarioState::idle.GetInstance());
+		}
+	}
 }
 
 CMarioStateWalk* CMarioStateWalk::GetInstance()

@@ -14,4 +14,5 @@ public:
 	virtual void Update(DWORD dt, CMario& mario) {};
 
 	void SetStateWalking(int direction, CMario& mario);
+	
 };

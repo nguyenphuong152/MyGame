@@ -1,6 +1,6 @@
 ﻿#include "Mario.h"
 #include "MarioStateStop.h"
-#include "MarioStateWalk.h"
+#include "MarioStateIdle.h"
 
 CMarioStateStop* CMarioStateStop::__instance = NULL;
 
@@ -26,11 +26,35 @@ void CMarioStateStop::Enter(CMario& mario)
 }
 void CMarioStateStop::HandleInput(CMario& mario)
 {
+	//
 	CMarioOnGroundStates::HandleInput(mario);
 }
 
 void CMarioStateStop::Update(DWORD dt, CMario& mario)
 {
+	CalculateSkidAcceleration(MARIO_ACCELERATION, dt, mario);
+	if (mario.vx == 0)
+	{
+		mario.ChangeState(CMarioState::idle.GetInstance());
+	}
+}
+
+void CMarioStateStop::CalculateSkidAcceleration(float accelerate, DWORD dt, CMario& mario)
+{
+	if (mario.vx > 0) {
+		mario.vx += -accelerate * dt;
+		if (mario.vx < 0) {
+			mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
+			mario.ChangeState(CMarioState::idle.GetInstance());
+		}
+	}
+	else if (mario.vx < 0) {
+		mario.vx += accelerate * dt;
+		if (mario.vx > 0) {
+			mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
+			mario.ChangeState(CMarioState::idle.GetInstance());
+		}
+	}
 
 }
 

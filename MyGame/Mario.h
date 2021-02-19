@@ -9,7 +9,7 @@ class CMarioState;
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
-#define MARIO_ACCELERATION		0.0004f //giam lai con 0.0001f
+#define MARIO_ACCELERATION		0.0004f//giam lai con 0.0001f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 #define MARIO_STATE_IDLE			0
