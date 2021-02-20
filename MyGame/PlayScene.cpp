@@ -448,11 +448,25 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		input = Input::PRESS_DOWN;
 		mario->HandleInput(input);
 		break;
-	case DIK_A:
+	case DIK_LEFT:
+		input = Input::PRESS_LEFT;
+		mario->HandleInput(input);
+		break;
+	case DIK_RIGHT:
+		input = Input::PRESS_RIGHT;
+		mario->HandleInput(input);
+		break;
+	case DIK_2:
 		mario->Reset();
 		break;
 	case DIK_1:
 		mario->TransformRacoon();
+		break;
+	case DIK_A:
+		input = Input::PRESS_A;
+		mario->powerMode = true;
+		mario->AwakePowerMode();
+		mario->HandleInput(input);
 		break;
 	}
 }
@@ -463,20 +477,25 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	Input input;
 	switch (KeyCode)
 	{
-	/*case DIK_S:
-		input = Input::PRESS_S;
+	case DIK_LEFT:
+		input = Input::RELEASE_LEFT;
+		mario->powerMode = false;
 		mario->HandleInput(input);
-		break;*/
+		break;
+	case DIK_RIGHT:
+		input = Input::RELEASE_RIGHT;
+		mario->powerMode = false;
+		mario->HandleInput(input);
+		break;
 	case DIK_DOWN:
 		input = Input::RELEASE_DOWN;
 		mario->HandleInput(input);
 		break;
-	/*case DIK_A:
-		mario->Reset();
+	case DIK_A:
+		input = Input::RELEASE_A;
+		mario->powerMode = false;
+		mario->HandleInput(input);
 		break;
-	case DIK_1:
-		mario->TransformRacoon();
-		break;*/
 	}
 }
 

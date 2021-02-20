@@ -6,6 +6,8 @@ class CMarioState;
 #include "Input.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
+#define MARIO_RUNNING_SPEED 0.18f
+#define MARIO_PRE_FLYING_SPEED 0.25f
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.45f
 #define MARIO_JUMP_HIGH_SPEED_Y		0.6f
@@ -89,7 +91,11 @@ public:
 	int animation;
 	bool isOnGround = false;
 	bool isSitting = false;
-	bool canFlyHigh = false;
+	bool canFlyHigh	 = false;
+	bool powerMode = false;
+
+	int power = 0;
+	DWORD power_start;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -115,6 +121,7 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void AwakePowerMode() { power_start = GetTickCount(); }
 
 	void Reset();
 	void TransformRacoon();

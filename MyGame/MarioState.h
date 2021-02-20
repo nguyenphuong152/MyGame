@@ -4,6 +4,9 @@ class CMarioStateWalk;
 class CMarioStateJump;
 class CMarioStateSit;
 class CMarioStateStop;
+class CMarioStateRun;
+class CMarioStatePreFly;
+class CMarioStateFly;
 #include "Utils.h"
 #include <dinput.h>
 #include "Game.h"
@@ -18,7 +21,11 @@ public:
 		WALK,
 		JUMP,
 		SIT,
-		STOP
+		STOP,
+		RUN,
+		PRE_FLY,
+		FLY,
+		FLOAT
 	};
 
 	static CMarioStateIdle idle;
@@ -26,6 +33,10 @@ public:
 	static CMarioStateJump jump;
 	static CMarioStateSit sit;
 	static CMarioStateStop stop;
+	static CMarioStateRun run;
+	static CMarioStatePreFly pre_fly;
+	static CMarioStateFly fly;
+
 	CMarioState();
 	//CMarioState(CMarioState::MarioStates currentState);
 	virtual ~CMarioState() {};

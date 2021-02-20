@@ -108,6 +108,18 @@
     <ClCompile Include="MarioStateStop.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateRun.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStatePreFly.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioOnAirStates.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateFly.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -199,6 +211,18 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateRun.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStatePreFly.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioOnAirStates.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateFly.h">
+      <Filter>Header Files\Mario</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

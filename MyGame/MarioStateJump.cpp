@@ -28,14 +28,13 @@ void CMarioStateJump::Enter(CMario& mario)
 }
 void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
-	//DebugOut(L"vodoo \n";)
+	CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
 	if (mario.isOnGround)
-	{
-		mario.canFlyHigh = true;
+	{		
 		mario.ChangeState(CMarioState::idle.GetInstance());
     }
 }
