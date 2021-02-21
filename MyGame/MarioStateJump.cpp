@@ -1,7 +1,7 @@
 #include "Mario.h"
 #include "MarioStateJump.h"
 #include "MarioStateIdle.h"
-
+#include "MarioStateWalk.h"
 
 CMarioStateJump* CMarioStateJump::__instance = NULL;
 
@@ -28,11 +28,12 @@ void CMarioStateJump::Enter(CMario& mario)
 }
 void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario, input);
+	CMarioOnAirStates::HandleInput(mario,  input);
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
+	
 	if (mario.isOnGround)
 	{		
 		mario.ChangeState(CMarioState::idle.GetInstance());

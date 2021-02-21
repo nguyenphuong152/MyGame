@@ -12,8 +12,6 @@ CMarioStateFly::CMarioStateFly() {
 
 void CMarioStateFly::Enter(CMario& mario)
 {
-	mario.isOnGround = false;
-
 	SetCurrentState(MarioStates::FLY);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
@@ -28,7 +26,13 @@ void CMarioStateFly::Enter(CMario& mario)
 }
 void CMarioStateFly::HandleInput(CMario& mario, Input input)
 {
-	
+	if (input == Input::PRESS_S)
+	{
+		mario.isOnGround = false;
+		mario.SetVelocityY(-0.4);
+		mario.SetVelocityX(mario.nx * MARIO_WALKING_SPEED);
+		//CMarioOnAirStates::HandleInput(mario,input);
+	}
 }
 
 void CMarioStateFly::Update(DWORD dt, CMario& mario)

@@ -6,6 +6,8 @@
 #include "MarioStateStop.h"
 #include "MarioStateRun.h"
 #include "MarioStatePreFly.h"
+#include "MarioStateFly.h"
+#include "MarioStateSpin.h"
 
 CMarioOnGroundStates::CMarioOnGroundStates()
 {
@@ -14,20 +16,23 @@ CMarioOnGroundStates::CMarioOnGroundStates()
 void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 {
 	CGame* game = CGame::GetInstance();
+
 	if (input == Input::KEYSTATE)
 	{
 		if (game->IsKeyDown(DIK_LEFT)) {
-			if (mario.powerMode)
-			{
-				if (GetTickCount() - mario.power_start > 0) mario.power++;
-				if (mario.power >= 60)
+			if (mario.powerMode && mario.vx != 0)
+			{	
+				//cong power cho mario khi mario o powermode, moi giay tang 1 power
+				if (GetTickCount() - mario.power_start > 0 && mario.power < 72) {
+					mario.power++;
+				}
+				if (mario.power == 72)
 				{
-					DebugOut(L"[state] run time %d \n", mario.power);
-					mario.power = 0;
+					//DebugOut(L"[after] run time %d \n", mario.power);
 					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
 					mario.ChangeState(CMarioState::pre_fly.GetInstance());
 				}
-				else {
+				else{
 					mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
 					mario.ChangeState(CMarioState::run.GetInstance());
 				}
@@ -44,13 +49,11 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		}
 		else if (game->IsKeyDown(DIK_RIGHT))
 		{
-			if (mario.powerMode)
+			if (mario.powerMode & mario.vx != 0)
 			{
-				if (GetTickCount() - mario.power_start > 0) mario.power++;
-				if (mario.power >= 72)
+				if (GetTickCount() - mario.power_start > 0&&mario.power<72) mario.power++;
+				if (mario.power == 72)
 				{
-					DebugOut(L"[state] run time %d \n", mario.power);
-					mario.power = 0;
 					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
 					mario.ChangeState(CMarioState::pre_fly.GetInstance());
 				}
@@ -88,6 +91,13 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		if (mario.isOnGround && mario.level != MARIO_LEVEL_SMALL)
 		{
 			mario.ChangeState(CMarioState::sit.GetInstance());
+		}
+	}
+	else if (input == Input::PRESS_A)
+	{
+		if (mario.level == MARIO_LEVEL_RACOON)
+		{
+			mario.ChangeState(CMarioState::spin.GetInstance());
 		}
 	}
 }

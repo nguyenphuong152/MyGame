@@ -53,6 +53,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
+	//neu mario dg o powermode ma huy thi giam power cua mario ve 0
+	if (!powerMode && power > 0&& marioState->GetCurrentState()!=CMarioState::FLY)
+	{
+		if (GetTickCount() - power_start > 0) power--;
+		/*DebugOut(L"[tru di] power: %d \n", power);*/
+	}
+
+	DebugOut(L"[VY] vy %f \n", vy);
+
 	//if no collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{

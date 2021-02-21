@@ -60,6 +60,11 @@ class CMarioState;
 #define MARIO_ANI_RACOON_SPIN		27
 #define MARIO_ANI_RACOON_KICK		28
 
+#define MARIO_ANI_SMALL_FLOAT 29
+#define MARIO_ANI_BIG_FLOAT 30
+#define MARIO_ANI_RACOON_FLOAT_NORMAL 31
+#define MARIO_ANI_RACOON_FLOAT_INTERACT 32
+
 #define MARIO_BIG_BBOX_WIDTH  15
 #define MARIO_BIG_BBOX_HEIGHT 26
 #define MARIO_BIG_BBOX_SIT_HEIGHT 17
@@ -121,7 +126,7 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void AwakePowerMode() { power_start = GetTickCount(); }
+	void TogglePowerMode() { power_start = GetTickCount(); }
 
 	void Reset();
 	void TransformRacoon();

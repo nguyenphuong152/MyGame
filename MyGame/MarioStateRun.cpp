@@ -27,17 +27,11 @@ void CMarioStateRun::Enter(CMario& mario)
 }
 void CMarioStateRun::HandleInput(CMario& mario, Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario, input);
+    CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateRun::Update(DWORD dt, CMario& mario)
 {
-	//if (mario.power == 120)
-	//{
-	//
-	//	mario.ChangeState(CMarioState::pre_fly.GetInstance());
-	//	//power--;
-	//}
 }
 
 

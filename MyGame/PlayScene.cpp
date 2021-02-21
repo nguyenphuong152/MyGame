@@ -465,7 +465,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		input = Input::PRESS_A;
 		mario->powerMode = true;
-		mario->AwakePowerMode();
+		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	}
@@ -480,11 +480,13 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_LEFT:
 		input = Input::RELEASE_LEFT;
 		mario->powerMode = false;
+		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	case DIK_RIGHT:
 		input = Input::RELEASE_RIGHT;
 		mario->powerMode = false;
+		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	case DIK_DOWN:
@@ -494,6 +496,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_A:
 		input = Input::RELEASE_A;
 		mario->powerMode = false;
+		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	}

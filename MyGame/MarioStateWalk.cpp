@@ -28,9 +28,9 @@ void CMarioStateWalk::Enter(CMario& mario)
 }
 void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_A)
+	if (input == Input::PRESS_S)
 	{
-		mario.ChangeState(CMarioState::run.GetInstance());
+		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else {
 		CMarioOnGroundStates::HandleInput(mario, input);

@@ -7,6 +7,8 @@ class CMarioStateStop;
 class CMarioStateRun;
 class CMarioStatePreFly;
 class CMarioStateFly;
+class CMarioStateSpin;
+
 #include "Utils.h"
 #include <dinput.h>
 #include "Game.h"
@@ -25,7 +27,8 @@ public:
 		RUN,
 		PRE_FLY,
 		FLY,
-		FLOAT
+		FLOAT,
+		SPIN
 	};
 
 	static CMarioStateIdle idle;
@@ -36,6 +39,7 @@ public:
 	static CMarioStateRun run;
 	static CMarioStatePreFly pre_fly;
 	static CMarioStateFly fly;
+	static CMarioStateSpin spin;
 
 	CMarioState();
 	//CMarioState(CMarioState::MarioStates currentState);

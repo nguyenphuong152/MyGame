@@ -25,19 +25,19 @@ void CMarioStatePreFly::Enter(CMario& mario)
 void CMarioStatePreFly::HandleInput(CMario& mario, Input input)
 {
 	CGame* game = CGame::GetInstance();
-	if (mario.powerMode )
+	if (mario.power==72||mario.powerMode)
 	{
-		if (game->IsKeyDown(DIK_LEFT)|| game->IsKeyDown(DIK_RIGHT)) {
-			mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-			mario.ChangeState(CMarioState::pre_fly.GetInstance());
-		}
-		else if (game->IsKeyDown(DIK_S))
-		{
-			if (mario.isOnGround)
+		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT)) {
+			if (input == Input::PRESS_S)
 			{
 				mario.isOnGround = false;
 				mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
 				mario.ChangeState(CMarioState::fly.GetInstance());
+			}
+			else
+			{
+				mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
+				mario.ChangeState(CMarioState::pre_fly.GetInstance());
 			}
 		}
 	}
@@ -49,8 +49,7 @@ void CMarioStatePreFly::HandleInput(CMario& mario, Input input)
 
 void CMarioStatePreFly::Update(DWORD dt, CMario& mario)
 {
-	DebugOut(L"mario power %d \n", mario.power);
-	//if(mario)
+
 }
 
 
