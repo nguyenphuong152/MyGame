@@ -22,7 +22,7 @@ void CMarioStateIdle::Enter(CMario &mario)
 		mario.SetAnimation(MARIO_ANI_BIG_IDLE);
 	}
 	else {
-		mario.SetAnimation(MARIO_ANI_RACOON_IDLE);
+		mario.SetAnimation(MARIO_ANI_RACCOON_IDLE);
 	}
 }
 void CMarioStateIdle::HandleInput(CMario& mario,Input input)

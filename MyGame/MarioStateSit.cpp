@@ -22,7 +22,7 @@ void CMarioStateSit::Enter(CMario& mario)
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON)
 	{
-		mario.SetAnimation(MARIO_ANI_RACOON_SIT);
+		mario.SetAnimation(MARIO_ANI_RACCOON_SIT);
 	}
 }
 void CMarioStateSit::HandleInput(CMario& mario,Input input)

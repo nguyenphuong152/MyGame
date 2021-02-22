@@ -17,13 +17,13 @@ void CMarioStateWalk::Enter(CMario& mario)
 	SetCurrentState(MarioStates::WALK);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
-		mario.SetAnimation(MARIO_ANI_SMALL_WALKING);
+		mario.SetAnimation(MARIO_ANI_SMALL_WALK);
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON) {
-		mario.SetAnimation(MARIO_ANI_RACOON_WALKING);
+		mario.SetAnimation(MARIO_ANI_RACCOON_WALK);
 	}
 	else {
-		mario.SetAnimation(MARIO_ANI_BIG_WALKING);
+		mario.SetAnimation(MARIO_ANI_BIG_WALK);
 	}
 }
 void CMarioStateWalk::HandleInput(CMario& mario, Input input)

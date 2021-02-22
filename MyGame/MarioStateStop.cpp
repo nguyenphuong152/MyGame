@@ -17,7 +17,7 @@ void CMarioStateStop::Enter(CMario& mario)
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON)
 	{
-		mario.SetAnimation(MARIO_ANI_RACOON_STOP);
+		mario.SetAnimation(MARIO_ANI_RACCOON_STOP);
 	}
 	else
 	{

@@ -18,7 +18,7 @@ void CMarioStateFly::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_SMALL_FLY);
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON) {
-		mario.SetAnimation(MARIO_ANI_RACOON_FLY);
+		mario.SetAnimation(MARIO_ANI_RACCOON_FLY);
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_FLY);

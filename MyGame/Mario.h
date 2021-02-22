@@ -28,42 +28,54 @@ class CMarioState;
 
 
 //thu tu theo ani add trong file txt
-#define MARIO_ANI_SMALL_IDLE	0
-#define MARIO_ANI_SMALL_WALKING	1
-#define MARIO_ANI_SMALL_JUMP	2
-#define MARIO_ANI_SMALL_RUN		3
-#define MARIO_ANI_SMALL_PRE_FLY	4
-#define MARIO_ANI_SMALL_FLY		5
-#define MARIO_ANI_SMALL_STOP	6
-#define MARIO_ANI_SMALL_KICK	7
-#define MARIO_ANI_DIE			8
-//big
-#define MARIO_ANI_BIG_IDLE		9
-#define MARIO_ANI_BIG_WALKING	10
-#define MARIO_ANI_BIG_JUMP		11
-#define MARIO_ANI_BIG_SIT		12
-#define MARIO_ANI_BIG_RUN		13
-#define MARIO_ANI_BIG_PRE_FLY	14
-#define MARIO_ANI_BIG_FLY		15
-#define MARIO_ANI_BIG_STOP		16
-#define MARIO_ANI_BIG_KICK		17
-//racoon
-#define MARIO_ANI_RACOON_IDLE		18
-#define MARIO_ANI_RACOON_WALKING	19
-#define MARIO_ANI_RACOON_SIT		20
-#define MARIO_ANI_RACOON_JUMP		21
-#define MARIO_ANI_RACOON_RUN		22
-#define MARIO_ANI_RACOON_DROP		23
-#define MARIO_ANI_RACOON_PRE_FLY	24
-#define MARIO_ANI_RACOON_FLY		25
-#define MARIO_ANI_RACOON_STOP		26
-#define MARIO_ANI_RACOON_SPIN		27
-#define MARIO_ANI_RACOON_KICK		28
+#define MARIO_ANI_SMALL_IDLE		0 
+#define MARIO_ANI_SMALL_WALK		1
+#define MARIO_ANI_SMALL_JUMP		2
+#define MARIO_ANI_SMALL_RUN			3
+#define MARIO_ANI_SMALL_PRE_FLY		4
+#define MARIO_ANI_SMALL_FLY			5
+#define MARIO_ANI_SMALL_STOP		6
+#define MARIO_ANI_SMALL_KICK		7
+#define MARIO_ANI_SMALL_DROP		8
+#define MARIO_ANI_DIE				9 
 
-#define MARIO_ANI_SMALL_FLOAT 29
-#define MARIO_ANI_BIG_FLOAT 30
-#define MARIO_ANI_RACOON_FLOAT_NORMAL 31
-#define MARIO_ANI_RACOON_FLOAT_INTERACT 32
+#define MARIO_ANI_BIG_IDLE			10
+#define MARIO_ANI_BIG_WALK			11
+#define MARIO_ANI_BIG_SIT			12
+#define MARIO_ANI_BIG_JUMP			13
+#define MARIO_ANI_BIG_RUN			14
+#define MARIO_ANI_BIG_PRE_FLY		15
+#define MARIO_ANI_BIG_FLY			16
+#define MARIO_ANI_BIG_STOP			17
+#define MARIO_ANI_BIG_KICK			18
+#define MARIO_ANI_BIG_DROP			19
+
+#define MARIO_ANI_RACCOON_IDLE		20
+#define MARIO_ANI_RACCOON_WALK		21
+#define MARIO_ANI_RACCOON_SIT		22
+#define MARIO_ANI_RACCOON_JUMP		23
+#define MARIO_ANI_RACCOON_RUN		24
+#define MARIO_ANI_RACCOON_DROP		25
+#define MARIO_ANI_RACCOON_PRE_FLY	26
+#define MARIO_ANI_RACCOON_FLY		27
+#define MARIO_ANI_RACCOON_STOP		28
+#define MARIO_ANI_RACCOON_SPIN		29
+#define MARIO_ANI_RACCOON_KICK		30
+#define MARIO_ANI_RACCOON_DROP		31
+#define MARIO_ANI_RACCOON_DROP_FLY	32
+
+#define MARIO_ANI_ITEM_SMALL_TO_BIG	33
+#define MARIO_ANI_ITEM_BOOM			34
+
+#define MARIO_ANI_SMALL_HANDLESHELL_IDLE			35
+#define MARIO_ANI_SMALL_HANDLESHELL_RUN				36
+#define MARIO_ANI_SMALL_HANDLESHELL_JUMP_DROP		37
+#define MARIO_ANI_BIG_HANDLESHELL_IDLE				38
+#define MARIO_ANI_BIG_HANDLESHELL_RUN				39
+#define MARIO_ANI_BIG_HANDLESHELL_JUMP_DROP			40
+#define MARIO_ANI_RACCOON_HANDLESHELL_IDLE			41
+#define MARIO_ANI_RACCOON_HANDLESHELL_RUN			42
+#define MARIO_ANI_RACCOON_HANDLESHELL_JUMP_FLY_DROP 43
 
 #define MARIO_BIG_BBOX_WIDTH  15
 #define MARIO_BIG_BBOX_HEIGHT 26
@@ -77,12 +89,20 @@ class CMarioState;
 #define MARIO_SMALL_BBOX_HEIGHT 15
 
 #define MARIO_UNTOUCHABLE_TIME 5000
+#define MARIO_SPINNING_TIME 300
 
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
 
+//type  handle animation with time
+
+
 class CMario : public CGameObject
 {
+	enum MarioStatus {
+		UNTOUCHABLE,
+		SPINNABLE
+	};
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -96,11 +116,14 @@ public:
 	int animation;
 	bool isOnGround = false;
 	bool isSitting = false;
-	bool canFlyHigh	 = false;
+	bool canFlyHigh = false;
 	bool powerMode = false;
 
 	int power = 0;
 	DWORD power_start;
+
+	int spinnable;
+	DWORD spinning_start;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -125,6 +148,7 @@ public:
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 
+	void StartSpinning() { spinnable = 1; spinning_start = GetTickCount(); }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void TogglePowerMode() { power_start = GetTickCount(); }
 
@@ -137,6 +161,8 @@ public:
 	//Kiem tra collision voi item
 	void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
 
+	//xu li animation co nhieu hon 1 frame hoac xet thoi gian cho mario untouch hay thay doi gi do
+	void HandleAnimationWithTime(int define_time, DWORD start_time,int status);
 };
 
 

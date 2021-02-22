@@ -3,6 +3,7 @@
 #include "MarioStateIdle.h"
 #include "MarioStateStop.h"
 #include "MarioStatePreFly.h"
+#include "MarioStateWalk.h"
 #include "Mario.h"
 
 CMarioStateRun* CMarioStateRun::__instance = NULL;
@@ -19,7 +20,7 @@ void CMarioStateRun::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_SMALL_RUN);
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON) {
-		mario.SetAnimation(MARIO_ANI_RACOON_RUN);
+		mario.SetAnimation(MARIO_ANI_RACCOON_RUN);
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_RUN);
@@ -32,6 +33,10 @@ void CMarioStateRun::HandleInput(CMario& mario, Input input)
 
 void CMarioStateRun::Update(DWORD dt, CMario& mario)
 {
+	if (!mario.powerMode)
+	{
+		mario.ChangeState(CMarioState::walk.GetInstance());
+	}
 }
 
 

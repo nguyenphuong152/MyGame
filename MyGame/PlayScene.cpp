@@ -465,6 +465,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		input = Input::PRESS_A;
 		mario->powerMode = true;
+		if (mario->level == MARIO_LEVEL_RACOON) { mario->StartSpinning(); }
 		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;

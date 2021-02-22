@@ -11,20 +11,20 @@ CMarioStateSpin::CMarioStateSpin() {
 
 void CMarioStateSpin::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::SIT);
-	mario.SetAnimation(MARIO_ANI_RACOON_SPIN);
+	SetCurrentState(MarioStates::SPIN);
+	mario.SetAnimation(MARIO_ANI_RACCOON_SPIN);
 }
 void CMarioStateSpin::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::RELEASE_A)
-	{
-		mario.ChangeState(CMarioState::idle.GetInstance());
-	}
-	//CMarioOnGroundStates::HandleInput(mario, input);
+	CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 {
+	if (mario.spinnable == 0)
+	{
+		mario.ChangeState(CMarioState::idle.GetInstance());
+	}
 }
 
 

@@ -53,14 +53,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
+	//ensure when spinning, can render all of frame
+	if (GetTickCount() - spinning_start > MARIO_SPINNING_TIME)
+	{
+		spinning_start = 0;
+		spinnable = 0;
+	}
+
 	//neu mario dg o powermode ma huy thi giam power cua mario ve 0
 	if (!powerMode && power > 0&& marioState->GetCurrentState()!=CMarioState::FLY)
 	{
 		if (GetTickCount() - power_start > 0) power--;
 		/*DebugOut(L"[tru di] power: %d \n", power);*/
 	}
-
-	DebugOut(L"[VY] vy %f \n", vy);
 
 	//if no collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -179,7 +184,6 @@ void CMario::Render()
 	int alpha = 255;
 
 	if (untouchable) alpha = 128;
-
 	animation_set->at(ani)->Render(nx,x, y, alpha);
 	RenderBoundingBox();
 }

@@ -40,7 +40,6 @@ void CAnimation::Render(int nx,float x, float y, int alpha)
 			if (currentFrame == frames.size())
 			{
 				currentFrame = 0;
-				//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
 			}
 		}
 	}
