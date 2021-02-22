@@ -14,10 +14,15 @@ CMarioOnAirStates::CMarioOnAirStates()
 void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
 {
 	CGame* game = CGame::GetInstance();
-	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+	if (game->IsKeyDown(DIK_LEFT))
 	{
-		mario.SetVelocityX(mario.nx * MARIO_WALKING_SPEED);
-		//mario.ChangeState(CMarioState::walk.GetInstance());
+		mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
+		mario.SetVelocityX(-MARIO_WALKING_SPEED);
+	}
+	else if (game->IsKeyDown(DIK_RIGHT))
+	{
+		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
+		mario.SetVelocityX(MARIO_WALKING_SPEED);
 	}
 }
 

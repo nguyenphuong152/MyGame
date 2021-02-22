@@ -4,6 +4,7 @@
 #include "MarioStateStop.h"
 #include "MarioStateSit.h"
 #include "MarioStateRun.h"
+#include "MarioStateDrop.h"
 #include "Mario.h"
 
 CMarioStateWalk* CMarioStateWalk::__instance = NULL;
@@ -74,6 +75,11 @@ void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& 
 				mario.ChangeState(CMarioState::idle.GetInstance());
 			}
 		}
+	}
+
+	if (mario.vy  > MARIO_AVERAGE_VY_ON_GROUND)
+	{
+		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

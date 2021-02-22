@@ -79,7 +79,10 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 				mario.ChangeState(CMarioState::sit.GetInstance());
 			}
 		}
-		//thieeu nhay cao va  nhay thap
+		else if (mario.canFlyHigh && game->IsKeyDown(DIK_S))
+		{
+			mario.ChangeState(CMarioState::sit.GetInstance());
+		}
 	}
 
 	if (input == Input::PRESS_S)

@@ -1,7 +1,7 @@
 #include "Mario.h"
 #include "MarioStateJump.h"
-#include "MarioStateIdle.h"
-#include "MarioStateWalk.h"
+#include "MarioStateDrop.h"
+
 
 CMarioStateJump* CMarioStateJump::__instance = NULL;
 
@@ -33,11 +33,10 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
-	
-	if (mario.isOnGround)
-	{		
-		mario.ChangeState(CMarioState::idle.GetInstance());
-    }
+	if (mario.vy > 0)
+	{
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
 }
 
 CMarioStateJump* CMarioStateJump::GetInstance()

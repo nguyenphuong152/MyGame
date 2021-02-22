@@ -9,12 +9,14 @@ class CMarioState;
 #define MARIO_RUNNING_SPEED 0.18f
 #define MARIO_PRE_FLYING_SPEED 0.25f
 //0.1f
-#define MARIO_JUMP_SPEED_Y		0.45f
-#define MARIO_JUMP_HIGH_SPEED_Y		0.6f
-#define MARIO_JUMP_DEFLECT_SPEED 0.2f
-#define MARIO_GRAVITY			0.002f
-#define MARIO_ACCELERATION		0.0004f//giam lai con 0.0001f
-#define MARIO_DIE_DEFLECT_SPEED	 0.5f
+#define MARIO_JUMP_SPEED_Y			0.4f
+#define MARIO_JUMP_HIGH_SPEED_Y		0.8f
+#define MARIO_JUMP_DEFLECT_SPEED	0.2f
+#define MARIO_GRAVITY				0.0015f
+#define MARIO_SPEED_Y_WHEN_FLOATING	0.0005f
+#define MARIO_AVERAGE_VY_ON_GROUND	0.05f
+#define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
+#define MARIO_DIE_DEFLECT_SPEED		0.5f
 
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING       100
@@ -99,10 +101,7 @@ class CMarioState;
 
 class CMario : public CGameObject
 {
-	enum MarioStatus {
-		UNTOUCHABLE,
-		SPINNABLE
-	};
+
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -118,6 +117,7 @@ public:
 	bool isSitting = false;
 	bool canFlyHigh = false;
 	bool powerMode = false;
+	bool isFloating = false;
 
 	int power = 0;
 	DWORD power_start;

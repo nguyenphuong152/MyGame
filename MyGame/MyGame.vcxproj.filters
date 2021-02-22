@@ -123,6 +123,9 @@
     <ClCompile Include="MarioStateSpin.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateDrop.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -228,6 +231,9 @@
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="MarioStateSpin.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateDrop.h">
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
   </ItemGroup>

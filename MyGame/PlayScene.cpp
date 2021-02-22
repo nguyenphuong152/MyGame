@@ -507,24 +507,4 @@ void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	mario->HandleInput(Input::KEYSTATE);
-	//// disable control key when Mario die 
-	//if (mario->GetState() == MARIO_STATE_DIE) return;
-	//if (game->IsKeyDown(DIK_RIGHT))
-	//{
-	//	//dang di qua trai, nhan tin hieu di qua phai
-	//	if (mario->vx < 0) mario->SetState(MARIO_STATE_STOP_DOING);
-	//	else
-	//	{
-	//		mario->nx = 1;
-	//		mario->SetState(MARIO_STATE_WALKING);
-	//	}
-	//}
-	//else if (game->IsKeyDown(DIK_LEFT))
-	//{
-	//	if (mario->vx > 0) mario->SetState(MARIO_STATE_STOP_DOING);
-	//	else {
-	//		mario->nx = -1;
-	//		mario->SetState(MARIO_STATE_WALKING);
-	//	}
-	//}
 }

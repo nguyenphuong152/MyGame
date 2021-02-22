@@ -8,6 +8,7 @@ class CMarioStateRun;
 class CMarioStatePreFly;
 class CMarioStateFly;
 class CMarioStateSpin;
+class CMarioStateDrop;
 
 #include "Utils.h"
 #include <dinput.h>
@@ -28,7 +29,8 @@ public:
 		PRE_FLY,
 		FLY,
 		FLOAT,
-		SPIN
+		SPIN,
+		DROP
 	};
 
 	static CMarioStateIdle idle;
@@ -40,6 +42,7 @@ public:
 	static CMarioStatePreFly pre_fly;
 	static CMarioStateFly fly;
 	static CMarioStateSpin spin;
+	static CMarioStateDrop drop;
 
 	CMarioState();
 	//CMarioState(CMarioState::MarioStates currentState);
@@ -49,7 +52,6 @@ public:
 	void SetCurrentState(CMarioState::MarioStates current_state);
 
 	virtual void Enter(CMario& mario) = 0;
-   // virtual void HandleInput(CMario &mario) = 0;
 	virtual void HandleInput(CMario& mario, Input input) = 0;
 	virtual void Update(DWORD dt,CMario& mario) = 0;
 	

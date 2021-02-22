@@ -17,6 +17,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	isEnable = true;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
+	spinnable = 0;
 	InitState();
 	nx = 1;
 	start_x = x;
@@ -36,6 +37,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 10;
 
 	vy += MARIO_GRAVITY * dt;
+
+	if (dy > -6 )
+	{
+		canFlyHigh = true;
+	}
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -141,6 +147,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
+					isFloating = false;
 				}
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
@@ -148,6 +155,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isOnGround = true;
+					isFloating = false;
 				}
 				else
 				{
@@ -160,6 +168,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isOnGround = true;
+					isFloating = false;
 					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
 					{

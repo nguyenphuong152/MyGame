@@ -6,6 +6,9 @@ class CMarioStateSpin : public CMarioOnGroundStates
 public:
 	static CMarioStateSpin* __instance;
 
+	int spinnable;
+	DWORD spinning_start;
+
 	CMarioStateSpin();
 	virtual ~CMarioStateSpin() {};
 
