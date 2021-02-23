@@ -36,12 +36,19 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 	}
 	else  if (input == Input::PRESS_S)
 	{
+		mario.StartHighJump();
 		if (mario.isOnGround)
 		{
 			mario.isOnGround = false;
-			mario.SetVelocityY(-MARIO_JUMP_SPEED_Y);
+			mario.SetVelocityY(-0.3);
 		}
 	}
+
+	if (input == Input::RELEASE_S)
+	{
+		mario.canFlyHigh = false;
+	}
+
 	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 	{
 		SetPositionAferSitting(mario);
@@ -51,11 +58,24 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 
 void CMarioStateSit::Update(DWORD dt, CMario& mario)
 {
+	if (mario.isSitting)
+	{
+		if ((GetTickCount() - mario.highjump_start > 50) && !mario.canFlyHigh)
+		{
+			mario.canFlyHigh = true;
+		}
+		if (mario.canFlyHigh)
+		{
+			mario.SetVelocityY(-0.3);
+		}
+
+	}
 }
 
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)
 {
 	mario.isSitting = false;
+
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
 		mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;

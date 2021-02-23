@@ -19,7 +19,13 @@ void CMarioStateDrop::Enter(CMario& mario)
 		mario.SetAnimation(MARIO_ANI_SMALL_DROP);
 	}
 	else if (mario.level == MARIO_LEVEL_RACOON) {
-		mario.SetAnimation(MARIO_ANI_RACCOON_DROP_FLY);
+		if (mario.isFloating)
+		{
+			mario.SetAnimation(MARIO_ANI_RACCOON_DROP_FLY);
+		}
+		else {
+			mario.SetAnimation(MARIO_ANI_RACCOON_DROP);
+		}
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_DROP);
@@ -29,6 +35,7 @@ void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 {
 	if (input == Input::PRESS_S && mario.level == MARIO_LEVEL_RACOON)
 	{
+		mario.isFloating = true;
 		mario.SetVelocityY(-MARIO_SPEED_Y_WHEN_FLOATING);
 	}
 	CMarioOnAirStates::HandleInput(mario, input);

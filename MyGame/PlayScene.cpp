@@ -494,6 +494,10 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 		input = Input::RELEASE_DOWN;
 		mario->HandleInput(input);
 		break;
+	case DIK_S:
+		input = Input::RELEASE_S;
+		mario->HandleInput(input);
+		break;
 	case DIK_A:
 		input = Input::RELEASE_A;
 		mario->powerMode = false;

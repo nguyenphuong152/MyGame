@@ -10,7 +10,7 @@ class CMarioState;
 #define MARIO_PRE_FLYING_SPEED 0.25f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.4f
-#define MARIO_JUMP_HIGH_SPEED_Y		0.8f
+#define MARIO_JUMP_HIGH_SPEED_Y		0.25f
 #define MARIO_JUMP_DEFLECT_SPEED	0.2f
 #define MARIO_GRAVITY				0.0015f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.0005f
@@ -119,11 +119,13 @@ public:
 	bool powerMode = false;
 	bool isFloating = false;
 
-	int power = 0;
+	int power;
 	DWORD power_start;
 
 	int spinnable;
 	DWORD spinning_start;
+
+	DWORD highjump_start;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -151,7 +153,7 @@ public:
 	void StartSpinning() { spinnable = 1; spinning_start = GetTickCount(); }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void TogglePowerMode() { power_start = GetTickCount(); }
-
+	void StartHighJump() { highjump_start = GetTickCount(); }
 	void Reset();
 	void TransformRacoon();
 	void HandleInput(Input input);

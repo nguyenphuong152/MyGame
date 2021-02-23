@@ -79,14 +79,11 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 				mario.ChangeState(CMarioState::sit.GetInstance());
 			}
 		}
-		else if (mario.canFlyHigh && game->IsKeyDown(DIK_S))
-		{
-			mario.ChangeState(CMarioState::sit.GetInstance());
-		}
 	}
 
 	if (input == Input::PRESS_S)
 	{
+		mario.StartHighJump();
 		SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else if (input == Input::PRESS_DOWN && mario.vx == 0)

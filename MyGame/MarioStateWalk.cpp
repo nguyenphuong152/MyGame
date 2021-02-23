@@ -31,6 +31,7 @@ void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
 	if (input == Input::PRESS_S)
 	{
+		mario.StartHighJump();
 		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else {

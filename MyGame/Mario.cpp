@@ -37,11 +37,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 10;
 
 	vy += MARIO_GRAVITY * dt;
-
-	if (dy > -6 )
-	{
-		canFlyHigh = true;
-	}
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

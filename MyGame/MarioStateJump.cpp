@@ -13,7 +13,6 @@ CMarioStateJump::CMarioStateJump() {
 void CMarioStateJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	mario.canFlyHigh = false;
 	SetCurrentState(MarioStates::JUMP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
@@ -28,11 +27,34 @@ void CMarioStateJump::Enter(CMario& mario)
 }
 void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
+
+	if (input == Input::RELEASE_S)
+	{
+		mario.canFlyHigh = false;
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
+	else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP)&&mario.canFlyHigh)
+	{
+		mario.highjump_start = 0;
+		mario.canFlyHigh = false;
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
 	CMarioOnAirStates::HandleInput(mario,  input);
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
+	if ((GetTickCount() - mario.highjump_start > AVERAGE_TIME_JUMP)&&!mario.canFlyHigh)
+	{
+		mario.canFlyHigh = true;
+	}
+
+	if(mario.canFlyHigh)
+	{
+		mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
+	}
+
+
 	if (mario.vy > 0)
 	{
 		mario.ChangeState(CMarioState::drop.GetInstance());
