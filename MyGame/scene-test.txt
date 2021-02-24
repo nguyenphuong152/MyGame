@@ -147,6 +147,15 @@
 62003	164	196	172	204	10
 62004	180	196	188	205	10
 
+#KOOPAS
+70001	96	51	112	77	10
+70002	112	51	128	77	10
+#die
+70003	128	48	144	64	10
+70004	144	48	160	64	10
+70005	160	48	176	64	10
+70006	128	64	144	80	10
+
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -279,6 +288,12 @@
 # ==== FIREBALL =========
 805	62001	100	62002	100	62003	100	62004	100
 
+# ==== KOOPAS =========
+901	70001	100	70002	100
+902	70003	100
+903	70003	100	70004	100	70005	100	70006	100
+
+
 #
 # id	ani1	ani2	ani3
 #
@@ -297,10 +312,13 @@
 6	801	802	803	804
 #FIREBALL
 7	805
+#KOOPAS
+8	901	902	903
+
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
 0	286	385	1
@@ -320,6 +338,10 @@
 
 #RED venus
 3	359	380	6
+
+#--- koopas ----
+-- 4: start_x 5: end_x
+4	577	350	8	510	608
 
 #PIPE
 80	352	368	0	60001
@@ -353,6 +375,8 @@
 70	512	384	0	608	415
 #white
 70	512	304	0	575	415
+
+
 
 
 #id	name	mapwitdh	mapheight	texture_id	tileperRow	tileperColumn

@@ -1,4 +1,4 @@
-#include "Mario.h"
+﻿#include "Mario.h"
 #include "MarioStateJump.h"
 #include "MarioStateDrop.h"
 
@@ -33,6 +33,7 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 		mario.canFlyHigh = false;
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
+	//nếu sau khoảng thời gian cho nhảy cờ canFLyhigh còn bật thì tắt cờ đổi state drop
 	else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP)&&mario.canFlyHigh)
 	{
 		mario.highjump_start = 0;
@@ -44,6 +45,9 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
+
+	//nếu nhảy một khoảng thời gian bật cờ canFlyHigh
+	//từ đó mario có thể nhảy cao khi nhấn giữ S
 	if ((GetTickCount() - mario.highjump_start > AVERAGE_TIME_JUMP)&&!mario.canFlyHigh)
 	{
 		mario.canFlyHigh = true;

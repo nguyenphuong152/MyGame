@@ -36,39 +36,42 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 	}
 	else  if (input == Input::PRESS_S)
 	{
-		mario.StartHighJump();
 		if (mario.isOnGround)
 		{
+			mario.StartHighJump();
+			mario.SetVelocityY(-SIT_JUMP_VELOCITY_Y);
 			mario.isOnGround = false;
-			mario.SetVelocityY(-0.3);
 		}
 	}
-
-	if (input == Input::RELEASE_S)
+	else if (input == Input::RELEASE_S)
 	{
 		mario.canFlyHigh = false;
+		mario.highjump_start = 0;
 	}
+	//thieu ngoi nhan s nhay cao nhay thap
 
 	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 	{
 		SetPositionAferSitting(mario);
 		mario.ChangeState(CMarioState::walk.GetInstance());
 	}
+	else if (game->IsKeyDown(DIK_S) && mario.canFlyHigh &&mario.vy<0)
+	{
+		mario.SetVelocityY(-0.2);
+		if (GetTickCount() - mario.highjump_start > TIME_TURN_OFF_HIGH_JUMP)
+		{
+			mario.canFlyHigh = false;
+			mario.highjump_start = 0;
+			mario.SetVelocityY(SIT_DROP_VELOCITY_Y);
+		}
+	}
 }
 
 void CMarioStateSit::Update(DWORD dt, CMario& mario)
 {
-	if (mario.isSitting)
+	if ((GetTickCount() - mario.highjump_start > TIME_TOGGLE_HIGH_JUMP_WHEN_SITTING) && !mario.isOnGround&&!mario.canFlyHigh)
 	{
-		if ((GetTickCount() - mario.highjump_start > 50) && !mario.canFlyHigh)
-		{
-			mario.canFlyHigh = true;
-		}
-		if (mario.canFlyHigh)
-		{
-			mario.SetVelocityY(-0.3);
-		}
-
+		mario.canFlyHigh = true;
 	}
 }
 
