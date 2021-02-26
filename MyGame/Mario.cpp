@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "MarioState.h"
 #include "MarioStateIdle.h"
+#include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
@@ -11,6 +12,8 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Items.h"
+#include "Koopas.h"
+#include "MarioStateKick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -66,6 +69,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (GetTickCount() - power_start > 0) power--;
 		/*DebugOut(L"[tru di] power: %d \n", power);*/
+	}
+
+	//neu dg giu mai rua, tha A thi kick
+	if (isKicking)
+	{
+		ChangeState(CMarioState::kick.GetInstance());
+		isKicking = false;
 	}
 
 	//if no collision occured, proceed normally
@@ -132,6 +142,47 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
+			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
+			{
+				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+				//jummp  on top >> kill koopas and deflect a bit
+				if (e->ny < 0)
+				{
+					if (koopas->GetState() != KOOPAS_STATE_DIE)
+					{
+						koopas->SetState(KOOPAS_STATE_DIE);
+						//koopas->isEnable = false;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+				else if (e->nx!=0)
+				{
+					if (koopas->GetState() == KOOPAS_STATE_DIE)
+					{
+						if (canHoldShell)
+						{
+							ChangeState(CMarioState::holdshell_idle.GetInstance());
+							koopas->isHolded = true;
+						}
+					}
+				}
+				/*else if (e->nx != 0)
+				{
+					if (untouchable == 0)
+					{
+						if (koopas->GetState() != KOOPAS_STATE_DIE)
+						{
+							if (level > MARIO_LEVEL_SMALL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							SetState(MARIO_STATE_DIE);
+						}
+					}
+				}*/
+
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -195,35 +246,6 @@ void CMario::Render()
 //void  CMario::SetState(int state)
 //{
 //	CGameObject::SetState(state);
-//
-//	//DebugOut(L"state: %d \n", state);
-//
-//	switch (state)
-//	{
-//	case MARIO_STATE_WALKING:
-//		if (nx > 0)
-//		{ 
-//			vx = MARIO_WALKING_SPEED;
-//		}
-//		else
-//		{
-//			vx = -MARIO_WALKING_SPEED;
-//		}
-//		break;
-//	case MARIO_STATE_JUMP:
-//		if (isOnGround)
-//		{
-//			vy = -MARIO_JUMP_SPEED_Y;
-//			isOnGround = false;
-//		}
-//		break;
-//	case MARIO_STATE_IDLE:
-//		vx = 0;
-//		break;
-//	case MARIO_STATE_DIE:
-//		vy = -MARIO_DIE_DEFLECT_SPEED;
-//		break;
-//	}
 //}
 
 void CMario::InitState() {

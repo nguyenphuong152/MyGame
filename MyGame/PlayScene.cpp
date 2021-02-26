@@ -38,8 +38,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
-
 #define TRAP_RED_VENUS 3
+#define ENEMY_KOOPAS	4 
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
@@ -197,6 +197,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CRedVenusFireTrap(player);
 
 	} break;*/
+	case ENEMY_KOOPAS:
+	{
+		float start_x = atof(tokens[4].c_str());
+		float end_x = atof(tokens[5].c_str());
+		obj = new CKoopas(start_x, end_x,player);
+	}
+	break;
 	case OBJECT_TYPE_GROUND:
 	{
 		float r = atof(tokens[4].c_str());
@@ -412,8 +419,13 @@ void CPlayScene::Render()
 	{
 		listItems[i]->Render();
 	}*/
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 1; i < objects.size(); i++)
+	{
 		objects[i]->Render();
+	}
+	//render mario sau cung
+	objects[0]->Render();
+		
 
 
 }

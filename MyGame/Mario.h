@@ -116,8 +116,10 @@ public:
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canFlyHigh = false;
+	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
+	bool isKicking = false;
 
 	int power;
 	DWORD power_start;
@@ -145,6 +147,10 @@ public:
 		marioState = new_state;
 	}
 
+	CMarioState* GetState()
+	{
+		return marioState;
+	}
 
 	void SetLevel(int l) { level = l; }
 	void SetAnimation(int ani) { animation = ani; }

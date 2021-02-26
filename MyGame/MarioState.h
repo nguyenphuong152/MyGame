@@ -9,6 +9,10 @@ class CMarioStatePreFly;
 class CMarioStateFly;
 class CMarioStateSpin;
 class CMarioStateDrop;
+class CMarioStateKick;
+class CMarioStateHoldShellIdle;
+class CMarioStateHoldShellAndRun;
+
 
 #include "Utils.h"
 #include <dinput.h>
@@ -30,7 +34,10 @@ public:
 		FLY,
 		FLOAT,
 		SPIN,
-		DROP
+		DROP,
+		KICK,
+		HOLDSHELL_IDLE,
+		HOLDSHELL_RUN,
 	};
 
 	static CMarioStateIdle idle;
@@ -43,6 +50,9 @@ public:
 	static CMarioStateFly fly;
 	static CMarioStateSpin spin;
 	static CMarioStateDrop drop;
+	static CMarioStateKick kick;
+	static CMarioStateHoldShellIdle holdshell_idle;
+	static CMarioStateHoldShellAndRun holdshell_run;
 
 	CMarioState();
 	//CMarioState(CMarioState::MarioStates currentState);

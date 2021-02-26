@@ -22,6 +22,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		if (game->IsKeyDown(DIK_LEFT)) {
 			if (mario.powerMode && mario.vx != 0)
 			{	
+				mario.canHoldShell = true;
 				//cong power cho mario khi mario o powermode, moi giay tang 1 power
 				if (GetTickCount() - mario.power_start > 0 && mario.power < 72) {
 					mario.power++;
@@ -51,6 +52,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		{
 			if (mario.powerMode & mario.vx != 0)
 			{
+				mario.canHoldShell = true;
 				if (GetTickCount() - mario.power_start > 0&&mario.power<72) mario.power++;
 				if (mario.power == 72)
 				{
