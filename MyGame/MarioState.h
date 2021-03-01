@@ -12,6 +12,8 @@ class CMarioStateDrop;
 class CMarioStateKick;
 class CMarioStateHoldShellIdle;
 class CMarioStateHoldShellAndRun;
+class CMarioStateHoldShellAndJump;
+class CMarioStateHoldShellAndDrop;
 
 
 #include "Utils.h"
@@ -38,6 +40,8 @@ public:
 		KICK,
 		HOLDSHELL_IDLE,
 		HOLDSHELL_RUN,
+		HOLDSHELL_JUMP,
+		HOLDSHELL_DROP
 	};
 
 	static CMarioStateIdle idle;
@@ -53,6 +57,8 @@ public:
 	static CMarioStateKick kick;
 	static CMarioStateHoldShellIdle holdshell_idle;
 	static CMarioStateHoldShellAndRun holdshell_run;
+	static CMarioStateHoldShellAndJump holdshell_jump;
+	static CMarioStateHoldShellAndDrop holdshell_drop;
 
 	CMarioState();
 	//CMarioState(CMarioState::MarioStates currentState);

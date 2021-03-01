@@ -6,7 +6,7 @@ CMarioStateSpin* CMarioStateSpin::__instance = NULL;
 
 CMarioStateSpin::CMarioStateSpin() {
 	DebugOut(L"[STATE] create spin \n");
-
+	_spinningTime = 0;
 }
 
 void CMarioStateSpin::Enter(CMario& mario)
@@ -21,9 +21,11 @@ void CMarioStateSpin::HandleInput(CMario& mario, Input input)
 
 void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 {
-	if (mario.spinnable == 0)
+	_spinningTime++;
+	if (_spinningTime > MARIO_SPINNING_TIME)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
+		_spinningTime = 0;
 	}
 }
 

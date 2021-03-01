@@ -1,5 +1,6 @@
 #include "Koopas.h"
 #include "Utils.h"
+#include "MarioStateIdle.h"
 #include "Mario.h"
 
 CKoopas::CKoopas(float start_point,float end_point,CMario *player)
@@ -32,11 +33,23 @@ void CKoopas::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (player->isKicking)
+	{
+		if (player->nx > 0)
+		{
+			vx = 0.33;
+		}
+		else {
+			vx = -0.33;
+		}
+		isHolded = false;
+	}
+		
 
 	x += dx;
 	y += dy;
 
-	if(isHolded)
+	if(isHolded&&!player->isKicking)
 	{
 		if (player->nx > 0)
 		{
@@ -64,19 +77,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 	}
 
-	if (player->isKicking)
-	{
-		vx = player->nx * 0.33;
-		isHolded = false;
-		player->isKicking = false;
-	}
+	
 
-	if (vx < 0 && x < start_point)
+	if (vx < 0 && x < start_point &&state==KOOPAS_STATE_WALKING)
 	{
 		x = start_point; vx = -vx;
 	}
 
-	if (vx > 0 && x > end_point)
+	if (vx > 0 && x > end_point&&state == KOOPAS_STATE_WALKING)
 	{
 		x = end_point; vx = -vx;
 	}

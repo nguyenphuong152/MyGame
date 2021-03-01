@@ -91,7 +91,6 @@ class CMarioState;
 #define MARIO_SMALL_BBOX_HEIGHT 15
 
 #define MARIO_UNTOUCHABLE_TIME 5000
-#define MARIO_SPINNING_TIME 300
 
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
@@ -111,6 +110,7 @@ class CMario : public CGameObject
 
 public:
 	CMarioState* marioState;
+
 	int level;
 	int animation;
 	bool isOnGround = false;
@@ -123,9 +123,6 @@ public:
 
 	int power;
 	DWORD power_start;
-
-	int spinnable;
-	DWORD spinning_start;
 
 	DWORD highjump_start;
 
@@ -156,7 +153,6 @@ public:
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 
-	void StartSpinning() { spinnable = 1; spinning_start = GetTickCount(); }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void TogglePowerMode() { power_start = GetTickCount(); }
 	void StartHighJump() { highjump_start = GetTickCount(); }
@@ -168,9 +164,6 @@ public:
 
 	//Kiem tra collision voi item
 	void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
-
-	//xu li animation co nhieu hon 1 frame hoac xet thoi gian cho mario untouch hay thay doi gi do
-	void HandleAnimationWithTime(int define_time, DWORD start_time,int status);
 };
 
 

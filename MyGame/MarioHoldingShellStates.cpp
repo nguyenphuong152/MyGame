@@ -1,6 +1,8 @@
 ﻿#include "MarioHoldingShellStates.h"
 #include "MarioStateHoldShellAndRun.h"
+#include "MarioStateHoldShellAndJump.h"
 #include "Mario.h"
+#include "MarioStateKick.h"
 
 CMarioHoldingShellStates::CMarioHoldingShellStates()
 {
@@ -26,8 +28,19 @@ void CMarioHoldingShellStates::HandleInput(CMario& mario, Input input)
 	if (input == Input::RELEASE_A)
 	{
 		mario.isKicking = true;
+		mario.ChangeState(CMarioState::kick.GetInstance());
+	}else if (input == Input::PRESS_S)
+	{
+		mario.StartHighJump();
+		if (mario.isOnGround)
+		{
+			mario.isOnGround = false;
+			mario.SetVelocityY(-MARIO_JUMP_SPEED_Y);
+			mario.ChangeState(CMarioState::holdshell_jump.GetInstance());
+		}
 	}
 }
+
 
 
 

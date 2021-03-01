@@ -20,7 +20,6 @@ CMario::CMario(float x, float y) : CGameObject()
 	isEnable = true;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
-	spinnable = 0;
 	InitState();
 	nx = 1;
 	start_x = x;
@@ -57,25 +56,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	//ensure when spinning, can render all of frame
-	if (GetTickCount() - spinning_start > MARIO_SPINNING_TIME)
-	{
-		spinning_start = 0;
-		spinnable = 0;
-	}
-
 	//neu mario dg o powermode ma huy thi giam power cua mario ve 0
 	if (!powerMode && power > 0&& marioState->GetCurrentState()!=CMarioState::FLY)
 	{
 		if (GetTickCount() - power_start > 0) power--;
 		/*DebugOut(L"[tru di] power: %d \n", power);*/
-	}
-
-	//neu dg giu mai rua, tha A thi kick
-	if (isKicking)
-	{
-		ChangeState(CMarioState::kick.GetInstance());
-		isKicking = false;
 	}
 
 	//if no collision occured, proceed normally

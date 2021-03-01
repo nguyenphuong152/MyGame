@@ -13,7 +13,7 @@ CMarioStateDrop::CMarioStateDrop() {
 void CMarioStateDrop::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	SetCurrentState(MarioStates::JUMP);
+	SetCurrentState(MarioStates::DROP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_DROP);

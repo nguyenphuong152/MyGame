@@ -1,8 +1,11 @@
 #pragma once
 #include "MarioOnGroundStates.h"
+#define MARIO_KICKING_TIME 15
 
 class CMarioStateKick : public CMarioOnGroundStates
 {
+private:
+	int _kickingTime;
 public:
 	static CMarioStateKick* __instance;
 

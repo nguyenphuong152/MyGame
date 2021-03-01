@@ -144,6 +144,12 @@
     <ClCompile Include="MarioStateKick.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateHoldShellAndJump.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateHoldShellAndDrop.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -264,6 +270,12 @@
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="MarioStateKick.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellAndJump.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellAndDrop.h">
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
   </ItemGroup>

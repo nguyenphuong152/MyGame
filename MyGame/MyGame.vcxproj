@@ -153,6 +153,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MarioHoldingShellStates.cpp" />
+    <ClCompile Include="MarioStateHoldShellAndDrop.cpp" />
+    <ClCompile Include="MarioStateHoldShellAndJump.cpp" />
     <ClCompile Include="MarioStateHoldShellAndRun.cpp" />
     <ClCompile Include="MarioOnAirStates.cpp" />
     <ClCompile Include="MarioOnGroundStates.cpp" />
@@ -192,6 +194,8 @@
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
+    <ClInclude Include="MarioStateHoldShellAndDrop.h" />
+    <ClInclude Include="MarioStateHoldShellAndJump.h" />
     <ClInclude Include="MarioStateHoldShellAndRun.h" />
     <ClInclude Include="MarioOnAirStates.h" />
     <ClInclude Include="MarioOnGroundStates.h" />

@@ -6,6 +6,7 @@ CMarioStateKick* CMarioStateKick::__instance = NULL;
 
 CMarioStateKick::CMarioStateKick() {
 	DebugOut(L"[STATE] create kick \n");
+	_kickingTime = 0;
 }
 
 void CMarioStateKick::Enter(CMario& mario)
@@ -29,10 +30,15 @@ void CMarioStateKick::HandleInput(CMario& mario, Input input)
 
 void CMarioStateKick::Update(DWORD dt, CMario& mario)
 {
-	if (!mario.isKicking)
+	_kickingTime++;
+	if (_kickingTime > MARIO_KICKING_TIME)
 	{
-		mario.SetVelocityX(0);
 		mario.ChangeState(CMarioState::idle.GetInstance());
+		mario.isKicking = false;
+	}
+	if (mario.isKicking)
+	{
+		mario.canHoldShell = false;
 	}
 }
 
