@@ -12,6 +12,7 @@
 #include "Game.h"
 #include "Items.h"
 #include "MarioState.h"
+#include "FireballTest.h"
 
 
 
@@ -40,13 +41,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_GOOMBA	2
 #define TRAP_RED_VENUS 3
 #define ENEMY_KOOPAS	4 
+#define OBJECT_TYPE_FIREBALL 5
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
 #define OBJECT_TYPE_PIPE 80
-
-#define FIREBALL 7
-
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 2048
@@ -192,11 +191,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		listItems.push_back(item);
 
 	} break;
-	/*case TRAP_RED_VENUS:
+	case OBJECT_TYPE_FIREBALL:
+	{
+		int fireball = atoi(tokens[4].c_str());
+		obj = new CFireballTest();
+	}
+	break;
+	case TRAP_RED_VENUS:
 	{
 		obj = new CRedVenusFireTrap(player);
 
-	} break;*/
+	} break;
 	case ENEMY_KOOPAS:
 	{
 		float start_x = atof(tokens[4].c_str());
@@ -348,17 +353,10 @@ void CPlayScene::Update(DWORD dt)
 				if (redVenus->isShooting)
 				{
 					if (redVenus->hasFireBall) continue;
-
-					bool isShootingUp = false;
-					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) isShootingUp = true;
+					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) {
+						redVenus->isShooting = true;
+					}
 					redVenus->hasFireBall = true;
-
-					CFireBall* fireball = new CFireBall(player, isShootingUp);
-					CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-					LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL);
-
-					fireball->SetAnimationSet(ani_set);
-					objects.push_back(fireball);
 				}
 			}
 			coObjects.push_back(objects[i]);

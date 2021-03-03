@@ -1,9 +1,8 @@
 #pragma once
-
 #include "GameObject.h"
 #include "Utils.h"
 #include "Mario.h"
-
+#include "FireBallPool.h"
 
 #define RED_VENUS_STATE_GO_DOWN		100
 #define RED_VENUS_STATE_GO_UP		200
@@ -31,13 +30,14 @@ class CRedVenusFireTrap : public CGameObject
 {
 	CMario* player;
 	DWORD startShooting = -1;
-	
+	CFireBallPool *pool;
+
 public:
 	bool isGoingUp;
 	bool isShooting;
 	bool hasFireBall;
 
-	CRedVenusFireTrap(CMario *player);
+	CRedVenusFireTrap(CMario* player);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);

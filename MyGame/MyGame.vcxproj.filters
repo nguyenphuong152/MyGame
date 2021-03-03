@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{7f1700bc-3c16-4e31-b5de-d5c6202463db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fireball">
+      <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fireball">
+      <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -79,9 +85,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Items.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FireBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MarioState.cpp">
@@ -150,6 +153,15 @@
     <ClCompile Include="MarioStateHoldShellAndDrop.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Source Files\Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBallPool.cpp">
+      <Filter>Source Files\Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="FireballTest.cpp">
+      <Filter>Source Files\Fireball</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -204,9 +216,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Items.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FireBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MarioState.h">
@@ -277,6 +286,15 @@
     </ClInclude>
     <ClInclude Include="MarioStateHoldShellAndDrop.h">
       <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Header Files\Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBallPool.h">
+      <Filter>Header Files\Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="FireballTest.h">
+      <Filter>Header Files\Fireball</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,13 @@ CFireBall::CFireBall(CMario* player , bool isShootingUp)
 	SetState(FIREBALL_STATE_FIRE);
 }
 
+void CFireBall::Init(float x, float y, int lifeTime)
+{
+	/*isEnable = true;
+	SetPosition(FIREBALL_POSITION_X, FIREBALL_POSITION_Y);
+	SetState(FIREBALL_STATE_FIRE);*/
+}
+
 void CFireBall::Render()
 {
 	if (isEnable)
@@ -19,10 +26,21 @@ void CFireBall::Render()
 	//RenderBoundingBox();
 }
 
+bool CFireBall::Animate()
+{
+	if (!inUse()) return false;
+
+	_timeLeft--;
+
+	return _timeLeft == 0;
+}
+
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt, colObject);
 	
+	if (!inUse()) return;
+	_timeLeft--;
 
 	int dir = -1;
 	if (isShootingUp) dir = 1;

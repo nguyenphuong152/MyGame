@@ -1,5 +1,6 @@
 ﻿#include "RedVenusFireTrap.h"
 #include "Ground.h"
+#include "FireBall.h"
 
 
 CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player)
@@ -10,6 +11,7 @@ CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player)
 	isShooting = false;
 	isGoingUp = true;
 	hasFireBall = false;
+	pool = new CFireBallPool();
 	SetState(RED_VENUS_STATE_GO_DOWN);
 }
 
@@ -41,7 +43,7 @@ void CRedVenusFireTrap::Render()
 void CRedVenusFireTrap::SetState(int state)
 {
 	CGameObject::SetState(state);
-	
+
 	if (state == RED_VENUS_STATE_GO_UP)
 	{
 		vy = -RED_VENUS_VELOCITY_Y;
@@ -60,9 +62,10 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isShooting)
 	{
-		//DebugOut(L"shooting: %d \n",startShooting);
+		CFireballTest* ball = pool->Create();
+		if (ball != NULL) ball->Init(1, 2,10);
+
 		DWORD now = GetTickCount();
-		//DebugOut(L"now: %d \n", now);
 		if (now - startShooting >= TIME_SHOOTING)
 		{
 			isGoingUp = false;
@@ -145,6 +148,7 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	//DebugOut(L"[INFO]vy: %f \n", vy);
+	pool->Update();
 
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }

@@ -1,6 +1,6 @@
+#pragma once
 #include "GameObject.h"
 #include "Mario.h"
-#include "RedVenusFireTrap.h"
 
 #define FIREBALL_POSITION_X 360
 #define FIREBALL_POSITION_Y 339
@@ -16,37 +16,36 @@
 
 #define POSITION_CHANGE_VY 287
 
-class CFireBall : public CGameObject
+class CFireballTest : public CGameObject
 {
 private:
-	CMario* player;
 	int _timeLeft;
 	union {
 		//state when it's use
-		struct 
+		struct
 		{
 			float x, y;
-		} live ;
+		} live;
 		//state when it's available
-		CFireBall* next;
+		CFireballTest* next;
 	} _state;
 
 public:
 	friend class FireBallPool;
 
-	CFireBall* GetNext() const { return _state.next; }
-	void SetNext(CFireBall* fireball){
+	CFireballTest* GetNext() const { return _state.next; }
+	void SetNext(CFireballTest* fireball) {
 		_state.next = fireball;
 	}
 
-	void Init(float x, float y, int lifeTime);
-	bool inUse() const { return _timeLeft > 0; }
+	void Init(float x, float y, int time);
 	bool Animate();
+	bool inUse() const { return _timeLeft > 0; }
 
 	bool isShootingUp;
-	
-	CFireBall(CMario *player, bool isShootingUp);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject );
+
+	CFireballTest();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	void Render();
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

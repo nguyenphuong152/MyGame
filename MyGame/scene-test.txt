@@ -319,10 +319,10 @@
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	650	350	1
+0	300	350	1
 #GOOMBA
 2	224	401	2
 2	528	401	2
@@ -343,6 +343,9 @@
 #--- koopas ----
 -- 4: start_x 5: end_x
 4	750	375	8	700	900
+
+#5 fireballs
+5	100	100	7	3
 
 #PIPE
 80	352	368	0	60001
