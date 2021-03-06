@@ -26,18 +26,21 @@
 
 #define TIME_SHOOTING 2000
 
+#define FIREBALL_POSITION_X 360
+#define FIREBALL_POSITION_Y 339
+
 class CRedVenusFireTrap : public CGameObject
 {
 	CMario* player;
+	CFireBallPool* pool;
 	DWORD startShooting = -1;
-	CFireBallPool *pool;
 
 public:
 	bool isGoingUp;
 	bool isShooting;
-	bool hasFireBall;
+	bool createFireball;
 
-	CRedVenusFireTrap(CMario* player);
+	CRedVenusFireTrap(CMario* player,CFireBallPool* pool);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);

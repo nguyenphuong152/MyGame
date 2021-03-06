@@ -5,7 +5,7 @@ CFireBallPool::CFireBallPool()
 {
 	//The first one is available.
 	_firstAvailable = &fireballs[0];
-
+	
 	// Each particle points to the next.
 	for (int i = 0; i < POOL_SIZE - 1; i++)
 	{
@@ -16,18 +16,20 @@ CFireBallPool::CFireBallPool()
 	fireballs[POOL_SIZE - 1].SetNext(NULL);
 }
 
-CFireballTest* CFireBallPool::Create()
-{
-	CFireballTest* newBall;
+void CFireBallPool::Create(float x, float y)
+{ 
 	// Make sure the pool isn't full.
 	if (_firstAvailable != NULL) {
-		// Remove it from the available list.
-		newBall  = _firstAvailable;
+		CFireballTest* newBall = _firstAvailable;
 		_firstAvailable = newBall->GetNext();
-		return newBall;
+		newBall->Init(x, y);
+		DebugOut(L"have ball \n");
 	}
-	return NULL;
+	else {
+		DebugOut(L"null \n");
+	}
 }
+
 
 void CFireBallPool::Update()
 {

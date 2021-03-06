@@ -1,9 +1,6 @@
 ﻿#include "PlayScene.h"
 #include <iostream>
 #include <fstream>
-
-#include "PlayScene.h"
-#include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
@@ -13,8 +10,6 @@
 #include "Items.h"
 #include "MarioState.h"
 #include "FireballTest.h"
-
-
 
 using namespace std;
 
@@ -39,9 +34,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
-#define TRAP_RED_VENUS 3
+#define TRAP_RED_VENUS 5
 #define ENEMY_KOOPAS	4 
-#define OBJECT_TYPE_FIREBALL 5
+#define OBJECT_TYPE_FIREBALL 3
 
 #define OBJECT_TYPE_GROUND 60
 #define OBJECT_TYPE_BOX 70
@@ -191,16 +186,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		listItems.push_back(item);
 
 	} break;
-	case OBJECT_TYPE_FIREBALL:
-	{
-		int fireball = atoi(tokens[4].c_str());
-		obj = new CFireballTest();
-	}
-	break;
 	case TRAP_RED_VENUS:
 	{
-		obj = new CRedVenusFireTrap(player);
+		obj = new CRedVenusFireTrap(player,pool);
 
+	} break;
+	case OBJECT_TYPE_FIREBALL:
+	{
+		pool = new CFireBallPool();
+		for (int i = 0; i <pool->POOL_SIZE ; i++)
+		{
+			objects.push_back(&pool->fireballs[i]);
+		}
 	} break;
 	case ENEMY_KOOPAS:
 	{
@@ -243,12 +240,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
+	if (object_type != OBJECT_TYPE_FIREBALL)
+	{
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
-	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+		obj->SetAnimationSet(ani_set);
+		objects.push_back(obj);
+	}
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -323,7 +322,6 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -352,11 +350,7 @@ void CPlayScene::Update(DWORD dt)
 				CRedVenusFireTrap* redVenus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
 				if (redVenus->isShooting)
 				{
-					if (redVenus->hasFireBall) continue;
-					if (redVenus->state == RED_VENUS_STATE_SHOOT_UP) {
-						redVenus->isShooting = true;
-					}
-					redVenus->hasFireBall = true;
+					redVenus->createFireball = true;
 				}
 			}
 			coObjects.push_back(objects[i]);
@@ -424,8 +418,6 @@ void CPlayScene::Render()
 	//render mario sau cung
 	objects[0]->Render();
 		
-
-
 }
 
 /*

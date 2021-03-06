@@ -3,15 +3,15 @@
 #include "FireBall.h"
 
 
-CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player)
+CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player,CFireBallPool* pool)
 {
 	isEnable = true;
 	this->player = player;
+	this->pool = pool;
 	startShooting = -1;
 	isShooting = false;
 	isGoingUp = true;
-	hasFireBall = false;
-	pool = new CFireBallPool();
+	createFireball = false;
 	SetState(RED_VENUS_STATE_GO_DOWN);
 }
 
@@ -59,18 +59,19 @@ void CRedVenusFireTrap::SetState(int state)
 void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-
 	if (isShooting)
 	{
-		CFireballTest* ball = pool->Create();
-		if (ball != NULL) ball->Init(1, 2,10);
-
+		if (createFireball)
+		{
+			DebugOut(L"[vovooo] \n");
+			pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y);
+			createFireball = false;
+		}
 		DWORD now = GetTickCount();
 		if (now - startShooting >= TIME_SHOOTING)
 		{
 			isGoingUp = false;
 			isShooting = false;
-			hasFireBall = false;
 			if (player->y > POSITION_MIDDLE_MOVING)
 			{
 				SetState(RED_VENUS_STATE_GO_DOWN);
@@ -146,7 +147,6 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
 	//DebugOut(L"[INFO]vy: %f \n", vy);
 	pool->Update();
 

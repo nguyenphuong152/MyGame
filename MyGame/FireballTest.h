@@ -1,9 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Mario.h"
-
-#define FIREBALL_POSITION_X 360
-#define FIREBALL_POSITION_Y 339
+#include "Utils.h"
 
 #define FIREBALL_BBOX_WIDTH 14
 #define FIREBALL_BBOX_HEIGHT 14
@@ -18,8 +16,9 @@
 
 class CFireballTest : public CGameObject
 {
+	friend class CFireBallPool;
 private:
-	int _timeLeft;
+	CFireballTest();
 	union {
 		//state when it's use
 		struct
@@ -29,24 +28,20 @@ private:
 		//state when it's available
 		CFireballTest* next;
 	} _state;
-
 public:
-	friend class FireBallPool;
-
-	CFireballTest* GetNext() const { return _state.next; }
+	CFireballTest* GetNext()  { 
+		return _state.next; 
+	}
 	void SetNext(CFireballTest* fireball) {
 		_state.next = fireball;
 	}
 
-	void Init(float x, float y, int time);
+	void Init(float x, float y);
 	bool Animate();
-	bool inUse() const { return _timeLeft > 0; }
 
 	bool isShootingUp;
-
-	CFireballTest();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
-	void Render();
+	virtual void Render();
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

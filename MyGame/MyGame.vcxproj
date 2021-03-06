@@ -147,7 +147,6 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Coin.cpp" />
-    <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FireBallPool.cpp" />
     <ClCompile Include="FireballTest.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Coin.h" />
-    <ClInclude Include="FireBall.h" />
     <ClInclude Include="FireBallPool.h" />
     <ClInclude Include="FireballTest.h" />
     <ClInclude Include="Ground.h" />
