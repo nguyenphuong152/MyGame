@@ -61,26 +61,20 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	if (isShooting)
 	{
-		if (createFireball)
-		{
-			DebugOut(L"[vovooo] \n");
-			pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y);
-			createFireball = false;
-		}
-		DWORD now = GetTickCount();
-		if (now - startShooting >= TIME_SHOOTING)
-		{
-			isGoingUp = false;
-			isShooting = false;
-			if (player->y > POSITION_MIDDLE_MOVING)
+			DWORD now = GetTickCount();
+			if (now - startShooting >= TIME_SHOOTING)
 			{
-				SetState(RED_VENUS_STATE_GO_DOWN);
+				isGoingUp = false;
+				isShooting = false;
+				if (player->y > POSITION_MIDDLE_MOVING)
+				{
+					SetState(RED_VENUS_STATE_GO_DOWN);
+				}
+				else
+				{
+					SetState(RED_VENUS_STATE_GO_UP);
+				}
 			}
-			else 
-			{
-				SetState(RED_VENUS_STATE_GO_UP);
-			}
-		}
 	}
 
 	CheckDirection();
@@ -92,13 +86,14 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (player->y > POSITION_MIDDLE_SHOOTING)
 			{
 				SetState(RED_VENUS_STATE_SHOOT_DOWN);
-				//if (isGoingUp) SetState(RED_VENUS_STATE_GO_DOWN);
+				isShootingUp = false;
 			}
 			else
 			{
 				SetState(RED_VENUS_STATE_SHOOT_UP);
+				isShootingUp = true;
 			}
-			StartShooting();
+			StartShooting(isShootingUp);
 		}
 	}
 
@@ -198,9 +193,11 @@ void CRedVenusFireTrap::CheckDirection()
 	}
 }
 
-void CRedVenusFireTrap::StartShooting()
+void CRedVenusFireTrap::StartShooting(bool isShootingUp)
 {
 	startShooting = GetTickCount(); 
 	isShooting = true;
+	createFireball = false;
+	pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y,isShootingUp);
 	vy = 0;
 }

@@ -193,7 +193,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		pool = new CFireBallPool();
+		pool = new CFireBallPool(player);
 		for (int i = 0; i <pool->POOL_SIZE ; i++)
 		{
 			objects.push_back(&pool->fireballs[i]);
@@ -341,16 +341,6 @@ void CPlayScene::Update(DWORD dt)
 				if (brick->isDropItem && !listItems[brick->itemId]->isStop)
 				{
 					listItems[brick->itemId]->isEnable = true;
-				}
-			}
-			if (dynamic_cast<CRedVenusFireTrap*>(objects[i]))
-			{
-				//neu là dg trong trậng thái bắn mới cho bắn, mà trong trạng thái bắn chỉ dc có 1 quả banh thôi, nên có bí
-				//biến hasfireball để check
-				CRedVenusFireTrap* redVenus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
-				if (redVenus->isShooting)
-				{
-					redVenus->createFireball = true;
 				}
 			}
 			coObjects.push_back(objects[i]);
