@@ -9,7 +9,7 @@
 #include "Game.h"
 #include "Items.h"
 #include "MarioState.h"
-#include "FireballTest.h"
+#include "Fireball.h"
 
 using namespace std;
 
@@ -256,7 +256,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	if (tokens.size() < 7) return;
 	int id = atoi(tokens[0].c_str());
-	LPCWSTR path = ToLPCWSTR(tokens[1]);
+	string path = tokens[1];
 
 	int mapWidth = atoi(tokens[2].c_str());
 	int mapHeight = atoi(tokens[3].c_str());
@@ -264,9 +264,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	int tilePerRow = atoi(tokens[5].c_str());
 	int tilePerColumn = atoi(tokens[6].c_str());
 
-	CMap::GetInstance()->AddMap(id, path, mapWidth, mapHeight, textureId, tilePerRow, tilePerColumn);
-
-	CMap::GetInstance()->LoadMap();
+	CMap::GetInstance()->AddMap(id, &path[0], mapWidth, mapHeight, textureId, tilePerRow, tilePerColumn);
+	CMap::GetInstance()->CreateTileSet();
 }
 
 void CPlayScene::Load()
@@ -390,13 +389,12 @@ void CPlayScene::Update(DWORD dt)
 	else if (cy < game->GetScreenHeight() + 720)
 		cy = game->GetScreenHeight() + 72;
 
-	CGame::GetInstance()->SetCamPos(cx, cy - 36);
+	CGame::GetInstance()->SetCamPos(0, 1000);
 }
 
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
-
 	/*for (int i = 0;i < listItems.size();i++)
 	{
 		listItems[i]->Render();

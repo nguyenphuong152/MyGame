@@ -11,7 +11,6 @@ CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player,CFireBallPool* pool)
 	startShooting = -1;
 	isShooting = false;
 	isGoingUp = true;
-	createFireball = false;
 	SetState(RED_VENUS_STATE_GO_DOWN);
 }
 
@@ -197,7 +196,6 @@ void CRedVenusFireTrap::StartShooting(bool isShootingUp)
 {
 	startShooting = GetTickCount(); 
 	isShooting = true;
-	createFireball = false;
 	pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y,isShootingUp);
 	vy = 0;
 }

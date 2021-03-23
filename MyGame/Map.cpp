@@ -1,14 +1,15 @@
 #include "Map.h"
-#include <fstream>
 #include "Utils.h"
 #include "Sprites.h"
 #include "Textures.h"
 #include "Game.h"
+#include "tinyxml.h"
+#include "TileSet.h"
 
 
-//using namespace std;
+using namespace std;
 
-#define TILE_WIDTH 64
+#define TILE_WIDTH 48
 
 
 CMap* CMap::__instance = NULL;
@@ -19,7 +20,7 @@ CMap* CMap::GetInstance()
 	return __instance;
 }
 
-void CMap::AddMap(int id, LPCWSTR mapFilePath, int mapWidth, int mapHeight, int texId, int tilePerRow, int tilePerColumn)
+void CMap::AddMap(int id, const char* mapFilePath, int mapWidth, int mapHeight, int texId, int tilePerRow, int tilePerColumn)
 {
 	this->id = id;
 	this->mapFilePath = mapFilePath;
@@ -30,26 +31,10 @@ void CMap::AddMap(int id, LPCWSTR mapFilePath, int mapWidth, int mapHeight, int 
 	this->tilePerColumn = tilePerColumn;
 }
 
-void CMap::LoadMap()
+void CMap::CreateTileSet()
 {
-	ifstream file;
-	file.open(mapFilePath);
-
-	if (!file) {
-		DebugOut(L"[ERROR] Failed to read map : %s \n", mapFilePath);
-		exit(1);   // call system to stop
-	}
-
-	for (int i = 0; i < mapHeight;i++)
-	{
-		for (int j = 0;j < mapWidth;j++)
-		{
-			file >> tileMap[i][j];
-		}
-	}
-	file.close();
-
-	int idd = 0;
+	//cut tileset
+	int idd = 1;
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
 	for (int i = 0;i < tilePerColumn;i++)
@@ -63,23 +48,33 @@ void CMap::LoadMap()
 			int b = t + TILE_WIDTH;
 
 			CSprites::GetInstance()->Add(idd, l, t, r, b, tex);
-		//	DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", id, l, t, r, b);
+			//DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", idd, l, t, r, b);
 			idd++;
 		}
-	}	
+	}
 }
 
 
-void CMap::RenderMap()
-{
-	for (int i = 0; i < mapHeight;i++)
+void CMap::HandleMap()
+{	
+	TiXmlDocument doc(mapFilePath);
+	if (!doc.LoadFile())
 	{
-		for (int j = 0;j <mapWidth;j++)
-		{	
-			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(0,j * TILE_WIDTH, i * TILE_WIDTH);
-			//DebugOut(L"[INFO] draw added: %d, %d, %d\n", a,b,c);	
-		}
+		DebugOut(L"[ERR] Load tmx file failed \n");
+		return ;
+	}
 
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* layer = nullptr;
+
+	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+	{
+		string name = layer->FirstChildElement()->Value();
+		if (name == "data")
+		{
+			CMapLayer* tileset = new CMapLayer(layer->FirstChildElement());
+			layers.push_back(tileset);
+		}
 	}
 }
 

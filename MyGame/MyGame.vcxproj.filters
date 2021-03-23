@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Fireball">
       <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TinyXml">
+      <UniqueIdentifier>{349fb991-5feb-44a7-9bfa-8568fb790917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TinyXml">
+      <UniqueIdentifier>{4ea9c4bc-32fa-4695-a3a4-4df523c41474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapManager">
+      <UniqueIdentifier>{b46c73d0-d9a8-4eb4-868e-8e0bd99f6b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MapManager">
+      <UniqueIdentifier>{2fb472e3-38d8-4b87-833d-27ec9c9f7ebf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -64,9 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -156,8 +165,26 @@
     <ClCompile Include="FireBallPool.cpp">
       <Filter>Source Files\Fireball</Filter>
     </ClCompile>
-    <ClCompile Include="FireballTest.cpp">
+    <ClCompile Include="Fireball.cpp">
       <Filter>Source Files\Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlparser.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlerror.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLayer.cpp">
+      <Filter>Source Files\MapManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +222,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
@@ -287,8 +311,20 @@
     <ClInclude Include="FireBallPool.h">
       <Filter>Header Files\Fireball</Filter>
     </ClInclude>
-    <ClInclude Include="FireballTest.h">
+    <ClInclude Include="Fireball.h">
       <Filter>Header Files\Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h">
+      <Filter>Header Files\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h">
+      <Filter>Header Files\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLayer.h">
+      <Filter>Header Files\MapManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

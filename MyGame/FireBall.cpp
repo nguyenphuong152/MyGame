@@ -1,56 +1,49 @@
-﻿#include "FireBall.h"
+﻿#include "Fireball.h"
+#include "RedVenusFireTrap.h"
 #include "Utils.h"
 
-CFireBall::CFireBall(CMario* player , bool isShootingUp)
+CFireballTest::CFireballTest()
 {
-	isEnable = true;
-	SetPosition(FIREBALL_POSITION_X, FIREBALL_POSITION_Y);
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL_ANI);
+	SetAnimationSet(ani_set);
+	isShootingUp = false;
+}
+
+void CFireballTest::Init(float x, float y,CMario* player, bool isShootingUp)
+{
+	SetPosition(x, y);
 	this->player = player;
 	this->isShootingUp = isShootingUp;
+	isEnable = true;
 	SetState(FIREBALL_STATE_FIRE);
 }
 
-void CFireBall::Init(float x, float y, int lifeTime)
+void CFireballTest::Render()
 {
-	/*isEnable = true;
-	SetPosition(FIREBALL_POSITION_X, FIREBALL_POSITION_Y);
-	SetState(FIREBALL_STATE_FIRE);*/
-}
-
-void CFireBall::Render()
-{
-	if (isEnable)
+	if (state==FIREBALL_STATE_FIRE)
 	{
 		animation_set->at(0)->Render(0, x, y);
 	}
 	//RenderBoundingBox();
 }
 
-bool CFireBall::Animate()
-{
-	if (!inUse()) return false;
 
-	_timeLeft--;
-
-	return _timeLeft == 0;
-}
-
-void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
+void CFireballTest::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt, colObject);
-	
-	if (!inUse()) return;
-	_timeLeft--;
+
+	if (!isEnable) return;
 
 	int dir = -1;
 	if (isShootingUp) dir = 1;
 
-	if (player->x > POSITION_CHANGE_VY) {
-		vy = dir*FIREBALL_VELOCITY_Y_NEAR * vx;
-		
+	if (player->x > RANGE_X_LEFT&&player->x< RANGE_X_RIGHT) {
+		vy = dir * FIREBALL_VELOCITY_Y_NEAR * vx;
+
 	}
-	else vy = dir* FIREBALL_VELOCITY_Y_FAR * vx;
-	
+	else vy = dir * FIREBALL_VELOCITY_Y_FAR * vx;
+
 	// check lại vx nếu k khi con này quay phải, vy sẽ bị ngược chiều
 	if (vx > 0) vy = -vy;
 
@@ -58,10 +51,11 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	y += dy;
 
 	//DebugOut(L"y: %f \n", y);
+	//hardcode
 	if (y < 232 || y>450) isEnable = false;
 }
 
-void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CFireballTest::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
@@ -69,14 +63,15 @@ void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = t + FIREBALL_BBOX_HEIGHT;
 }
 
-void CFireBall::SetState(int state)
+void CFireballTest::SetState(int state)
 {
 	CGameObject::SetState(state);
 	if (state == FIREBALL_STATE_FIRE)
 	{
 		if (player->x < POSITION_PIPE)
 			vx = -FIREBALL_VELOCITY_X;
-		else vx = FIREBALL_VELOCITY_X;
+		else 
+			vx = FIREBALL_VELOCITY_X;
 	}
 }
 
