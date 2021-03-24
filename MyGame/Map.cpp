@@ -68,15 +68,19 @@ void CMap::HandleMap()
 		string name = layer->FirstChildElement()->Value();
 
 		//layer k có attribute visible mới add vô vẽ
-		const char* parseAttribute = layer->Attribute("visible");
-		if (parseAttribute == NULL)
+		const char* attributeVisible = layer->Attribute("visible");
+		if (attributeVisible == NULL && name == "data")
 		{
-			if (name == "data")
-			{
-				CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
-				layers.push_back(mLayer);
-			}
+			CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+			layers.push_back(mLayer);
 		}
+
+		if (layer->Value() == "objectgroup")
+		{
+			DebugOut(L"[true] \n");
+		}
+
+
 	}
 }
 
