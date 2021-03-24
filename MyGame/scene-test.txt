@@ -382,6 +382,6 @@
 
 
 
-#id	name	mapwitdh	mapheight	texture_id	tileperRow	tileperColumn
+#id	name	texture_id	tileperRow	tileperColumn
 [MAP]
-7000	textures\Map\World1-1\world-1-1-map.tmx	176	41	30	29	30
+7000	textures\Map\World1-1\world-1-1-map.tmx	30	29	30

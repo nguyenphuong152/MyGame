@@ -2,8 +2,9 @@
 
 #include <d3dx9.h>
 #include "MapLayer.h"
+#include "Utils.h"
 
-typedef CMapLayer* MAP_LAYERS;
+typedef CMapLayer* LPLAYERS;
 
 class CMap
 {
@@ -11,12 +12,12 @@ class CMap
 protected:
 	int id;
 	const char*  mapFilePath;
-	int mapWidth, mapHeight, texId;
+	int texId;
 	int tilePerRow, tilePerColumn;
 
-	vector<MAP_LAYERS> layers ;
+	std::vector<LPLAYERS> layers ;
 public:
-	void AddMap(int id, const char*  mapFilePath, int mapWidth, int mapHeight, int texId,int tilePerRow, int TilePerColumn);
+	void AddMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
 	void CreateTileSet();
 	void HandleMap();
 	void RenderMap();

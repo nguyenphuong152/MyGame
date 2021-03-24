@@ -254,18 +254,17 @@ void CPlayScene::_ParseSection_MAP(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 7) return;
+	if (tokens.size() < 5) return;
 	int id = atoi(tokens[0].c_str());
 	string path = tokens[1];
 
-	int mapWidth = atoi(tokens[2].c_str());
-	int mapHeight = atoi(tokens[3].c_str());
-	int textureId = atoi(tokens[4].c_str());
-	int tilePerRow = atoi(tokens[5].c_str());
-	int tilePerColumn = atoi(tokens[6].c_str());
+	int textureId = atoi(tokens[2].c_str());
+	int tilePerRow = atoi(tokens[3].c_str());
+	int tilePerColumn = atoi(tokens[4].c_str());
 
-	CMap::GetInstance()->AddMap(id, &path[0], mapWidth, mapHeight, textureId, tilePerRow, tilePerColumn);
+	CMap::GetInstance()->AddMap(id, &path[0],textureId, tilePerRow, tilePerColumn);
 	CMap::GetInstance()->CreateTileSet();
+	CMap::GetInstance()->HandleMap();
 }
 
 void CPlayScene::Load()
@@ -389,7 +388,7 @@ void CPlayScene::Update(DWORD dt)
 	else if (cy < game->GetScreenHeight() + 720)
 		cy = game->GetScreenHeight() + 72;
 
-	CGame::GetInstance()->SetCamPos(0, 1000);
+	CGame::GetInstance()->SetCamPos(0, 800);
 }
 
 void CPlayScene::Render()

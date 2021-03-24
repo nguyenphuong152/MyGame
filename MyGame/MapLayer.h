@@ -1,16 +1,17 @@
 #pragma once
 #include "tinyxml.h"
+#include <vector>
+#include <Windows.h>
 
-#define TILEPERROW 176
-#define TILEPERCOLUMN	41
+#define MAPWIDTH 176
+#define MAPHEIGHT 41
 
 class CMapLayer {
 
-	static CMapLayer* __instance;
 	const char* mapInfo;
+	std::vector<int> tileIdSet;
+
 public:
 	CMapLayer(TiXmlElement* layer);
 	void RenderLayer();
-
-	static CMapLayer* GetInstance();
 };

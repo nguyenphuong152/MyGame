@@ -1,11 +1,9 @@
-#include "Map.h"
+﻿#include "Map.h"
 #include "Utils.h"
 #include "Sprites.h"
 #include "Textures.h"
 #include "Game.h"
 #include "tinyxml.h"
-#include "TileSet.h"
-
 
 using namespace std;
 
@@ -20,12 +18,10 @@ CMap* CMap::GetInstance()
 	return __instance;
 }
 
-void CMap::AddMap(int id, const char* mapFilePath, int mapWidth, int mapHeight, int texId, int tilePerRow, int tilePerColumn)
+void CMap::AddMap(int id, const char* mapFilePath, int texId, int tilePerRow, int tilePerColumn)
 {
 	this->id = id;
 	this->mapFilePath = mapFilePath;
-	this->mapWidth = mapWidth;
-	this->mapHeight = mapHeight;
 	this->texId = texId;
 	this->tilePerRow = tilePerRow;
 	this->tilePerColumn = tilePerColumn;
@@ -34,7 +30,7 @@ void CMap::AddMap(int id, const char* mapFilePath, int mapWidth, int mapHeight, 
 void CMap::CreateTileSet()
 {
 	//cut tileset
-	int idd = 1;
+	int tileId = 1;
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
 	for (int i = 0;i < tilePerColumn;i++)
@@ -47,9 +43,9 @@ void CMap::CreateTileSet()
 			int r = l + TILE_WIDTH;
 			int b = t + TILE_WIDTH;
 
-			CSprites::GetInstance()->Add(idd, l, t, r, b, tex);
+			CSprites::GetInstance()->Add(tileId, l, t, r, b, tex);
 			//DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", idd, l, t, r, b);
-			idd++;
+			tileId++;
 		}
 	}
 }
@@ -60,7 +56,7 @@ void CMap::HandleMap()
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
 	{
-		DebugOut(L"[ERR] Load tmx file failed \n");
+		DebugOut(L"[ERR] TMX FAILED %s\n",ToLPCWSTR(doc.ErrorDesc()));
 		return ;
 	}
 
@@ -70,11 +66,24 @@ void CMap::HandleMap()
 	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
 	{
 		string name = layer->FirstChildElement()->Value();
-		if (name == "data")
+
+		//layer k có attribute visible mới add vô vẽ
+		const char* parseAttribute = layer->Attribute("visible");
+		if (parseAttribute == NULL)
 		{
-			CMapLayer* tileset = new CMapLayer(layer->FirstChildElement());
-			layers.push_back(tileset);
+			if (name == "data")
+			{
+				CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+				layers.push_back(mLayer);
+			}
 		}
 	}
 }
 
+void CMap::RenderMap()
+{
+	for (size_t i = 0; i < layers.size(); i++)
+	{
+		layers[i]->RenderLayer();
+	}
+}

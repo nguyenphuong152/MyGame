@@ -1,32 +1,39 @@
-#include "MapLayer.h"
+﻿#include "MapLayer.h"
 #include "Utils.h"
 #include "Sprites.h"
 
+#define TILE_WIDTH 48
 
 CMapLayer::CMapLayer(TiXmlElement* layer) {
 	mapInfo = layer->GetText();
+
+    //chuyển string vector thành int để vẽ
+    vector<string> tileIdSetRaw = split(mapInfo, ",");
+
+    for (size_t i = 0; i < tileIdSetRaw.size(); i++)
+    {
+        tileIdSet.push_back(atoi(tileIdSetRaw[i].c_str()));
+    }
 }
 
 void CMapLayer::RenderLayer()
 {
-    vector<string> numbs = split(mapInfo, ",");
-
-    int idd = -1;
-    int tileId = 0;
-    for (int i = 0; i < TILEPERCOLUMN; i++)
+    int idd = 0;
+    for (int i = 0; i <MAPHEIGHT; i++)
     {
-        idd++;
-        for (int j = 0; j < TILEPERROW; j++)
+        for (int j = 0; j < MAPWIDTH; j++)
         {
-            if (idd == 7216) return;
-            tileId = atoi(numbs.at(idd).c_str());
-            if (tileId==0) {
+            if (idd == tileIdSet.size()) return;
+
+            if (tileIdSet[idd] ==0) {
                 idd++;
                 continue;
             }
-            CSprites::GetInstance()->Get(3)->Draw(0, j * 48, i * 48);
-            DebugOut(L"[render map] \n");
-            idd++;
+            else {
+                CSprites::GetInstance()->Get(tileIdSet[idd])->Draw(0, j * TILE_WIDTH, i * TILE_WIDTH);
+                idd++;
+            }
+           
         }
     }
 }
