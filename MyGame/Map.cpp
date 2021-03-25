@@ -4,11 +4,13 @@
 #include "Textures.h"
 #include "Game.h"
 #include "tinyxml.h"
+#include "Ground.h"
+#include "GameObject.h"
+#include "Brick.h"
 
 using namespace std;
 
 #define TILE_WIDTH 48
-
 
 CMap* CMap::__instance = NULL;
 
@@ -67,6 +69,7 @@ void CMap::HandleMap()
 	{
 		string name = layer->FirstChildElement()->Value();
 
+		//render map
 		//layer k có attribute visible mới add vô vẽ
 		const char* attributeVisible = layer->Attribute("visible");
 		if (attributeVisible == NULL && name == "data")
@@ -74,13 +77,75 @@ void CMap::HandleMap()
 			CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
 			layers.push_back(mLayer);
 		}
+	}
+}
 
-		if (layer->Value() == "objectgroup")
+void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
+{
+	TiXmlDocument doc(mapFilePath);
+	if (!doc.LoadFile())
+	{
+		DebugOut(L"[ERR] TMX FAILED %s\n", ToLPCWSTR(doc.ErrorDesc()));
+		return;
+	}
+
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* layer = nullptr;
+
+	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+	{
+		//render object
+		const char* attributeName = layer->Attribute("name");
+		TiXmlElement* element = layer->FirstChildElement();
+		if (attributeName != NULL)
 		{
-			DebugOut(L"[true] \n");
+			CGameObject* obj = NULL;
+			float x, y, width, height;
+			if (strcmp(attributeName, "Solid") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CGround(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Ghost") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CGround(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "QuestionBlocks") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					obj = new CBrick();
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
 		}
-
-
 	}
 }
 

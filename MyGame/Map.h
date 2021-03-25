@@ -3,6 +3,7 @@
 #include <d3dx9.h>
 #include "MapLayer.h"
 #include "Utils.h"
+#include "GameObject.h"
 
 typedef CMapLayer* LPLAYERS;
 
@@ -16,10 +17,12 @@ protected:
 	int tilePerRow, tilePerColumn;
 
 	std::vector<LPLAYERS> layers ;
+	
 public:
 	void AddMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
 	void CreateTileSet();
 	void HandleMap();
+	void HandleObjectInMap(vector<LPGAMEOBJECT>& object);
 	void RenderMap();
 
 	static CMap* GetInstance();

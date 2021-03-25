@@ -144,7 +144,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
-    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp" />
@@ -175,7 +174,6 @@
     <ClCompile Include="MarioStateSpin.cpp" />
     <ClCompile Include="MarioStateStop.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
-    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
@@ -193,7 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
-    <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h" />
@@ -223,7 +220,6 @@
     <ClInclude Include="MarioStateSpin.h" />
     <ClInclude Include="MarioStateStop.h" />
     <ClInclude Include="MarioStateWalk.h" />
-    <ClInclude Include="Pipe.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
     <ClInclude Include="Utils.h" />

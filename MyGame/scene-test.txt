@@ -1,9 +1,12 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
-0	textures\mario.png	68	145	190
+0	textures\mario.png	255	255	255
+10	textures\enemies.png	68	145	190
 20	textures\misc.png	224	163	216
 30	textures\Map\World1-1\world-1-1.png	255	255	255
-10	textures\enemies.png	68	145	190
+40	textures\fireball.png	255	255	255
+50	textures\effect.png	0	0	0
+
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # SMALL MARIO 

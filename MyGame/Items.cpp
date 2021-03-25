@@ -72,10 +72,10 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CPipe*>(e->obj) && state == ITEM_MUSHROOM)
+		/*	if (dynamic_cast<CPipe*>(e->obj) && state == ITEM_MUSHROOM)
 			{
 				vx = MUSHROOM_VELOCITY_X * nx;
-			}
+			}*/
 		}
 
 		for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];

@@ -1,7 +1,7 @@
 #include "GoomBa.h"
-#include "Pipe.h"
-#include "Box.h"
 #include "Utils.h"
+#include "Box.h"
+#include "Pipe.h"
 
 CGoomBa::CGoomBa()
 {

@@ -2,12 +2,12 @@
 #include "Textures.h"
 #include "Game.h"
 
-CGround::CGround(float l, float t, float r, float b)
+CGround::CGround(float l, float t, float width, float height)
 {
 	x = l;
-	y = t;
-	width = r - l + 1;
-	height = b - t + 1;
+	y = t+2;
+	this->width = width;
+	this->height =height;
 	isEnable = true;
 }
 

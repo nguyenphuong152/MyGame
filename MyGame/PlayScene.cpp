@@ -163,7 +163,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 		//case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	case OBJECT_TYPE_BRICK:
+	/*case OBJECT_TYPE_BRICK:
 	{
 		int typeItem, itemAni;
 		int itemId;
@@ -185,12 +185,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		listItems.push_back(item);
 
-	} break;
-	case TRAP_RED_VENUS:
+	} break;*/
+	/*case TRAP_RED_VENUS:
 	{
 		obj = new CRedVenusFireTrap(player,pool);
 
-	} break;
+	} break;*/
 	case OBJECT_TYPE_FIREBALL:
 	{
 		pool = new CFireBallPool(player);
@@ -199,33 +199,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			objects.push_back(&pool->fireballs[i]);
 		}
 	} break;
-	case ENEMY_KOOPAS:
+	/*case ENEMY_KOOPAS:
 	{
 		float start_x = atof(tokens[4].c_str());
 		float end_x = atof(tokens[5].c_str());
 		obj = new CKoopas(start_x, end_x,player);
 	}
-	break;
-	case OBJECT_TYPE_GROUND:
-	{
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
-		obj = new CGround(x, y, r, b);
-	}
-	break;
-	case OBJECT_TYPE_BOX:
+	break;*/
+	/*case OBJECT_TYPE_BOX:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		obj = new CBox(x, y, r, b);
-	}
-	break;
+	}*/
+	/*break;
 	case OBJECT_TYPE_PIPE:
 	{
 		int spritePipe = atof(tokens[4].c_str());
 		obj = new CPipe(spritePipe);
 	}
-	break;
+	break;*/
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -265,6 +258,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 	CMap::GetInstance()->AddMap(id, &path[0],textureId, tilePerRow, tilePerColumn);
 	CMap::GetInstance()->CreateTileSet();
 	CMap::GetInstance()->HandleMap();
+	CMap::GetInstance()->HandleObjectInMap(objects);
 }
 
 void CPlayScene::Load()
@@ -333,14 +327,14 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (objects[i]->isEnable)
 		{
-			if (dynamic_cast<CBrick*>(objects[i]))
+			/*if (dynamic_cast<CBrick*>(objects[i]))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
 				if (brick->isDropItem && !listItems[brick->itemId]->isStop)
 				{
 					listItems[brick->itemId]->isEnable = true;
 				}
-			}
+			}*/
 			coObjects.push_back(objects[i]);
 		}
 	}

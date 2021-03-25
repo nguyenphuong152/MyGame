@@ -10,6 +10,8 @@
 #define BRICK_ANI_UNTOUCH 0
 #define BRICK_ANI_TOUCHED 1
 
+#define BRICK_ANI 3
+
 #define BRICK_DEFLECT_POS 20
 //#define BRICK_TRANSITION_SPEED 3
 
@@ -22,12 +24,11 @@ public:
 	bool isDropItem = false;
 	
 
-	CBrick(int itemId);
+	CBrick();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	void GetItemID(int& item) { this->itemId = item; }
-	//&l la ref trong c# do nhe
 };
 
