@@ -22,6 +22,10 @@ void CMarioStateHoldShellAndJump::Enter(CMario& mario)
 	else if (mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_HANDLESHELL_JUMP_FLY_DROP);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_HANDLESHELL_JUMP_DROP);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_HANDLESHELL_JUMP_DROP);
 	}

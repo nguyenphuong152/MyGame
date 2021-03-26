@@ -24,6 +24,10 @@ void CMarioStateSit::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_SIT);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_SIT);
+	}
 }
 void CMarioStateSit::HandleInput(CMario& mario,Input input)
 {
@@ -78,15 +82,7 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)
 {
 	mario.isSitting = false;
-
-	if (mario.level == MARIO_LEVEL_BIG)
-	{
-		mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
-	}
-	else
-	{
-		mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
-	}
+	mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 }
 
 CMarioStateSit* CMarioStateSit::GetInstance()

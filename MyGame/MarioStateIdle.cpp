@@ -21,6 +21,10 @@ void CMarioStateIdle::Enter(CMario &mario)
 	else if(mario.level == MARIO_LEVEL_BIG) {
 		mario.SetAnimation(MARIO_ANI_BIG_IDLE);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_IDLE);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_RACCOON_IDLE);
 	}

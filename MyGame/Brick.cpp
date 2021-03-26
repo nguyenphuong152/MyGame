@@ -16,18 +16,16 @@ CBrick::CBrick()
 
 void CBrick::Render()
 {
-		int ani=-1;
-		if (state == BRICK_STATE_UNTOUCH)
-		{
-			ani = BRICK_ANI_UNTOUCH;
-		}
-		else if (state == BRICK_STATE_TOUCHED)
-		{
-			ani = BRICK_ANI_TOUCHED;
-		}
-		animation_set->at(ani)->Render(0, x, y);
-		DebugOut(L"[x,y] %f %f\n", x, y);
-		RenderBoundingBox();
+	int ani = -1;
+	if (state == BRICK_STATE_UNTOUCH)
+	{
+		ani = BRICK_ANI_UNTOUCH;
+	}
+	else if (state == BRICK_STATE_TOUCHED)
+	{
+		ani = BRICK_ANI_TOUCHED;
+	}
+	animation_set->at(ani)->Render(0, x, y);
 }
 
 void CBrick::SetState(int state)

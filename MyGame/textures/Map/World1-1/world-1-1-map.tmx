@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="25" nextobjectid="229">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="26" nextobjectid="239">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -401,20 +401,20 @@
   <object id="209" x="6720" y="1104.67" width="94.6666" height="47.3333"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="28" x="720.523" y="1104.97" width="142.597" height="47.1135"/>
-  <object id="29" x="817.891" y="1008.86" width="140.712" height="47.7417"/>
-  <object id="30" x="1200.45" y="1104.34" width="239.337" height="47.1135"/>
-  <object id="31" x="1392.68" y="1008.23" width="190.967" height="47.1135"/>
-  <object id="32" x="1537.16" y="912.118" width="189.71" height="47.7417"/>
-  <object id="33" x="1537.16" y="1152.71" width="285.194" height="48.3699"/>
-  <object id="34" x="3889.06" y="433.444" width="190.967" height="45.229"/>
+  <object id="28" x="720.523" y="1104.97" width="142.597" height="139.113"/>
+  <object id="29" x="817.891" y="1008.86" width="140.712" height="231.742"/>
+  <object id="30" x="1200.45" y="1104.34" width="239.337" height="137.113"/>
+  <object id="31" x="1392.68" y="1008.23" width="190.967" height="235.113"/>
+  <object id="32" x="1537.16" y="912.118" width="189.71" height="329.742"/>
+  <object id="33" x="1537.16" y="1152.71" width="285.194" height="88.3699"/>
+  <object id="34" x="3889.06" y="433.444" width="190.967" height="89.229"/>
   <object id="35" x="4176.77" y="576.041" width="190.967" height="47.1135"/>
   <object id="36" x="4418" y="529.339" width="667.487" height="43.7697"/>
-  <object id="37" x="6385.12" y="1104.31" width="142.349" height="47.2642"/>
-  <object id="38" x="6480.76" y="816.281" width="142.349" height="47.2642"/>
-  <object id="39" x="3745.09" y="1152.82" width="333.545" height="46.9245"/>
-  <object id="40" x="3841.47" y="1056.44" width="334.813" height="48.1928"/>
-  <object id="41" x="3936.59" y="960.051" width="333.545" height="46.9245"/>
+  <object id="37" x="6385.12" y="1104.31" width="142.349" height="139.264"/>
+  <object id="38" x="6480.76" y="816.281" width="142.349" height="425.264"/>
+  <object id="39" x="3745.09" y="1152.82" width="333.545" height="90.9245"/>
+  <object id="40" x="3841.47" y="1056.44" width="334.813" height="190.193"/>
+  <object id="41" x="3936.59" y="960.051" width="333.545" height="286.924"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
   <object id="47" name="bcoin" type="3" x="552" y="1080"/>
@@ -570,5 +570,11 @@
   <object id="202" x="8063.5" y="1056">
    <point/>
   </object>
+ </objectgroup>
+ <objectgroup id="25" name="Boundary">
+  <object id="235" x="-66" y="2" width="66" height="1964"/>
+  <object id="236" x="-64" y="-58" width="8620" height="54"/>
+  <object id="237" x="8464" y="16" width="88" height="1944"/>
+  <object id="238" x="-68" y="1972" width="8620" height="96"/>
  </objectgroup>
 </map>

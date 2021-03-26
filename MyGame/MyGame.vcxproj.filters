@@ -25,12 +25,6 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{7f1700bc-3c16-4e31-b5de-d5c6202463db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Fireball">
-      <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Fireball">
-      <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\TinyXml">
       <UniqueIdentifier>{349fb991-5feb-44a7-9bfa-8568fb790917}</UniqueIdentifier>
     </Filter>
@@ -48,6 +42,12 @@
     </Filter>
     <Filter Include="Source Files\Objects">
       <UniqueIdentifier>{75272ed2-bc7a-4d7e-a8bd-d72781eda082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Fireball">
+      <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Fireball">
+      <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -145,10 +145,10 @@
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
     <ClCompile Include="FireBallPool.cpp">
-      <Filter>Source Files\Fireball</Filter>
+      <Filter>Source Files\Objects\Fireball</Filter>
     </ClCompile>
     <ClCompile Include="Fireball.cpp">
-      <Filter>Source Files\Fireball</Filter>
+      <Filter>Source Files\Objects\Fireball</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp">
       <Filter>Source Files\TinyXml</Filter>
@@ -184,6 +184,12 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Boundary.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,10 +291,10 @@
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="FireBallPool.h">
-      <Filter>Header Files\Fireball</Filter>
+      <Filter>Header Files\Objects\Fireball</Filter>
     </ClInclude>
     <ClInclude Include="Fireball.h">
-      <Filter>Header Files\Fireball</Filter>
+      <Filter>Header Files\Objects\Fireball</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h">
       <Filter>Header Files\TinyXml</Filter>
@@ -318,6 +324,12 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Boundary.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>

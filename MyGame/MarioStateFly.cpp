@@ -20,6 +20,10 @@ void CMarioStateFly::Enter(CMario& mario)
 	else if (mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_FLY);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_DROP);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_FLY);
 	}
@@ -37,7 +41,7 @@ void CMarioStateFly::HandleInput(CMario& mario, Input input)
 
 void CMarioStateFly::Update(DWORD dt, CMario& mario)
 {
-	if (mario.isOnGround)
+	if (mario.isOnGround|| mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}

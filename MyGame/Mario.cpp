@@ -33,11 +33,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//calculate dx, dy
 	CGameObject::Update(dt);
 
-	//check whether mario go outside map
-	//hardcode
-	if (x < 10)
-		x = 10;
-
 	vy += MARIO_GRAVITY * dt;
 	
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -183,12 +178,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
 			{
-				if (e->ny != 0)
+				if (e->ny < 0)
 				{
 					isOnGround = true;
 					isFloating = false;
 				}
-				else
+				else if (e->nx != 0)
 				{
 					x += dx;
 				}
@@ -225,7 +220,7 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx,x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 //void  CMario::SetState(int state)
@@ -249,7 +244,7 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	if (level == MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG||level==MARIO_LEVEL_FIRE)
 	{
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
@@ -285,6 +280,15 @@ void CMario::TransformRacoon()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_RACOON);
+	SetPosition(start_x, start_y);
+	SetSpeed(0, 0);
+	nx = 1;
+}
+
+void CMario::TransformFire()
+{
+	InitState();
+	SetLevel(MARIO_LEVEL_FIRE);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;

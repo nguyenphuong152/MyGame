@@ -19,6 +19,10 @@ void CMarioStateKick::Enter(CMario& mario)
 	else if (mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_KICK);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_KICK);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_KICK);
 	}

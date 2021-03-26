@@ -7,6 +7,8 @@
 #include "Ground.h"
 #include "GameObject.h"
 #include "Brick.h"
+#include "Box.h"
+#include "Boundary.h"
 
 using namespace std;
 
@@ -125,7 +127,22 @@ void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CGround(x, y, width, height);
+					obj = new CBox(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Boundary") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CBoundary(x, y, width, height);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();

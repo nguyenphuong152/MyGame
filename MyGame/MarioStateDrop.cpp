@@ -18,6 +18,10 @@ void CMarioStateDrop::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_DROP);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_DROP);
+	}
 	else if (mario.level == MARIO_LEVEL_RACOON) {
 		if (mario.isFloating)
 		{

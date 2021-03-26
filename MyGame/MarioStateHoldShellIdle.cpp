@@ -17,6 +17,10 @@ void CMarioStateHoldShellIdle::Enter(CMario& mario)
 	else if (mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_HANDLESHELL_IDLE);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_HANDLESHELL_IDLE);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_HANDLESHELL_IDLE);
 	}

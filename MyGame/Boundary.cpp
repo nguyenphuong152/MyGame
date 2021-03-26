@@ -1,8 +1,8 @@
-#include "Box.h"
+#include "Boundary.h"
 #include "Textures.h"
 #include "Game.h"
 
-CBox::CBox(float l, float t, float width, float height)
+CBoundary::CBoundary(float l, float t, float width, float height)
 {
 	x = l;
 	y = t;
@@ -11,7 +11,7 @@ CBox::CBox(float l, float t, float width, float height)
 	isEnable = true;
 }
 
-void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CBoundary::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
@@ -19,7 +19,7 @@ void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = y + height;
 }
 
-void CBox::Render()
+void CBoundary::Render()
 {
 	//RenderBoundingBox();
 }

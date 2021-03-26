@@ -89,9 +89,6 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
@@ -162,30 +159,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-		//case OBJECT_TYPE_GOOMBA: obj = new CGoomBa(); break;
-	/*case OBJECT_TYPE_BRICK:
-	{
-		int typeItem, itemAni;
-		int itemId;
-		if (listItems.size() >= 0) {
-			itemId = listItems.size();
-		}
-
-		typeItem = atoi(tokens[4].c_str());
-		itemAni = atoi(tokens[5].c_str());
-		obj = new CBrick(itemId);
-
-		CItems* item = new CItems(player);
-		item->SetPosition(x, y);
-		item->SetState(typeItem);
-
-		LPANIMATION_SET item_ani_set = animation_sets->Get(itemAni);
-
-		item->SetAnimationSet(item_ani_set);
-
-		listItems.push_back(item);
-
-	} break;*/
 	/*case TRAP_RED_VENUS:
 	{
 		obj = new CRedVenusFireTrap(player,pool);
@@ -199,21 +172,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			objects.push_back(&pool->fireballs[i]);
 		}
 	} break;
-	/*case ENEMY_KOOPAS:
-	{
-		float start_x = atof(tokens[4].c_str());
-		float end_x = atof(tokens[5].c_str());
-		obj = new CKoopas(start_x, end_x,player);
-	}
-	break;*/
-	/*case OBJECT_TYPE_BOX:
-	{
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
-		obj = new CBox(x, y, r, b);
-	}*/
-	/*break;
-	case OBJECT_TYPE_PIPE:
+	/*case OBJECT_TYPE_PIPE:
 	{
 		int spritePipe = atof(tokens[4].c_str());
 		obj = new CPipe(spritePipe);
@@ -327,27 +286,11 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (objects[i]->isEnable)
 		{
-			/*if (dynamic_cast<CBrick*>(objects[i]))
-			{
-				CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
-				if (brick->isDropItem && !listItems[brick->itemId]->isStop)
-				{
-					listItems[brick->itemId]->isEnable = true;
-				}
-			}*/
 			coObjects.push_back(objects[i]);
 		}
 	}
 
 	player->CheckCollisionWithItems(&listItems);
-	/*for (int i = 0;i < listItems.size();i++)
-	{
-		if (listItems[i]->isEnable)
-		{
-			listItems[i]->Update(dt, &coObjects);
-		}
-	}*/
-
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
@@ -388,10 +331,6 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 	CMap::GetInstance()->RenderMap();
-	/*for (int i = 0;i < listItems.size();i++)
-	{
-		listItems[i]->Render();
-	}*/
 	for (int i = 1; i < objects.size(); i++)
 	{
 		objects[i]->Render();
@@ -425,7 +364,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		input = Input::PRESS_S;
-		mario->HandleInput(input);	
+		mario->HandleInput(input);
 		break;
 	case DIK_DOWN:
 		input = Input::PRESS_DOWN;
@@ -444,6 +383,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_1:
 		mario->TransformRacoon();
+		break;
+	case DIK_3:
+		mario->TransformFire();
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;

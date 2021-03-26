@@ -21,6 +21,10 @@ void CMarioStateJump::Enter(CMario& mario)
 	else if(mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_JUMP);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_JUMP);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_JUMP);
 	}

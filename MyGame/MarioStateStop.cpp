@@ -19,6 +19,10 @@ void CMarioStateStop::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_STOP);
 	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_STOP);
+	}
 	else
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_STOP);
