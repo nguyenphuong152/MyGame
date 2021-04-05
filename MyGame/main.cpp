@@ -29,8 +29,8 @@
 #define MAIN_WINDOW_TITLE L"My Gamee"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(156, 252, 240)
-#define SCREEN_WIDTH 9000
-#define SCREEN_HEIGHT 9000
+#define SCREEN_WIDTH 960
+#define SCREEN_HEIGHT 720
 
 #define MAX_FRAME_RATE 120
 
@@ -179,7 +179,7 @@ int Run()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH-60, SCREEN_HEIGHT);
 
 	game = CGame::GetInstance();
 	game->Init(hWnd);
@@ -187,7 +187,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game->Load(L"mario-sample.txt");
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	Run();
 
 	return 0;

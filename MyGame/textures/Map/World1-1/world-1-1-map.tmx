@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="26" nextobjectid="239">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="27" nextobjectid="244">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -422,8 +422,8 @@
   <object id="50" name="bcoin" type="1" x="696" y="936"/>
   <object id="51" name="powerup" type="1" x="744" y="936"/>
   <object id="53" name="bcoin" type="1" x="1272" y="984"/>
-  <object id="104" name="powerup" type="1" x="1991.88" y="1176.01"/>
-  <object id="105" name="powerup" type="1" x="2135.94" y="1078.24"/>
+  <object id="104" name="powerup" type="1" x="1988.85" y="1136.62"/>
+  <object id="105" name="powerup" type="1" x="2132.91" y="1032.79"/>
   <object id="106" name="powerup" type="1" x="4391.88" y="1126.88"/>
   <object id="213" name="powerup" type="1" x="4295" y="406"/>
  </objectgroup>
@@ -574,7 +574,10 @@
  <objectgroup id="25" name="Boundary">
   <object id="235" x="-66" y="2" width="66" height="1964"/>
   <object id="236" x="-64" y="-58" width="8620" height="54"/>
-  <object id="237" x="8464" y="16" width="88" height="1944"/>
-  <object id="238" x="-68" y="1972" width="8620" height="96"/>
+  <object id="237" x="8448.85" y="-5.21212" width="88" height="1974.3"/>
+  <object id="238" x="4.90909" y="1302.67" width="8428" height="44"/>
+ </objectgroup>
+ <objectgroup id="26" name="Camera">
+  <object id="243" x="3.27273" y="763.333" width="764" height="530.667"/>
  </objectgroup>
 </map>

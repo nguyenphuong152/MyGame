@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "MarioState.h"
 #include "MarioStateIdle.h"
+#include "MarioStateDrop.h"
 #include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
@@ -14,6 +15,8 @@
 #include "Items.h"
 #include "Koopas.h"
 #include "MarioStateKick.h"
+#include "Boundary.h"
+#include "Camera.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -81,8 +84,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		//block every object first
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.25f;
+		y += min_ty * dy + ny * 0.25f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -186,6 +189,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (e->nx != 0)
 				{
 					x += dx;
+				}
+			}
+			else if (dynamic_cast<CBoundary*>(e->obj)||dynamic_cast<CCamera*>(e->obj))
+			{
+				if (e->ny > 0)
+				{
+					ChangeState(CMarioState::drop.GetInstance());
+					vy = -vy;
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))

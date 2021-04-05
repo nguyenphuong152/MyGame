@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Objects\Fireball">
       <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Camera">
+      <UniqueIdentifier>{1804e33f-872b-4156-90cf-0ebd243e68f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Camera">
+      <UniqueIdentifier>{53dcab57-105c-4135-9462-ecb1a285cb89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -192,6 +198,9 @@
     <ClCompile Include="Box.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Objects\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -331,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Objects\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

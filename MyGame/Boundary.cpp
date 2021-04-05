@@ -21,6 +21,6 @@ void CBoundary::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CBoundary::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 

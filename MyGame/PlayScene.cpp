@@ -10,6 +10,8 @@
 #include "Items.h"
 #include "MarioState.h"
 #include "Fireball.h"
+#include "Camera.h"
+
 
 using namespace std;
 
@@ -272,6 +274,7 @@ void CPlayScene::Load()
 
 	f.close();
 
+	CCamera::GetInstance()->SetPlayer(player);
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -304,28 +307,28 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	//update cam follow mario
-	float cx, cy;
-	CGame* game = CGame::GetInstance();
+	//float cx, cy;
+	//CGame* game = CGame::GetInstance();
 
-	player->GetPosition(cx, cy);
+	//player->GetPosition(cx, cy);
 
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	//cx -= game->GetScreenWidth() / 2;
+	//cy -= game->GetScreenHeight() / 2;
 
-	//update camera for map
-	//hardcode
-	if (cx < 0)
-		cx = 0;
+	////update camera for map
+	////hardcode
+	//if (cx < 0)
+	//	cx = 0;
 
-	if (cx > 2540)
-		cx = 2540;
+	//if (cx > 2540)
+	//	cx = 2540;
 
-	if (cy > game->GetScreenHeight() + 72)
-		cy = game->GetScreenHeight() + 72;
-	else if (cy < game->GetScreenHeight() + 720)
-		cy = game->GetScreenHeight() + 72;
+	//if (cy > game->GetScreenHeight() + 72)
+	//	cy = game->GetScreenHeight() + 72;
+	//else if (cy < game->GetScreenHeight() + 720)
+	//	cy = game->GetScreenHeight() + 72;
 
-	CGame::GetInstance()->SetCamPos(0, 800);
+	//CGame::GetInstance()->SetCamPos(0, 800);
 }
 
 void CPlayScene::Render()

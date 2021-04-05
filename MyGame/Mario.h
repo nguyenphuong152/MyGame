@@ -14,7 +14,7 @@ class CMarioState;
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.0015f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
-#define MARIO_AVERAGE_VY_ON_GROUND	0.05f
+#define MARIO_AVERAGE_VY_ON_GROUND	0.08f
 #define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
 #define MARIO_DIE_DEFLECT_SPEED		0.5f
 
@@ -166,9 +166,9 @@ public:
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void TogglePowerMode() { power_start = GetTickCount(); }
-	void StartHighJump() { highjump_start = GetTickCount(); }
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void TogglePowerMode() { power_start = GetTickCount64(); }
+	void StartHighJump() { highjump_start = GetTickCount64(); }
 	void Reset();
 	void TransformRacoon();
 	void TransformFire();

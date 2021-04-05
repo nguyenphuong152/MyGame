@@ -14,7 +14,6 @@ using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
-
 class CGame
 {
 	static CGame* __instance;
@@ -45,7 +44,6 @@ class CGame
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
-
 public:
 	void InitKeyboard();
 	void SetKeyhHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
@@ -82,10 +80,8 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x;cam_y = y; }
-
 	static CGame* GetInstance();
-
+	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 
 	~CGame();
 };
