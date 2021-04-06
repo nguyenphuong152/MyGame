@@ -4,6 +4,7 @@
 #include "Boundary.h"
 #include "MarioStateFly.h"
 #include "MarioStateDrop.h"
+#include "MarioStateJump.h"
 #include "Pipe.h"
 #include "Ground.h"
 #include "Box.h"
@@ -49,18 +50,29 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	if(!isOnGround) vy += 0.0015 * dt;
-
 	coEvents.clear();
 
 	CGame* game = CGame::GetInstance();
 
 	FollowPlayerHorizontally();
 
-	if (player->GetState() == CMarioState::fly.GetInstance()&& player->y<cam_center_Y)
+	if (player->GetState() == CMarioState::fly.GetInstance() && player->y < cam_center_Y) isReachBoundaryBottom = false;
+
+	if (isReachBoundaryBottom) {
+		if (player->isOnGround || player->GetState() == CMarioState::fly.GetInstance()&&player->y > cam_center_Y)
+		{
+			vy = 0;
+		}
+	}
+    else if (!isReachBoundaryBottom&& !isReachBoundaryTop&&!player->isOnGround ||player->GetState() == CMarioState::fly.GetInstance() && player->y<cam_center_Y || player->isDroppingFromFlying && player->y>cam_center_Y)
 	{
-		isOnGround = false;
-		vy = player->vy;
+		vy = player->vy ;
+		isReachBoundaryBottom = isReachBoundaryTop = false;
+	}
+	else if (isReachBoundaryTop)
+	{
+		isReachBoundaryTop = false;
+		vy = player->vy ;
 	}
 
 	cam_center_X = (x + x + width) / 2;
@@ -76,7 +88,6 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	}
 	else
 	{
-	//DebugOut(L"vo else \n");
 	float min_tx, min_ty, nx = 0, ny = 0;
 	float rdx = 0, rdy = 0;
 
@@ -106,21 +117,20 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				else if(e->nx>0){
 					isReachBoundaryLeft = true;
 				}
-
-				if (e->ny > 0)
+				if (e->ny < 0)
 				{
-					vy = player->vy;
+					isReachBoundaryBottom = true;
 				}
-				else if (e->ny < 0)
+				else if (e->ny > 0)
 				{
-					isOnGround = true;
+					isReachBoundaryTop = true;
 				}
 			}
 		}
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	game->SetCamPos(x,y);
+	game->SetCamPos(x,y-100);
 }
 
 void CCamera::FollowPlayerHorizontally()

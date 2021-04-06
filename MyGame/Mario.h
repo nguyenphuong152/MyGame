@@ -133,6 +133,7 @@ public:
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isKicking = false;
+	bool isDroppingFromFlying = false;
 
 	int power;
 	DWORD power_start;

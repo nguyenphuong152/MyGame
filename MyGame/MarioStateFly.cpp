@@ -1,5 +1,6 @@
 #include "Mario.h"
 #include "MarioStateFly.h"
+#include "MarioStateDrop.h"
 #include "MarioStateIdle.h"
 
 
@@ -44,6 +45,11 @@ void CMarioStateFly::Update(DWORD dt, CMario& mario)
 	if (mario.isOnGround|| mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
+	}
+	else if (mario.vy > 0)
+	{
+		mario.isDroppingFromFlying = true;
+		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

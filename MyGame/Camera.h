@@ -18,6 +18,8 @@ public:
 	void SetProperty(float l, float r, float width, float height);
 	bool isReachBoundaryLeft = false;
 	bool isReachBoundaryRight = false;
+	bool isReachBoundaryTop = false;
+	bool isReachBoundaryBottom = false;
 
 
 	virtual void Render();

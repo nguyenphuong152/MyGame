@@ -55,6 +55,24 @@
     <Filter Include="Source Files\Objects\Camera">
       <UniqueIdentifier>{53dcab57-105c-4135-9462-ecb1a285cb89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Mario\OnGroundStates">
+      <UniqueIdentifier>{4bbbb3e6-1376-4006-a76a-9157f809ae81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mario\HoldingShellStates">
+      <UniqueIdentifier>{f7e59ef4-ae4d-4eb3-90e3-d8cfcf83d293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mario\OnAirStates">
+      <UniqueIdentifier>{f5bb3dfc-5e6e-4851-9120-96c3d4d00ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mario\OnGroundStates">
+      <UniqueIdentifier>{3e6039eb-119e-4172-b659-132f572afd2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mario\OnAirStates">
+      <UniqueIdentifier>{20ecb6c7-c586-4299-bd73-fabc4a83a9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mario\HoldingShellStates">
+      <UniqueIdentifier>{4e61e90a-b9bf-49a2-877c-d197962e328b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -87,42 +105,6 @@
     <ClCompile Include="MarioState.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
-    <ClCompile Include="MarioStateIdle.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateJump.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateWalk.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioOnGroundStates.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateSit.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateStop.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateRun.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStatePreFly.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioOnAirStates.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateFly.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateSpin.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateDrop.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
     <ClCompile Include="GoomBa.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
@@ -131,24 +113,6 @@
     </ClCompile>
     <ClCompile Include="RedVenusFireTrap.cpp">
       <Filter>Source Files\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateHoldShellIdle.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioHoldingShellStates.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateHoldShellAndRun.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateKick.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateHoldShellAndJump.cpp">
-      <Filter>Source Files\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="MarioStateHoldShellAndDrop.cpp">
-      <Filter>Source Files\Mario</Filter>
     </ClCompile>
     <ClCompile Include="FireBallPool.cpp">
       <Filter>Source Files\Objects\Fireball</Filter>
@@ -201,6 +165,60 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Objects\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="MarioOnGroundStates.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioHoldingShellStates.cpp">
+      <Filter>Source Files\Mario\HoldingShellStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioOnAirStates.cpp">
+      <Filter>Source Files\Mario\OnAirStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateDrop.cpp">
+      <Filter>Source Files\Mario\OnAirStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateFly.cpp">
+      <Filter>Source Files\Mario\OnAirStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateHoldShellAndDrop.cpp">
+      <Filter>Source Files\Mario\HoldingShellStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateHoldShellAndJump.cpp">
+      <Filter>Source Files\Mario\HoldingShellStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateHoldShellAndRun.cpp">
+      <Filter>Source Files\Mario\HoldingShellStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateHoldShellIdle.cpp">
+      <Filter>Source Files\Mario\HoldingShellStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateIdle.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateJump.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateKick.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStatePreFly.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateRun.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateSit.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateSpin.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateStop.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateWalk.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -233,44 +251,8 @@
     <ClInclude Include="MarioState.h">
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
-    <ClInclude Include="MarioStateIdle.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateJump.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateWalk.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioOnGroundStates.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateSit.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateStop.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateRun.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStatePreFly.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioOnAirStates.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateFly.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateSpin.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateDrop.h">
-      <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="GoomBa.h">
       <Filter>Header Files\Enemies</Filter>
@@ -280,24 +262,6 @@
     </ClInclude>
     <ClInclude Include="RedVenusFireTrap.h">
       <Filter>Header Files\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateHoldShellIdle.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioHoldingShellStates.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateHoldShellAndRun.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateKick.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateHoldShellAndJump.h">
-      <Filter>Header Files\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="MarioStateHoldShellAndDrop.h">
-      <Filter>Header Files\Mario</Filter>
     </ClInclude>
     <ClInclude Include="FireBallPool.h">
       <Filter>Header Files\Objects\Fireball</Filter>
@@ -343,6 +307,60 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioHoldingShellStates.h">
+      <Filter>Header Files\Mario\HoldingShellStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioOnAirStates.h">
+      <Filter>Header Files\Mario\OnAirStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioOnGroundStates.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateDrop.h">
+      <Filter>Header Files\Mario\OnAirStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateFly.h">
+      <Filter>Header Files\Mario\OnAirStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellAndDrop.h">
+      <Filter>Header Files\Mario\HoldingShellStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellAndJump.h">
+      <Filter>Header Files\Mario\HoldingShellStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellAndRun.h">
+      <Filter>Header Files\Mario\HoldingShellStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateHoldShellIdle.h">
+      <Filter>Header Files\Mario\HoldingShellStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateIdle.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateJump.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateKick.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStatePreFly.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateRun.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateSit.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateSpin.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateStop.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateWalk.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

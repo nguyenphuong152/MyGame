@@ -1,6 +1,6 @@
 #pragma once
 #include "MarioOnGroundStates.h"
-#define MARIO_SPINNING_TIME 16
+#define MARIO_SPINNING_TIME 20
 
 class CMarioStateSpin : public CMarioOnGroundStates
 {
@@ -9,7 +9,7 @@ private:
 public:
 	static CMarioStateSpin* __instance;
 
-	int spinnable;
+	//int spinnable;
 	DWORD spinning_start;
 
 	CMarioStateSpin();

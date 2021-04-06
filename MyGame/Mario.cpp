@@ -176,6 +176,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
 					isFloating = false;
 				}
 			}
@@ -184,6 +185,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
 					isFloating = false;
 				}
 				else if (e->nx != 0)
@@ -195,6 +197,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny > 0)
 				{
+					DebugOut(L"drop \n");
 					ChangeState(CMarioState::drop.GetInstance());
 					vy = -vy;
 				}
@@ -205,6 +208,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
 					isFloating = false;
 					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
