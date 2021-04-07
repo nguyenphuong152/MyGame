@@ -1,15 +1,19 @@
-#include "Map.h"
-#include <fstream>
+﻿#include "Map.h"
 #include "Utils.h"
 #include "Sprites.h"
 #include "Textures.h"
 #include "Game.h"
+#include "tinyxml.h"
+#include "Ground.h"
+#include "GameObject.h"
+#include "Brick.h"
+#include "Box.h"
+#include "Boundary.h"
+#include "Camera.h"
 
+using namespace std;
 
-//using namespace std;
-
-#define TILE_WIDTH 64
-
+#define TILE_WIDTH 48
 
 CMap* CMap::__instance = NULL;
 
@@ -19,37 +23,19 @@ CMap* CMap::GetInstance()
 	return __instance;
 }
 
-void CMap::AddMap(int id, LPCWSTR mapFilePath, int mapWidth, int mapHeight, int texId, int tilePerRow, int tilePerColumn)
+void CMap::AddMap(int id, const char* mapFilePath, int texId, int tilePerRow, int tilePerColumn)
 {
 	this->id = id;
 	this->mapFilePath = mapFilePath;
-	this->mapWidth = mapWidth;
-	this->mapHeight = mapHeight;
 	this->texId = texId;
 	this->tilePerRow = tilePerRow;
 	this->tilePerColumn = tilePerColumn;
 }
 
-void CMap::LoadMap()
+void CMap::CreateTileSet()
 {
-	ifstream file;
-	file.open(mapFilePath);
-
-	if (!file) {
-		DebugOut(L"[ERROR] Failed to read map : %s \n", mapFilePath);
-		exit(1);   // call system to stop
-	}
-
-	for (int i = 0; i < mapHeight;i++)
-	{
-		for (int j = 0;j < mapWidth;j++)
-		{
-			file >> tileMap[i][j];
-		}
-	}
-	file.close();
-
-	int idd = 0;
+	//cut tileset
+	int tileId = 1;
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
 	for (int i = 0;i < tilePerColumn;i++)
@@ -62,24 +48,145 @@ void CMap::LoadMap()
 			int r = l + TILE_WIDTH;
 			int b = t + TILE_WIDTH;
 
-			CSprites::GetInstance()->Add(idd, l, t, r, b, tex);
-		//	DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", id, l, t, r, b);
-			idd++;
+			CSprites::GetInstance()->Add(tileId, l, t, r, b, tex);
+			//DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", idd, l, t, r, b);
+			tileId++;
 		}
-	}	
-}
-
-
-void CMap::RenderMap()
-{
-	for (int i = 0; i < mapHeight;i++)
-	{
-		for (int j = 0;j <mapWidth;j++)
-		{	
-			CSprites::GetInstance()->Get(tileMap[i][j])->Draw(0,j * TILE_WIDTH, i * TILE_WIDTH);
-			//DebugOut(L"[INFO] draw added: %d, %d, %d\n", a,b,c);	
-		}
-
 	}
 }
 
+
+void CMap::HandleMap()
+{	
+	TiXmlDocument doc(mapFilePath);
+	if (!doc.LoadFile())
+	{
+		DebugOut(L"[ERR] TMX FAILED %s\n",ToLPCWSTR(doc.ErrorDesc()));
+		return ;
+	}
+
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* layer = nullptr;
+
+	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+	{
+		string name = layer->FirstChildElement()->Value();
+
+		//render map
+		//layer k có attribute visible mới add vô vẽ
+		const char* attributeVisible = layer->Attribute("visible");
+		if (attributeVisible == NULL && name == "data")
+		{
+			CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+			layers.push_back(mLayer);
+		}
+	}
+}
+
+void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
+{
+	TiXmlDocument doc(mapFilePath);
+	if (!doc.LoadFile())
+	{
+		DebugOut(L"[ERR] TMX FAILED %s\n", ToLPCWSTR(doc.ErrorDesc()));
+		return;
+	}
+
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* layer = nullptr;
+
+	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+	{
+		//render object
+		const char* attributeName = layer->Attribute("name");
+		TiXmlElement* element = layer->FirstChildElement();
+		if (attributeName != NULL)
+		{
+			CGameObject* obj = NULL;
+			float x, y, width, height;
+			if (strcmp(attributeName, "Solid") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CGround(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Ghost") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CBox(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Boundary") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CBoundary(x, y, width, height);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Camera") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = CCamera::GetInstance();
+					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "QuestionBlocks") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					obj = new CBrick();
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+		}
+	}
+}
+
+void CMap::RenderMap()
+{
+	for (size_t i = 0; i < layers.size(); i++)
+	{
+		layers[i]->RenderLayer();
+	}
+}

@@ -9,7 +9,7 @@ public:
 	CMarioStateIdle();
 	virtual ~CMarioStateIdle() {};
 
-	virtual void HandleInput(CMario& mario) ;
+	virtual void HandleInput(CMario& mario,Input input) ;
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt,CMario& mario);
 	static CMarioStateIdle* GetInstance();

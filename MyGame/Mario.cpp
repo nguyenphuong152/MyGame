@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "MarioState.h"
 #include "MarioStateIdle.h"
+#include "MarioStateDrop.h"
+#include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
@@ -11,6 +13,10 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Items.h"
+#include "Koopas.h"
+#include "MarioStateKick.h"
+#include "Boundary.h"
+#include "Camera.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -30,11 +36,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//calculate dx, dy
 	CGameObject::Update(dt);
 
-	//check whether mario go outside map
-	//hardcode
-	if (x < 10)
-		x = 10;
-
 	vy += MARIO_GRAVITY * dt;
 	
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -51,6 +52,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	//neu mario dg o powermode ma huy thi giam power cua mario ve 0
+	if (!powerMode && power > 0&& marioState->GetCurrentState()!=CMarioState::FLY)
+	{
+		if (GetTickCount() - power_start > 0) power--;
+		/*DebugOut(L"[tru di] power: %d \n", power);*/
 	}
 
 	//if no collision occured, proceed normally
@@ -76,8 +84,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		//block every object first
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.25f;
+		y += min_ty * dy + ny * 0.25f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -117,6 +125,47 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
+			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
+			{
+				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+				//jummp  on top >> kill koopas and deflect a bit
+				if (e->ny < 0)
+				{
+					if (koopas->GetState() != KOOPAS_STATE_DIE)
+					{
+						koopas->SetState(KOOPAS_STATE_DIE);
+						//koopas->isEnable = false;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+				else if (e->nx!=0)
+				{
+					if (koopas->GetState() == KOOPAS_STATE_DIE)
+					{
+						if (canHoldShell)
+						{
+							ChangeState(CMarioState::holdshell_idle.GetInstance());
+							koopas->isHolded = true;
+						}
+					}
+				}
+				/*else if (e->nx != 0)
+				{
+					if (untouchable == 0)
+					{
+						if (koopas->GetState() != KOOPAS_STATE_DIE)
+						{
+							if (level > MARIO_LEVEL_SMALL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							SetState(MARIO_STATE_DIE);
+						}
+					}
+				}*/
+
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -127,17 +176,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
+					isFloating = false;
 				}
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
 			{
-				if (e->ny != 0)
+				if (e->ny < 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
+					isFloating = false;
 				}
-				else
+				else if (e->nx != 0)
 				{
 					x += dx;
+				}
+			}
+			else if (dynamic_cast<CBoundary*>(e->obj)||dynamic_cast<CCamera*>(e->obj))
+			{
+				if (e->ny != 0)
+				{
+					ChangeState(CMarioState::drop.GetInstance());
+					y += dy;
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -146,6 +207,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isOnGround = true;
+					isDroppingFromFlying = false;
+					isFloating = false;
 					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
 					{
@@ -170,64 +233,39 @@ void CMario::Render()
 	int alpha = 255;
 
 	if (untouchable) alpha = 128;
-
 	animation_set->at(ani)->Render(nx,x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 //void  CMario::SetState(int state)
 //{
 //	CGameObject::SetState(state);
-//
-//	//DebugOut(L"state: %d \n", state);
-//
-//	switch (state)
-//	{
-//	case MARIO_STATE_WALKING:
-//		if (nx > 0)
-//		{ 
-//			vx = MARIO_WALKING_SPEED;
-//		}
-//		else
-//		{
-//			vx = -MARIO_WALKING_SPEED;
-//		}
-//		break;
-//	case MARIO_STATE_JUMP:
-//		if (isOnGround)
-//		{
-//			vy = -MARIO_JUMP_SPEED_Y;
-//			isOnGround = false;
-//		}
-//		break;
-//	case MARIO_STATE_IDLE:
-//		vx = 0;
-//		break;
-//	case MARIO_STATE_DIE:
-//		vy = -MARIO_DIE_DEFLECT_SPEED;
-//		break;
-//	}
 //}
 
 void CMario::InitState() {
 	marioState = CMarioState::idle.GetInstance();
 }
 
-void CMario::HandleInput()
+void CMario::HandleInput(Input input)
 {
-	marioState->HandleInput(*this);
+	marioState->HandleInput(*this, input);
 	marioState->Enter(*this);
 }
+
 
 
 void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	if (level == MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG||level==MARIO_LEVEL_FIRE)
 	{
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
+	}
+	else if(level == MARIO_LEVEL_RACOON) {
+		r = x + MARIO_RACOON_BBOX_WIDTH;
+		b = y + MARIO_RACOON_BBOX_HEIGHT;
 	}
 	else {
 		r = x + MARIO_SMALL_BBOX_WIDTH;
@@ -247,7 +285,22 @@ void CMario::Reset()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_BIG);
-	SetPosition(start_x, start_y);
+	SetSpeed(0, 0);
+	nx = 1;
+}
+
+void CMario::TransformRacoon()
+{
+	InitState();
+	SetLevel(MARIO_LEVEL_RACOON);
+	SetSpeed(0, 0);
+	nx = 1;
+}
+
+void CMario::TransformFire()
+{
+	InitState();
+	SetLevel(MARIO_LEVEL_FIRE);
 	SetSpeed(0, 0);
 	nx = 1;
 }

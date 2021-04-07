@@ -1,21 +1,28 @@
-#include <d3dx9.h>
+#pragma once
 
-#define MAX_MAP_WITDH 50
-#define MAX_MAP_HEIGHT 50
+#include <d3dx9.h>
+#include "MapLayer.h"
+#include "Utils.h"
+#include "GameObject.h"
+
+typedef CMapLayer* LPLAYERS;
 
 class CMap
 {
 	static CMap* __instance;
 protected:
 	int id;
-	LPCWSTR mapFilePath;
-	int mapWidth, mapHeight, texId;
+	const char*  mapFilePath;
+	int texId;
 	int tilePerRow, tilePerColumn;
-	int tileMap[MAX_MAP_WITDH][MAX_MAP_HEIGHT];
 
+	std::vector<LPLAYERS> layers ;
+	
 public:
-	void AddMap(int id, LPCWSTR mapFilePath, int mapWidth, int mapHeight, int texId,int tilePerRow, int TilePerColumn);
-	void LoadMap();
+	void AddMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
+	void CreateTileSet();
+	void HandleMap();
+	void HandleObjectInMap(vector<LPGAMEOBJECT>& object);
 	void RenderMap();
 
 	static CMap* GetInstance();

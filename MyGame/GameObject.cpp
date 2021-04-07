@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "Sprites.h"
 #include "Textures.h"
-
+#include "FireBallPool.h"
 CGameObject::CGameObject()
 {
 	x = y = 0;

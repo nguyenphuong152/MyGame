@@ -1,55 +1,111 @@
 #include "Koopas.h"
+#include "Utils.h"
+#include "MarioStateIdle.h"
+#include "Mario.h"
 
-CKoopas::CKoopas()
+CKoopas::CKoopas(float start_point,float end_point,CMario *player)
 {
+	isEnable = true;
+	this->player = player;
+	this->start_point = start_point;
+	this->end_point = end_point;
+	nx = 1;
 	SetState(KOOPAS_STATE_WALKING);
 }
 
 void CKoopas::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
-	t = y;
 	r = x + KOOPAS_BBOX_WIDTH;
 
 	if (state == KOOPAS_STATE_DIE)
+	{
+		t = y;
 		b = y + KOOPAS_BBOX_HEIGHT_DIE;
+	}
 	else
+	{
+		t = y + 20;
 		b = y + KOOPAS_BBOX_HEIGHT;
+	}
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (player->isKicking)
+	{
+		if (player->nx > 0)
+		{
+			vx = 0.33;
+		}
+		else {
+			vx = -0.33;
+		}
+		isHolded = false;
+	}
+		
 
 	x += dx;
 	y += dy;
 
-	if (vx < 0 && x < 0)
+	if(isHolded&&!player->isKicking)
 	{
-		x = 0; vx = -vx;
+		if (player->nx > 0)
+		{
+			x = player->x + 17.5;
+			if (player->level != MARIO_LEVEL_RACOON)
+			{
+				x = player->x + 11;
+			}
+		}
+		else {
+			x = player->x - 13;
+			if (player->level == MARIO_LEVEL_RACOON)
+			{
+				x = player->x - 12;
+			}
+		}
+
+		if (player->level == MARIO_LEVEL_SMALL)
+		{
+			y = player->y;
+		}
+		else {
+			y = player->y + 7;
+		}
+		
 	}
 
-	if (vx > 0 && x > 290)
+	
+
+	if (vx < 0 && x < start_point &&state==KOOPAS_STATE_WALKING)
 	{
-		x = 290; vx = -vx;
+		x = start_point; vx = -vx;
+	}
+
+	if (vx > 0 && x > end_point&&state == KOOPAS_STATE_WALKING)
+	{
+		x = end_point; vx = -vx;
 	}
 }
 
 void CKoopas::Render()
 {
-	int ani = KOOPAS_ANI_WALKING_LEFT;
+	int ani = KOOPAS_ANI_WALKING;
 	if (state == KOOPAS_STATE_DIE)
 	{
 		ani = KOOPAS_ANI_DIE;
 	}
-	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
-	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
+	else if (vx > 0) nx = 1;
+	else if (vx <= 0) nx = -1;
 
 	//change direction for koopas
-	animation_set->at(ani)->Render(1,x, y);
+	animation_set->at(ani)->Render(nx,x, y);
 
 	RenderBoundingBox();
 }
+
 
 void CKoopas::SetState(int state)
 {
@@ -57,11 +113,12 @@ void CKoopas::SetState(int state)
 	switch (state)
 	{
 	case KOOPAS_STATE_DIE:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE + 1;
+		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE + 6;
 		vx = 0;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
-		vx = KOOPAS_WALKING_SPEED;
+		vx = nx*KOOPAS_WALKING_SPEED;
+		break;
 	}
 }

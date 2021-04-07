@@ -1,6 +1,10 @@
 ﻿#include "MarioStateWalk.h"
 #include "MarioStateJump.h"
 #include "MarioStateIdle.h"
+#include "MarioStateStop.h"
+#include "MarioStateSit.h"
+#include "MarioStateRun.h"
+#include "MarioStateDrop.h"
 #include "Mario.h"
 
 CMarioStateWalk* CMarioStateWalk::__instance = NULL;
@@ -14,37 +18,74 @@ void CMarioStateWalk::Enter(CMario& mario)
 	SetCurrentState(MarioStates::WALK);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
-		mario.SetAnimation(MARIO_ANI_SMALL_WALKING);
+		mario.SetAnimation(MARIO_ANI_SMALL_WALK);
+	}
+	else if (mario.level == MARIO_LEVEL_RACOON) {
+		mario.SetAnimation(MARIO_ANI_RACCOON_WALK);
+	}
+	else if (mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.SetAnimation(MARIO_ANI_FIRE_WALK);
 	}
 	else {
-		mario.SetAnimation(MARIO_ANI_BIG_WALKING);
+		mario.SetAnimation(MARIO_ANI_BIG_WALK);
 	}
 }
-void CMarioStateWalk::HandleInput(CMario& mario)
+void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario);
+	if (input == Input::PRESS_S)
+	{
+		mario.StartHighJump();
+		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
+	}
+	else {
+		CMarioOnGroundStates::HandleInput(mario, input);
+	}
 }
 
 void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 {
-	if (mario.vx > 0) {
-		mario.vx += -MARIO_ACCELERATION * dt;
-		if (mario.vx < 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
-		}
-	}
-	else if (mario.vx < 0) {
-		mario.vx += MARIO_ACCELERATION * dt;
-		if (mario.vx > 0) {
-			mario.ChangeState(CMarioState::idle.GetInstance());
-		}
-	}
-
+	CalculateAcceleration(MARIO_ACCELERATION, dt, mario);
 	if (mario.vx == 0)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
-   
+
+}
+
+void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& mario)
+{
+	if (mario.vx > 0) {
+		mario.vx += -accelerate * dt;
+		if (mario.vx < 0) {
+			if (mario.isSitting)
+			{
+				mario.ChangeState(CMarioState::sit.GetInstance());
+			}
+			else
+			{
+				mario.ChangeState(CMarioState::idle.GetInstance());
+			}
+		}
+	}
+	else if (mario.vx < 0) {
+		mario.vx += accelerate * dt;
+		if (mario.vx > 0) {
+			if (mario.isSitting)
+			{
+				mario.ChangeState(CMarioState::sit.GetInstance());
+			}
+			else
+			{
+				mario.ChangeState(CMarioState::idle.GetInstance());
+			}
+		}
+	}
+
+	if (mario.vy  > MARIO_AVERAGE_VY_ON_GROUND)
+	{
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
 }
 
 CMarioStateWalk* CMarioStateWalk::GetInstance()

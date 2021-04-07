@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,22 +144,42 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp" />
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
-    <ClCompile Include="FireBall.cpp" />
+    <ClCompile Include="FireBallPool.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MarioHoldingShellStates.cpp" />
+    <ClCompile Include="MarioStateHoldShellAndDrop.cpp" />
+    <ClCompile Include="MarioStateHoldShellAndJump.cpp" />
+    <ClCompile Include="MarioStateHoldShellAndRun.cpp" />
+    <ClCompile Include="MarioOnAirStates.cpp" />
     <ClCompile Include="MarioOnGroundStates.cpp" />
     <ClCompile Include="MarioState.cpp" />
+    <ClCompile Include="MarioStateDrop.cpp" />
+    <ClCompile Include="MarioStateFly.cpp" />
+    <ClCompile Include="MarioStateHoldShellIdle.cpp" />
     <ClCompile Include="MarioStateJump.cpp" />
+    <ClCompile Include="MarioStateKick.cpp" />
+    <ClCompile Include="MarioStatePreFly.cpp" />
+    <ClCompile Include="MarioStateRun.cpp" />
     <ClCompile Include="MarioStateSit.cpp" />
+    <ClCompile Include="MarioStateSpin.cpp" />
+    <ClCompile Include="MarioStateStop.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
-    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
+    <ClCompile Include="MapLayer.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -174,21 +194,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Boundary.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h" />
+    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Coin.h" />
-    <ClInclude Include="FireBall.h" />
+    <ClInclude Include="FireBallPool.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="MarioHoldingShellStates.h" />
+    <ClInclude Include="MarioStateHoldShellAndDrop.h" />
+    <ClInclude Include="MarioStateHoldShellAndJump.h" />
+    <ClInclude Include="MarioStateHoldShellAndRun.h" />
+    <ClInclude Include="MarioOnAirStates.h" />
     <ClInclude Include="MarioOnGroundStates.h" />
+    <ClInclude Include="MarioStateDrop.h" />
+    <ClInclude Include="MarioStateFly.h" />
+    <ClInclude Include="MarioStateHoldShellIdle.h" />
     <ClInclude Include="MarioStateJump.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MarioState.h" />
     <ClInclude Include="MarioStateIdle.h" />
+    <ClInclude Include="MarioStateKick.h" />
+    <ClInclude Include="MarioStatePreFly.h" />
+    <ClInclude Include="MarioStateRun.h" />
     <ClInclude Include="MarioStateSit.h" />
+    <ClInclude Include="MarioStateSpin.h" />
+    <ClInclude Include="MarioStateStop.h" />
     <ClInclude Include="MarioStateWalk.h" />
-    <ClInclude Include="Pipe.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
+    <ClInclude Include="MapLayer.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

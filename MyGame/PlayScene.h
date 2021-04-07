@@ -8,8 +8,6 @@
 #include "Koopas.h"
 #include "Map.h"
 #include "Ground.h"
-#include "Box.h"
-#include "Pipe.h"
 #include "Coin.h"
 #include "RedVenusFireTrap.h"
 #include "FireBall.h"
@@ -21,6 +19,7 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
+	CFireBallPool* pool;
 	
 	
 	vector<LPGAMEOBJECT> objects;
