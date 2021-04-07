@@ -48,7 +48,6 @@ void CMarioStateFly::Update(DWORD dt, CMario& mario)
 	}
 	else if (mario.vy > 0)
 	{
-		mario.isDroppingFromFlying = true;
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }

@@ -159,7 +159,7 @@ void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1500, y, width, height);
+					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();

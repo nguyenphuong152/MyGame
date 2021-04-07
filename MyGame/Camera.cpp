@@ -22,7 +22,7 @@ void CCamera::SetProperty(float l, float t, float width, float height)
 	cam_center_X = (x+x+width) / 2;
 	cam_center_Y = (y+y+height)/2;
 	isEnable = true;
-	isOnGround = false;
+	isReachBoundaryBottom = true;
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -55,26 +55,8 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	CGame* game = CGame::GetInstance();
 
 	FollowPlayerHorizontally();
-
-	if (player->GetState() == CMarioState::fly.GetInstance() && player->y < cam_center_Y) isReachBoundaryBottom = false;
-
-	if (isReachBoundaryBottom) {
-		if (player->isOnGround || player->GetState() == CMarioState::fly.GetInstance()&&player->y > cam_center_Y)
-		{
-			vy = 0;
-		}
-	}
-    else if (!isReachBoundaryBottom&& !isReachBoundaryTop&&!player->isOnGround ||player->GetState() == CMarioState::fly.GetInstance() && player->y<cam_center_Y || player->isDroppingFromFlying && player->y>cam_center_Y)
-	{
-		vy = player->vy ;
-		isReachBoundaryBottom = isReachBoundaryTop = false;
-	}
-	else if (isReachBoundaryTop)
-	{
-		isReachBoundaryTop = false;
-		vy = player->vy ;
-	}
-
+	FollowPlayerVertically();
+	
 	cam_center_X = (x + x + width) / 2;
 	cam_center_Y = (y + y + height) / 2;
 	//DebugOut(L"Cam ceneter %f \n", cam_center_X);
@@ -120,6 +102,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				if (e->ny < 0)
 				{
 					isReachBoundaryBottom = true;
+					vy = 0;
 				}
 				else if (e->ny > 0)
 				{
@@ -130,7 +113,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	game->SetCamPos(x,y-100);
+	game->SetCamPos(x,y);
 }
 
 void CCamera::FollowPlayerHorizontally()
@@ -152,5 +135,27 @@ void CCamera::FollowPlayerHorizontally()
 			vx = player->vx;
 			isReachBoundaryLeft = isReachBoundaryRight = false;
 		}
+	}
+}
+
+void CCamera::FollowPlayerVertically()
+{
+	if (player->GetState() == CMarioState::fly.GetInstance() && player->y < cam_center_Y)
+	{
+		isReachBoundaryBottom = false;
+		vy = player->vy;
+	}
+	else if (isReachBoundaryTop)
+	{
+		isReachBoundaryTop = false;
+		vy = player->vy;
+	}
+	else if (player->isOnGround)
+	{
+		vy = 0;
+	}
+	else if (player->GetState() == CMarioState::drop.GetInstance() && player->y > cam_center_Y || player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
+	{
+		if (!isReachBoundaryBottom) vy = player->vy;
 	}
 }

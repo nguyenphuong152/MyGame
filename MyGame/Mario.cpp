@@ -195,11 +195,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj)||dynamic_cast<CCamera*>(e->obj))
 			{
-				if (e->ny > 0)
+				if (e->ny != 0)
 				{
-					DebugOut(L"drop \n");
 					ChangeState(CMarioState::drop.GetInstance());
-					vy = -vy;
+					y += dy;
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -286,7 +285,6 @@ void CMario::Reset()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_BIG);
-	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;
 }
@@ -295,7 +293,6 @@ void CMario::TransformRacoon()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_RACOON);
-	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;
 }
@@ -304,7 +301,6 @@ void CMario::TransformFire()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_FIRE);
-	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	nx = 1;
 }
