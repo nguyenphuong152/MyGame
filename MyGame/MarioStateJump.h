@@ -1,15 +1,17 @@
 #pragma once
 #include "MarioOnAirStates.h"
-
-#define AVERAGE_TIME_JUMP 100
-#define MAX_TIME_JUMP 200
+#define MARIO_JUMP_TIME 250
 
 class CMarioStateJump : public CMarioOnAirStates
 {
+private:
+	DWORD _jumpingStart;
 public:
 	static CMarioStateJump* __instance;
 	CMarioStateJump();
 	virtual ~CMarioStateJump() {};
+
+	void StartJumping() {  _jumpingStart = GetTickCount64(); };
 
 	virtual void HandleInput(CMario& mario, Input input);
 	virtual void Enter(CMario& mario);

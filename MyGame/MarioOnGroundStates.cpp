@@ -85,7 +85,6 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::PRESS_S)
 	{
-		mario.StartHighJump();
 		SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else if (input == Input::PRESS_DOWN && mario.vx == 0)
@@ -117,8 +116,8 @@ void CMarioOnGroundStates::SetStateJumping(float jumpSpeed, CMario& mario)
 {
 	if (mario.isOnGround)
 	{
-		mario.isOnGround = false;
-		mario.SetVelocityY(-jumpSpeed);
+		mario.canJumpHigh = true;
 		mario.ChangeState(CMarioState::jump.GetInstance());
+		CMarioState::jump.GetInstance()->StartJumping();
 	}
 }

@@ -7,7 +7,6 @@ CMarioStateJump* CMarioStateJump::__instance = NULL;
 
 CMarioStateJump::CMarioStateJump() {
 	DebugOut(L"[STATE] create jump \n");
-
 }
 
 void CMarioStateJump::Enter(CMario& mario)
@@ -31,39 +30,26 @@ void CMarioStateJump::Enter(CMario& mario)
 }
 void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
-
-	if (input == Input::RELEASE_S)
+	if (input == Input::RELEASE_S )
 	{
-		mario.canFlyHigh = false;
-		mario.ChangeState(CMarioState::drop.GetInstance());
-	}
-	//nếu sau khoảng thời gian cho nhảy cờ canFLyhigh còn bật thì tắt cờ đổi state drop
-	else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP)&&mario.canFlyHigh)
-	{
-		mario.highjump_start = 0;
-		mario.canFlyHigh = false;
-		mario.ChangeState(CMarioState::drop.GetInstance());
+		mario.canJumpHigh = false;
 	}
 	CMarioOnAirStates::HandleInput(mario,  input);
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
-
-	//nếu nhảy một khoảng thời gian bật cờ canFlyHigh
-	//từ đó mario có thể nhảy cao khi nhấn giữ S
-	if ((GetTickCount() - mario.highjump_start > AVERAGE_TIME_JUMP)&&!mario.canFlyHigh)
+	if (mario.canJumpHigh)
 	{
-		mario.canFlyHigh = true;
+		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
+		{
+			mario.canJumpHigh = false;
+		}
+		else {
+			mario.vy = -MARIO_JUMP_SPEED_Y;
+		}
 	}
-
-	if(mario.canFlyHigh)
-	{
-		mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
-	}
-
-
-	if (mario.vy > 0)
+	else if( mario.vy>0)
 	{
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}

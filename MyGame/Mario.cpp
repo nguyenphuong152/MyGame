@@ -176,7 +176,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
-					isDroppingFromFlying = false;
 					isFloating = false;
 				}
 			}
@@ -185,7 +184,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					isOnGround = true;
-					isDroppingFromFlying = false;
 					isFloating = false;
 				}
 				else if (e->nx != 0)
@@ -207,7 +205,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					isOnGround = true;
-					isDroppingFromFlying = false;
 					isFloating = false;
 					//cục gạch chưa touch mới vào xét
 					if (brick->GetState() == BRICK_STATE_UNTOUCH)
@@ -286,6 +283,7 @@ void CMario::Reset()
 	InitState();
 	SetLevel(MARIO_LEVEL_BIG);
 	SetSpeed(0, 0);
+	y -= 100;
 	nx = 1;
 }
 
@@ -293,6 +291,7 @@ void CMario::TransformRacoon()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_RACOON);
+	y -= 100;
 	SetSpeed(0, 0);
 	nx = 1;
 }
@@ -301,6 +300,7 @@ void CMario::TransformFire()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_FIRE);
+	y -= 100;
 	SetSpeed(0, 0);
 	nx = 1;
 }

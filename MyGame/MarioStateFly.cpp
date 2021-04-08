@@ -46,10 +46,10 @@ void CMarioStateFly::Update(DWORD dt, CMario& mario)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
-	else if (mario.vy > 0)
-	{
-		mario.ChangeState(CMarioState::drop.GetInstance());
-	}
+	//else if (mario.vy > 0)
+	//{
+	//	mario.ChangeState(CMarioState::drop.GetInstance());
+	//}
 }
 
 CMarioStateFly* CMarioStateFly::GetInstance()

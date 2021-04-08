@@ -35,7 +35,7 @@ void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
 	if (input == Input::PRESS_S)
 	{
-		mario.StartHighJump();
+
 		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else {
@@ -50,7 +50,10 @@ void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
-
+	else if (mario.vy > MARIO_AVERAGE_VY_ON_GROUND)
+	{
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
 }
 
 void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& mario)
@@ -80,11 +83,6 @@ void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& 
 				mario.ChangeState(CMarioState::idle.GetInstance());
 			}
 		}
-	}
-
-	if (mario.vy  > MARIO_AVERAGE_VY_ON_GROUND)
-	{
-		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

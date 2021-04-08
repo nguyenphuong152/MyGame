@@ -35,7 +35,7 @@ void CMarioStatePreFly::HandleInput(CMario& mario, Input input)
 			if (input == Input::PRESS_S)
 			{
 				mario.isOnGround = false;
-				mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
+				//mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
 				mario.ChangeState(CMarioState::fly.GetInstance());
 			}
 			else

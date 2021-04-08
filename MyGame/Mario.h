@@ -5,12 +5,11 @@ class CMarioState;
 #include "GameObject.h"
 #include "Input.h"
 
-#define MARIO_WALKING_SPEED		0.2f 
+#define MARIO_WALKING_SPEED		0.25f 
 #define MARIO_RUNNING_SPEED 0.4f
 #define MARIO_PRE_FLYING_SPEED 0.5f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.5f
-#define MARIO_JUMP_HIGH_SPEED_Y		0.6f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.0015f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
@@ -98,7 +97,7 @@ class CMarioState;
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
 #define MARIO_RACOON_BBOX_WIDTH  63
-#define MARIO_RACOON_BBOX_HEIGHT 80
+#define MARIO_RACOON_BBOX_HEIGHT 84
 
 #define MARIO_SMALL_BBOX_WIDTH  40
 #define MARIO_SMALL_BBOX_HEIGHT 46
@@ -128,17 +127,15 @@ public:
 	int animation;
 	bool isOnGround = false;
 	bool isSitting = false;
-	bool canFlyHigh = false;
+	bool canJumpHigh = false;
 	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isKicking = false;
-	bool isDroppingFromFlying = false;
+	
 
 	int power;
 	DWORD power_start;
-
-	DWORD highjump_start;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -169,7 +166,6 @@ public:
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void TogglePowerMode() { power_start = GetTickCount64(); }
-	void StartHighJump() { highjump_start = GetTickCount64(); }
 	void Reset();
 	void TransformRacoon();
 	void TransformFire();

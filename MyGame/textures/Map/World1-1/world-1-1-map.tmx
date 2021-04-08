@@ -417,15 +417,15 @@
   <object id="41" x="3936.59" y="960.051" width="333.545" height="286.924"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
-  <object id="47" name="bcoin" type="3" x="552" y="1080"/>
-  <object id="49" name="powerup" type="1" x="600" y="1080"/>
-  <object id="50" name="bcoin" type="1" x="696" y="936"/>
-  <object id="51" name="powerup" type="1" x="744" y="936"/>
-  <object id="53" name="bcoin" type="1" x="1272" y="984"/>
-  <object id="104" name="powerup" type="1" x="1988.85" y="1136.62"/>
-  <object id="105" name="powerup" type="1" x="2132.91" y="1032.79"/>
-  <object id="106" name="powerup" type="1" x="4391.88" y="1126.88"/>
-  <object id="213" name="powerup" type="1" x="4295" y="406"/>
+  <object id="47" name="bcoin" type="3" x="536.667" y="1058"/>
+  <object id="49" name="powerup" type="1" x="586" y="1058"/>
+  <object id="50" name="bcoin" type="1" x="682.667" y="914"/>
+  <object id="51" name="powerup" type="1" x="729.333" y="914"/>
+  <object id="53" name="bcoin" type="1" x="1259.33" y="964.667"/>
+  <object id="104" name="powerup" type="1" x="1977.52" y="1154.62"/>
+  <object id="105" name="powerup" type="1" x="2122.24" y="1010.12"/>
+  <object id="106" name="powerup" type="1" x="4378.55" y="1111.55"/>
+  <object id="213" name="powerup" type="1" x="4281" y="393.333"/>
  </objectgroup>
  <objectgroup id="15" name="Coin" visible="0">
   <object id="59" x="3236.5" y="983.5"/>
@@ -577,7 +577,7 @@
   <object id="237" x="8448.85" y="-5.21212" width="88" height="1974.3"/>
   <object id="238" x="4.90909" y="1302.67" width="8428" height="44"/>
  </objectgroup>
- <objectgroup id="26" name="Camera">
-  <object id="243" x="3.27273" y="763.333" width="764" height="530.667"/>
+ <objectgroup id="26" name="Camera" visible="0">
+  <object id="243" x="3.27273" y="769.394" width="764" height="530.667"/>
  </objectgroup>
 </map>

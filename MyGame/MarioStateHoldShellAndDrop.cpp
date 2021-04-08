@@ -20,16 +20,15 @@ void CMarioStateHoldShellAndDrop::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::RELEASE_S)
 	{
-		mario.canFlyHigh = false;
+		mario.canJumpHigh = false;
 		mario.ChangeState(CMarioState::holdshell_drop.GetInstance());
 	}
-	//nếu sau khoảng thời gian cho nhảy cờ canFLyhigh còn bật thì tắt cờ đổi state drop
-	else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP) && mario.canFlyHigh)
+	//nếu sau khoảng thời gian cho nhảy cờ canJumpHigh còn bật thì tắt cờ đổi state drop
+	/*else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP) && mario.canJumpHigh)
 	{
-		mario.highjump_start = 0;
-		mario.canFlyHigh = false;
+		mario.canJumpHigh = false;
 		mario.ChangeState(CMarioState::holdshell_drop.GetInstance());
-	}
+	}*/
 
 	CMarioHoldingShellStates::HandleInput(mario, input);
 }
