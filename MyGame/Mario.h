@@ -5,9 +5,11 @@ class CMarioState;
 #include "GameObject.h"
 #include "Input.h"
 
-#define MARIO_WALKING_SPEED		0.25f 
-#define MARIO_RUNNING_SPEED 0.4f
-#define MARIO_PRE_FLYING_SPEED 0.5f
+#define MARIO_WALKING_SPEED			0.25f 
+#define MARIO_RUNNING_SPEED			0.4f
+#define MARIO_PRE_FLYING_SPEED		0.5f
+#define MARIO_START_FLYING_SPEED	0.6f
+#define MARIO_FLYING_SPEED			0.3f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.5f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
@@ -107,6 +109,8 @@ class CMarioState;
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
 
+
+#define MARIO_POWER_LEVEL 720
 //type  handle animation with time
 
 
@@ -131,11 +135,12 @@ public:
 	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
+	
+	//can nhac lai
 	bool isKicking = false;
 	
 
-	int power;
-	DWORD power_start;
+	int powerLevel;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -165,7 +170,6 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-	void TogglePowerMode() { power_start = GetTickCount64(); }
 	void Reset();
 	void TransformRacoon();
 	void TransformFire();

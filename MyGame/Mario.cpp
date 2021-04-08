@@ -54,12 +54,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	//neu mario dg o powermode ma huy thi giam power cua mario ve 0
-	if (!powerMode && power > 0&& marioState->GetCurrentState()!=CMarioState::FLY)
-	{
-		if (GetTickCount() - power_start > 0) power--;
-		/*DebugOut(L"[tru di] power: %d \n", power);*/
-	}
+	//tru  power khi o trang thai k fly, hoac fly còn dư;
+	if (!powerMode && powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) powerLevel -= 10;
 
 	//if no collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -196,6 +192,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0)
 				{
 					ChangeState(CMarioState::drop.GetInstance());
+					powerMode = false;
 					y += dy;
 				}
 			}

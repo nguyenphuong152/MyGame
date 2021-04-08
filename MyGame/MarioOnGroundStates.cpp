@@ -20,55 +20,43 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	if (input == Input::KEYSTATE)
 	{
 		if (game->IsKeyDown(DIK_LEFT)) {
-			if (mario.powerMode && mario.vx != 0)
-			{	
-				mario.canHoldShell = true;
-				//cong power cho mario khi mario o powermode, moi giay tang 1 power
-				if (GetTickCount() - mario.power_start > 0 && mario.power < 72) {
-					mario.power++;
-				}
-				if (mario.power == 72)
-				{
-					//DebugOut(L"[after] run time %d \n", mario.power);
-					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-					mario.ChangeState(CMarioState::pre_fly.GetInstance());
-				}
-				else{
-					mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
-					mario.ChangeState(CMarioState::run.GetInstance());
-				}
-			}
-			else if (mario.vx > 0)
+			if (mario.vx > 0)
 			{
 				mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
 				mario.ChangeState(CMarioState::stop.GetInstance());
 			}
-			else
+			else if (mario.powerMode)
+			{
+				if (mario.powerLevel == MARIO_POWER_LEVEL)
+				{
+					mario.ChangeState(CMarioState::pre_fly.GetInstance());
+				}
+				else {
+					SetStateRunning(DIRECTION_RIGHT_TO_LEFT, mario);
+				}
+			}
+			else 
 			{
 				SetStateWalking(DIRECTION_RIGHT_TO_LEFT, mario);
 			}
 		}
 		else if (game->IsKeyDown(DIK_RIGHT))
 		{
-			if (mario.powerMode & mario.vx != 0)
-			{
-				mario.canHoldShell = true;
-				if (GetTickCount() - mario.power_start > 0&&mario.power<72) mario.power++;
-				if (mario.power == 72)
-				{
-					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-					mario.ChangeState(CMarioState::pre_fly.GetInstance());
-				}
-				else {
-					mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
-					mario.ChangeState(CMarioState::run.GetInstance());
-				}
-			}
-			else if (mario.vx < 0)
+			if (mario.vx < 0)
 			{
 				mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
 				mario.ChangeState(CMarioState::stop.GetInstance());
 
+			}
+			else if (mario.powerMode)
+			{
+				if (mario.powerLevel == MARIO_POWER_LEVEL)
+				{
+					mario.ChangeState(CMarioState::pre_fly.GetInstance());
+				}
+				else {
+					SetStateRunning(DIRECTION_LEFT_TO_RIGHT, mario);
+				}
 			}
 			else {
 				SetStateWalking(DIRECTION_LEFT_TO_RIGHT, mario);
@@ -99,6 +87,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
 			mario.ChangeState(CMarioState::spin.GetInstance());
+			CMarioState::spin.GetInstance()->StartSpinning();
 		}
 	}
 }
@@ -110,6 +99,13 @@ void CMarioOnGroundStates::SetStateWalking(int direction, CMario& mario)
 	mario.SetDirection(direction);
 	mario.SetVelocityX(direction * MARIO_WALKING_SPEED);
 	mario.ChangeState(CMarioState::walk.GetInstance());
+}
+
+void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
+{
+	mario.SetDirection(direction);
+	mario.SetVelocityX(direction * MARIO_RUNNING_SPEED);
+	mario.ChangeState(CMarioState::run.GetInstance());
 }
 
 void CMarioOnGroundStates::SetStateJumping(float jumpSpeed, CMario& mario)

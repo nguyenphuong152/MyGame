@@ -1,19 +1,18 @@
 #pragma once
 #include "MarioOnGroundStates.h"
-#define MARIO_SPINNING_TIME 20
+#define MARIO_SPINNING_TIME 300
 
 class CMarioStateSpin : public CMarioOnGroundStates
 {
 private:
-	int _spinningTime;
+	DWORD _spinningStart;
 public:
 	static CMarioStateSpin* __instance;
 
-	//int spinnable;
-	DWORD spinning_start;
-
 	CMarioStateSpin();
 	virtual ~CMarioStateSpin() {};
+
+	void StartSpinning() { _spinningStart = GetTickCount64(); };
 
 	virtual void HandleInput(CMario& mario, Input input);
 	virtual void Enter(CMario& mario);
