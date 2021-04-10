@@ -175,6 +175,7 @@ public:
 	void RaccoonMario();
 	void FireMario();
 	void Die();
+	void ThrowFireball();
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

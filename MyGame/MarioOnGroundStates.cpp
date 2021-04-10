@@ -93,7 +93,8 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		else if (mario.level == MARIO_LEVEL_FIRE)
 		{
 			mario.ChangeState(CMarioState::throw_fireball.GetInstance());
-			CMarioState::throw_fireball.GetInstance()->StartSpinning();
+			mario.ThrowFireball();
+			CMarioState::throw_fireball.GetInstance()->StartThrowing();
 		}
 	}
 }

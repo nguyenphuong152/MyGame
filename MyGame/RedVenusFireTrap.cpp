@@ -196,6 +196,6 @@ void CRedVenusFireTrap::StartShooting(bool isShootingUp)
 {
 	startShooting = GetTickCount(); 
 	isShooting = true;
-	pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y,isShootingUp);
+//	pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y,isShootingUp);
 	vy = 0;
 }

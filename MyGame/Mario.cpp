@@ -17,6 +17,7 @@
 #include "MarioStateKick.h"
 #include "Boundary.h"
 #include "Camera.h"
+#include "FireBallPool.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -217,6 +218,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	marioState->Update(dt, *this);
+	CFireBallPool::GetInstance()->Update();
 
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
@@ -273,6 +275,11 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	{
 		b = y + MARIO_BIG_BBOX_SIT_HEIGHT;
 	}
+}
+
+void CMario::ThrowFireball()
+{
+	CFireBallPool::GetInstance()->Create(x, y, false,this);
 }
 
 /*

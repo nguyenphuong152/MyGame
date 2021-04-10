@@ -168,7 +168,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;*/
 	case OBJECT_TYPE_FIREBALL:
 	{
-		pool = new CFireBallPool(player);
+		pool = CFireBallPool::GetInstance();
 		for (int i = 0; i <pool->POOL_SIZE ; i++)
 		{
 			objects.push_back(&pool->fireballs[i]);
@@ -287,6 +287,12 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 1; i < objects.size(); i++)
 	{
+		/*if (dynamic_cast<CFireballTest*>(objects[i])) {
+			if (objects[i]->isEnable)
+			{
+				DebugOut(L"vi tri %d \n", i);
+			}
+		}*/
 		if (objects[i]->isEnable)
 		{
 			coObjects.push_back(objects[i]);

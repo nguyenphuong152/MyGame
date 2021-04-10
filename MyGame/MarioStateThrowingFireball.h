@@ -12,7 +12,7 @@ public:
 	CMarioStateThrowFireball();
 	virtual ~CMarioStateThrowFireball() {};
 
-	void StartSpinning() { _throwingStart = GetTickCount64(); };
+	void StartThrowing() { _throwingStart = GetTickCount64(); };
 
 	virtual void HandleInput(CMario& mario, Input input);
 	virtual void Enter(CMario& mario);

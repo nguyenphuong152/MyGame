@@ -1,7 +1,9 @@
 #include "FireBallPool.h"
 #include "Utils.h"
 
-CFireBallPool::CFireBallPool(CMario *mario)
+CFireBallPool* CFireBallPool::__instance = NULL;
+
+CFireBallPool::CFireBallPool()
 {
 	//The first one is available.
 	_firstAvailable = &fireballs[0];
@@ -14,22 +16,20 @@ CFireBallPool::CFireBallPool(CMario *mario)
 
 	// The last one terminates the list.
 	fireballs[POOL_SIZE - 1].SetNext(NULL);
-
-	this->player = mario;
 }
 
-void CFireBallPool::Create(float x, float y,bool isShootingUp)
+void CFireBallPool::Create(float x, float y,bool isShootingUp,CMario* mario)
 { 
 	// Make sure the pool isn't full.
 	if (_firstAvailable != NULL) {
-		CFireballTest* newBall = _firstAvailable;
+		CFireball* newBall = _firstAvailable;
 		_firstAvailable = newBall->GetNext();
-		newBall->Init(x, y,player,isShootingUp);
+		newBall->Init(x, y,isShootingUp,mario);
 		for (int i = 0; i < POOL_SIZE; i++)
 		{
 			if (newBall == &fireballs[i])
 			{
-				DebugOut(L"have ball %d \n",i);
+				DebugOut(L"have ball %d %d \n", i, fireballs[i].isEnable);
 			}
 		}
 	}
@@ -43,11 +43,18 @@ void CFireBallPool::Update()
 {
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (fireballs[i].isEnable)
-		{
-			// Add this particle to the front of the list.
-			fireballs[i].SetNext(_firstAvailable);
-			_firstAvailable = &fireballs[i];
-		};
+		//DebugOut(L"have ball %d %d \n", i, fireballs[i].isEnable);
+		//if (fireballs[i].isEnable)
+		//{
+		//	// Add this particle to the front of the list.
+		//	fireballs[i].SetNext(_firstAvailable);
+		//	_firstAvailable = &fireballs[i];
+		//};
 	}
+}
+
+CFireBallPool* CFireBallPool::GetInstance()
+{
+	if (__instance == NULL) __instance = new CFireBallPool();
+	return __instance;
 }
