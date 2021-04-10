@@ -224,6 +224,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMario::Render()
 {
 	int ani = GetCurrentAnimation();
+	if (state == MARIO_STATE_DIE) ani = MARIO_ANI_DIE;
 	int alpha = 255;
 
 	if (untouchable) alpha = 128;
@@ -231,10 +232,13 @@ void CMario::Render()
 	//RenderBoundingBox();
 }
 
-//void  CMario::SetState(int state)
-//{
-//	CGameObject::SetState(state);
-//}
+void  CMario::SetState(int state)
+{
+	CGameObject::SetState(state);
+	if (state == MARIO_STATE_DIE) {
+		vy = -MARIO_DIE_DEFLECT_SPEED;
+	}
+}
 
 void CMario::InitState() {
 	marioState = CMarioState::idle.GetInstance();
@@ -275,7 +279,7 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	reset mario status to the beginning state of a scene
 */
 
-void CMario::Reset()
+void CMario::BigMario()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_BIG);
@@ -284,7 +288,7 @@ void CMario::Reset()
 	nx = 1;
 }
 
-void CMario::TransformRacoon()
+void CMario::RaccoonMario()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_RACOON);
@@ -293,13 +297,18 @@ void CMario::TransformRacoon()
 	nx = 1;
 }
 
-void CMario::TransformFire()
+void CMario::FireMario()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_FIRE);
 	y -= 100;
 	SetSpeed(0, 0);
 	nx = 1;
+}
+
+void CMario::Die()
+{
+	SetState(MARIO_STATE_DIE);
 }
 
 void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)

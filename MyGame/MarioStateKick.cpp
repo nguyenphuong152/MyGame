@@ -6,12 +6,10 @@ CMarioStateKick* CMarioStateKick::__instance = NULL;
 
 CMarioStateKick::CMarioStateKick() {
 	DebugOut(L"[STATE] create kick \n");
-	_kickingTime = 0;
 }
 
 void CMarioStateKick::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::KICK);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_KICK);
@@ -34,8 +32,7 @@ void CMarioStateKick::HandleInput(CMario& mario, Input input)
 
 void CMarioStateKick::Update(DWORD dt, CMario& mario)
 {
-	_kickingTime++;
-	if (_kickingTime > MARIO_KICKING_TIME)
+	if (GetTickCount64()-_kickingStart > MARIO_KICKING_TIME)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 		mario.isKicking = false;

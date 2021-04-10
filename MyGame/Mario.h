@@ -17,7 +17,7 @@ class CMarioState;
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
 #define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
-#define MARIO_DIE_DEFLECT_SPEED		0.5f
+#define MARIO_DIE_DEFLECT_SPEED		0.7f
 
 #define MARIO_STATE_DIE			300
 
@@ -145,6 +145,7 @@ public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
+	virtual void SetState(int state);
 
 	void InitState();
 	void SetVelocityX(float velocity_x) {
@@ -170,9 +171,10 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-	void Reset();
-	void TransformRacoon();
-	void TransformFire();
+	void BigMario();
+	void RaccoonMario();
+	void FireMario();
+	void Die();
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

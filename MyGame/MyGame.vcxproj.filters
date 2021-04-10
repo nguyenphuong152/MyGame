@@ -219,6 +219,9 @@
     <ClCompile Include="MarioStateWalk.cpp">
       <Filter>Source Files\Mario\OnGroundStates</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateThrowingFireball.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -360,6 +363,9 @@
       <Filter>Header Files\Mario\OnGroundStates</Filter>
     </ClInclude>
     <ClInclude Include="MarioStateWalk.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateThrowingFireball.h">
       <Filter>Header Files\Mario\OnGroundStates</Filter>
     </ClInclude>
   </ItemGroup>

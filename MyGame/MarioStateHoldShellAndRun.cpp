@@ -10,7 +10,6 @@ CMarioStateHoldShellAndRun::CMarioStateHoldShellAndRun() {
 
 void CMarioStateHoldShellAndRun::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::HOLDSHELL_RUN);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_HANDLESHELL_RUN);

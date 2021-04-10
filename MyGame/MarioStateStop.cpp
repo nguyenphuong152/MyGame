@@ -10,7 +10,6 @@ CMarioStateStop::CMarioStateStop() {
 
 void CMarioStateStop::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::STOP);
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_STOP);

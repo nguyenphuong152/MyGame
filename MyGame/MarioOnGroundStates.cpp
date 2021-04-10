@@ -8,6 +8,7 @@
 #include "MarioStatePreFly.h"
 #include "MarioStateFly.h"
 #include "MarioStateSpin.h"
+#include "MarioStateThrowingFireball.h"
 
 CMarioOnGroundStates::CMarioOnGroundStates()
 {
@@ -88,6 +89,11 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		{
 			mario.ChangeState(CMarioState::spin.GetInstance());
 			CMarioState::spin.GetInstance()->StartSpinning();
+		}
+		else if (mario.level == MARIO_LEVEL_FIRE)
+		{
+			mario.ChangeState(CMarioState::throw_fireball.GetInstance());
+			CMarioState::throw_fireball.GetInstance()->StartSpinning();
 		}
 	}
 }

@@ -13,7 +13,6 @@ CMarioStateFly::CMarioStateFly() {
 
 void CMarioStateFly::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::FLY);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_FLY);
@@ -23,7 +22,7 @@ void CMarioStateFly::Enter(CMario& mario)
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
 	{
-		mario.SetAnimation(MARIO_ANI_FIRE_DROP);
+		mario.SetAnimation(MARIO_ANI_FIRE_FLY);
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_FLY);

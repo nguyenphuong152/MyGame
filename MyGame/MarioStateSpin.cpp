@@ -10,7 +10,6 @@ CMarioStateSpin::CMarioStateSpin() {
 
 void CMarioStateSpin::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::SPIN);
 	mario.SetAnimation(MARIO_ANI_RACCOON_SPIN);
 }
 void CMarioStateSpin::HandleInput(CMario& mario, Input input)

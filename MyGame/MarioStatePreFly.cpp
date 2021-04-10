@@ -11,7 +11,6 @@ CMarioStatePreFly::CMarioStatePreFly() {
 
 void CMarioStatePreFly::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::PRE_FLY);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_PRE_FLY);

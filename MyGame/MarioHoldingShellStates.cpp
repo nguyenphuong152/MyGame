@@ -29,6 +29,7 @@ void CMarioHoldingShellStates::HandleInput(CMario& mario, Input input)
 	{
 		mario.isKicking = true;
 		mario.ChangeState(CMarioState::kick.GetInstance());
+		CMarioState::kick.GetInstance()->StartKicking();
 	}else if (input == Input::PRESS_S)
 	{
 		if (mario.isOnGround)

@@ -305,30 +305,6 @@ void CPlayScene::Update(DWORD dt)
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
-
-	//update cam follow mario
-	//float cx, cy;
-	//CGame* game = CGame::GetInstance();
-
-	//player->GetPosition(cx, cy);
-
-	//cx -= game->GetScreenWidth() / 2;
-	//cy -= game->GetScreenHeight() / 2;
-
-	////update camera for map
-	////hardcode
-	//if (cx < 0)
-	//	cx = 0;
-
-	//if (cx > 2540)
-	//	cx = 2540;
-
-	//if (cy > game->GetScreenHeight() + 72)
-	//	cy = game->GetScreenHeight() + 72;
-	//else if (cy < game->GetScreenHeight() + 720)
-	//	cy = game->GetScreenHeight() + 72;
-
-	//CGame::GetInstance()->SetCamPos(0, 800);
 }
 
 void CPlayScene::Render()
@@ -382,13 +358,16 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->HandleInput(input);
 		break;
 	case DIK_2:
-		mario->Reset();
+		mario->BigMario();
 		break;
 	case DIK_1:
-		mario->TransformRacoon();
+		mario->RaccoonMario();
 		break;
 	case DIK_3:
-		mario->TransformFire();
+		mario->FireMario();
+		break;
+	case DIK_4:
+		mario->Die();
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;

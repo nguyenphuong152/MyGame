@@ -13,7 +13,6 @@ CMarioStateHoldShellAndJump::CMarioStateHoldShellAndJump() {
 void CMarioStateHoldShellAndJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	SetCurrentState(MarioStates::HOLDSHELL_JUMP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_HANDLESHELL_JUMP_DROP);

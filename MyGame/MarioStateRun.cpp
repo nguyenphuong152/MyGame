@@ -14,7 +14,6 @@ CMarioStateRun::CMarioStateRun() {
 
 void CMarioStateRun::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::RUN);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_RUN);

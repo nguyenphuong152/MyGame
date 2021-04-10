@@ -12,7 +12,6 @@ CMarioStateIdle::CMarioStateIdle() {
 
 void CMarioStateIdle::Enter(CMario &mario)
 {
-	SetCurrentState(MarioStates::IDLE);
 	mario.SetVelocityX(0);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{

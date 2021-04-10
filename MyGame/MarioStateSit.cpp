@@ -15,7 +15,6 @@ void CMarioStateSit::Enter(CMario& mario)
 {
 	mario.isSitting = true;
 	mario.SetVelocityX(0);
-	SetCurrentState(MarioStates::SIT);
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_SIT);

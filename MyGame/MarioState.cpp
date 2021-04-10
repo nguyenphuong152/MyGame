@@ -9,17 +9,3 @@ CMarioState::CMarioState()
 //{
 //	this->currentState = currentState;
 //}
-
-
-
-CMarioState::MarioStates CMarioState::GetCurrentState()
-{
-	return this->currentState;
-}
-
-void CMarioState::SetCurrentState(CMarioState::MarioStates current_state)
-{
-	this->currentState = current_state;
-}
-
-

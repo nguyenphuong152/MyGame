@@ -176,6 +176,7 @@
     <ClCompile Include="MarioStateSit.cpp" />
     <ClCompile Include="MarioStateSpin.cpp" />
     <ClCompile Include="MarioStateStop.cpp" />
+    <ClCompile Include="MarioStateThrowingFireball.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="MarioStateSit.h" />
     <ClInclude Include="MarioStateSpin.h" />
     <ClInclude Include="MarioStateStop.h" />
+    <ClInclude Include="MarioStateThrowingFireball.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
