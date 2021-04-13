@@ -1,6 +1,9 @@
 ﻿#include "Mario.h"
 #include "MarioStateJump.h"
 #include "MarioStateDrop.h"
+#include "MarioStateThrowingFireballJumping.h"
+#include "FireBall.h"
+#include "FireBallPool.h"
 
 
 CMarioStateJump* CMarioStateJump::__instance = NULL;
@@ -32,6 +35,16 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 	if (input == Input::RELEASE_S )
 	{
 		mario.canJumpHigh = false;
+	}
+	else if (input == Input::PRESS_A && mario.level == MARIO_LEVEL_FIRE)
+	{
+		CFireball* fireball = CFireBallPool::GetInstance()->Create();
+		if (fireball != NULL)
+		{
+			mario.ChangeState(CMarioState::throw_fireball_jump.GetInstance());
+			fireball->AllocateFireballToMario();
+			CMarioState::throw_fireball_jump.GetInstance()->StartThrowing();
+		}
 	}
 	CMarioOnAirStates::HandleInput(mario,  input);
 }

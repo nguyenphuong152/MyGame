@@ -222,6 +222,9 @@
     <ClCompile Include="MarioStateThrowingFireball.cpp">
       <Filter>Source Files\Mario\OnGroundStates</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateThrowingFireballJumping.cpp">
+      <Filter>Source Files\Mario\OnAirStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="MarioStateThrowingFireball.h">
       <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateThrowingFireballJumping.h">
+      <Filter>Header Files\Mario\OnAirStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

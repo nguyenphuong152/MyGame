@@ -9,6 +9,8 @@
 #include "MarioStateFly.h"
 #include "MarioStateSpin.h"
 #include "MarioStateThrowingFireball.h"
+#include "FireBall.h"
+#include "FireBallPool.h"
 
 CMarioOnGroundStates::CMarioOnGroundStates()
 {
@@ -92,9 +94,13 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		}
 		else if (mario.level == MARIO_LEVEL_FIRE)
 		{
-			mario.ChangeState(CMarioState::throw_fireball.GetInstance());
-			mario.ThrowFireball();
-			CMarioState::throw_fireball.GetInstance()->StartThrowing();
+			CFireball* fireball = CFireBallPool::GetInstance()->Create();
+			if (fireball != NULL)
+			{
+				mario.ChangeState(CMarioState::throw_fireball.GetInstance());
+				fireball->AllocateFireballToMario();
+				CMarioState::throw_fireball.GetInstance()->StartThrowing();
+			}
 		}
 	}
 }

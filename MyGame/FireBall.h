@@ -16,6 +16,7 @@
 #define FIREBALL_ANI				62
 
 #define FIREBALL_STATE_EXPLOSIVE	100
+#define FIREBALL_STATE_FIRE			200
 
 #define RANGE_X_LEFT	287
 #define RANGE_X_RIGHT	400
@@ -25,7 +26,7 @@ class CFireball : public CGameObject
 	friend class CFireBallPool;
 private:
 	CFireball();
-	bool isShootingUp;
+	//bool isShootingUp;
 	bool inUse = false;
 
 	CMario* player;
@@ -43,7 +44,7 @@ public:
 
 	bool FinishShooting();
 
-	void Init(float x, float y,bool isShootingUp, CMario* mario);
+	void AllocateFireballToMario();
 	void DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void Render();

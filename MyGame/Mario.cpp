@@ -19,6 +19,8 @@
 #include "Camera.h"
 #include "FireBallPool.h"
 
+CMario* CMario::__instance = NULL;
+
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
@@ -276,10 +278,11 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 }
 
-void CMario::ThrowFireball()
-{
-	CFireBallPool::GetInstance()->Create(x, y, false,this);
-}
+//void CMario::ThrowFireball()
+//{
+//	CFireBallPool::GetInstance()->Create();
+//	if (fireball != NULL) fireball->AllocateFireballToMario();
+//}
 
 /*
 	reset mario status to the beginning state of a scene
@@ -349,3 +352,10 @@ void CMario::Die()
 //	}
 //}
 //
+
+
+CMario* CMario::GetInstance()
+{
+	if (__instance == NULL) __instance = new CMario();
+	return __instance;
+}

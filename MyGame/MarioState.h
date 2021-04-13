@@ -10,6 +10,7 @@ class CMarioStateFly;
 class CMarioStateSpin;
 class CMarioStateDrop;
 class CMarioStateKick;
+class CMarioStateThrowFireballJumping;
 class CMarioStateThrowFireball;
 class CMarioStateHoldShellIdle;
 class CMarioStateHoldShellAndRun;
@@ -38,6 +39,7 @@ public:
 	static CMarioStateSpin spin;
 	static CMarioStateDrop drop;
 	static CMarioStateKick kick;
+	static CMarioStateThrowFireballJumping throw_fireball_jump;
 	static CMarioStateThrowFireball throw_fireball;
 	static CMarioStateHoldShellIdle holdshell_idle;
 	static CMarioStateHoldShellAndRun holdshell_run;

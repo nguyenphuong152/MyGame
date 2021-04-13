@@ -12,7 +12,7 @@ class CFireBallPool
 public:
 	static CFireBallPool* __instance;
 	CFireBallPool();
-	void Create(float x, float y,bool isShootingUp, CMario* mario);
+	CFireball* Create();
 	void Update();
 
 	static CFireBallPool* GetInstance();

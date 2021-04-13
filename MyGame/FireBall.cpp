@@ -4,25 +4,22 @@
 #include "Ground.h"
 #include "Box.h"
 #include "Camera.h"
+#include "Brick.h"
 
 CFireball::CFireball()
 {
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL_ANI);
 	SetAnimationSet(ani_set);
-	isShootingUp = false;
 }
 
-void CFireball::Init(float x, float y, bool isShootingUp, CMario* player)
+void CFireball::AllocateFireballToMario()
 {
-	SetPosition(x+10, y+20);
-	this->player = player;
-	this->isShootingUp = isShootingUp;
+	SetPosition(CMario::GetInstance()->x+10, CMario::GetInstance()->y+20);
 	isEnable = true;
 	inUse = true;
-	vx = player->nx * FIREBALL_VELOCITY_X;
+	vx = CMario::GetInstance()->nx * FIREBALL_VELOCITY_X;
 	vy = FIREBALL_VELOCITY_Y_NEAR;
-	DebugOut(L"x y %f %f \n", x, y);
 }
 
 void CFireball::Render()
@@ -30,7 +27,6 @@ void CFireball::Render()
 	
 	if (isEnable)
 	{
-		DebugOut(L"inside x y %f %f \n", x, y);
 		animation_set->at(0)->Render(0, x, y);
 	}
 	//RenderBoundingBox();
@@ -81,17 +77,23 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CGround*>(e->obj)|| dynamic_cast<CBox*>(e->obj))
+			if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
 			{
-				if (e->ny != 0) 
+				if (e->ny != 0)
 				{
 					vy = -FIREBALL_DEFLECT_Y;
 				}
-				/*else {
+				else if (e->nx != 0) {
 					SetState(FIREBALL_STATE_EXPLOSIVE);
-					isDie = true;
-					isFired = false;
-				}*/
+					isEnable = false;
+				}
+			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				if (e->nx != 0) {
+					SetState(FIREBALL_STATE_EXPLOSIVE);
+					isEnable = false;
+				}
 			}
 		}
 	}
@@ -110,6 +112,10 @@ void CFireball::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CFireball::SetState(int state)
 {
 	CGameObject::SetState(state);
+	if (state == FIREBALL_STATE_EXPLOSIVE)
+	{
+		SetState(FIREBALL_STATE_FIRE);
+	}
 }
 
 void CFireball::DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject)
@@ -119,8 +125,7 @@ void CFireball::DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject)
 		if (dynamic_cast<CCamera*>(listObject->at(i)))
 		{
 			CCamera* cam = dynamic_cast<CCamera*>(listObject->at(i));
-			if (AABB(cam)==false) {
-				//DebugOut(L"enable-x-y %d  %f %f \n", isEnable, x, y);
+			if (AABB(cam) == false) {
 				isEnable = false;
 			}
 		}
@@ -132,7 +137,6 @@ bool CFireball::FinishShooting()
 	if (!inUse) return false;
 	else if (!isEnable)
 	{
-		DebugOut(L"vo finish \n");
 		inUse = false;
 		return true;
 	}

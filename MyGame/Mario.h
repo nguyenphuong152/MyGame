@@ -125,6 +125,7 @@ class CMario : public CGameObject
 	float start_y;
 
 public:
+	static CMario* __instance;
 	CMarioState* marioState;
 
 	int level;
@@ -175,10 +176,12 @@ public:
 	void RaccoonMario();
 	void FireMario();
 	void Die();
-	void ThrowFireball();
+	//void ThrowFireball();
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+
+	static  CMario* GetInstance();
 
 	//Kiem tra collision voi item
 	//void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
