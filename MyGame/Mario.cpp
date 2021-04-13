@@ -218,7 +218,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	marioState->Update(dt, *this);
-	CFireBallPool::GetInstance()->Update();
 
 	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
@@ -318,35 +317,35 @@ void CMario::Die()
 	SetState(MARIO_STATE_DIE);
 }
 
-void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
-{
-	float mario_left, mario_top, mario_right, mario_bottom,
-		item_left, item_top, item_right, item_bottom;
-
-	GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
-	
-
-	for (UINT i = 0;i < listItem->size();i++)
-	{	
-		if (listItem->at(i)->isStop) continue;
-		listItem->at(i)->GetBoundingBox(item_left, item_top, item_right, item_bottom);
-
-		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
-			item_left, item_top, item_right, item_bottom))
-		{
-			listItem->at(i)->isEnable = false;
-			listItem->at(i)->isStop = true;
-			int state = listItem->at(i)->GetState();
-			switch (state)
-			{
-			case ITEM_MUSHROOM:
-				
-				SetLevel(MARIO_LEVEL_BIG);
-				//xét lại vị trí của mario khi mario ở size bự, nếu k xét bị lọt xuống k có ground để đỡ mario
-				y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
-				break;
-			}
-		}
-	}
-}
-
+//void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
+//{
+//	float mario_left, mario_top, mario_right, mario_bottom,
+//		item_left, item_top, item_right, item_bottom;
+//
+//	GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
+//	
+//
+//	for (UINT i = 0;i < listItem->size();i++)
+//	{	
+//		if (listItem->at(i)->isStop) continue;
+//		listItem->at(i)->GetBoundingBox(item_left, item_top, item_right, item_bottom);
+//
+//		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
+//			item_left, item_top, item_right, item_bottom))
+//		{
+//			listItem->at(i)->isEnable = false;
+//			listItem->at(i)->isStop = true;
+//			int state = listItem->at(i)->GetState();
+//			switch (state)
+//			{
+//			case ITEM_MUSHROOM:
+//				
+//				SetLevel(MARIO_LEVEL_BIG);
+//				//xét lại vị trí của mario khi mario ở size bự, nếu k xét bị lọt xuống k có ground để đỡ mario
+//				y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
+//				break;
+//			}
+//		}
+//	}
+//}
+//

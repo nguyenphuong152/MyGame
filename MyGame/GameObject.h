@@ -86,8 +86,7 @@ public:
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 
 	//aabb xét vật tĩnh đụng nhau
-	bool AABB(float left_a, float top_a, float right_a, float bot_a,
-		float left_b, float top_b, float right_b, float bot_b);
+	bool AABB(CGameObject* object);
 
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 

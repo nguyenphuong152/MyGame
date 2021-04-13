@@ -134,8 +134,12 @@ void CGameObject::RenderBoundingBox()
 	CGame::GetInstance()->Draw(0,x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
-bool CGameObject::AABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)
+bool CGameObject::AABB(CGameObject* object)
 {
+	float left_a, right_a, top_a, bottom_a, left_b, right_b, top_b, bottom_b;
+
+	GetBoundingBox(left_a, top_a, right_a, bottom_a);
+	object->GetBoundingBox(left_b, top_b, right_b, bottom_b);
 	if (left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b)
 		return true;
 	return false;

@@ -35,7 +35,7 @@ void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CCamera::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 CCamera* CCamera::GetInstance()

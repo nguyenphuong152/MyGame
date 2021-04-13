@@ -299,7 +299,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	player->CheckCollisionWithItems(&listItems);
+	//player->CheckCollisionWithItems(&listItems);
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
@@ -308,6 +308,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	CFireBallPool::GetInstance()->Update();
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;

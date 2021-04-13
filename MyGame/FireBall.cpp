@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "Ground.h"
 #include "Box.h"
+#include "Camera.h"
 
 CFireball::CFireball()
 {
@@ -18,14 +19,18 @@ void CFireball::Init(float x, float y, bool isShootingUp, CMario* player)
 	this->player = player;
 	this->isShootingUp = isShootingUp;
 	isEnable = true;
-	vx = player->nx * 0.5;
-	vy = FIREBALL_VELOCITY_Y_NEAR * 0.5;
+	inUse = true;
+	vx = player->nx * FIREBALL_VELOCITY_X;
+	vy = FIREBALL_VELOCITY_Y_NEAR;
+	DebugOut(L"x y %f %f \n", x, y);
 }
 
 void CFireball::Render()
 {
+	
 	if (isEnable)
 	{
+		DebugOut(L"inside x y %f %f \n", x, y);
 		animation_set->at(0)->Render(0, x, y);
 	}
 	//RenderBoundingBox();
@@ -36,10 +41,9 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt, colObject);
 
-	if (y < player->y)
-	{
-		vy = FIREBALL_VELOCITY_Y_NEAR * FIREBALL_VELOCITY_X;
-	}
+	vy += FIREBALL_GRAVITY * dt;
+
+	DisableFireballByCamera(colObject);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -81,13 +85,14 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 			{
 				if (e->ny != 0) 
 				{
-					vy = -FIREBALL_VELOCITY_Y_NEAR*FIREBALL_VELOCITY_X;
+					vy = -FIREBALL_DEFLECT_Y;
 				}
-				else {
+				/*else {
 					SetState(FIREBALL_STATE_EXPLOSIVE);
-				}
+					isDie = true;
+					isFired = false;
+				}*/
 			}
-			
 		}
 	}
 
@@ -105,6 +110,33 @@ void CFireball::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CFireball::SetState(int state)
 {
 	CGameObject::SetState(state);
+}
+
+void CFireball::DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject)
+{
+	for (UINT i = 0; i < listObject->size(); i++)
+	{
+		if (dynamic_cast<CCamera*>(listObject->at(i)))
+		{
+			CCamera* cam = dynamic_cast<CCamera*>(listObject->at(i));
+			if (AABB(cam)==false) {
+				//DebugOut(L"enable-x-y %d  %f %f \n", isEnable, x, y);
+				isEnable = false;
+			}
+		}
+	}
+}
+
+bool CFireball::FinishShooting()
+{
+	if (!inUse) return false;
+	else if (!isEnable)
+	{
+		DebugOut(L"vo finish \n");
+		inUse = false;
+		return true;
+	}
+	else return false;
 }
 
 //DebugOut(L"enable-x-y %d  %f %f \n", isEnable, x, y);

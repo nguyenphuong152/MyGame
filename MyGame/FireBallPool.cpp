@@ -24,14 +24,14 @@ void CFireBallPool::Create(float x, float y,bool isShootingUp,CMario* mario)
 	if (_firstAvailable != NULL) {
 		CFireball* newBall = _firstAvailable;
 		_firstAvailable = newBall->GetNext();
-		newBall->Init(x, y,isShootingUp,mario);
-		for (int i = 0; i < POOL_SIZE; i++)
+		newBall->Init(x, y, isShootingUp, mario);
+		/*for (int i = 0; i < POOL_SIZE; i++)
 		{
 			if (newBall == &fireballs[i])
 			{
 				DebugOut(L"have ball %d %d \n", i, fireballs[i].isEnable);
 			}
-		}
+		}*/
 	}
 	else {
 		DebugOut(L"null \n");
@@ -43,13 +43,14 @@ void CFireBallPool::Update()
 {
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		//DebugOut(L"have ball %d %d \n", i, fireballs[i].isEnable);
-		//if (fireballs[i].isEnable)
-		//{
-		//	// Add this particle to the front of the list.
-		//	fireballs[i].SetNext(_firstAvailable);
-		//	_firstAvailable = &fireballs[i];
-		//};
+		DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
+		if (fireballs[i].FinishShooting())
+		{
+			// Add this particle to the front of the list.
+			fireballs[i].SetNext(_firstAvailable);
+			
+			_firstAvailable = &fireballs[i];
+		};
 	}
 }
 
