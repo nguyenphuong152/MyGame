@@ -10,6 +10,7 @@
 #include "Box.h"
 #include "Boundary.h"
 #include "Camera.h"
+#include "RedVenusFireTrap.h"
 
 using namespace std;
 
@@ -159,7 +160,7 @@ void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(800, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -175,6 +176,25 @@ void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 					obj = new CBrick();
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Enemy") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					const char* enemyName = element->Attribute("name");
+					const char* enemyType = element->Attribute("type");
+					
+					if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "red") == 0)
+					{
+						obj = new CRedVenusFireTrap();
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}
 
 					element = element->NextSiblingElement();
 				}

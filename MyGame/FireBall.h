@@ -26,7 +26,7 @@ class CFireball : public CGameObject
 	friend class CFireBallPool;
 private:
 	CFireball();
-	//bool isShootingUp;
+	bool isShootingUp;
 	bool inUse = false;
 
 	CMario* player;
@@ -45,7 +45,10 @@ public:
 	bool FinishShooting();
 
 	void AllocateFireballToMario();
+	void AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp);
 	void DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject);
+	void HandleFireballForVenus();
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void Render();
 	virtual void SetState(int state);

@@ -22,6 +22,16 @@ void CFireball::AllocateFireballToMario()
 	vy = FIREBALL_VELOCITY_Y_NEAR;
 }
 
+void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp)
+{
+	SetPosition(x,y);
+	isEnable = true;
+	inUse = true;
+	this->isShootingUp = isShootingUp;
+	vx = nx * FIREBALL_VELOCITY_X;
+	vy = FIREBALL_VELOCITY_Y_NEAR;
+}
+
 void CFireball::Render()
 {
 	
@@ -155,7 +165,3 @@ bool CFireball::FinishShooting()
 
 	//// check lại vx nếu k khi con này quay phải, vy sẽ bị ngược chiều
 	//if (vx > 0) vy = -vy;
-
-	//DebugOut(L"y: %f \n", y);
-	//hardcode
-	//if (y < 232 || y>450) isEnable = false;

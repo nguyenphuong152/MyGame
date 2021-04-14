@@ -11,6 +11,7 @@
 #include "MarioState.h"
 #include "Fireball.h"
 #include "Camera.h"
+#include "FireBallPool.h"
 
 
 using namespace std;

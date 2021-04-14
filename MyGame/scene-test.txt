@@ -1,8 +1,8 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario.png	255	255	255
-10	textures\enemies.png	68	145	190
-20	textures\misc.png	224	163	216
+10	textures\enemy.png	200	200	200
+20	textures\misc.png	255	255	255
 30	textures\Map\World1-1\world-1-1.png	255	255	255
 40	textures\fireball.png	255	255	255
 50	textures\effect.png	0	0	0
@@ -162,13 +162,13 @@
 60003	69	52	85	68	20
 60004	86	52	102	68	20
 
-#RED PLANT -- first sprite for shooting
-#down
-61001	128	144	144	176	10
-61002	144	144	160	176	10
-#up
-61003	160	144	176	176	10
-61004	176	144	192	176	10
+#VENUS-red -- first sprite for shooting					
+#down					
+61001	660	199	708	295	10
+61002	708	199	756	295	10
+#up					
+61003	756	199	804	295	10
+61004	804	199	852	295	10
 
 #FIREBALL					
 62001	0	0	25	26	40
@@ -348,7 +348,7 @@
 # ==== LEAF =========
 520	52001	100
 
-# ==== RED PLANT =========
+# ==== RED venus=========
 #down
 601	61001	100	61002	100
 #up
@@ -402,7 +402,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	2000	1100	1
+0	800	1100	1
 #GOOMBA
 2	224	401	2
 2	528	401	2
