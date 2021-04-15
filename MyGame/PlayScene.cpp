@@ -152,6 +152,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
+	{
 		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -162,12 +163,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CMario*)obj;
 
 		DebugOut(L"[INFO] Player object created!\n");
-		break;
-	/*case TRAP_RED_VENUS:
-	{
-		obj = new CRedVenusFireTrap(player,pool);
-
-	} break;*/
+	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
 		pool = CFireBallPool::GetInstance();
@@ -382,6 +378,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->FireMario();
 		break;
 	case DIK_4:
+		mario->ImmortalMario();
+		break;
+	case DIK_5:
 		mario->Die();
 		break;
 	case DIK_A:

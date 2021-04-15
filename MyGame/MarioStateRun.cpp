@@ -18,7 +18,7 @@ void CMarioStateRun::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_RUN);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_RUN);
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)

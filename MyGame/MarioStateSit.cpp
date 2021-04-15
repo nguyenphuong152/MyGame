@@ -19,7 +19,7 @@ void CMarioStateSit::Enter(CMario& mario)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_SIT);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON)
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_SIT);
 	}

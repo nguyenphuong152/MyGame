@@ -84,13 +84,17 @@ class CMarioState;
 #define MARIO_ANI_FIRE_HANDLESHELL_IDLE				54
 #define MARIO_ANI_FIRE_HANDLESHELL_RUN				55
 #define MARIO_ANI_FIRE_HANDLESHELL_JUMP_DROP		56
-#define MARIO_ANI_FIRE_SHOOT_FIREBALL_IDLE				57
-#define MARIO_ANI_FIRE_SHOOT_FIREBALL_JUMP				58
+#define MARIO_ANI_FIRE_SHOOT_FIREBALL_IDLE			57
+#define MARIO_ANI_FIRE_SHOOT_FIREBALL_JUMP			58
 
-#define	MARIO_LEVEL_SMALL	1
-#define	MARIO_LEVEL_BIG		2
-#define	MARIO_LEVEL_RACOON	3
-#define	MARIO_LEVEL_FIRE	4
+#define MARIO_ANI_RACCOON_ATTACK_BY_TAIL			59
+#define MARIO_ANI_IMMORTAL_JUMP						60
+
+#define	MARIO_LEVEL_SMALL		1
+#define	MARIO_LEVEL_BIG			2
+#define	MARIO_LEVEL_RACOON		3
+#define	MARIO_LEVEL_FIRE		4
+#define MARIO_LEVEL_IMMORTAL	5
 
 
 #define MARIO_BIG_BBOX_WIDTH  42
@@ -175,6 +179,7 @@ public:
 	void BigMario();
 	void RaccoonMario();
 	void FireMario();
+	void ImmortalMario();
 	void Die();
 	//void ThrowFireball();
 	void HandleInput(Input input);

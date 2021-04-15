@@ -22,6 +22,10 @@ void CMarioStateJump::Enter(CMario& mario)
 	else if(mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_JUMP);
 	}
+	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	{
+		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
+	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_JUMP);
@@ -61,7 +65,7 @@ void CMarioStateJump::Update(DWORD dt, CMario& mario)
 			mario.vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
-	else if( mario.vy>0)
+	else if( mario.vy>0 )
 	{
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}

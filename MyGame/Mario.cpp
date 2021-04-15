@@ -264,7 +264,7 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 		r = x + MARIO_BIG_BBOX_WIDTH;
 		b = y + MARIO_BIG_BBOX_HEIGHT;
 	}
-	else if(level == MARIO_LEVEL_RACOON) {
+	else if(level == MARIO_LEVEL_RACOON || level == MARIO_LEVEL_IMMORTAL) {
 		r = x + MARIO_RACOON_BBOX_WIDTH;
 		b = y + MARIO_RACOON_BBOX_HEIGHT;
 	}
@@ -310,6 +310,15 @@ void CMario::FireMario()
 {
 	InitState();
 	SetLevel(MARIO_LEVEL_FIRE);
+	y -= 100;
+	SetSpeed(0, 0);
+	nx = 1;
+}
+
+void CMario::ImmortalMario()
+{
+	InitState();
+	SetLevel(MARIO_LEVEL_IMMORTAL);
 	y -= 100;
 	SetSpeed(0, 0);
 	nx = 1;

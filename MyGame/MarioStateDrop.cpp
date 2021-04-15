@@ -30,6 +30,10 @@ void CMarioStateDrop::Enter(CMario& mario)
 			mario.SetAnimation(MARIO_ANI_RACCOON_DROP);
 		}
 	}
+	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	{
+		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
+	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_DROP);
 	}
