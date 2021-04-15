@@ -39,11 +39,11 @@ void CMap::CreateTileSet()
 	int tileId = 1;
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
-	for (int i = 0;i < tilePerColumn;i++)
-	{		
-		for (int j = 0;j < tilePerRow;j++)
+	for (int i = 0; i < tilePerColumn; i++)
+	{
+		for (int j = 0; j < tilePerRow; j++)
 		{
-			
+
 			int t = i * TILE_WIDTH;
 			int l = j * TILE_WIDTH;
 			int r = l + TILE_WIDTH;
@@ -58,12 +58,12 @@ void CMap::CreateTileSet()
 
 
 void CMap::HandleMap()
-{	
+{
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
 	{
-		DebugOut(L"[ERR] TMX FAILED %s\n",ToLPCWSTR(doc.ErrorDesc()));
-		return ;
+		DebugOut(L"[ERR] TMX FAILED %s\n", ToLPCWSTR(doc.ErrorDesc()));
+		return;
 	}
 
 	TiXmlElement* root = doc.RootElement();
@@ -75,11 +75,19 @@ void CMap::HandleMap()
 
 		//render map
 		//layer k có attribute visible mới add vô vẽ
-		const char* attributeVisible = layer->Attribute("visible");
-		if (attributeVisible == NULL && name == "data")
+		// tach layer foreground ra vẽ sau cùng
+		if (layer->Attribute("name") != NULL)
 		{
-			CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
-			layers.push_back(mLayer);
+			if (strcmp(layer->Attribute("name"), "Foreground") == 0  )
+				layerForeground = new CMapLayer(layer->FirstChildElement());
+			else {
+				const char* attributeVisible = layer->Attribute("visible");
+				if (attributeVisible == NULL && name == "data")
+				{
+					CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+					layers.push_back(mLayer);
+				}
+			}
 		}
 	}
 }
@@ -209,4 +217,10 @@ void CMap::RenderMap()
 	{
 		layers[i]->RenderLayer();
 	}
+
+}
+
+void CMap::RenderForeground()
+{
+	layerForeground->RenderLayer();
 }

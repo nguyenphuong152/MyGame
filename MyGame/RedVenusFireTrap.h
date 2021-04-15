@@ -19,11 +19,8 @@
 
 #define RED_VENUS_VELOCITY_Y		0.05f
 
-#define POSITION_MIDDLE_SHOOTING	352
-#define POSITION_MIDDLE_MOVING		353
 #define POSITION_PIPE_X				1040
 #define POSITION_PIPE_Y				1105
-#define POSITION_MOVING				339
 
 #define TIME_SHOOTING				800
 
@@ -34,6 +31,7 @@ class CRedVenusFireTrap : public CGameObject
 {
 	DWORD startShooting = -1;
 	bool isShooting;
+	bool isShootingUp;
 
 public:
 

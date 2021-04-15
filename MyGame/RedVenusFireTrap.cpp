@@ -10,6 +10,7 @@ CRedVenusFireTrap ::CRedVenusFireTrap()
 	isEnable = true;
 	startShooting = -1;
 	isShooting = false;
+	isShootingUp = false;
 	SetState(RED_VENUS_STATE_GO_UP);
 }
 
@@ -144,6 +145,7 @@ void CRedVenusFireTrap::CheckDirection()
 	else
 	{
 		state = RED_VENUS_STATE_SHOOT_UP;
+		isShootingUp = true;
 	}
 }
 
@@ -153,10 +155,8 @@ void CRedVenusFireTrap::StartShooting()
 	isShooting = true;
 	vy = 0;
 	CFireball* fireball = CFireBallPool::GetInstance()->Create();
-
-	bool isShootingUp = false;
-	if (state == RED_VENUS_STATE_SHOOT_UP) isShootingUp = true;
-	fireball->AllocateFireballToVenus(nx,x+10,y+20,isShootingUp);
+	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);
+	if (isShootingUp) isShootingUp = false;
 }
 
 void CRedVenusFireTrap::SetAnimation()

@@ -11,11 +11,12 @@ CFireball::CFireball()
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL_ANI);
 	SetAnimationSet(ani_set);
+	player = CMario::GetInstance();
 }
 
 void CFireball::AllocateFireballToMario()
 {
-	SetPosition(CMario::GetInstance()->x+10, CMario::GetInstance()->y+20);
+	SetPosition(player->x+10, player->y+20);
 	isEnable = true;
 	inUse = true;
 	vx = CMario::GetInstance()->nx * FIREBALL_VELOCITY_X;
@@ -27,9 +28,10 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 	SetPosition(x,y);
 	isEnable = true;
 	inUse = true;
+	isBelongToVenus = true;
 	this->isShootingUp = isShootingUp;
-	vx = nx * FIREBALL_VELOCITY_X;
-	vy = FIREBALL_VELOCITY_Y_NEAR;
+	vx = nx * FIREBALL_VELOCITY_X*0.5;
+	vy = FIREBALL_VENUS_VELOCITY_Y_NEAR;
 }
 
 void CFireball::Render()
@@ -51,6 +53,8 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	DisableFireballByCamera(colObject);
 
+	if (isBelongToVenus) HandleFireballForVenus();
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -60,7 +64,7 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		CalcPotentialCollisions(colObject, coEvents);
 
 	//if no collision occured, proceed normally
-	if (coEvents.size() == 0)
+	if (coEvents.size() == 0 || isBelongToVenus == true)
 	{
 		x += dx;
 		y += dy;
@@ -87,24 +91,25 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
-			{
-				if (e->ny != 0)
+			
+				if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
 				{
-					vy = -FIREBALL_DEFLECT_Y;
+					if (e->ny != 0)
+					{
+						vy = -FIREBALL_DEFLECT_Y;
+					}
+					else if (e->nx != 0) {
+						SetState(FIREBALL_STATE_EXPLOSIVE);
+						isEnable = false;
+					}
 				}
-				else if (e->nx != 0) {
-					SetState(FIREBALL_STATE_EXPLOSIVE);
-					isEnable = false;
+				else if (dynamic_cast<CBrick*>(e->obj))
+				{
+					if (e->nx != 0) {
+						SetState(FIREBALL_STATE_EXPLOSIVE);
+						isEnable = false;
+					}
 				}
-			}
-			else if (dynamic_cast<CBrick*>(e->obj))
-			{
-				if (e->nx != 0) {
-					SetState(FIREBALL_STATE_EXPLOSIVE);
-					isEnable = false;
-				}
-			}
 		}
 	}
 
@@ -148,20 +153,27 @@ bool CFireball::FinishShooting()
 	else if (!isEnable)
 	{
 		inUse = false;
+		if (isBelongToVenus) isBelongToVenus = false;
 		return true;
 	}
 	else return false;
 }
 
-//DebugOut(L"enable-x-y %d  %f %f \n", isEnable, x, y);
-	//int dir = -1;
-	//if (isShootingUp) dir = 1;
+void CFireball::HandleFireballForVenus()
+{
+	int dir = -1;
+	if (isShootingUp) dir = 1;
 
-	//if (player->x > RANGE_X_LEFT&&player->x< RANGE_X_RIGHT) {
-	//	vy = dir * FIREBALL_VELOCITY_Y_NEAR * vx;
+	if (player->x > RANGE_X_LEFT && player->x < RANGE_X_RIGHT)
+	{
+		vy = dir * FIREBALL_VENUS_VELOCITY_Y_NEAR * vx;
+	}
+	else {
+		vy = dir * FIREBALL_VENUS_VELOCITY_Y_FAR * vx ;
+	}
 
-	//}
-	//else vy = dir * FIREBALL_VELOCITY_Y_FAR * vx;
+	if (vx > 0) vy = -vy;
+}
+	
 
-	//// check lại vx nếu k khi con này quay phải, vy sẽ bị ngược chiều
-	//if (vx > 0) vy = -vy;
+	

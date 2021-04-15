@@ -366,7 +366,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="13" name="Solid">
+ <objectgroup id="13" name="Solid" visible="0">
   <object id="1" x="2" y="1246" width="1869.82" height="48"/>
   <object id="2" x="1057.42" y="1101.33" width="95.9091" height="144.394"/>
   <object id="3" x="1872" y="1198" width="1392" height="96"/>
@@ -400,7 +400,7 @@
   <object id="146" x="6238.67" y="1390.17" width="97.6667" height="99"/>
   <object id="209" x="6720" y="1104.67" width="94.6666" height="47.3333"/>
  </objectgroup>
- <objectgroup id="14" name="Ghost">
+ <objectgroup id="14" name="Ghost" visible="0">
   <object id="28" x="720.523" y="1104.97" width="142.597" height="139.113"/>
   <object id="29" x="817.891" y="1008.86" width="140.712" height="231.742"/>
   <object id="30" x="1200.45" y="1104.34" width="239.337" height="137.113"/>
@@ -422,7 +422,7 @@
   <object id="50" name="bcoin" type="1" x="682.667" y="914"/>
   <object id="51" name="powerup" type="1" x="729.333" y="914"/>
   <object id="53" name="bcoin" type="1" x="1259.33" y="964.667"/>
-  <object id="104" name="powerup" type="1" x="1977.52" y="1154.62"/>
+  <object id="104" name="powerup" type="1" x="1974.52" y="1152.95"/>
   <object id="105" name="powerup" type="1" x="2122.24" y="1010.12"/>
   <object id="106" name="powerup" type="1" x="4378.55" y="1111.55"/>
   <object id="213" name="powerup" type="1" x="4281" y="393.333"/>
@@ -520,7 +520,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Enemy">
+ <objectgroup id="15" name="Enemy" visible="0">
   <object id="55" name="goomba" type="tan" x="1510" y="1189.33"/>
   <object id="91" name="koopa" type="red" x="1641.33" y="1034.66"/>
   <object id="95" name="piranha" type="basic" x="5375" y="1212.53"/>
@@ -571,7 +571,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="25" name="Boundary">
+ <objectgroup id="25" name="Boundary" visible="0">
   <object id="235" x="-66" y="2" width="66" height="1964"/>
   <object id="236" x="-64" y="-58" width="8620" height="54"/>
   <object id="237" x="8448.85" y="-5.21212" width="88" height="1974.3"/>

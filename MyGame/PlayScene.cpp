@@ -220,8 +220,9 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	CMap::GetInstance()->AddMap(id, &path[0],textureId, tilePerRow, tilePerColumn);
 	CMap::GetInstance()->CreateTileSet();
-	CMap::GetInstance()->HandleMap();
 	CMap::GetInstance()->HandleObjectInMap(objects);
+	CMap::GetInstance()->HandleMap();
+	
 }
 
 void CPlayScene::Load()
@@ -318,14 +319,19 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+
 	CMap::GetInstance()->RenderMap();
+
 	for (int i = 1; i < objects.size(); i++)
 	{
 		objects[i]->Render();
 	}
+
+	CMap::GetInstance()->RenderForeground();
+
 	//render mario sau cung
 	objects[0]->Render();
-		
+
 }
 
 /*

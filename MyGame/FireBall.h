@@ -8,8 +8,12 @@
 
 #define FIREBALL_VELOCITY_X			0.3f
 #define FIREBALL_VELOCITY_Y_NEAR	0.1f
-#define FIREBALL_VELOCITY_Y_FAR		0.4f
 #define FIREBALL_DEFLECT_Y			0.45f
+
+
+#define FIREBALL_VENUS_VELOCITY_Y_NEAR		0.8f
+#define FIREBALL_VENUS_VELOCITY_Y_FAR       0.5f			
+
 
 #define FIREBALL_GRAVITY			0.0015f
 
@@ -18,8 +22,8 @@
 #define FIREBALL_STATE_EXPLOSIVE	100
 #define FIREBALL_STATE_FIRE			200
 
-#define RANGE_X_LEFT	287
-#define RANGE_X_RIGHT	400
+#define RANGE_X_LEFT	886
+#define RANGE_X_RIGHT	1280
 
 class CFireball : public CGameObject
 {
@@ -28,6 +32,7 @@ private:
 	CFireball();
 	bool isShootingUp;
 	bool inUse = false;
+	bool isBelongToVenus;
 
 	CMario* player;
 	union {
