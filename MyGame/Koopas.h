@@ -14,11 +14,11 @@
 #define KOOPAS_STATE_DIE_WITH_VELOCITY 300
 #define KOOPAS_STATE_RECOVER 400
 
-
-#define KOOPAS_ANI_WALKING  0
-#define KOOPAS_ANI_DIE		1
-#define KOOPAS_ANI_DIE_WITH_VELOCITY 2
-#define KOOPAS_ANI_RECOVER	3
+#define KOOPAS_ANI						70
+#define KOOPAS_ANI_WALKING				0
+#define KOOPAS_ANI_DIE					1
+#define KOOPAS_ANI_DIE_WITH_VELOCITY	2
+#define KOOPAS_ANI_RECOVER				s3
 
 class CKoopas : public CGameObject
 {
@@ -31,7 +31,8 @@ class CKoopas : public CGameObject
 public:
 	bool isHolded = false;
 
-	CKoopas(float start_point, float end_point,CMario* player);
+	CKoopas(float x, float y);
 	virtual void SetState(int state);
+	void SetAnimation();
 };
 

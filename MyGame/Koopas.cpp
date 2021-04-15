@@ -3,13 +3,12 @@
 #include "MarioStateIdle.h"
 #include "Mario.h"
 
-CKoopas::CKoopas(float start_point,float end_point,CMario *player)
+CKoopas::CKoopas(float x,float y)
 {
 	isEnable = true;
-	this->player = player;
-	this->start_point = start_point;
-	this->end_point = end_point;
+	this->player = CMario::GetInstance();
 	nx = 1;
+	SetAnimation();
 	SetState(KOOPAS_STATE_WALKING);
 }
 
@@ -79,7 +78,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	
 
-	if (vx < 0 && x < start_point &&state==KOOPAS_STATE_WALKING)
+	/*if (vx < 0 && x < start_point &&state==KOOPAS_STATE_WALKING)
 	{
 		x = start_point; vx = -vx;
 	}
@@ -87,7 +86,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vx > 0 && x > end_point&&state == KOOPAS_STATE_WALKING)
 	{
 		x = end_point; vx = -vx;
-	}
+	}*/
 }
 
 void CKoopas::Render()
@@ -121,4 +120,11 @@ void CKoopas::SetState(int state)
 		vx = nx*KOOPAS_WALKING_SPEED;
 		break;
 	}
+}
+
+void CKoopas::SetAnimation()
+{
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(KOOPAS_ANI);
+	SetAnimationSet(ani_set);
 }

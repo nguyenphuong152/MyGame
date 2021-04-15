@@ -225,6 +225,9 @@
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp">
       <Filter>Source Files\Mario\OnAirStates</Filter>
     </ClCompile>
+    <ClCompile Include="MapObjects.cpp">
+      <Filter>Source Files\MapManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="MarioStateThrowingFireballJumping.h">
       <Filter>Header Files\Mario\OnAirStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjects.h">
+      <Filter>Header Files\MapManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

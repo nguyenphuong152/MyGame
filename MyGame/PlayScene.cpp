@@ -12,6 +12,7 @@
 #include "Fireball.h"
 #include "Camera.h"
 #include "FireBallPool.h"
+#include "MapObjects.h"
 
 
 using namespace std;
@@ -216,9 +217,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	CMap::GetInstance()->AddMap(id, &path[0],textureId, tilePerRow, tilePerColumn);
 	CMap::GetInstance()->CreateTileSet();
-	CMap::GetInstance()->HandleObjectInMap(objects);
 	CMap::GetInstance()->HandleMap();
-	
+	CMapObjects::GetInstance()->GenerateObject(&path[0],objects);
 }
 
 void CPlayScene::Load()
