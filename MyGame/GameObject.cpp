@@ -71,7 +71,6 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0;i < coObjects->size();i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-		if (!coObjects->at(i)->isEnable) return;
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);

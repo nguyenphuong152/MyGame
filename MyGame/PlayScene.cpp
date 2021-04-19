@@ -36,16 +36,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_MAP	7
 
 #define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_GOOMBA	2
-#define TRAP_RED_VENUS 5
-#define ENEMY_KOOPAS	4 
-#define OBJECT_TYPE_FIREBALL 3
-
-#define OBJECT_TYPE_GROUND 60
-#define OBJECT_TYPE_BOX 70
-#define OBJECT_TYPE_PIPE 80
-#define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_FIREBALL 1
+#define OBJECT_TYPE_PORTAL	3
 
 #define MAX_SCENE_LINE 2048
 
@@ -168,17 +160,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FIREBALL:
 	{
 		pool = CFireBallPool::GetInstance();
-		for (int i = 0; i <pool->POOL_SIZE ; i++)
+		for (int i = 0; i < pool->POOL_SIZE; i++)
 		{
 			objects.push_back(&pool->fireballs[i]);
 		}
 	} break;
-	/*case OBJECT_TYPE_PIPE:
-	{
-		int spritePipe = atof(tokens[4].c_str());
-		obj = new CPipe(spritePipe);
-	}
-	break;*/
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -417,6 +403,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 		input = Input::RELEASE_A;
 		mario->HandleInput(input);
 		mario->powerMode = false;
+		mario->canHoldShell = false;
 		break;
 	}
 }

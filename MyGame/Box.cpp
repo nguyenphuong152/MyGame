@@ -2,10 +2,8 @@
 #include "Textures.h"
 #include "Game.h"
 
-CBox::CBox(float l, float t, float width, float height)
+CBox::CBox(float width, float height)
 {
-	x = l;
-	y = t;
 	this->width = width;
 	this->height = height;
 	isEnable = true;

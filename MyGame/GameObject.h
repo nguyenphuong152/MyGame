@@ -65,8 +65,6 @@ public:
 	DWORD dt; //time
 
 	bool isEnable = false;
-	bool isStop = false;
-	
 	
 	LPANIMATION_SET animation_set;
 

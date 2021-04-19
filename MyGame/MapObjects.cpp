@@ -8,6 +8,7 @@
 #include "RedVenusFireTrap.h"
 #include "tinyxml.h"
 #include "Koopas.h"
+#include "ObjectBoundary.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -47,7 +48,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CGround(x, y, width, height);
+					obj = new CGround(width, height);
+					obj->SetPosition(x, y);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -62,7 +64,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CBox(x, y, width, height);
+					obj = new CBox(width, height);
+					obj->SetPosition(x, y);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -77,7 +80,24 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CBoundary(x, y, width, height);
+					obj = new CBoundary(width, height);
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "ObjectBoundary") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+					obj = new CObjectBoundary(width, height);
+					obj->SetPosition(x, y);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -93,7 +113,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(800, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -129,7 +149,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 						objects.push_back(obj);
 					}if (strcmp(enemyName, "koopa") == 0 && strcmp(enemyType, "red") == 0)
 					{
-						obj = new CKoopas(x,y);
+						obj = new CKoopas();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
 					}

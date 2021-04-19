@@ -73,6 +73,12 @@
     <Filter Include="Header Files\Mario\HoldingShellStates">
       <UniqueIdentifier>{4e61e90a-b9bf-49a2-877c-d197962e328b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Platform">
+      <UniqueIdentifier>{39831396-fae0-4f4a-b85c-a1b2b0b48580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Platform">
+      <UniqueIdentifier>{1ba75fb3-4f61-4ad0-939d-543c02928eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -153,15 +159,6 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Boundary.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Objects\Camera</Filter>
     </ClCompile>
@@ -227,6 +224,18 @@
     </ClCompile>
     <ClCompile Include="MapObjects.cpp">
       <Filter>Source Files\MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Boundary.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBoundary.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +305,6 @@
     <ClInclude Include="Coin.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -306,12 +312,6 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Boundary.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -379,6 +379,18 @@
     </ClInclude>
     <ClInclude Include="MapObjects.h">
       <Filter>Header Files\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Boundary.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBoundary.h">
+      <Filter>Header Files\Objects\Platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

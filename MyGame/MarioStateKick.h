@@ -1,6 +1,6 @@
 #pragma once
 #include "MarioOnGroundStates.h"
-#define MARIO_KICKING_TIME 100
+#define MARIO_KICKING_TIME 200
 
 class CMarioStateKick : public CMarioOnGroundStates
 {

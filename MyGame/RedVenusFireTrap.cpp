@@ -58,11 +58,14 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//go up and start shooting then change state go down when it go over the pipe
 	if (!isShooting)
 	{
-		if (y < POSITION_PIPE_Y - RED_VENUS_BBOX_HEIGHT+5 && vy <= 0) StartShooting();
+		if (y < POSITION_PIPE_Y - RED_VENUS_BBOX_HEIGHT + 5 && vy <= 0)
+		{
+			CheckDirection();
+			StartShooting();
+		}
 	}
 	else {
 		DWORD now = GetTickCount();
-		CheckDirection();
 		if (now - startShooting > TIME_SHOOTING)
 		{
 			isShooting = false;

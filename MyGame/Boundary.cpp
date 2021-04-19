@@ -2,10 +2,8 @@
 #include "Textures.h"
 #include "Game.h"
 
-CBoundary::CBoundary(float l, float t, float width, float height)
+CBoundary::CBoundary( float width, float height)
 {
-	x = l;
-	y = t;
 	this->width = width;
 	this->height = height;
 	isEnable = true;

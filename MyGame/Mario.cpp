@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "MarioState.h"
 #include "MarioStateIdle.h"
+#include "MarioStateRun.h"
 #include "MarioStateDrop.h"
 #include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
@@ -18,6 +19,7 @@
 #include "Boundary.h"
 #include "Camera.h"
 #include "FireBallPool.h"
+#include "ObjectBoundary.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -130,16 +132,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//jummp  on top >> kill koopas and deflect a bit
 				if (e->ny < 0)
 				{
-					if (koopas->GetState() != KOOPAS_STATE_DIE)
+					if (koopas->GetState() != KOOPA_STATE_DIE)
 					{
-						koopas->SetState(KOOPAS_STATE_DIE);
-						//koopas->isEnable = false;
+						koopas->SetState(KOOPA_STATE_DIE);
+						koopas->StartDie();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
 				else if (e->nx!=0)
 				{
-					if (koopas->GetState() == KOOPAS_STATE_DIE)
+					if (koopas->GetState() == KOOPA_STATE_DIE)
 					{
 						if (canHoldShell)
 						{
@@ -188,6 +190,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (e->nx != 0)
 				{
 					x += dx;
+					if(marioState==CMarioState::run.GetInstance())
+						vx = MARIO_RUNNING_SPEED * this->nx;
 				}
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj)||dynamic_cast<CCamera*>(e->obj))
@@ -215,6 +219,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+			}
+			else if (dynamic_cast<CObjectBoundary*>(e->obj)) 
+			{
+					if (e->nx != 0) x += dx;
+					else if (e->ny != 0) y += dy;
 			}
 		}
 	}
@@ -278,11 +287,6 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 }
 
-//void CMario::ThrowFireball()
-//{
-//	CFireBallPool::GetInstance()->Create();
-//	if (fireball != NULL) fireball->AllocateFireballToMario();
-//}
 
 /*
 	reset mario status to the beginning state of a scene

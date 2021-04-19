@@ -3,7 +3,6 @@
 
 CItems::CItems(CMario*player)
 {
-	isStop =false;
 	isEnable = false;
 	timeAppear = -1;
 	this->player = player;
@@ -24,7 +23,6 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 			if (now - timeAppear >= ITEM_TIME_ALIVE)
 			{
 				isEnable = false;
-				isStop = true;
 			}
 		}
 	}

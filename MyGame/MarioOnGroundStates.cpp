@@ -87,6 +87,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	}
 	else if (input == Input::PRESS_A)
 	{
+		mario.canHoldShell = true;
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
 			mario.ChangeState(CMarioState::spin.GetInstance());

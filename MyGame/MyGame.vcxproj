@@ -180,6 +180,7 @@
     <ClCompile Include="MarioStateThrowingFireball.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
+    <ClCompile Include="ObjectBoundary.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="MarioStateThrowingFireball.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
+    <ClInclude Include="ObjectBoundary.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
     <ClInclude Include="Utils.h" />

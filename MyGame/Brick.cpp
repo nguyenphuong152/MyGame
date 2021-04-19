@@ -10,8 +10,8 @@ CBrick::CBrick()
 	SetAnimationSet(ani_set);
 
 	isEnable = true;
-	//this->itemId = itemId;
 	SetState(BRICK_STATE_UNTOUCH);
+	oldY = y;
 }
 
 void CBrick::Render()
@@ -33,30 +33,32 @@ void CBrick::SetState(int state)
 	CGameObject::SetState(state);
 	if (state == BRICK_STATE_TOUCHED)
 	{
-		//nếu touch cục gạch, dùng biến oldY lưu vị trí cũ để khi nó nhảy lên biết vị trí cũ để về
-		oldY = y;
-		// vị trí mới khi bị touch
-		y -= BRICK_DEFLECT_POS;
+		vy = -0.2;
+		DebugOut(L"vo \n");
 	}
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-		if (state == BRICK_STATE_TOUCHED && isDropItem) {
-			//DebugOut(L"drop \n");
-			return;
-		}
+
 		CGameObject::Update(dt, coObjects);
-		if (state == BRICK_STATE_TOUCHED && !isDropItem)
+		if (y < oldY)
 		{
-			if (y < oldY)
-			{
-				y++;//để nó nhảy lên xong về lại vị trí cũ
-			}	
-			else {
-				isDropItem = true;
-				//DebugOut(L"vo \n");
-			}
+			DebugOut(L"vy %f \n", vy);
+			vy += 0.5f * dt;//để nó nhảy lên xong về lại vị trí cũ
+		}
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+
+		coEvents.clear();
+
+		CalcPotentialCollisions(coObjects, coEvents);
+
+		if (coEvents.size() == 0)
+		{
+			y += dy;
+			x += dx;
 		}
 }
 
