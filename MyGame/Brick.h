@@ -12,8 +12,8 @@
 
 #define BRICK_ANI 22
 
-#define BRICK_DEFLECT_POS 20
-//#define BRICK_TRANSITION_SPEED 3
+#define BRICK_VELOCITY_Y		0.5f
+#define BRICK_DROP_VELOCITY_Y	0.1f
 
 class CBrick :public CGameObject
 {

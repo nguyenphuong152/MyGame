@@ -11,7 +11,6 @@ CBrick::CBrick()
 
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
-	oldY = y;
 }
 
 void CBrick::Render()
@@ -33,8 +32,7 @@ void CBrick::SetState(int state)
 	CGameObject::SetState(state);
 	if (state == BRICK_STATE_TOUCHED)
 	{
-		vy = -0.2;
-		DebugOut(L"vo \n");
+		vy = -BRICK_VELOCITY_Y;
 	}
 }
 
@@ -42,24 +40,20 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 		CGameObject::Update(dt, coObjects);
-		if (y < oldY)
+		if (state == BRICK_STATE_UNTOUCH)
 		{
-			DebugOut(L"vy %f \n", vy);
-			vy += 0.5f * dt;//để nó nhảy lên xong về lại vị trí cũ
+			oldY = y;
+		}
+		else if (y < oldY && vy <0)
+		{
+			vy = BRICK_DROP_VELOCITY_Y;
+		}
+		else if (vy==BRICK_DROP_VELOCITY_Y&&y>=oldY) {
+			y = oldY;
+			vy = 0;
 		}
 
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(coObjects, coEvents);
-
-		if (coEvents.size() == 0)
-		{
-			y += dy;
-			x += dx;
-		}
+		y += dy;
 }
 
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
