@@ -237,6 +237,12 @@
     <ClCompile Include="ObjectBoundary.cpp">
       <Filter>Source Files\Objects\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="Piranha.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenVenusFireTrap.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -391,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="ObjectBoundary.h">
       <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Piranha.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenVenusFireTrap.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

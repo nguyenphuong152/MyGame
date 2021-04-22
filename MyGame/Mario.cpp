@@ -42,6 +42,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	vy += MARIO_GRAVITY * dt;
+
+	DebugOut(L"vy %f \n", y);
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -98,13 +100,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CGoomBa*>(e->obj)) //if e->obj is Goomba
 			{
 				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
+				DebugOut(L"vo \n");
 				//jummp  on top >> kill goomba and deflect a bit
 				if (e->ny < 0)
 				{
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
-						goomba->isEnable = false;
 						goomba->StartDie();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}

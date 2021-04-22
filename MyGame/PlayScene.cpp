@@ -306,7 +306,10 @@ void CPlayScene::Render()
 
 	for (int i = 1; i < objects.size(); i++)
 	{
-		objects[i]->Render();
+		if (objects[i]->isEnable)
+		{
+			objects[i]->Render();
+		}
 	}
 
 	CMap::GetInstance()->RenderForeground();

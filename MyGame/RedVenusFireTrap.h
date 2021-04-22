@@ -29,6 +29,7 @@
 
 class CRedVenusFireTrap : public CGameObject
 {
+protected:
 	DWORD startShooting = -1;
 	bool isShooting;
 	bool isShootingUp;

@@ -6,8 +6,11 @@
 #include "Boundary.h"
 #include "Camera.h"
 #include "RedVenusFireTrap.h"
+#include "GreenVenusFireTrap.h"
 #include "tinyxml.h"
 #include "Koopas.h"
+#include "Goomba.h"
+#include "Piranha.h"
 #include "ObjectBoundary.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
@@ -113,7 +116,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(300, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -147,12 +150,30 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 						obj = new CRedVenusFireTrap();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
-					}if (strcmp(enemyName, "koopa") == 0 && strcmp(enemyType, "red") == 0)
+					}
+					else if (strcmp(enemyName, "koopa") == 0 && strcmp(enemyType, "red") == 0)
 					{
 						obj = new CKoopas();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
 					}
+					else if (strcmp(enemyName, "goomba") == 0 && strcmp(enemyType, "tan") == 0)
+					{	
+						obj = new CGoomBa();
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}
+					else if (strcmp(enemyName, "piranha") == 0 && strcmp(enemyType, "basic") == 0)
+					{
+						obj = new CPiranha();
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}/*else if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "green") == 0)
+					{
+						obj = new CGreenVenusFireTrap();
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}*/
 
 					element = element->NextSiblingElement();
 				}
