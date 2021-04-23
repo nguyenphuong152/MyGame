@@ -116,7 +116,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(300, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -168,12 +168,12 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 						obj = new CPiranha();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
-					}/*else if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "green") == 0)
+					}else if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "green") == 0)
 					{
 						obj = new CGreenVenusFireTrap();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
-					}*/
+					}
 
 					element = element->NextSiblingElement();
 				}

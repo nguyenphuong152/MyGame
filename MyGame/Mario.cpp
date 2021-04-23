@@ -42,8 +42,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	vy += MARIO_GRAVITY * dt;
-
-	DebugOut(L"vy %f \n", y);
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -100,7 +98,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CGoomBa*>(e->obj)) //if e->obj is Goomba
 			{
 				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
-				DebugOut(L"vo \n");
 				//jummp  on top >> kill goomba and deflect a bit
 				if (e->ny < 0)
 				{
@@ -198,11 +195,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj)||dynamic_cast<CCamera*>(e->obj))
 			{
-				if (e->ny != 0)
+				if (e->ny >0)
 				{
 					ChangeState(CMarioState::drop.GetInstance());
 					powerMode = false;
 					y += dy;
+				}
+				else if (e->ny < 0)
+				{
+					CCamera::GetInstance()->InactiveCamera();
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))

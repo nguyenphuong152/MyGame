@@ -14,7 +14,6 @@ CCamera* CCamera::__instance = NULL;
 
 void CCamera::SetProperty(float l, float t, float width, float height)
 {
-	//player = NULL;
 	x = l;
 	y = t;
 	this->width = width;
@@ -23,6 +22,7 @@ void CCamera::SetProperty(float l, float t, float width, float height)
 	cam_center_Y = (y+y+height)/2;
 	isEnable = true;
 	isReachBoundaryBottom = true;
+	player = CMario::GetInstance();
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -54,66 +54,76 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGame* game = CGame::GetInstance();
 
-	FollowPlayerHorizontally();
-	FollowPlayerVertically();
-	
-	cam_center_X = (x + x + width) / 2;
-	cam_center_Y = (y + y + height) / 2;
-	//DebugOut(L"Cam ceneter %f \n", cam_center_X);
-
-	CalcPotentialCollisions(colObject, coEvents);
-
-	if (coEvents.size() == 0)
+	if (player->state != MARIO_STATE_DIE)
 	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-	float min_tx, min_ty, nx = 0, ny = 0;
-	float rdx = 0, rdy = 0;
+		FollowPlayerHorizontally();
+		FollowPlayerVertically();
 
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		cam_center_X = (x + x + width) / 2;
+		cam_center_Y = (y + y + height) / 2;
+		//DebugOut(L"Cam ceneter %f \n", cam_center_X);
 
-		x += min_tx * dx +0.4f;
-		y += min_ty * dy +0.4f;
+		CalcPotentialCollisions(colObject, coEvents);
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CGround*>(e->obj)||dynamic_cast<CBox*>(e->obj)||dynamic_cast<CBrick*>(e->obj))
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny = 0;
+			float rdx = 0, rdy = 0;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			x += min_tx * dx + 0.4f;
+			y += min_ty * dy + 0.4f;
+
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				if (e->nx != 0) {
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CBoundary*>(e->obj))
+				{
+					if (e->nx < 0)
+					{
+						isReachBoundaryRight = true;
+					}
+					else if (e->nx > 0) {
+						isReachBoundaryLeft = true;
+					}
+					if (e->ny < 0)
+					{
+						isReachBoundaryBottom = true;
+						vy = 0;
+					}
+					else if (e->ny > 0)
+					{
+						isReachBoundaryTop = true;
+					}
+				}
+				else if (e->nx != 0 ) //neu dung nhung objects khac thi di tiep
+				{
+					vx = player->vx;
 					x += dx;
 				}
-			}
-			else if (dynamic_cast<CBoundary*>(e->obj))
-			{
-				if (e->nx < 0)
+				else if (e->ny != 0)
 				{
-					isReachBoundaryRight = true;
-				}
-				else if(e->nx>0){
-					isReachBoundaryLeft = true;
-				}
-				if (e->ny < 0)
-				{
-					isReachBoundaryBottom = true;
-					vy = 0;
-				}
-				else if (e->ny > 0)
-				{
-					isReachBoundaryTop = true;
+					vy = player->vy;
+					y += dy;
 				}
 			}
 		}
-	}
 
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	game->SetCamPos(x,y);
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		game->SetCamPos(x, y);
+	}
+	else {
+		InactiveCamera();
+	}
 }
 
 void CCamera::FollowPlayerHorizontally()
@@ -158,4 +168,23 @@ void CCamera::FollowPlayerVertically()
 	{
 		if (!isReachBoundaryBottom) vy = player->vy;
 	}
+}
+
+void CCamera::InactiveCamera()
+{
+	vx = 0;
+	vy = 0;
+}
+
+void CCamera::ResetCamera()
+{
+	x = player->x - 100;
+	y = t;
+	this->width = width;
+	this->height = height;
+	cam_center_X = (x + x + width) / 2;
+	cam_center_Y = (y + y + height) / 2;
+	isEnable = true;
+	isReachBoundaryBottom = true;
+	player = CMario::GetInstance();
 }

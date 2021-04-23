@@ -11,31 +11,30 @@ CRedVenusFireTrap ::CRedVenusFireTrap()
 	startShooting = -1;
 	isShooting = false;
 	isShootingUp = false;
-	SetState(RED_VENUS_STATE_GO_UP);
+	SetState(VENUS_STATE_GO_UP);
 }
 
 void CRedVenusFireTrap::Render()
 {
 	int ani = -1;
-	if (state == RED_VENUS_STATE_GO_UP)
+	if (state == VENUS_STATE_GO_UP)
 	{
-		ani = RED_VENUS_ANI_GO_UP;
+		ani = VENUS_ANI_GO_UP;
 	}
-	else if (state == RED_VENUS_STATE_GO_DOWN)
+	else if (state == VENUS_STATE_GO_DOWN)
 	{
-		ani = RED_VENUS_ANI_GO_DOWN;
+		ani = VENUS_ANI_GO_DOWN;
 	}
-	else if (state == RED_VENUS_STATE_SHOOT_UP)
+	else if (state == VENUS_STATE_SHOOT_UP)
 	{
-		ani = RED_VENUS_ANI_SHOOT_UP;
+		ani = VENUS_ANI_SHOOT_UP;
 	}
-	else if (state == RED_VENUS_STATE_SHOOT_DOWN)
+	else if (state == VENUS_STATE_SHOOT_DOWN)
 	{
-		ani = RED_VENUS_ANI_SHOOT_DOWN;
+		ani = VENUS_ANI_SHOOT_DOWN;
 	}
 
-	if (CMario::GetInstance()->x < POSITION_PIPE_X)  nx = -1;
-	else nx = 1;
+	
 		animation_set->at(ani)->Render(nx, x, y);
 }
 
@@ -43,10 +42,10 @@ void CRedVenusFireTrap::SetState(int state)
 {
 	CGameObject::SetState(state);
 
-	if (state == RED_VENUS_STATE_GO_UP || state == RED_VENUS_STATE_GO_DOWN)
+	if (state == VENUS_STATE_GO_UP || state == VENUS_STATE_GO_DOWN)
 	{
-		if (vy <= 0) vy = RED_VENUS_VELOCITY_Y;
-		else vy = -RED_VENUS_VELOCITY_Y;
+		if (vy <= 0) vy = VENUS_VELOCITY_Y;
+		else vy = -VENUS_VELOCITY_Y;
 	}
 
 }
@@ -55,10 +54,13 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
+	if (CMario::GetInstance()->x < POSITION_PIPE_X)  nx = -1;
+	else nx = 1;
+
 	//go up and start shooting then change state go down when it go over the pipe
 	if (!isShooting)
 	{
-		if (y < POSITION_PIPE_Y - RED_VENUS_BBOX_HEIGHT + 5 && vy <= 0)
+		if (y < POSITION_PIPE_Y - VENUS_BBOX_HEIGHT + 5 && vy <= 0)
 		{
 			CheckDirection();
 			StartShooting();
@@ -72,11 +74,11 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			startShooting = -1;
 			if (CMario::GetInstance()->y > POSITION_PIPE_Y - 45)
 			{
-				SetState(RED_VENUS_STATE_GO_DOWN);
+				SetState(VENUS_STATE_GO_DOWN);
 			}
 			else
 			{
-				SetState(RED_VENUS_STATE_GO_UP);
+				SetState(VENUS_STATE_GO_UP);
 			}
 		}
 }
@@ -113,8 +115,8 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					if(CMario::GetInstance()->y> POSITION_PIPE_Y-45)
-						SetState(RED_VENUS_STATE_GO_DOWN);
-					else SetState(RED_VENUS_STATE_GO_UP);
+						SetState(VENUS_STATE_GO_DOWN);
+					else SetState(VENUS_STATE_GO_UP);
 				}
 
 			}
@@ -129,8 +131,8 @@ void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + RED_VENUS_BBOX_WIDTH;
-	b = y + RED_VENUS_BBOX_HEIGHT;
+	r = x + VENUS_BBOX_WIDTH;
+	b = y + VENUS_BBOX_HEIGHT;
 }
 
 void CRedVenusFireTrap::CheckDirection()
@@ -143,11 +145,11 @@ void CRedVenusFireTrap::CheckDirection()
 
 	if (mario_y > POSITION_PIPE_Y-50)
 	{
-		state = RED_VENUS_STATE_SHOOT_DOWN;
+		state = VENUS_STATE_SHOOT_DOWN;
 	}
 	else
 	{
-		state = RED_VENUS_STATE_SHOOT_UP;
+		state = VENUS_STATE_SHOOT_UP;
 		isShootingUp = true;
 	}
 }
@@ -165,6 +167,6 @@ void CRedVenusFireTrap::StartShooting()
 void CRedVenusFireTrap::SetAnimation()
 {
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(RED_VENUS_FIRETRAP_ANI);
+	LPANIMATION_SET ani_set = animation_sets->Get(VENUS_FIRETRAP_ANI);
 	SetAnimationSet(ani_set);
 }

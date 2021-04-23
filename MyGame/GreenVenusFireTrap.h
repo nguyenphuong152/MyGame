@@ -3,17 +3,14 @@
 
 #define GREEN_VENUS_FIRETRAP_ANI	63
 
-#define POSITION_PIPE_X				5521
-#define POSITION_PIPE_Y				1105
+#define GREEN_VENUS_BBOX_HEIGHT		78
 
-#define DOWN		0
-#define UP			1
-#define SHOOT_DOWN	2
-#define SHOOT_UP		3
+#define POSITION_PIPE_X				5520
+#define POSITION_PIPE_Y				1110
 
 #define TIME_SHOOTING				800
 
-#define FIREBALL_POSITION_X			5521
+#define FIREBALL_POSITION_X			5520
 #define FIREBALL_POSITION_Y			344
 
 class CGreenVenusFireTrap : public CRedVenusFireTrap
