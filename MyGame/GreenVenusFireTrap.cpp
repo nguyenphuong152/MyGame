@@ -6,7 +6,7 @@
 
 CGreenVenusFireTrap::CGreenVenusFireTrap()
 {
-	SetAnimation();
+	SetAnimation(GREEN_VENUS_FIRETRAP_ANI);
 	isEnable = true;
 	startShooting = -1;
 	isShooting = false;
@@ -28,34 +28,11 @@ void CGreenVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	if (CMario::GetInstance()->x < POSITION_PIPE_X)  nx = -1;
-	else nx = 1;
+	CRedVenusFireTrap::CheckDirectionForRender(POSITION_PIPE_X);
 
 	//go up and start shooting then change state go down when it go over the pipe
-	if (!isShooting)
-	{
-		if (y < POSITION_PIPE_Y - GREEN_VENUS_BBOX_HEIGHT && vy <= 0)
-		{
-			CheckDirection();
-			StartShooting();
-		}
-	}
-	else {
-		DWORD now = GetTickCount();
-		if (now - startShooting > TIME_SHOOTING)
-		{
-			isShooting = false;
-			startShooting = -1;
-			if (CMario::GetInstance()->y > POSITION_PIPE_Y - 45)
-			{
-				SetState(VENUS_STATE_GO_DOWN);
-			}
-			else
-			{
-				SetState(VENUS_STATE_GO_UP);
-			}
-		}
-	}
+	CRedVenusFireTrap::HandleShooting(POSITION_PIPE_Y, GREEN_VENUS_BBOX_HEIGHT);
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -116,9 +93,7 @@ void CGreenVenusFireTrap::StartShooting()
 	CRedVenusFireTrap::StartShooting();
 }
 
-void CGreenVenusFireTrap::SetAnimation()
+void CGreenVenusFireTrap::SetAnimation(int ani)
 {
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(GREEN_VENUS_FIRETRAP_ANI);
-	SetAnimationSet(ani_set);
+	CRedVenusFireTrap::SetAnimation(ani);
 }

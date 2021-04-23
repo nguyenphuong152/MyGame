@@ -175,16 +175,3 @@ void CCamera::InactiveCamera()
 	vx = 0;
 	vy = 0;
 }
-
-void CCamera::ResetCamera()
-{
-	x = player->x - 100;
-	y = t;
-	this->width = width;
-	this->height = height;
-	cam_center_X = (x + x + width) / 2;
-	cam_center_Y = (y + y + height) / 2;
-	isEnable = true;
-	isReachBoundaryBottom = true;
-	player = CMario::GetInstance();
-}

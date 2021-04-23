@@ -6,7 +6,7 @@
 
 CRedVenusFireTrap ::CRedVenusFireTrap()
 {
-	SetAnimation();
+	SetAnimation(VENUS_FIRETRAP_ANI);
 	isEnable = true;
 	startShooting = -1;
 	isShooting = false;
@@ -54,34 +54,10 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	if (CMario::GetInstance()->x < POSITION_PIPE_X)  nx = -1;
-	else nx = 1;
-
+	CheckDirectionForRender(POSITION_PIPE_X);
 	//go up and start shooting then change state go down when it go over the pipe
-	if (!isShooting)
-	{
-		if (y < POSITION_PIPE_Y - VENUS_BBOX_HEIGHT + 5 && vy <= 0)
-		{
-			CheckDirection();
-			StartShooting();
-		}
-	}
-	else {
-		DWORD now = GetTickCount();
-		if (now - startShooting > TIME_SHOOTING)
-		{
-			isShooting = false;
-			startShooting = -1;
-			if (CMario::GetInstance()->y > POSITION_PIPE_Y - 45)
-			{
-				SetState(VENUS_STATE_GO_DOWN);
-			}
-			else
-			{
-				SetState(VENUS_STATE_GO_UP);
-			}
-		}
-}
+	HandleShooting(POSITION_PIPE_Y, VENUS_BBOX_HEIGHT);
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -164,9 +140,43 @@ void CRedVenusFireTrap::StartShooting()
 	if (isShootingUp) isShootingUp = false;
 }
 
-void CRedVenusFireTrap::SetAnimation()
+void CRedVenusFireTrap::SetAnimation(int ani)
 {
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(VENUS_FIRETRAP_ANI);
+	LPANIMATION_SET ani_set = animation_sets->Get(ani);
 	SetAnimationSet(ani_set);
+}
+
+void CRedVenusFireTrap::CheckDirectionForRender(int position_pipe)
+{
+	if (CMario::GetInstance()->x < position_pipe)  nx = -1;
+	else nx = 1;
+}
+
+void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
+{
+	if (!isShooting)
+	{
+		if (y < position_pipe - bbox_height + 5 && vy <= 0)
+		{
+			CheckDirection();
+			StartShooting();
+		}
+	}
+	else {
+		DWORD now = GetTickCount();
+		if (now - startShooting > TIME_SHOOTING)
+		{
+			isShooting = false;
+			startShooting = -1;
+			if (CMario::GetInstance()->y > position_pipe - 45)
+			{
+				SetState(VENUS_STATE_GO_DOWN);
+			}
+			else
+			{
+				SetState(VENUS_STATE_GO_UP);
+			}
+		}
+	}
 }

@@ -23,5 +23,5 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	void StartShooting();
 	void CheckDirection();
-	void SetAnimation();
+	void SetAnimation(int ani);
 };
