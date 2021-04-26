@@ -15,7 +15,7 @@ CKoopas::CKoopas()
 	isEnable = true;
 	this->player = CMario::GetInstance();
 	nx = 1;
-	SetAnimation();
+	SetAnimation(KOOPA_ANI);
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -185,13 +185,6 @@ void CKoopas::SetState(int state)
 		die = 0;
 		StartRecover();
 	}
-}
-
-void CKoopas::SetAnimation()
-{
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(KOOPA_ANI);
-	SetAnimationSet(ani_set);
 }
 
 void CKoopas::UpdateShellPosition()

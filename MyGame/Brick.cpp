@@ -5,10 +5,7 @@
 
 CBrick::CBrick()
 {
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(BRICK_ANI);
-	SetAnimationSet(ani_set);
-
+	SetAnimation(BRICK_ANI);
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
 }

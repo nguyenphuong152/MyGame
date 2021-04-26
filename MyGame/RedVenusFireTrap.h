@@ -43,7 +43,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	void StartShooting();
 	void CheckDirection();
-	void SetAnimation(int ani);
 	void CheckDirectionForRender(int position_pipe);
 	void HandleShooting(int position_pipe, int bbox_height);
 

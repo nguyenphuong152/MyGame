@@ -18,6 +18,7 @@
 
 class CGoomBa : public CGameObject
 {
+protected:
 	DWORD die_start;
 	int die;
 
@@ -28,6 +29,5 @@ public:
 	CGoomBa();
 	virtual void SetState(int state);
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
-	void SetAnimation();
 };
 

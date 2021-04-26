@@ -86,6 +86,8 @@ public:
 	//aabb xét vật tĩnh đụng nhau
 	bool AABB(CGameObject* object);
 
+	void SetAnimation(int ani);
+
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 
 	void FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy);

@@ -10,6 +10,7 @@
 #include "tinyxml.h"
 #include "Koopas.h"
 #include "Goomba.h"
+#include "ParaGoomba.h"
 #include "Piranha.h"
 #include "ObjectBoundary.h"
 
@@ -116,7 +117,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(2000, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -157,9 +158,15 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
 					}
-					else if (strcmp(enemyName, "goomba") == 0 && strcmp(enemyType, "tan") == 0)
+					/*else if (strcmp(enemyName, "goomba") == 0 && strcmp(enemyType, "tan") == 0)
 					{	
 						obj = new CGoomBa();
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}*/
+					else if (strcmp(enemyName, "para-goomba") == 0 && strcmp(enemyType, "tan") == 0)
+					{
+						obj = new CParaGoomba();
 						obj->SetPosition(x, y);
 						objects.push_back(obj);
 					}

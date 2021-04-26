@@ -182,6 +182,7 @@
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="ObjectBoundary.cpp" />
+    <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="ObjectBoundary.h" />
+    <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />

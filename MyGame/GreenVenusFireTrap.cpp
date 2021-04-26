@@ -31,7 +31,7 @@ void CGreenVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CRedVenusFireTrap::CheckDirectionForRender(POSITION_PIPE_X);
 
 	//go up and start shooting then change state go down when it go over the pipe
-	CRedVenusFireTrap::HandleShooting(POSITION_PIPE_Y, GREEN_VENUS_BBOX_HEIGHT);
+	CRedVenusFireTrap::HandleShooting(POSITION_PIPE_Y,GREEN_VENUS_BBOX_HEIGHT);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -93,7 +93,3 @@ void CGreenVenusFireTrap::StartShooting()
 	CRedVenusFireTrap::StartShooting();
 }
 
-void CGreenVenusFireTrap::SetAnimation(int ani)
-{
-	CRedVenusFireTrap::SetAnimation(ani);
-}

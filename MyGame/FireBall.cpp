@@ -8,9 +8,7 @@
 
 CFireball::CFireball()
 {
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(FIREBALL_ANI);
-	SetAnimationSet(ani_set);
+	SetAnimation(FIREBALL_ANI);
 	player = CMario::GetInstance();
 }
 

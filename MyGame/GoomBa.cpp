@@ -7,7 +7,7 @@
 CGoomBa::CGoomBa()
 {
 	isEnable = true;
-	SetAnimation();
+	SetAnimation(GOOMBA_ANI);
 	SetState(GOOMBA_STATE_WALKING);
 }
 
@@ -63,7 +63,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			
-			if (dynamic_cast<CPipe*>(e->obj)|| dynamic_cast<CBrick*>(e->obj))
+			if ( dynamic_cast<CBrick*>(e->obj))
 			{
 				if (e->nx != 0)
 				{
@@ -113,11 +113,4 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	}
-}
-
-void CGoomBa::SetAnimation()
-{
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(GOOMBA_ANI);
-	SetAnimationSet(ani_set);
 }

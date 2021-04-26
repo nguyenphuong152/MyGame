@@ -43,7 +43,6 @@ public:
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
 	CKoopas();
 	virtual void SetState(int state);
-	void SetAnimation();
 	void UpdateShellPosition();
 };
 

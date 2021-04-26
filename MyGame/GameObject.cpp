@@ -144,6 +144,13 @@ bool CGameObject::AABB(CGameObject* object)
 	return false;
 }
 
+void CGameObject::SetAnimation(int ani)
+{
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(ani);
+	SetAnimationSet(ani_set);
+}
+
 CGameObject::~CGameObject()
 {
 

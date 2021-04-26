@@ -140,13 +140,6 @@ void CRedVenusFireTrap::StartShooting()
 	if (isShootingUp) isShootingUp = false;
 }
 
-void CRedVenusFireTrap::SetAnimation(int ani)
-{
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(ani);
-	SetAnimationSet(ani_set);
-}
-
 void CRedVenusFireTrap::CheckDirectionForRender(int position_pipe)
 {
 	if (CMario::GetInstance()->x < position_pipe)  nx = -1;
