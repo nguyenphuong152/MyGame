@@ -12,26 +12,21 @@ class CCamera :public CGameObject
 	float height;
 	float cam_center_X;
 	float cam_center_Y;
-	bool isOnGround;
 
-public:
-	void SetProperty(float l, float r, float width, float height);
 	bool isReachBoundaryLeft = false;
 	bool isReachBoundaryRight = false;
 	bool isReachBoundaryTop = false;
 	bool isReachBoundaryBottom = false;
+	bool isOnGround;
 
-
+public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-
-	void SetPlayer(CMario* mario) { player = mario; }
-	CMario* GetPlayer() { return player; }
-
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	static CCamera* GetInstance();
 
 	void FollowPlayerHorizontally();
 	void FollowPlayerVertically();
-	
+	void SetProperty(float l, float r, float width, float height);
+	void InactiveCamera();
 };

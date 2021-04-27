@@ -1,7 +1,6 @@
 ﻿#include "Mario.h"
 #include "MarioStateHoldShellAndJump.h"
 #include "MarioStateHoldShellAndDrop.h"
-#include "MarioStateDrop.h"
 
 
 CMarioStateHoldShellAndJump* CMarioStateHoldShellAndJump::__instance = NULL;
@@ -14,7 +13,6 @@ CMarioStateHoldShellAndJump::CMarioStateHoldShellAndJump() {
 void CMarioStateHoldShellAndJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	SetCurrentState(MarioStates::HOLDSHELL_JUMP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_HANDLESHELL_JUMP_DROP);
@@ -32,26 +30,26 @@ void CMarioStateHoldShellAndJump::Enter(CMario& mario)
 }
 void CMarioStateHoldShellAndJump::HandleInput(CMario& mario, Input input)
 {
+	if (input == Input::RELEASE_S)
+	{
+		mario.canJumpHigh = false;
+	}
 	CMarioHoldingShellStates::HandleInput(mario, input);
 }
 
 void CMarioStateHoldShellAndJump::Update(DWORD dt, CMario& mario)
 {
-
-	//nếu nhảy một khoảng thời gian bật cờ canFlyHigh
-	//từ đó mario có thể nhảy cao khi nhấn giữ S
-	if ((GetTickCount() - mario.highjump_start > AVERAGE_TIME_JUMP) && !mario.canFlyHigh)
+	if (mario.canJumpHigh)
 	{
-		mario.canFlyHigh = true;
+		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
+		{
+			mario.canJumpHigh = false;
+		}
+		else {
+			mario.vy = -MARIO_JUMP_SPEED_Y;
+		}
 	}
-
-	if (mario.canFlyHigh)
-	{
-		mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
-	}
-
-
-	if (mario.vy > 0)
+	else if (mario.vy > 0)
 	{
 		mario.ChangeState(CMarioState::holdshell_drop.GetInstance());
 	}

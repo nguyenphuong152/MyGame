@@ -4,12 +4,7 @@
 #include "Textures.h"
 #include "Game.h"
 #include "tinyxml.h"
-#include "Ground.h"
-#include "GameObject.h"
-#include "Brick.h"
-#include "Box.h"
-#include "Boundary.h"
-#include "Camera.h"
+
 
 using namespace std;
 
@@ -38,11 +33,11 @@ void CMap::CreateTileSet()
 	int tileId = 1;
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texId);
 
-	for (int i = 0;i < tilePerColumn;i++)
-	{		
-		for (int j = 0;j < tilePerRow;j++)
+	for (int i = 0; i < tilePerColumn; i++)
+	{
+		for (int j = 0; j < tilePerRow; j++)
 		{
-			
+
 			int t = i * TILE_WIDTH;
 			int l = j * TILE_WIDTH;
 			int r = l + TILE_WIDTH;
@@ -57,33 +52,6 @@ void CMap::CreateTileSet()
 
 
 void CMap::HandleMap()
-{	
-	TiXmlDocument doc(mapFilePath);
-	if (!doc.LoadFile())
-	{
-		DebugOut(L"[ERR] TMX FAILED %s\n",ToLPCWSTR(doc.ErrorDesc()));
-		return ;
-	}
-
-	TiXmlElement* root = doc.RootElement();
-	TiXmlElement* layer = nullptr;
-
-	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
-	{
-		string name = layer->FirstChildElement()->Value();
-
-		//render map
-		//layer k có attribute visible mới add vô vẽ
-		const char* attributeVisible = layer->Attribute("visible");
-		if (attributeVisible == NULL && name == "data")
-		{
-			CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
-			layers.push_back(mLayer);
-		}
-	}
-}
-
-void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 {
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
@@ -97,86 +65,21 @@ void CMap::HandleObjectInMap(vector<LPGAMEOBJECT>& objects)
 
 	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
 	{
-		//render object
-		const char* attributeName = layer->Attribute("name");
-		TiXmlElement* element = layer->FirstChildElement();
-		if (attributeName != NULL)
+		string name = layer->FirstChildElement()->Value();
+
+		//render map
+		//layer k có attribute visible mới add vô vẽ
+		// tach layer foreground ra vẽ sau cùng
+		if (layer->Attribute("name") != NULL)
 		{
-			CGameObject* obj = NULL;
-			float x, y, width, height;
-			if (strcmp(attributeName, "Solid") == 0)
-			{
-				while (element)
+			if (strcmp(layer->Attribute("name"), "Foreground") == 0  )
+				layerForeground = new CMapLayer(layer->FirstChildElement());
+			else {
+				const char* attributeVisible = layer->Attribute("visible");
+				if (attributeVisible == NULL && name == "data")
 				{
-					element->QueryFloatAttribute("x", &x);
-					element->QueryFloatAttribute("y", &y);
-					element->QueryFloatAttribute("width", &width);
-					element->QueryFloatAttribute("height", &height);
-
-					obj = new CGround(x, y, width, height);
-					objects.push_back(obj);
-
-					element = element->NextSiblingElement();
-				}
-			}
-			else if (strcmp(attributeName, "Ghost") == 0)
-			{
-				while (element)
-				{
-					element->QueryFloatAttribute("x", &x);
-					element->QueryFloatAttribute("y", &y);
-					element->QueryFloatAttribute("width", &width);
-					element->QueryFloatAttribute("height", &height);
-
-					obj = new CBox(x, y, width, height);
-					objects.push_back(obj);
-
-					element = element->NextSiblingElement();
-				}
-			}
-			else if (strcmp(attributeName, "Boundary") == 0)
-			{
-				while (element)
-				{
-					element->QueryFloatAttribute("x", &x);
-					element->QueryFloatAttribute("y", &y);
-					element->QueryFloatAttribute("width", &width);
-					element->QueryFloatAttribute("height", &height);
-
-					obj = new CBoundary(x, y, width, height);
-					objects.push_back(obj);
-
-					element = element->NextSiblingElement();
-				}
-			}
-			else if (strcmp(attributeName, "Camera") == 0)
-			{
-				while (element)
-				{
-					element->QueryFloatAttribute("x", &x);
-					element->QueryFloatAttribute("y", &y);
-					element->QueryFloatAttribute("width", &width);
-					element->QueryFloatAttribute("height", &height);
-
-					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
-					objects.push_back(obj);
-
-					element = element->NextSiblingElement();
-				}
-			}
-			else if (strcmp(attributeName, "QuestionBlocks") == 0)
-			{
-				while (element)
-				{
-					element->QueryFloatAttribute("x", &x);
-					element->QueryFloatAttribute("y", &y);
-
-					obj = new CBrick();
-					obj->SetPosition(x, y);
-					objects.push_back(obj);
-
-					element = element->NextSiblingElement();
+					CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+					layers.push_back(mLayer);
 				}
 			}
 		}
@@ -189,4 +92,10 @@ void CMap::RenderMap()
 	{
 		layers[i]->RenderLayer();
 	}
+
+}
+
+void CMap::RenderForeground()
+{
+	layerForeground->RenderLayer();
 }

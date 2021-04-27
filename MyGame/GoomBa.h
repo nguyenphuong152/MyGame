@@ -1,34 +1,39 @@
 #pragma once
 #include "GameObject.h"
 
-#define GOOMBA_WALKING_SPEED 0.05f;
+#define GOOMBA_WALKING_SPEED	0.05f;
 
-#define GOOMBA_BBOX_WIDTH 16
-#define GOOMBA_BBOX_HEIGHT 15
-#define GOOMBA_BBOX_HEIGHT_DIE 11
+#define GOOMBA_BBOX_WIDTH		50
+#define GOOMBA_BBOX_HEIGHT		51
+#define GOOMBA_BBOX_HEIGHT_DIE	30
 
-#define GOOMBA_STATE_WALKING 101
-#define GOOMBA_STATE_DIE 202
-#define GOOMBA_STATE_INACTIVE 303
-#define GOOMBA_STATE_CHANGE_DIRECTION 404
+#define GOOMBA_LEVEL_2					2
+#define GOOMBA_LEVEL_1					1
 
-#define GOOMBA_ANI_WALKING 0
-#define GOOMBA_ANI_DIE 1
+#define GOOMBA_STATE_WALKING			100
+#define GOOMBA_STATE_DIE				200
 
-#define GOOMBA_DIE_TIME 200
+#define GOOMBA_ANI_WALKING				0
+#define GOOMBA_ANI_DIE					1
 
-#define POSITION_REACH_GROUND 607
+#define GOOMBA_DIE_TIME		700
+
 
 class CGoomBa : public CGameObject
 {
+protected:
 	DWORD die_start;
+	int level;
+	int die;
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void Render();
 public:
 	CGoomBa();
+	void SetLevel(int level) { this->level = level; };
+	int GetLevel() { return this->level; };
 	virtual void SetState(int state);
-	void StartDie() { die_start = GetTickCount(); }
+	void StartDie() { die = 1; die_start = GetTickCount64(); }
 };
 

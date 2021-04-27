@@ -8,6 +8,9 @@
 #include "MarioStatePreFly.h"
 #include "MarioStateFly.h"
 #include "MarioStateSpin.h"
+#include "MarioStateThrowingFireball.h"
+#include "FireBall.h"
+#include "FireBallPool.h"
 
 CMarioOnGroundStates::CMarioOnGroundStates()
 {
@@ -20,55 +23,43 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	if (input == Input::KEYSTATE)
 	{
 		if (game->IsKeyDown(DIK_LEFT)) {
-			if (mario.powerMode && mario.vx != 0)
-			{	
-				mario.canHoldShell = true;
-				//cong power cho mario khi mario o powermode, moi giay tang 1 power
-				if (GetTickCount() - mario.power_start > 0 && mario.power < 72) {
-					mario.power++;
-				}
-				if (mario.power == 72)
-				{
-					//DebugOut(L"[after] run time %d \n", mario.power);
-					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-					mario.ChangeState(CMarioState::pre_fly.GetInstance());
-				}
-				else{
-					mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
-					mario.ChangeState(CMarioState::run.GetInstance());
-				}
-			}
-			else if (mario.vx > 0)
+			if (mario.vx > 0)
 			{
 				mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
 				mario.ChangeState(CMarioState::stop.GetInstance());
 			}
-			else
+			else if (mario.powerMode)
+			{
+				if (mario.powerLevel == MARIO_POWER_LEVEL)
+				{
+					mario.ChangeState(CMarioState::pre_fly.GetInstance());
+				}
+				else {
+					SetStateRunning(DIRECTION_RIGHT_TO_LEFT, mario);
+				}
+			}
+			else 
 			{
 				SetStateWalking(DIRECTION_RIGHT_TO_LEFT, mario);
 			}
 		}
 		else if (game->IsKeyDown(DIK_RIGHT))
 		{
-			if (mario.powerMode & mario.vx != 0)
-			{
-				mario.canHoldShell = true;
-				if (GetTickCount() - mario.power_start > 0&&mario.power<72) mario.power++;
-				if (mario.power == 72)
-				{
-					mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-					mario.ChangeState(CMarioState::pre_fly.GetInstance());
-				}
-				else {
-					mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
-					mario.ChangeState(CMarioState::run.GetInstance());
-				}
-			}
-			else if (mario.vx < 0)
+			if (mario.vx < 0)
 			{
 				mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
 				mario.ChangeState(CMarioState::stop.GetInstance());
 
+			}
+			else if (mario.powerMode)
+			{
+				if (mario.powerLevel == MARIO_POWER_LEVEL)
+				{
+					mario.ChangeState(CMarioState::pre_fly.GetInstance());
+				}
+				else {
+					SetStateRunning(DIRECTION_LEFT_TO_RIGHT, mario);
+				}
 			}
 			else {
 				SetStateWalking(DIRECTION_LEFT_TO_RIGHT, mario);
@@ -85,7 +76,6 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::PRESS_S)
 	{
-		mario.StartHighJump();
 		SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else if (input == Input::PRESS_DOWN && mario.vx == 0)
@@ -97,9 +87,21 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	}
 	else if (input == Input::PRESS_A)
 	{
+		mario.canHoldShell = true;
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
 			mario.ChangeState(CMarioState::spin.GetInstance());
+			CMarioState::spin.GetInstance()->StartSpinning();
+		}
+		else if (mario.level == MARIO_LEVEL_FIRE)
+		{
+			CFireball* fireball = CFireBallPool::GetInstance()->Create();
+			if (fireball != NULL)
+			{
+				mario.ChangeState(CMarioState::throw_fireball.GetInstance());
+				fireball->AllocateFireballToMario();
+				CMarioState::throw_fireball.GetInstance()->StartThrowing();
+			}
 		}
 	}
 }
@@ -113,12 +115,19 @@ void CMarioOnGroundStates::SetStateWalking(int direction, CMario& mario)
 	mario.ChangeState(CMarioState::walk.GetInstance());
 }
 
+void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
+{
+	mario.SetDirection(direction);
+	mario.SetVelocityX(direction * MARIO_RUNNING_SPEED);
+	mario.ChangeState(CMarioState::run.GetInstance());
+}
+
 void CMarioOnGroundStates::SetStateJumping(float jumpSpeed, CMario& mario)
 {
 	if (mario.isOnGround)
 	{
-		mario.isOnGround = false;
-		mario.SetVelocityY(-jumpSpeed);
+		mario.canJumpHigh = true;
 		mario.ChangeState(CMarioState::jump.GetInstance());
+		CMarioState::jump.GetInstance()->StartJumping();
 	}
 }

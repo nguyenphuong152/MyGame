@@ -14,12 +14,11 @@ CMarioStateRun::CMarioStateRun() {
 
 void CMarioStateRun::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::RUN);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_RUN);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_RUN);
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
@@ -37,9 +36,13 @@ void CMarioStateRun::HandleInput(CMario& mario, Input input)
 
 void CMarioStateRun::Update(DWORD dt, CMario& mario)
 {
+	
 	if (!mario.powerMode)
 	{
 		mario.ChangeState(CMarioState::walk.GetInstance());
+	}
+	else {
+		mario.powerLevel += 10;
 	}
 }
 

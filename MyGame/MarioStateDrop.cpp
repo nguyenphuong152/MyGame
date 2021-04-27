@@ -13,7 +13,6 @@ CMarioStateDrop::CMarioStateDrop() {
 void CMarioStateDrop::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	SetCurrentState(MarioStates::DROP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_DROP);
@@ -30,6 +29,10 @@ void CMarioStateDrop::Enter(CMario& mario)
 		else {
 			mario.SetAnimation(MARIO_ANI_RACCOON_DROP);
 		}
+	}
+	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	{
+		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_DROP);

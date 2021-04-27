@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH 16
-#define BRICK_BBOX_HEIGHT 16
+#define BRICK_BBOX_WIDTH 47
+#define BRICK_BBOX_HEIGHT 47
 
 #define BRICK_STATE_UNTOUCH 10
 #define BRICK_STATE_TOUCHED 20
@@ -12,8 +12,8 @@
 
 #define BRICK_ANI 22
 
-#define BRICK_DEFLECT_POS 20
-//#define BRICK_TRANSITION_SPEED 3
+#define BRICK_VELOCITY_Y		0.5f
+#define BRICK_DROP_VELOCITY_Y	0.1f
 
 class CBrick :public CGameObject
 {

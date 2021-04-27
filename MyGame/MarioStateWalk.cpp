@@ -15,12 +15,11 @@ CMarioStateWalk::CMarioStateWalk() {
 
 void CMarioStateWalk::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::WALK);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_WALK);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_WALK);
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
@@ -35,7 +34,7 @@ void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
 	if (input == Input::PRESS_S)
 	{
-		mario.StartHighJump();
+
 		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
 	}
 	else {
@@ -50,7 +49,10 @@ void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
-
+	else if (mario.vy > MARIO_AVERAGE_VY_ON_GROUND)
+	{
+		mario.ChangeState(CMarioState::drop.GetInstance());
+	}
 }
 
 void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& mario)
@@ -80,11 +82,6 @@ void CMarioStateWalk::CalculateAcceleration(float accelerate, DWORD dt, CMario& 
 				mario.ChangeState(CMarioState::idle.GetInstance());
 			}
 		}
-	}
-
-	if (mario.vy  > MARIO_AVERAGE_VY_ON_GROUND)
-	{
-		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

@@ -1,25 +1,30 @@
 ﻿#include "Mario.h"
 #include "MarioStateJump.h"
 #include "MarioStateDrop.h"
+#include "MarioStateThrowingFireballJumping.h"
+#include "FireBall.h"
+#include "FireBallPool.h"
 
 
 CMarioStateJump* CMarioStateJump::__instance = NULL;
 
 CMarioStateJump::CMarioStateJump() {
 	DebugOut(L"[STATE] create jump \n");
-
 }
 
 void CMarioStateJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	SetCurrentState(MarioStates::JUMP);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_JUMP);
 	}
 	else if(mario.level == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_JUMP);
+	}
+	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	{
+		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
 	{
@@ -31,39 +36,36 @@ void CMarioStateJump::Enter(CMario& mario)
 }
 void CMarioStateJump::HandleInput(CMario& mario,Input input)
 {
-
-	if (input == Input::RELEASE_S)
+	if (input == Input::RELEASE_S )
 	{
-		mario.canFlyHigh = false;
-		mario.ChangeState(CMarioState::drop.GetInstance());
+		mario.canJumpHigh = false;
 	}
-	//nếu sau khoảng thời gian cho nhảy cờ canFLyhigh còn bật thì tắt cờ đổi state drop
-	else if ((GetTickCount() - mario.highjump_start > MAX_TIME_JUMP)&&mario.canFlyHigh)
+	else if (input == Input::PRESS_A && mario.level == MARIO_LEVEL_FIRE)
 	{
-		mario.highjump_start = 0;
-		mario.canFlyHigh = false;
-		mario.ChangeState(CMarioState::drop.GetInstance());
+		CFireball* fireball = CFireBallPool::GetInstance()->Create();
+		if (fireball != NULL)
+		{
+			mario.ChangeState(CMarioState::throw_fireball_jump.GetInstance());
+			fireball->AllocateFireballToMario();
+			CMarioState::throw_fireball_jump.GetInstance()->StartThrowing();
+		}
 	}
 	CMarioOnAirStates::HandleInput(mario,  input);
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)
 {
-
-	//nếu nhảy một khoảng thời gian bật cờ canFlyHigh
-	//từ đó mario có thể nhảy cao khi nhấn giữ S
-	if ((GetTickCount() - mario.highjump_start > AVERAGE_TIME_JUMP)&&!mario.canFlyHigh)
+	if (mario.canJumpHigh)
 	{
-		mario.canFlyHigh = true;
+		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
+		{
+			mario.canJumpHigh = false;
+		}
+		else {
+			mario.vy = -MARIO_JUMP_SPEED_Y;
+		}
 	}
-
-	if(mario.canFlyHigh)
-	{
-		mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
-	}
-
-
-	if (mario.vy > 0)
+	else if( mario.vy>0 )
 	{
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}

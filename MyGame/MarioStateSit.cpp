@@ -15,12 +15,11 @@ void CMarioStateSit::Enter(CMario& mario)
 {
 	mario.isSitting = true;
 	mario.SetVelocityX(0);
-	SetCurrentState(MarioStates::SIT);
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_SIT);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON)
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_SIT);
 	}
@@ -42,47 +41,42 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 	{
 		if (mario.isOnGround)
 		{
-			mario.StartHighJump();
-			mario.SetVelocityY(-SIT_JUMP_VELOCITY_Y);
+			mario.SetVelocityY(-SIT_JUMP_Y);
+			StartJumping();
+			mario.canJumpHigh = true;
 			mario.isOnGround = false;
 		}
 	}
 	else if (input == Input::RELEASE_S)
 	{
-		mario.canFlyHigh = false;
-		mario.highjump_start = 0;
+		mario.canJumpHigh = false;
 	}
-	//thieu ngoi nhan s nhay cao nhay thap
 
 	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 	{
 		SetPositionAferSitting(mario);
 		mario.ChangeState(CMarioState::walk.GetInstance());
 	}
-	else if (game->IsKeyDown(DIK_S) && mario.canFlyHigh &&mario.vy<0)
-	{
-		mario.SetVelocityY(-0.2);
-		if (GetTickCount() - mario.highjump_start > TIME_TURN_OFF_HIGH_JUMP)
-		{
-			mario.canFlyHigh = false;
-			mario.highjump_start = 0;
-			mario.SetVelocityY(SIT_DROP_VELOCITY_Y);
-		}
-	}
 }
 
 void CMarioStateSit::Update(DWORD dt, CMario& mario)
 {
-	if ((GetTickCount() - mario.highjump_start > TIME_TOGGLE_HIGH_JUMP_WHEN_SITTING) && !mario.isOnGround&&!mario.canFlyHigh)
+	if (mario.canJumpHigh)
 	{
-		mario.canFlyHigh = true;
+		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
+		{
+			mario.canJumpHigh = false;
+		}
+		else {
+			mario.vy = -MARIO_JUMP_SPEED_Y;
+		}
 	}
 }
 
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)
 {
 	mario.isSitting = false;
-	mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT+10;
 }
 
 CMarioStateSit* CMarioStateSit::GetInstance()

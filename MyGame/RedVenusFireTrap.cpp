@@ -1,107 +1,68 @@
 ﻿#include "RedVenusFireTrap.h"
 #include "Ground.h"
 #include "FireBall.h"
+#include "FireBallPool.h"
 
 
-CRedVenusFireTrap ::CRedVenusFireTrap(CMario *player,CFireBallPool* pool)
+CRedVenusFireTrap ::CRedVenusFireTrap()
 {
 	isEnable = true;
-	this->player = player;
-	this->pool = pool;
 	startShooting = -1;
 	isShooting = false;
-	isGoingUp = true;
-	SetState(RED_VENUS_STATE_GO_DOWN);
+	isShootingUp = false;
+	SetState(VENUS_STATE_GO_UP);
 }
 
 void CRedVenusFireTrap::Render()
 {
-	int ani=-1;
-	if (state == RED_VENUS_STATE_GO_UP)
+	int ani = -1;
+	if (state == VENUS_STATE_GO_UP)
 	{
-		ani = RED_VENUS_ANI_GO_UP;
+		ani = VENUS_ANI_GO_UP;
 	}
-	else if (state == RED_VENUS_STATE_GO_DOWN)
+	else if (state == VENUS_STATE_GO_DOWN)
 	{
-		ani = RED_VENUS_ANI_GO_DOWN;
+		ani = VENUS_ANI_GO_DOWN;
 	}
-	else if (state == RED_VENUS_STATE_SHOOT_UP)
+	else if (state == VENUS_STATE_SHOOT_UP)
 	{
-		ani = RED_VENUS_ANI_SHOOT_UP;
+		ani = VENUS_ANI_SHOOT_UP;
 	}
-	else if (state == RED_VENUS_STATE_SHOOT_DOWN)
+	else if (state == VENUS_STATE_SHOOT_DOWN)
 	{
-		ani = RED_VENUS_ANI_SHOOT_DOWN;
+		ani = VENUS_ANI_SHOOT_DOWN;
 	}
-	if (player->x < POSITION_PIPE)
-	animation_set->at(ani)->Render(-1, x, y);
-	else animation_set->at(ani)->Render(1, x, y);
 
+	
+		animation_set->at(ani)->Render(nx, x, y);
 }
 
 void CRedVenusFireTrap::SetState(int state)
 {
 	CGameObject::SetState(state);
 
-	if (state == RED_VENUS_STATE_GO_UP)
+	if (state == VENUS_STATE_GO_UP || state == VENUS_STATE_GO_DOWN)
 	{
-		vy = -RED_VENUS_VELOCITY_Y;
-		if (!isGoingUp) vy = RED_VENUS_VELOCITY_Y;
+		if (vy <= 0) vy = VENUS_VELOCITY_Y;
+		else vy = -VENUS_VELOCITY_Y;
 	}
-	else if (state == RED_VENUS_STATE_GO_DOWN)
-	{
-		vy = RED_VENUS_VELOCITY_Y;
-		if (isGoingUp) vy = -RED_VENUS_VELOCITY_Y;
-	}
+
 }
 
 void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (isShooting)
-	{
-			DWORD now = GetTickCount();
-			if (now - startShooting >= TIME_SHOOTING)
-			{
-				isGoingUp = false;
-				isShooting = false;
-				if (player->y > POSITION_MIDDLE_MOVING)
-				{
-					SetState(RED_VENUS_STATE_GO_DOWN);
-				}
-				else
-				{
-					SetState(RED_VENUS_STATE_GO_UP);
-				}
-			}
-	}
 
-	CheckDirection();
-
-	if (isGoingUp)
-	{
-		if (y < POSITION_MOVING && !isShooting)
-		{
-			if (player->y > POSITION_MIDDLE_SHOOTING)
-			{
-				SetState(RED_VENUS_STATE_SHOOT_DOWN);
-				isShootingUp = false;
-			}
-			else
-			{
-				SetState(RED_VENUS_STATE_SHOOT_UP);
-				isShootingUp = true;
-			}
-			StartShooting(isShootingUp);
-		}
-	}
+	CheckDirectionForRender(POSITION_PIPE_X);
+	//go up and start shooting then change state go down when it go over the pipe
+	HandleShooting(POSITION_PIPE_Y, VENUS_BBOX_HEIGHT);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
 
-    CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -113,14 +74,14 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		float rdx = 0, rdy = 0;
 
-		
+
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		//day object ra mot khoang de k bi chong va cham
-		y += dy;
+		y += min_ty * dy + ny * 0.4f;
 
 		//collision logic with other objects
-		for (UINT i = 0;i < coEventsResult.size();i++)
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
@@ -128,74 +89,86 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny < 0)
 				{
-					//xet is going up truoc khi setstate de no biet di len hay di xuong
-					isGoingUp = true;
-					if (state == RED_VENUS_STATE_GO_UP) {
-						SetState(RED_VENUS_STATE_GO_UP);
-					}
-					else if (state == RED_VENUS_STATE_GO_DOWN) {
-						SetState(RED_VENUS_STATE_GO_DOWN);
-					}
+					if(CMario::GetInstance()->y> POSITION_PIPE_Y-45)
+						SetState(VENUS_STATE_GO_DOWN);
+					else SetState(VENUS_STATE_GO_UP);
 				}
 
 			}
 		}
 	}
-	//DebugOut(L"[INFO]vy: %f \n", vy);
-	pool->Update();
 
-	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
-}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
+
 
 void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + RED_VENUS_BBOX_WIDTH;
-	b = y + RED_VENUS_BBOX_HEIGHT;
+	r = x + VENUS_BBOX_WIDTH;
+	b = y + VENUS_BBOX_HEIGHT;
 }
 
 void CRedVenusFireTrap::CheckDirection()
 {
-	float mario_y = player->y;
-	if (player->level == MARIO_LEVEL_BIG)
+	float mario_y = CMario::GetInstance()->y;
+	if (CMario::GetInstance()->level != MARIO_LEVEL_SMALL)
 	{
 		mario_y += MARIO_BIG_BBOX_HEIGHT-MARIO_SMALL_BBOX_HEIGHT;
 	}
-	if (mario_y > POSITION_MIDDLE_MOVING)
+
+	if (mario_y > POSITION_PIPE_Y-50)
 	{
-		if (!isShooting)
-		{
-			state = RED_VENUS_STATE_GO_DOWN;
-		}
-		else 
-		{
-			if(mario_y > POSITION_MIDDLE_SHOOTING)
-			state = RED_VENUS_STATE_SHOOT_DOWN;
-			else state = RED_VENUS_STATE_SHOOT_UP;
-		}
+		state = VENUS_STATE_SHOOT_DOWN;
 	}
 	else
 	{
-		if (!isShooting)
-		{
-			state = RED_VENUS_STATE_GO_UP;
-		}
-		else
-		{
-			if(mario_y < POSITION_MIDDLE_SHOOTING)
-			state = RED_VENUS_STATE_SHOOT_UP;
-			else
-				state = RED_VENUS_STATE_SHOOT_DOWN;
-
-		}
+		state = VENUS_STATE_SHOOT_UP;
+		isShootingUp = true;
 	}
 }
 
-void CRedVenusFireTrap::StartShooting(bool isShootingUp)
+void CRedVenusFireTrap::StartShooting()
 {
 	startShooting = GetTickCount(); 
 	isShooting = true;
-	pool->Create(FIREBALL_POSITION_X, FIREBALL_POSITION_Y,isShootingUp);
 	vy = 0;
+	CFireball* fireball = CFireBallPool::GetInstance()->Create();
+	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);
+	if (isShootingUp) isShootingUp = false;
+}
+
+void CRedVenusFireTrap::CheckDirectionForRender(int position_pipe)
+{
+	if (CMario::GetInstance()->x < position_pipe)  nx = -1;
+	else nx = 1;
+}
+
+void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
+{
+	if (!isShooting)
+	{
+		if (y < position_pipe - bbox_height + 5 && vy <= 0)
+		{
+			CheckDirection();
+			StartShooting();
+		}
+	}
+	else {
+		DWORD now = GetTickCount();
+		if (now - startShooting > TIME_SHOOTING)
+		{
+			isShooting = false;
+			startShooting = -1;
+			if (CMario::GetInstance()->y > position_pipe - 45)
+			{
+				SetState(VENUS_STATE_GO_DOWN);
+			}
+			else
+			{
+				SetState(VENUS_STATE_GO_UP);
+			}
+		}
+	}
 }

@@ -10,12 +10,11 @@ CMarioStateStop::CMarioStateStop() {
 
 void CMarioStateStop::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::STOP);
 	if (mario.level == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_STOP);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON)
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_STOP);
 	}

@@ -11,6 +11,8 @@
 #include "MarioState.h"
 #include "Fireball.h"
 #include "Camera.h"
+#include "FireBallPool.h"
+#include "MapObjects.h"
 
 
 using namespace std;
@@ -34,16 +36,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_MAP	7
 
 #define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_GOOMBA	2
-#define TRAP_RED_VENUS 5
-#define ENEMY_KOOPAS	4 
-#define OBJECT_TYPE_FIREBALL 3
-
-#define OBJECT_TYPE_GROUND 60
-#define OBJECT_TYPE_BOX 70
-#define OBJECT_TYPE_PIPE 80
-#define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_FIREBALL 1
+#define OBJECT_TYPE_PORTAL	3
 
 #define MAX_SCENE_LINE 2048
 
@@ -151,35 +145,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
+	{
 		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x, y);
+		obj = CMario::GetInstance();
+		obj->SetPosition(x, y);
 		player = (CMario*)obj;
 
 		DebugOut(L"[INFO] Player object created!\n");
-		break;
-	/*case TRAP_RED_VENUS:
-	{
-		obj = new CRedVenusFireTrap(player,pool);
-
-	} break;*/
+	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		pool = new CFireBallPool(player);
-		for (int i = 0; i <pool->POOL_SIZE ; i++)
+		pool = CFireBallPool::GetInstance();
+		for (int i = 0; i < pool->POOL_SIZE; i++)
 		{
 			objects.push_back(&pool->fireballs[i]);
 		}
 	} break;
-	/*case OBJECT_TYPE_PIPE:
-	{
-		int spritePipe = atof(tokens[4].c_str());
-		obj = new CPipe(spritePipe);
-	}
-	break;*/
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -219,7 +204,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 	CMap::GetInstance()->AddMap(id, &path[0],textureId, tilePerRow, tilePerColumn);
 	CMap::GetInstance()->CreateTileSet();
 	CMap::GetInstance()->HandleMap();
-	CMap::GetInstance()->HandleObjectInMap(objects);
+	CMapObjects::GetInstance()->GenerateObject(&path[0],objects);
 }
 
 void CPlayScene::Load()
@@ -274,7 +259,6 @@ void CPlayScene::Load()
 
 	f.close();
 
-	CCamera::GetInstance()->SetPlayer(player);
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -287,13 +271,19 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 1; i < objects.size(); i++)
 	{
+		/*if (dynamic_cast<CFireballTest*>(objects[i])) {
+			if (objects[i]->isEnable)
+			{
+				DebugOut(L"vi tri %d \n", i);
+			}
+		}*/
 		if (objects[i]->isEnable)
 		{
 			coObjects.push_back(objects[i]);
 		}
 	}
 
-	player->CheckCollisionWithItems(&listItems);
+	//player->CheckCollisionWithItems(&listItems);
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
@@ -302,45 +292,30 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	CFireBallPool::GetInstance()->Update();
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
-
-	//update cam follow mario
-	//float cx, cy;
-	//CGame* game = CGame::GetInstance();
-
-	//player->GetPosition(cx, cy);
-
-	//cx -= game->GetScreenWidth() / 2;
-	//cy -= game->GetScreenHeight() / 2;
-
-	////update camera for map
-	////hardcode
-	//if (cx < 0)
-	//	cx = 0;
-
-	//if (cx > 2540)
-	//	cx = 2540;
-
-	//if (cy > game->GetScreenHeight() + 72)
-	//	cy = game->GetScreenHeight() + 72;
-	//else if (cy < game->GetScreenHeight() + 720)
-	//	cy = game->GetScreenHeight() + 72;
-
-	//CGame::GetInstance()->SetCamPos(0, 800);
 }
 
 void CPlayScene::Render()
 {
+
 	CMap::GetInstance()->RenderMap();
+
 	for (int i = 1; i < objects.size(); i++)
 	{
-		objects[i]->Render();
+		if (objects[i]->isEnable)
+		{
+			objects[i]->Render();
+		}
 	}
+
+	CMap::GetInstance()->RenderForeground();
+
 	//render mario sau cung
 	objects[0]->Render();
-		
+
 }
 
 /*
@@ -382,19 +357,24 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		mario->HandleInput(input);
 		break;
 	case DIK_2:
-		mario->Reset();
+		mario->BigMario();
 		break;
 	case DIK_1:
-		mario->TransformRacoon();
+		mario->RaccoonMario();
 		break;
 	case DIK_3:
-		mario->TransformFire();
+		mario->FireMario();
+		break;
+	case DIK_4:
+		mario->ImmortalMario();
+		break;
+	case DIK_5:
+		mario->Die();
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;
-		mario->powerMode = true;
-		mario->TogglePowerMode();
 		mario->HandleInput(input);
+		mario->powerMode = true;
 		break;
 	}
 }
@@ -407,14 +387,10 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_LEFT:
 		input = Input::RELEASE_LEFT;
-		mario->powerMode = false;
-		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	case DIK_RIGHT:
 		input = Input::RELEASE_RIGHT;
-		mario->powerMode = false;
-		mario->TogglePowerMode();
 		mario->HandleInput(input);
 		break;
 	case DIK_DOWN:
@@ -427,9 +403,9 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_A:
 		input = Input::RELEASE_A;
-		mario->powerMode = false;
-		mario->TogglePowerMode();
 		mario->HandleInput(input);
+		mario->powerMode = false;
+		mario->canHoldShell = false;
 		break;
 	}
 }

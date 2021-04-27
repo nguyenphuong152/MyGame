@@ -13,7 +13,6 @@ CMarioStateFly::CMarioStateFly() {
 
 void CMarioStateFly::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::FLY);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_FLY);
@@ -23,7 +22,7 @@ void CMarioStateFly::Enter(CMario& mario)
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
 	{
-		mario.SetAnimation(MARIO_ANI_FIRE_DROP);
+		mario.SetAnimation(MARIO_ANI_FIRE_FLY);
 	}
 	else {
 		mario.SetAnimation(MARIO_ANI_BIG_FLY);
@@ -31,24 +30,19 @@ void CMarioStateFly::Enter(CMario& mario)
 }
 void CMarioStateFly::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_S)
+	if (input == Input::PRESS_S&&mario.level==MARIO_LEVEL_RACOON)
 	{
 		mario.isOnGround = false;
-		mario.SetVelocityY(-0.4);
+		mario.SetVelocityY(-MARIO_FLYING_SPEED);
 		mario.SetVelocityX(mario.nx * MARIO_WALKING_SPEED);
-		//CMarioOnAirStates::HandleInput(mario,input);
 	}
 }
 
 void CMarioStateFly::Update(DWORD dt, CMario& mario)
 {
-	if (mario.isOnGround|| mario.level == MARIO_LEVEL_SMALL)
+	if (mario.isOnGround)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
-	}
-	else if (mario.vy > 0)
-	{
-		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

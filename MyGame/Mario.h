@@ -5,18 +5,19 @@ class CMarioState;
 #include "GameObject.h"
 #include "Input.h"
 
-#define MARIO_WALKING_SPEED		0.2f 
-#define MARIO_RUNNING_SPEED 0.4f
-#define MARIO_PRE_FLYING_SPEED 0.5f
+#define MARIO_WALKING_SPEED			0.25f 
+#define MARIO_RUNNING_SPEED			0.4f
+#define MARIO_PRE_FLYING_SPEED		0.5f
+#define MARIO_START_FLYING_SPEED	0.6f
+#define MARIO_FLYING_SPEED			0.3f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.5f
-#define MARIO_JUMP_HIGH_SPEED_Y		0.6f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.0015f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
 #define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
-#define MARIO_DIE_DEFLECT_SPEED		0.5f
+#define MARIO_DIE_DEFLECT_SPEED		0.7f
 
 #define MARIO_STATE_DIE			300
 
@@ -83,13 +84,17 @@ class CMarioState;
 #define MARIO_ANI_FIRE_HANDLESHELL_IDLE				54
 #define MARIO_ANI_FIRE_HANDLESHELL_RUN				55
 #define MARIO_ANI_FIRE_HANDLESHELL_JUMP_DROP		56
-#define MARIO_ANI_FIRE_SHOOT_FIREBALL_IDLE				57
-#define MARIO_ANI_FIRE_SHOOT_FIREBALL_JUMP				58
+#define MARIO_ANI_FIRE_SHOOT_FIREBALL_IDLE			57
+#define MARIO_ANI_FIRE_SHOOT_FIREBALL_JUMP			58
 
-#define	MARIO_LEVEL_SMALL	1
-#define	MARIO_LEVEL_BIG		2
-#define	MARIO_LEVEL_RACOON	3
-#define	MARIO_LEVEL_FIRE	4
+#define MARIO_ANI_RACCOON_ATTACK_BY_TAIL			59
+#define MARIO_ANI_IMMORTAL_JUMP						60
+
+#define	MARIO_LEVEL_SMALL		1
+#define	MARIO_LEVEL_BIG			2
+#define	MARIO_LEVEL_RACOON		3
+#define	MARIO_LEVEL_FIRE		4
+#define MARIO_LEVEL_IMMORTAL	5
 
 
 #define MARIO_BIG_BBOX_WIDTH  42
@@ -98,7 +103,7 @@ class CMarioState;
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
 #define MARIO_RACOON_BBOX_WIDTH  63
-#define MARIO_RACOON_BBOX_HEIGHT 80
+#define MARIO_RACOON_BBOX_HEIGHT 84
 
 #define MARIO_SMALL_BBOX_WIDTH  40
 #define MARIO_SMALL_BBOX_HEIGHT 46
@@ -108,6 +113,8 @@ class CMarioState;
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
 
+
+#define MARIO_POWER_LEVEL 720
 //type  handle animation with time
 
 
@@ -122,27 +129,28 @@ class CMario : public CGameObject
 	float start_y;
 
 public:
+	static CMario* __instance;
 	CMarioState* marioState;
 
 	int level;
 	int animation;
 	bool isOnGround = false;
 	bool isSitting = false;
-	bool canFlyHigh = false;
+	bool canJumpHigh = false;
 	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
+	
+	//can nhac lai
 	bool isKicking = false;
-	bool isDroppingFromFlying = false;
+	
 
-	int power;
-	DWORD power_start;
-
-	DWORD highjump_start;
+	int powerLevel;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
+	virtual void SetState(int state);
 
 	void InitState();
 	void SetVelocityX(float velocity_x) {
@@ -168,17 +176,20 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-	void TogglePowerMode() { power_start = GetTickCount64(); }
-	void StartHighJump() { highjump_start = GetTickCount64(); }
-	void Reset();
-	void TransformRacoon();
-	void TransformFire();
+	void BigMario();
+	void RaccoonMario();
+	void FireMario();
+	void ImmortalMario();
+	void Die();
+	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 
+	static  CMario* GetInstance();
+
 	//Kiem tra collision voi item
-	void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
+	//void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
 };
 
 

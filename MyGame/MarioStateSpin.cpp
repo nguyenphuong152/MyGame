@@ -6,12 +6,10 @@ CMarioStateSpin* CMarioStateSpin::__instance = NULL;
 
 CMarioStateSpin::CMarioStateSpin() {
 	DebugOut(L"[STATE] create spin \n");
-	_spinningTime = 0;
 }
 
 void CMarioStateSpin::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::SPIN);
 	mario.SetAnimation(MARIO_ANI_RACCOON_SPIN);
 }
 void CMarioStateSpin::HandleInput(CMario& mario, Input input)
@@ -21,11 +19,9 @@ void CMarioStateSpin::HandleInput(CMario& mario, Input input)
 
 void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 {
-	_spinningTime++;
-	if (_spinningTime > MARIO_SPINNING_TIME)
+	if (GetTickCount64()-_spinningStart > MARIO_SPINNING_TIME)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
-		_spinningTime = 0;
 	}
 }
 

@@ -10,6 +10,8 @@ class CMarioStateFly;
 class CMarioStateSpin;
 class CMarioStateDrop;
 class CMarioStateKick;
+class CMarioStateThrowFireballJumping;
+class CMarioStateThrowFireball;
 class CMarioStateHoldShellIdle;
 class CMarioStateHoldShellAndRun;
 class CMarioStateHoldShellAndJump;
@@ -25,24 +27,6 @@ class CMarioState
 {
 	friend class CMario;
 public:
-	enum MarioStates {
-		IDLE,
-		WALK,
-		JUMP,
-		SIT,
-		STOP,
-		RUN,
-		PRE_FLY,
-		FLY,
-		FLOAT,
-		SPIN,
-		DROP,
-		KICK,
-		HOLDSHELL_IDLE,
-		HOLDSHELL_RUN,
-		HOLDSHELL_JUMP,
-		HOLDSHELL_DROP
-	};
 
 	static CMarioStateIdle idle;
 	static CMarioStateWalk walk;
@@ -55,6 +39,8 @@ public:
 	static CMarioStateSpin spin;
 	static CMarioStateDrop drop;
 	static CMarioStateKick kick;
+	static CMarioStateThrowFireballJumping throw_fireball_jump;
+	static CMarioStateThrowFireball throw_fireball;
 	static CMarioStateHoldShellIdle holdshell_idle;
 	static CMarioStateHoldShellAndRun holdshell_run;
 	static CMarioStateHoldShellAndJump holdshell_jump;
@@ -64,15 +50,9 @@ public:
 	//CMarioState(CMarioState::MarioStates currentState);
 	virtual ~CMarioState() {};
 
-	CMarioState::MarioStates GetCurrentState();
-	void SetCurrentState(CMarioState::MarioStates current_state);
-
 	virtual void Enter(CMario& mario) = 0;
 	virtual void HandleInput(CMario& mario, Input input) = 0;
 	virtual void Update(DWORD dt,CMario& mario) = 0;
-	
 
-protected:
-	CMarioState::MarioStates currentState;
 };
 

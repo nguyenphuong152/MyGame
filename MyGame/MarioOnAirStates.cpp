@@ -6,6 +6,9 @@
 #include "MarioStateStop.h"
 #include "MarioStateRun.h"
 #include "MarioStatePreFly.h"
+#include "FireBall.h"
+#include "FireBallPool.h"
+#include "MarioStateThrowingFireballJumping.h"
 
 CMarioOnAirStates::CMarioOnAirStates()
 {
@@ -24,6 +27,8 @@ void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
 		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
 		mario.SetVelocityX(MARIO_WALKING_SPEED);
 	}
+
+	
 }
 
 

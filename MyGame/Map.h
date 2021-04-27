@@ -17,13 +17,15 @@ protected:
 	int tilePerRow, tilePerColumn;
 
 	std::vector<LPLAYERS> layers ;
+
+	CMapLayer* layerForeground;
 	
 public:
 	void AddMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
 	void CreateTileSet();
 	void HandleMap();
-	void HandleObjectInMap(vector<LPGAMEOBJECT>& object);
 	void RenderMap();
+	void RenderForeground();
 
 	static CMap* GetInstance();
 };

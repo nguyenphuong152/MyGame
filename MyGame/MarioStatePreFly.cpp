@@ -1,5 +1,6 @@
 #include "MarioStatePreFly.h"
 #include "MarioStateFly.h"
+#include "MarioStateRun.h"
 #include "Mario.h"
 
 CMarioStatePreFly* CMarioStatePreFly::__instance = NULL;
@@ -10,12 +11,11 @@ CMarioStatePreFly::CMarioStatePreFly() {
 
 void CMarioStatePreFly::Enter(CMario& mario)
 {
-	SetCurrentState(MarioStates::PRE_FLY);
 	if (mario.level == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_PRE_FLY);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_PRE_FLY);
 	}
 	else if (mario.level == MARIO_LEVEL_FIRE)
@@ -29,25 +29,18 @@ void CMarioStatePreFly::Enter(CMario& mario)
 void CMarioStatePreFly::HandleInput(CMario& mario, Input input)
 {
 	CGame* game = CGame::GetInstance();
-	if (mario.power==72||mario.powerMode)
-	{
-		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT)) {
-			if (input == Input::PRESS_S)
-			{
+	
+	if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT)) {
+		if (input == Input::PRESS_S)
+		{
 				mario.isOnGround = false;
-				mario.SetVelocityY(-MARIO_JUMP_HIGH_SPEED_Y);
+				mario.SetVelocityY(-MARIO_START_FLYING_SPEED);
 				mario.ChangeState(CMarioState::fly.GetInstance());
-			}
-			else
-			{
-				mario.SetVelocityX(mario.nx * MARIO_PRE_FLYING_SPEED);
-				mario.ChangeState(CMarioState::pre_fly.GetInstance());
-			}
 		}
 	}
 	else {
-
-		CMarioOnGroundStates::HandleInput(mario, input);
+		mario.powerMode = false;
+		mario.ChangeState(CMarioState::run.GetInstance());
 	}
 }
 

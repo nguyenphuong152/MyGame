@@ -73,6 +73,12 @@
     <Filter Include="Header Files\Mario\HoldingShellStates">
       <UniqueIdentifier>{4e61e90a-b9bf-49a2-877c-d197962e328b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Platform">
+      <UniqueIdentifier>{39831396-fae0-4f4a-b85c-a1b2b0b48580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Platform">
+      <UniqueIdentifier>{1ba75fb3-4f61-4ad0-939d-543c02928eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -153,15 +159,6 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Boundary.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Objects\Camera</Filter>
     </ClCompile>
@@ -218,6 +215,36 @@
     </ClCompile>
     <ClCompile Include="MarioStateWalk.cpp">
       <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateThrowingFireball.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateThrowingFireballJumping.cpp">
+      <Filter>Source Files\Mario\OnAirStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjects.cpp">
+      <Filter>Source Files\MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Boundary.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBoundary.cpp">
+      <Filter>Source Files\Objects\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Piranha.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenVenusFireTrap.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaGoomba.cpp">
+      <Filter>Source Files\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +314,6 @@
     <ClInclude Include="Coin.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -297,12 +321,6 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Boundary.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -361,6 +379,36 @@
     </ClInclude>
     <ClInclude Include="MarioStateWalk.h">
       <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateThrowingFireball.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateThrowingFireballJumping.h">
+      <Filter>Header Files\Mario\OnAirStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjects.h">
+      <Filter>Header Files\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Boundary.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBoundary.h">
+      <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Piranha.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenVenusFireTrap.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaGoomba.h">
+      <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
