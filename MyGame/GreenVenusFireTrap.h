@@ -1,8 +1,6 @@
 #pragma once
 #include "RedVenusFireTrap.h"
 
-#define GREEN_VENUS_FIRETRAP_ANI	63
-
 #define GREEN_VENUS_BBOX_HEIGHT		78
 
 #define POSITION_PIPE_X				5520

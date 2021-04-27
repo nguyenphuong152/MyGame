@@ -521,12 +521,12 @@
   </object>
  </objectgroup>
  <objectgroup id="15" name="Enemy">
-  <object id="91" name="koopa" type="red" x="1652.33" y="1030.66" width="31" height="26"/>
-  <object id="98" name="venus" type="red" x="1081.15" y="1139.97"/>
-  <object id="255" name="goomba" type="tan" x="2282" y="1142" width="22.5" height="21.5"/>
-  <object id="256" name="piranha" type="basic" x="5350.5" y="1164.5" width="25" height="23"/>
-  <object id="258" name="venus" type="green" x="5542" y="1128" width="25.5" height="26"/>
-  <object id="260" name="para-goomba" type="tan" x="2684" y="1117" width="24" height="26"/>
+  <object id="91" name="red_koopa" type="70" x="1652.33" y="1030.66" width="31" height="26"/>
+  <object id="98" name="red_venus" type="60" x="1081.15" y="1139.97"/>
+  <object id="255" name="goomba" type="3" x="2282" y="1142" width="22.5" height="21.5"/>
+  <object id="256" name="piranha" type="64" x="5350.5" y="1164.5" width="25" height="23"/>
+  <object id="258" name="green_venus" type="63" x="5542" y="1128" width="25.5" height="26"/>
+  <object id="260" name="para-goomba" type="31" x="2684" y="1117" width="24" height="26"/>
  </objectgroup>
  <objectgroup id="20" name="Label" visible="0">
   <object id="131" name="warp-pipe" type="down" x="624" y="1090" width="96" height="28">

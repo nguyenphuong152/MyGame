@@ -181,7 +181,7 @@ public:
 	void FireMario();
 	void ImmortalMario();
 	void Die();
-	//void ThrowFireball();
+	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

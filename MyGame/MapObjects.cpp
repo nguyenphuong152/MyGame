@@ -144,43 +144,36 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					const char* enemyName = element->Attribute("name");
-					const char* enemyType = element->Attribute("type");
+					const char* aniRaw = element->Attribute("type");
+					int ani = atoi(aniRaw);
 
-					if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "red") == 0)
+					if (strcmp(enemyName, "red_venus")  == 0)
 					{
 						obj = new CRedVenusFireTrap();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
 					}
-					else if (strcmp(enemyName, "koopa") == 0 && strcmp(enemyType, "red") == 0)
+					else if (strcmp(enemyName, "red_koopa") == 0)
 					{
 						obj = new CKoopas();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
 					}
-					/*else if (strcmp(enemyName, "goomba") == 0 && strcmp(enemyType, "tan") == 0)
+					else if (strcmp(enemyName, "goomba")  == 0)
 					{	
 						obj = new CGoomBa();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
-					}*/
-					else if (strcmp(enemyName, "para-goomba") == 0 && strcmp(enemyType, "tan") == 0)
+					}
+					else if (strcmp(enemyName, "para-goomba") == 0)
 					{
 						obj = new CParaGoomba();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
 					}
-					else if (strcmp(enemyName, "piranha") == 0 && strcmp(enemyType, "basic") == 0)
+					else if (strcmp(enemyName, "piranha")== 0)
 					{
 						obj = new CPiranha();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
-					}else if (strcmp(enemyName, "venus") == 0 && strcmp(enemyType, "green") == 0)
+					}else if (strcmp(enemyName, "green_venus")  == 0)
 					{
 						obj = new CGreenVenusFireTrap();
-						obj->SetPosition(x, y);
-						objects.push_back(obj);
 					}
+
+					obj->SetAnimation(ani);
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
 				}

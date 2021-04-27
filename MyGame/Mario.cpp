@@ -20,6 +20,7 @@
 #include "Camera.h"
 #include "FireBallPool.h"
 #include "ObjectBoundary.h"
+#include "ParaGoomba.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -103,25 +104,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						goomba->StartDie();
+						
+						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
+						{
+							goomba->SetLevel(GOOMBA_LEVEL_1);
+							goomba->SetState(PARA_GOOMBA_STATE_GOOMBA);
+						}
+						else
+						{
+							goomba->SetState(GOOMBA_STATE_DIE);
+							goomba->StartDie();
+						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
 				else if (e->nx != 0)
 				{
 					if (untouchable == 0)
-					{
-						if (goomba->GetState() != GOOMBA_STATE_DIE)
-						{
-							if (level > MARIO_LEVEL_SMALL)
-							{
-								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
-							}
-							SetState(MARIO_STATE_DIE);
-						}
-					}
+						LevelMarioDown(goomba, GOOMBA_STATE_DIE);
 				}
 
 			}
@@ -149,21 +149,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				/*else if (e->nx != 0)
+				else if (e->nx != 0)
 				{
 					if (untouchable == 0)
-					{
-						if (koopas->GetState() != KOOPAS_STATE_DIE)
-						{
-							if (level > MARIO_LEVEL_SMALL)
-							{
-								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
-							}
-							SetState(MARIO_STATE_DIE);
-						}
-					}
-				}*/
+						LevelMarioDown(koopas, KOOPA_STATE_DIE);
+				}
 
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
@@ -265,7 +255,18 @@ void CMario::HandleInput(Input input)
 	marioState->Enter(*this);
 }
 
-
+void CMario::LevelMarioDown(CGameObject* object, int enemy_condition)
+{
+	if (object->GetState() != enemy_condition)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		SetState(MARIO_STATE_DIE);
+	}
+}
 
 void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 {

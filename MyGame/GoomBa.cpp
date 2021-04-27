@@ -3,12 +3,13 @@
 #include "Box.h"
 #include "Pipe.h"
 #include "Brick.h"
+#include "ParaGoomba.h"
 
 CGoomBa::CGoomBa()
 {
 	isEnable = true;
-	SetAnimation(GOOMBA_ANI);
 	SetState(GOOMBA_STATE_WALKING);
+	SetLevel(GOOMBA_LEVEL_1);
 }
 
 
@@ -17,11 +18,23 @@ void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + GOOMBA_BBOX_WIDTH;
-
-	if (state == GOOMBA_STATE_DIE)
-		b = y + GOOMBA_BBOX_HEIGHT_DIE;
-	else
-		b = y + GOOMBA_BBOX_HEIGHT;
+	if (level == GOOMBA_LEVEL_2)
+	{
+		if (state == PARA_GOOMBA_STATE_WALKING)
+		{
+			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_WALKING;
+		}
+		else {
+			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_FLY;
+		}
+	}
+	else if (level == GOOMBA_LEVEL_1)
+	{
+		if (state == GOOMBA_STATE_DIE)
+			b = y + GOOMBA_BBOX_HEIGHT_DIE;
+		else
+			b = y + GOOMBA_BBOX_HEIGHT;
+	}
 }
 
 void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -15,7 +15,6 @@ CKoopas::CKoopas()
 	isEnable = true;
 	this->player = CMario::GetInstance();
 	nx = 1;
-	SetAnimation(KOOPA_ANI);
 	SetState(KOOPA_STATE_WALKING);
 }
 

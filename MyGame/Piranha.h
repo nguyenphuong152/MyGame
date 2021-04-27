@@ -9,7 +9,6 @@
 #define PIRANHA_VELOCITY_Y		0.05f
 
 #define PIRANHA_ANI_ACTIVE	0
-#define PIRANHA_ANI			64
 
 #define PIPE_POSITION_Y		1087
 
@@ -24,7 +23,6 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
-	void SetAnimation();
 	void StartActive();
 	void ResetActive();
 };

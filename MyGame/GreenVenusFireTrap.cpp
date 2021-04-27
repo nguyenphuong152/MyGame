@@ -6,7 +6,6 @@
 
 CGreenVenusFireTrap::CGreenVenusFireTrap()
 {
-	SetAnimation(GREEN_VENUS_FIRETRAP_ANI);
 	isEnable = true;
 	startShooting = -1;
 	isShooting = false;

@@ -6,7 +6,6 @@
 
 CRedVenusFireTrap ::CRedVenusFireTrap()
 {
-	SetAnimation(VENUS_FIRETRAP_ANI);
 	isEnable = true;
 	startShooting = -1;
 	isShooting = false;

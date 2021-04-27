@@ -4,7 +4,6 @@
 
 CPiranha::CPiranha()
 {
-	SetAnimation();
 	isEnable = true;
 	SetState(PIRANHA_STATE_ACTIVE);
 	vy = PIRANHA_VELOCITY_Y;
@@ -16,12 +15,6 @@ void CPiranha::Render()
 	animation_set->at(ani)->Render(0, x, y);
 }
 
-void CPiranha::SetAnimation()
-{
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(PIRANHA_ANI);
-	SetAnimationSet(ani_set);
-}
 
 void CPiranha::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
