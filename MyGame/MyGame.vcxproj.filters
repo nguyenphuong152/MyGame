@@ -246,6 +246,9 @@
     <ClCompile Include="ParaGoomba.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="ParaKoopa.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -408,6 +411,9 @@
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ParaGoomba.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaKoopa.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

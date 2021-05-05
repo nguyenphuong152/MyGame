@@ -15,6 +15,7 @@ CKoopas::CKoopas()
 	isEnable = true;
 	this->player = CMario::GetInstance();
 	nx = 1;
+	SetLevel(KOOPA_LEVEL_1);
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -23,7 +24,8 @@ void CKoopas::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	r = x + KOOPA_BBOX_WIDTH;
 
-	if (state != KOOPA_STATE_WALKING)
+	if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_DIE_WITH_VELOCITY
+||state==KOOPA_STATE_RECOVER)
 	{
 		t = y;
 		b = y + KOOPA_BBOX_HEIGHT_DIE;
@@ -39,104 +41,106 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt,coObjects);
 
-	//die ->recover
-	if (GetTickCount64() - _dieStart > KOOPA_DIE_TIME && die) {
-		SetState(KOOPA_STATE_RECOVER);
-	} 
-	//recover->live
-	if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
-		//xet lai vi tri k thoi rua se bi roi xuong
-		y -= KOOPA_BBOX_HEIGHT-KOOPA_BBOX_HEIGHT_DIE;
-		SetState(KOOPA_STATE_WALKING);
-	}
-
-	if (isHolded)
+	if (GetLevel() == KOOPA_LEVEL_1)
 	{
-		if (player->isKicking)
-		{
-			SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
-			isHolded = false;
+		//die ->recover
+		if (GetTickCount64() - _dieStart > KOOPA_DIE_TIME && die) {
+			y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+			SetState(KOOPA_STATE_RECOVER);
 		}
-		else {
-			UpdateShellPosition();
+		//recover->live
+		if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
+			//xet lai vi tri k thoi rua se bi roi xuong
+			y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+			SetState(KOOPA_STATE_WALKING);
 		}
-	}
-	else 
-	{
-		vy += KOOPA_GRAVITY * dt;
-	}
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		y += dy;
-		x += dx;
-	}
-	else
-	{
-		
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0, rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (isHolded)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CObjectBoundary*>(e->obj))
+			if (player->isKicking)
 			{
-				if (e->nx != 0) {
-					this->nx = -this->nx;
-					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+				SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
+				isHolded = false;
+			}
+			else {
+				UpdateShellPosition();
+			}
+		}
+		else if(state!=KOOPA_STATE_DIE_WITH_VELOCITY) 
+			vy += KOOPA_GRAVITY * dt;
+		
+
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+
+		coEvents.clear();
+
+		CalcPotentialCollisions(coObjects, coEvents);
+
+		if (coEvents.size() == 0)
+		{
+			y += dy;
+			x += dx;
+		}
+		else
+		{
+
+			float min_tx, min_ty, nx = 0, ny;
+			float rdx = 0, rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			//day object ra mot khoang de k bi chong va cham
+			x += min_tx * dx + nx * 0.4f;
+			y += min_ty * dy + ny * 0.4f;
+
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+
+			//collision logic with other objects
+			for (UINT i = 0; i < coEventsResult.size(); i++)
+			{
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CObjectBoundary*>(e->obj))
+				{
+					if (e->nx != 0) {
+						this->nx = -this->nx;
+						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+						{
+							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+							x += dx;
+						}
+						else
+							vx = KOOPA_WALKING_SPEED * this->nx;
+
+					}
+				}
+				else if (dynamic_cast<CBox*>(e->obj))
+				{
+					if (e->nx != 0)
 					{
-						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+						else
+							vx = KOOPA_WALKING_SPEED * this->nx;
 						x += dx;
 					}
-					else
-						vx = KOOPA_WALKING_SPEED * this->nx;
-					
 				}
-			}
-			else if (dynamic_cast<CBox*>(e->obj))
-			{
-				if (e->nx != 0)
+				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
 				{
-					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
-						vx = KOOPA_SHELL_VELOCITY_X*this->nx;
-					else
-						vx = KOOPA_WALKING_SPEED*this->nx;
-					x += dx;
-				}
-			}
-			else if (dynamic_cast<CGround*>(e->obj)|| dynamic_cast<CBrick*>(e->obj)|| dynamic_cast<CPipe*>(e->obj))
-			{
-				if ( e->nx != 0)
-				{
-					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+					if (e->nx != 0)
 					{
-						this->nx = -this->nx;
-						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+						{
+							this->nx = -this->nx;
+							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+						}
 					}
 				}
 			}
 		}
+
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
 }
 
 void CKoopas::Render()
@@ -173,16 +177,19 @@ void CKoopas::SetState(int state)
 	case KOOPA_STATE_DIE_WITH_VELOCITY:
 		if (player->nx > 0)
 		{
-			vx = KOOPA_SHELL_VELOCITY_X;
+			nx = 1;
 		}
 		else {
-			vx = -KOOPA_SHELL_VELOCITY_X;
+			nx = -1;
 		}
+		vx = KOOPA_SHELL_VELOCITY_X*nx;
 		break;
 	case KOOPA_STATE_RECOVER:
 		_dieStart = 0;
 		die = 0;
 		StartRecover();
+		SetLevel(KOOPA_LEVEL_1);
+		break;
 	}
 }
 

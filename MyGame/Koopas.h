@@ -25,22 +25,29 @@
 #define KOOPA_ANI_DIE_WITH_VELOCITY		2
 #define KOOPA_ANI_RECOVER				3
 
+#define KOOPA_LEVEL_2	2
+#define KOOPA_LEVEL_1	1
+
 class CKoopas : public CGameObject
 {
-
+protected:
 	CMario* player;
 	int die;
 	int recover;
 	DWORD _dieStart;
 	DWORD _recoverStart;
+	int level;
+
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 public:
+	CKoopas();
 	bool isHolded = false;
 	void StartDie() { die = 1; _dieStart = GetTickCount64(); };
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
-	CKoopas();
+	void SetLevel(int level) { this->level = level; };
+	int GetLevel() { return this->level; };
 	virtual void SetState(int state);
 	void UpdateShellPosition();
 };

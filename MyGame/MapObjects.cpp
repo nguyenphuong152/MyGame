@@ -13,6 +13,7 @@
 #include "ParaGoomba.h"
 #include "Piranha.h"
 #include "ObjectBoundary.h"
+#include "ParaKoopa.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -117,7 +118,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(2000, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(3800, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -169,6 +170,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					}else if (strcmp(enemyName, "green_venus")  == 0)
 					{
 						obj = new CGreenVenusFireTrap();
+					}
+					else if (strcmp(enemyName, "green_para-koopa") == 0)
+					{
+						obj = new CParaKoopa();
 					}
 
 					obj->SetAnimation(ani);

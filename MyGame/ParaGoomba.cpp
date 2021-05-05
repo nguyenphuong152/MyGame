@@ -19,7 +19,9 @@ void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	vy += 0.0015f * dt;
+	vy += PARA_GOOMBA_GRAVITY * dt;
+
+	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
 	if (level == GOOMBA_LEVEL_2)
 	{
