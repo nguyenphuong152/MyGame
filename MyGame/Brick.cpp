@@ -2,12 +2,15 @@
 #include "Utils.h"
 #include "Mario.h"
 #include "Items.h"
+#include "Coin.h"
 
-CBrick::CBrick()
+CBrick::CBrick(CGameObject* item,float y)
 {
+	this->item = item;
 	SetAnimation(BRICK_ANI);
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
+	oldY = y;
 }
 
 void CBrick::Render()
@@ -30,22 +33,23 @@ void CBrick::SetState(int state)
 	if (state == BRICK_STATE_TOUCHED)
 	{
 		vy = -BRICK_VELOCITY_Y;
+		if (dynamic_cast<CCoin*>(item))
+		{
+			CCoin* coin = dynamic_cast<CCoin*>(item);
+			coin->SetState(COIN_STATE_JUMPING);
+		}
 	}
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
 		CGameObject::Update(dt, coObjects);
-		if (state == BRICK_STATE_UNTOUCH)
+		 if (state == BRICK_STATE_TOUCHED)
 		{
-			oldY = y;
+			 vy += 0.0015 * dt;;
+			
 		}
-		else if (y < oldY && vy <0)
-		{
-			vy = BRICK_DROP_VELOCITY_Y;
-		}
-		else if (vy==BRICK_DROP_VELOCITY_Y&&y>=oldY) {
+		else if (y>=oldY) {
 			y = oldY;
 			vy = 0;
 		}
