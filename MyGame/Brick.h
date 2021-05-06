@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH 47
-#define BRICK_BBOX_HEIGHT 47
+#define BRICK_BBOX_WIDTH 49
+#define BRICK_BBOX_HEIGHT 50
 
 #define BRICK_STATE_UNTOUCH 10
 #define BRICK_STATE_TOUCHED 20

@@ -85,6 +85,12 @@
     <Filter Include="Source Files\Objects\Misc">
       <UniqueIdentifier>{5be7df63-e186-484b-aee8-6155af885fbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\PowerUp">
+      <UniqueIdentifier>{205e6a7f-5d52-4e82-a978-143ba9e15b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\PowerUp">
+      <UniqueIdentifier>{08ceead8-a028-41f5-ba12-8ee163dece7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -255,6 +261,15 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>Source Files\Objects\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="MushroomPowerUp.cpp">
+      <Filter>Source Files\Objects\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="LeafPowerUp.cpp">
+      <Filter>Source Files\Objects\PowerUp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -421,6 +436,15 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Header Files\Objects\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="MushroomPowerUp.h">
+      <Filter>Header Files\Objects\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="LeafPowerUp.h">
+      <Filter>Header Files\Objects\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

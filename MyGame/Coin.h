@@ -2,15 +2,15 @@
 #include "GameObject.h"
 
 #define COIN_BBOX_WIDTH		36
-#define COIN_BBOX_HEIGHT	46
+#define COIN_BBOX_HEIGHT	45
 
 #define COIN_STATE_JUMPING 10
 
 #define COIN_ANI_JUMPING 0
 #define COIN_ANI_IDLE    1
 
-#define COIN_DEFLECT_SPEED  0.5f
-#define COIN_GRAVITY		0.0025f
+#define COIN_DEFLECT_SPEED  0.8f
+#define COIN_GRAVITY		0.002f
 
 
 class CCoin : public CGameObject

@@ -2,7 +2,7 @@
 [TEXTURES]
 0	textures\mario.png	255	255	255
 10	textures\enemy.png	200	200	200
-20	textures\misc.png	255	255	255
+20	textures\misc.png	25	25	25
 30	textures\Map\World1-1\world-1-1.png	255	255	255
 40	textures\fireball.png	255	255	255
 50	textures\effect.png	0	0	0
@@ -188,11 +188,14 @@
 50005	1056	298	1104	348	20
 50006	1105	298	1163	348	20
 
-#RED_MUSHROOM
-51001	701	309	717	325	20
+#RED_MUSHROOM					
+51001	466	361	517	413	20
+					
+#LEAF					
+52001	528	361	589	413	20
 
-#LEAF
-52001	725	311	741	325	20
+#GREEN_MUSHROOM					
+53001	856	361	907	413	20
 
 #PIPE
 60001	69	35	85	51	20
@@ -427,6 +430,9 @@
 # ==== LEAF =========
 520	52001	100
 
+# ==== GREEN_MUSHROOM =========
+530	53001	100
+
 # ==== RED venus=========
 #down
 601	61001	100	61002	100
@@ -492,8 +498,11 @@
 #RED_MUSHROOM
 26	510
 
-#RED_MUSHROOM
+#LEAF
 27	520
+
+#GREEN_MUSHROOM
+28	530
 
 #RED PLANT
 60	601	602	603	604
