@@ -264,12 +264,6 @@
     <ClCompile Include="PowerUp.cpp">
       <Filter>Source Files\Objects\PowerUp</Filter>
     </ClCompile>
-    <ClCompile Include="MushroomPowerUp.cpp">
-      <Filter>Source Files\Objects\PowerUp</Filter>
-    </ClCompile>
-    <ClCompile Include="LeafPowerUp.cpp">
-      <Filter>Source Files\Objects\PowerUp</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -438,12 +432,6 @@
       <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
     <ClInclude Include="PowerUp.h">
-      <Filter>Header Files\Objects\PowerUp</Filter>
-    </ClInclude>
-    <ClInclude Include="MushroomPowerUp.h">
-      <Filter>Header Files\Objects\PowerUp</Filter>
-    </ClInclude>
-    <ClInclude Include="LeafPowerUp.h">
       <Filter>Header Files\Objects\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>

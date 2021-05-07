@@ -3,8 +3,7 @@
 #include "Mario.h"
 #include "Items.h"
 #include "Coin.h"
-#include "MushroomPowerUp.h"
-#include "LeafPowerUp.h"
+#include "PowerUp.h"
 
 CBrick::CBrick(CGameObject* item,float y)
 {
@@ -40,16 +39,13 @@ void CBrick::SetState(int state)
 			CCoin* coin = dynamic_cast<CCoin*>(item);
 			coin->SetState(COIN_STATE_JUMPING);
 		}
-		else if (dynamic_cast<CMushroomPowerUp*>(item))
+		else if (dynamic_cast<CPowerUp*>(item))
 		{
-			CMushroomPowerUp* mushroom = dynamic_cast<CMushroomPowerUp*>(item);
-			mushroom->SetState(MUSHROOM_STATE_GO_UP);
+			CPowerUp* powerup = dynamic_cast<CPowerUp*>(item);
+			powerup->DefinePowerUpType();
+			powerup->SetState(POWERUP_STATE_GO_UP);
 		}
-		else if (dynamic_cast<CLeafPowerUp*>(item))
-		{
-			CLeafPowerUp* leaf = dynamic_cast<CLeafPowerUp*>(item);
-			leaf->SetState(LEAF_STATE_GO_UP);
-		}
+
 	}
 }
 

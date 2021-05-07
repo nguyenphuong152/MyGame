@@ -16,8 +16,6 @@
 #include "ParaKoopa.h"
 #include "Coin.h"
 #include "PowerUp.h"
-#include "MushroomPowerUp.h"
-#include "LeafPowerUp.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -147,7 +145,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					}
 					else if (strcmp(element->Attribute("name"), "powerup") == 0)
 					{
-						item = new CLeafPowerUp(x,y);
+						item = new CPowerUp(x,y);
 						objects.push_back(item);
 					}
 

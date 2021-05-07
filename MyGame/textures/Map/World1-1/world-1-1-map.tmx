@@ -418,14 +418,14 @@
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
   <object id="47" name="bcoin" type="25" x="541.167" y="1057.75"/>
-  <object id="49" name="powerup" type="1" x="586" y="1058"/>
+  <object id="49" name="bcoin" type="25" x="586" y="1058"/>
   <object id="50" name="bcoin" type="25" x="683.667" y="914.25"/>
-  <object id="51" name="powerupp" type="1" x="729.583" y="914.25"/>
+  <object id="51" name="powerup" type="1" x="729.583" y="914.25"/>
   <object id="53" name="bcoin" type="25" x="1259.33" y="964.667"/>
-  <object id="104" name="powerupp" type="1" x="1974.52" y="1152.95"/>
-  <object id="105" name="powerupp" type="1" x="2122.24" y="1010.12"/>
-  <object id="106" name="powerupp" type="1" x="4378.55" y="1111.55"/>
-  <object id="213" name="powerupp" type="1" x="4281" y="393.333"/>
+  <object id="104" name="powerup" type="1" x="1974.52" y="1152.95"/>
+  <object id="105" name="bcoin" type="25" x="2122.24" y="1010.12"/>
+  <object id="106" name="powerup" type="1" x="4378.55" y="1111.55"/>
+  <object id="213" name="bcoin" type="1" x="4281" y="393.333"/>
  </objectgroup>
  <objectgroup id="15" name="Coin" visible="0">
   <object id="59" x="3236.5" y="983.5"/>
