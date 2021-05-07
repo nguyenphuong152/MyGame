@@ -181,8 +181,11 @@
     <ClCompile Include="MarioStateThrowingFireball.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
+    <ClCompile Include="One-upMushroom.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="ObjectBoundary.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
+    <ClCompile Include="ParaKoopa.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
@@ -237,8 +240,11 @@
     <ClInclude Include="MarioStateThrowingFireball.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
+    <ClInclude Include="One-upMushroom.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="ObjectBoundary.h" />
     <ClInclude Include="ParaGoomba.h" />
+    <ClInclude Include="ParaKoopa.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />

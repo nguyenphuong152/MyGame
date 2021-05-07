@@ -21,6 +21,8 @@
 #include "FireBallPool.h"
 #include "ObjectBoundary.h"
 #include "ParaGoomba.h"
+#include "ParaKoopa.h"
+#include "Coin.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -127,34 +129,39 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
 			{
-				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+				CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
 				//jummp  on top >> kill koopas and deflect a bit
 				if (e->ny < 0)
 				{
-					if (koopas->GetState() != KOOPA_STATE_DIE)
+					if (koopa->GetState() != KOOPA_STATE_DIE)
 					{
-						koopas->SetState(KOOPA_STATE_DIE);
-						koopas->StartDie();
+						if (koopa->GetLevel() == KOOPA_LEVEL_2)
+						{
+							koopa->SetLevel(KOOPA_LEVEL_1);
+							koopa->SetState(PARA_KOOPA_STATE_WALKING);
+						}
+						else {
+							koopa->SetState(KOOPA_STATE_DIE);
+							koopa->StartDie();
+						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
 				else if (e->nx!=0)
 				{
-					if (koopas->GetState() == KOOPA_STATE_DIE)
+					if (koopa->GetState() == KOOPA_STATE_DIE)
 					{
 						if (canHoldShell)
 						{
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
-							koopas->isHolded = true;
+							koopa->isHolded = true;
 						}
 					}
+				/*	else if (untouchable == 0)
+					{
+						LevelMarioDown(koopa, KOOPA_STATE_DIE);
+					}*/
 				}
-				else if (e->nx != 0)
-				{
-					if (untouchable == 0)
-						LevelMarioDown(koopas, KOOPA_STATE_DIE);
-				}
-
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
@@ -218,6 +225,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0) x += dx;
 					else if (e->ny != 0) y += dy;
 			}
+			else if (dynamic_cast<CCoin*>(e->obj))
+			{
+			   CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+			   if (e->nx != 0 || e->ny != 0)
+			   {
+				   coin->isEnable = false;
+			   }
+            }
 		}
 	}
 

@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Objects\Platform">
       <UniqueIdentifier>{1ba75fb3-4f61-4ad0-939d-543c02928eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Misc">
+      <UniqueIdentifier>{0d3a782a-2382-4558-a835-87a3b00edcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Misc">
+      <UniqueIdentifier>{5be7df63-e186-484b-aee8-6155af885fbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -143,12 +149,6 @@
     </ClCompile>
     <ClCompile Include="MapLayer.cpp">
       <Filter>Source Files\MapManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -246,6 +246,21 @@
     <ClCompile Include="ParaGoomba.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="ParaKoopa.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="One-upMushroom.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -307,12 +322,6 @@
     </ClInclude>
     <ClInclude Include="MapLayer.h">
       <Filter>Header Files\MapManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\Objects</Filter>
@@ -409,6 +418,21 @@
     </ClInclude>
     <ClInclude Include="ParaGoomba.h">
       <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaKoopa.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="One-upMushroom.h">
+      <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

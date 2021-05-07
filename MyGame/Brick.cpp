@@ -2,12 +2,17 @@
 #include "Utils.h"
 #include "Mario.h"
 #include "Items.h"
+#include "Coin.h"
+#include "PowerUp.h"
+#include "One-upMushroom.h"
 
-CBrick::CBrick()
+CBrick::CBrick(CGameObject* item,float y)
 {
+	this->item = item;
 	SetAnimation(BRICK_ANI);
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
+	oldY = y;
 }
 
 void CBrick::Render()
@@ -30,26 +35,39 @@ void CBrick::SetState(int state)
 	if (state == BRICK_STATE_TOUCHED)
 	{
 		vy = -BRICK_VELOCITY_Y;
+		if (dynamic_cast<CCoin*>(item))
+		{
+			CCoin* coin = dynamic_cast<CCoin*>(item);
+			coin->SetState(COIN_STATE_JUMPING);
+		}
+		else if (dynamic_cast<CPowerUp*>(item))
+		{
+			CPowerUp* powerup = dynamic_cast<CPowerUp*>(item);
+			powerup->DefinePowerUpType();
+			powerup->SetState(POWERUP_STATE_GO_UP);
+		}
+		else if (dynamic_cast<COneUpMushroom*>(item))
+		{
+			COneUpMushroom* oneup_mushroom = dynamic_cast<COneUpMushroom*>(item);
+			oneup_mushroom->SetState(ONE_UP_MUSHROOM_STATE_GO_UP);
+		}
+
 	}
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
 		CGameObject::Update(dt, coObjects);
-		if (state == BRICK_STATE_UNTOUCH)
-		{
-			oldY = y;
-		}
-		else if (y < oldY && vy <0)
-		{
-			vy = BRICK_DROP_VELOCITY_Y;
-		}
-		else if (vy==BRICK_DROP_VELOCITY_Y&&y>=oldY) {
-			y = oldY;
-			vy = 0;
-		}
-
+		 if (state == BRICK_STATE_TOUCHED)
+		 {
+			vy += 0.00015*dt;
+			if (y >= oldY)
+			{
+				y = oldY;
+				vy = 0;
+			}
+			
+		 }
 		y += dy;
 }
 
