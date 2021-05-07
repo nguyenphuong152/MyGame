@@ -2,15 +2,18 @@
 #include "Utils.h"
 #include "Brick.h"
 
-CCoin::CCoin()
+CCoin::CCoin(CoinType type, float x, float y)
 {
+	this->type = type;
 	isEnable = true;
+	SetAnimation(COIN_ANI);
+	SetPosition(x, y - 1);
 }
 
 void CCoin::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (state == COIN_STATE_JUMPING)
+	if (type == CoinType::jumping_coin&&state==COIN_STATE_JUMPING)
 	{
 		vy = -COIN_DEFLECT_SPEED;
 	}
@@ -19,7 +22,7 @@ void CCoin::SetState(int state)
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
+	if (type == CoinType::jumping_coin&& state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -71,10 +74,10 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CCoin::Render()
 {
 	int ani = -1;
-	if (state == COIN_STATE_JUMPING)
+	if (type == CoinType::jumping_coin)
 		ani = COIN_ANI_JUMPING;
 	else
-		ani = COIN_ANI_IDLE;
+		ani = COIN_ANI_SPINNING;
 	animation_set->at(ani)->Render(1,x,y);
 	//RenderBoundingBox();
 }

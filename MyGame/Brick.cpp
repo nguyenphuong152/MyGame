@@ -4,6 +4,7 @@
 #include "Items.h"
 #include "Coin.h"
 #include "PowerUp.h"
+#include "One-upMushroom.h"
 
 CBrick::CBrick(CGameObject* item,float y)
 {
@@ -44,6 +45,11 @@ void CBrick::SetState(int state)
 			CPowerUp* powerup = dynamic_cast<CPowerUp*>(item);
 			powerup->DefinePowerUpType();
 			powerup->SetState(POWERUP_STATE_GO_UP);
+		}
+		else if (dynamic_cast<COneUpMushroom*>(item))
+		{
+			COneUpMushroom* oneup_mushroom = dynamic_cast<COneUpMushroom*>(item);
+			oneup_mushroom->SetState(ONE_UP_MUSHROOM_STATE_GO_UP);
 		}
 
 	}

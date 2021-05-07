@@ -22,6 +22,7 @@
 #include "ObjectBoundary.h"
 #include "ParaGoomba.h"
 #include "ParaKoopa.h"
+#include "Coin.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -224,6 +225,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0) x += dx;
 					else if (e->ny != 0) y += dy;
 			}
+			else if (dynamic_cast<CCoin*>(e->obj))
+			{
+			   CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+			   if (e->nx != 0 || e->ny != 0)
+			   {
+				   coin->isEnable = false;
+			   }
+            }
 		}
 	}
 

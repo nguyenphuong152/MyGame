@@ -10,7 +10,7 @@ CPowerUp::CPowerUp(float x,float  y)
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x, y - 1);
+	SetPosition(x, y-0.5);
 }
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
