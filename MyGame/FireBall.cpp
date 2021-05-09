@@ -5,6 +5,9 @@
 #include "Box.h"
 #include "Camera.h"
 #include "Brick.h"
+#include "Effect.h"
+#include "EffectPool.h"
+#include "Boundary.h"
 
 CFireball::CFireball()
 {
@@ -34,11 +37,7 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 
 void CFireball::Render()
 {
-	
-	if (isEnable)
-	{
-		animation_set->at(0)->Render(0, x, y);
-	}
+	animation_set->at(0)->Render(0, x, y);
 	//RenderBoundingBox();
 }
 
@@ -97,14 +96,19 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 						vy = -FIREBALL_DEFLECT_Y;
 					}
 					else if (e->nx != 0) {
-						SetState(FIREBALL_STATE_EXPLOSIVE);
-						isEnable = false;
+						ExplosedFireball();
 					}
 				}
 				else if (dynamic_cast<CBrick*>(e->obj))
 				{
 					if (e->nx != 0) {
-						SetState(FIREBALL_STATE_EXPLOSIVE);
+						ExplosedFireball();
+					}
+				}
+				else if (dynamic_cast<CCamera*>(e->obj) || dynamic_cast<CBoundary*>(e->obj))
+				{
+					if (e->nx != 0 || e->ny != 0)
+					{
 						isEnable = false;
 					}
 				}
@@ -125,9 +129,16 @@ void CFireball::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CFireball::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (state == FIREBALL_STATE_EXPLOSIVE)
+}
+
+void CFireball::ExplosedFireball()
+{
+	isEnable = false;
+
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
 	{
-		SetState(FIREBALL_STATE_FIRE);
+		effect->SetEffect(EffectName::fireball_explose,this);
 	}
 }
 

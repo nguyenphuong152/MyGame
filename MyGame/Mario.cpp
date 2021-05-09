@@ -6,6 +6,7 @@
 #include "MarioStateIdle.h"
 #include "MarioStateRun.h"
 #include "MarioStateDrop.h"
+#include "MarioStateSpin.h"
 #include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
@@ -13,7 +14,6 @@
 #include "Box.h"
 #include "Brick.h"
 #include "Pipe.h"
-#include "Items.h"
 #include "Koopas.h"
 #include "MarioStateKick.h"
 #include "Boundary.h"
@@ -56,7 +56,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	//reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -66,7 +66,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!powerMode && powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) powerLevel -= 10;
 
 	//if no collision occured, proceed normally
-	if (coEvents.size() == 0)
+	if (coEvents.size() == 0 || state == GOOMBA_STATE_DIE_WITH_DEFLECT)
 	{
 		x += dx;
 		y += dy;
@@ -110,7 +110,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
 						{
 							goomba->SetLevel(GOOMBA_LEVEL_1);
-							goomba->SetState(PARA_GOOMBA_STATE_GOOMBA);
+							goomba->SetState(GOOMBA_STATE_WALKING);
 						}
 						else
 						{
@@ -122,10 +122,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (untouchable == 0)
-						LevelMarioDown(goomba, GOOMBA_STATE_DIE);
+					if (CMarioState::spin.GetInstance()->isAttack)
+					{
+						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
+						{
+							goomba->SetLevel(GOOMBA_LEVEL_1);
+						}
+						goomba->SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
+					}
+					else
+					{
+						if (untouchable == 0)
+							LevelMarioDown(goomba, GOOMBA_STATE_DIE);
+					}
 				}
-
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
 			{

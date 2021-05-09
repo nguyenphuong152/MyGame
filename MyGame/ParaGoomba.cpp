@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Brick.h"
 #include "Ground.h"
+#include "PowerUp.h"
 
 CParaGoomba::CParaGoomba()
 {
@@ -19,7 +20,7 @@ void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	vy += PARA_GOOMBA_GRAVITY * dt;
+	if(state!=GOOMBA_STATE_DIE_WITH_DEFLECT) vy+= PARA_GOOMBA_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
@@ -76,7 +77,7 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CBrick*>(e->obj))
+			if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj))
 			{
 				if (e->nx != 0)
 				{
@@ -107,13 +108,13 @@ void CParaGoomba::Render()
 	}
 	else if (level == GOOMBA_LEVEL_1)
 	{
-		if (state == PARA_GOOMBA_STATE_GOOMBA)
+		if (state == PARA_GOOMBA_STATE_DIE)
 		{
-			ani = PARA_GOOMBA_ANI_GOOMBA;
+			ani = PARA_GOOMBA_ANI_DIE;
 		}
 		else
 		{
-			ani = PARA_GOOMBA_ANI_DIE;
+			ani = PARA_GOOMBA_ANI_GOOMBA;
 		}
 	}
 	
@@ -124,25 +125,31 @@ void CParaGoomba::Render()
 void CParaGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (state == PARA_GOOMBA_STATE_WALKING || state == PARA_GOOMBA_STATE_GOOMBA)
+	if (level == GOOMBA_LEVEL_2)
 	{
-		StartWalking();
-		isOnGround = true;
-		jumpingTimes = 0;
-		vx = nx*GOOMBA_WALKING_SPEED;
+		if (state == PARA_GOOMBA_STATE_WALKING)
+		{
+			StartWalking();
+			isOnGround = true;
+			jumpingTimes = 0;
+			vx = nx * GOOMBA_WALKING_SPEED;
+		}
+		else if (state == PARA_GOOMBA_STATE_FLY)
+		{
+			isOnGround = false;
+			if (jumpingTimes == JUMPING_TIMES_BEFORE_HIGH_JUMP)
+			{
+				vy = -HIGH_JUMP_VELOCITY_Y;
+			}
+			else
+			{
+				vy = -SHORT_JUMP_VELOCITY_Y;
+			}
+
+		}
 	}
-	else if (state == PARA_GOOMBA_STATE_FLY)
-	{
-		isOnGround = false;
-		if (jumpingTimes == JUMPING_TIMES_BEFORE_HIGH_JUMP)
-		{
-			vy = -HIGH_JUMP_VELOCITY_Y;
-		}
-		else
-		{
-			vy = -SHORT_JUMP_VELOCITY_Y;
-		}
-		
+	else {
+		CGoomBa::SetState(state);
 	}
 
 }

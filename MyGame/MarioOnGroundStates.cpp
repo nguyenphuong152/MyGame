@@ -91,6 +91,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
 			mario.ChangeState(CMarioState::spin.GetInstance());
+			CMarioState::spin.GetInstance()->isAttack = true;
 			CMarioState::spin.GetInstance()->StartSpinning();
 		}
 		else if (mario.level == MARIO_LEVEL_FIRE)

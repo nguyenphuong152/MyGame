@@ -21,7 +21,9 @@ void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 {
 	if (GetTickCount64()-_spinningStart > MARIO_SPINNING_TIME)
 	{
+		isAttack = false;
 		mario.ChangeState(CMarioState::idle.GetInstance());
+		
 	}
 }
 

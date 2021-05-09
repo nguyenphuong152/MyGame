@@ -7,12 +7,12 @@
 #include "Pipe.h"
 #include "Animations.h"
 #include "Game.h"
-#include "Items.h"
 #include "MarioState.h"
 #include "Fireball.h"
 #include "Camera.h"
 #include "FireBallPool.h"
 #include "MapObjects.h"
+#include "EffectPool.h"
 
 
 using namespace std;
@@ -35,9 +35,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAP	7
 
-#define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_FIREBALL 1
-#define OBJECT_TYPE_PORTAL	3
+#define OBJECT_TYPE_MARIO		0
+#define OBJECT_TYPE_FIREBALL	1
+#define OBJECT_TYPE_EFFECT		2
+#define OBJECT_TYPE_PORTAL		3
 
 #define MAX_SCENE_LINE 2048
 
@@ -159,10 +160,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		pool = CFireBallPool::GetInstance();
-		for (int i = 0; i < pool->POOL_SIZE; i++)
+		CFireBallPool* fireball_pool = CFireBallPool::GetInstance();
+		for (int i = 0; i < fireball_pool->POOL_SIZE; i++)
 		{
-			objects.push_back(&pool->fireballs[i]);
+			objects.push_back(&fireball_pool->fireballs[i]);
+		}
+	} break;
+	case OBJECT_TYPE_EFFECT:
+	{
+		CEffectPool* effect_pool = CEffectPool::GetInstance();
+		effect_pool->SetEffectAnimation(ani_set_id);
+		for (int i = 0; i < effect_pool->POOL_SIZE; i++)
+		{
+			objects.push_back(&effect_pool->effects[i]);
 		}
 	} break;
 	/*case OBJECT_TYPE_PORTAL:
@@ -179,7 +189,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if (object_type != OBJECT_TYPE_FIREBALL)
+	if (object_type != OBJECT_TYPE_FIREBALL&&object_type!=OBJECT_TYPE_EFFECT)
 	{
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -293,6 +303,7 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	CFireBallPool::GetInstance()->Update();
+	CEffectPool::GetInstance()->Update();
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;

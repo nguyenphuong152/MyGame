@@ -19,8 +19,6 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
-	CFireBallPool* pool;
-	
 	
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> listItems;

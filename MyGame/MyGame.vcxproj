@@ -153,11 +153,12 @@
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectPool.cpp" />
     <ClCompile Include="FireBallPool.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="GreenVenusFireTrap.cpp" />
     <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -211,6 +212,8 @@
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectPool.h" />
     <ClInclude Include="FireBallPool.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="GreenVenusFireTrap.h" />
@@ -227,7 +230,6 @@
     <ClInclude Include="MarioStateFly.h" />
     <ClInclude Include="MarioStateHoldShellIdle.h" />
     <ClInclude Include="MarioStateJump.h" />
-    <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MarioState.h" />
     <ClInclude Include="MarioStateIdle.h" />

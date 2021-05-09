@@ -36,13 +36,16 @@ void CMarioStateFly::HandleInput(CMario& mario, Input input)
 		mario.SetVelocityY(-MARIO_FLYING_SPEED);
 		mario.SetVelocityX(mario.nx * MARIO_WALKING_SPEED);
 	}
+	else {
+		CMarioOnAirStates::HandleInput(mario, input);
+	}
 }
 
 void CMarioStateFly::Update(DWORD dt, CMario& mario)
 {
-	if (mario.isOnGround)
+	if (mario.vy > 0)
 	{
-		mario.ChangeState(CMarioState::idle.GetInstance());
+		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }
 

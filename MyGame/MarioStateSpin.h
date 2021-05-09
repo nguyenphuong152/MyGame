@@ -8,6 +8,7 @@ private:
 	DWORD _spinningStart;
 public:
 	static CMarioStateSpin* __instance;
+	bool isAttack = false;
 
 	CMarioStateSpin();
 	virtual ~CMarioStateSpin() {};
