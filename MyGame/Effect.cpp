@@ -15,9 +15,7 @@ void CEffect::SetEffect(EffectName name, CGameObject* obj)
 	{
 		isEnable = true;
 		inUse = true;
-
-		SetPosition(obj->x, obj->y);
-		StartAnimated();
+		effect = name;
 
 		switch (name)
 		{
@@ -27,10 +25,30 @@ void CEffect::SetEffect(EffectName name, CGameObject* obj)
 		case EffectName::fireball_explose:
 			ani = FIREBALL_EXPLOSE_FX;
 			break;
-		case EffectName::debris:
-			ani = DEBRIS_FX;
-			break;
 		}
+
+		SetPosition(obj->x, obj->y);
+		StartAnimated();
+	}
+}
+
+void CEffect::SetEffect(EffectName name, CGameObject* obj, int nx_direction,int ny_direction)
+{
+	if (obj != NULL)
+	{
+		isEnable = true;
+		inUse = true;
+		effect = name;
+
+		if(name == EffectName::debris)
+		{
+			ani = DEBRIS_FX;
+			vy = DEBRIS_VELOCITY_Y * ny_direction;
+			vx = DEBRIS_VELOCITY_X * nx_direction;
+		}
+
+		SetPosition(obj->x, obj->y - 10);
+		StartAnimated();
 	}
 }
 
@@ -40,6 +58,7 @@ void CEffect::Render()
 	{
 		animation_set->at(ani)->Render(0, x, y);
 	}
+		
 	//RenderBoundingBox();
 }
 
@@ -47,7 +66,22 @@ void CEffect::Render()
 void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt, colObject);
-	if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME)
+
+	if (effect == EffectName::debris)
+	{
+		vy += 0.0015 * dt;
+		if (vy > 0) vy = 0.2f;
+
+		if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME*3)
+		{
+			isEnable = false;
+			animated_start = 0;
+		}
+
+		x += dx;
+		y += dy;
+	} 
+	else if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME)
 	{
 		isEnable = false;
 		animated_start = 0;

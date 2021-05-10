@@ -270,6 +270,12 @@
     <ClCompile Include="EffectPool.cpp">
       <Filter>Source Files\Objects\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Switch.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -445,6 +451,12 @@
     </ClInclude>
     <ClInclude Include="EffectPool.h">
       <Filter>Header Files\Objects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Switch.h">
+      <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

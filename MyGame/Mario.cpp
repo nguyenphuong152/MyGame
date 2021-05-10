@@ -23,6 +23,9 @@
 #include "ParaGoomba.h"
 #include "ParaKoopa.h"
 #include "Coin.h"
+#include "Piranha.h"
+#include "BreakableBrick.h"
+#include "Switch.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -66,7 +69,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!powerMode && powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) powerLevel -= 10;
 
 	//if no collision occured, proceed normally
-	if (coEvents.size() == 0 || state == GOOMBA_STATE_DIE_WITH_DEFLECT)
+	if (coEvents.size() == 0 )
 	{
 		x += dx;
 		y += dy;
@@ -229,8 +232,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+
+				if (brick->GetType() == BrickType::twinkle_brick && brick->GetState()!=BRICK_STATE_TOUCHED)
+				{
+					
+					if (e->nx != 0 && CMarioState::spin.GetInstance()->isAttack)
+					{
+						brick->SetState(BRICK_STATE_TOUCHED);
+					}
+				}
+
 			}
-			else if (dynamic_cast<CObjectBoundary*>(e->obj)) 
+			else if (dynamic_cast<CObjectBoundary*>(e->obj)) //when reach boundary for koopa
 			{
 					if (e->nx != 0) x += dx;
 					else if (e->ny != 0) y += dy;
@@ -242,7 +255,49 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			   {
 				   coin->isEnable = false;
 			   }
-            }
+			}
+			else if (dynamic_cast<CPiranha*> (e->obj))
+			{
+			   CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+			   if (e->nx != 0 && CMarioState::spin.GetInstance()->isAttack)
+			   {
+				   piranha->SetAttackedAnimation();
+				   piranha->isEnable = false;
+			   }
+			}
+			else if (dynamic_cast<CBreakableBrick*>(e->obj))
+			{
+				CBreakableBrick* breakable_brick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (CMarioState::spin.GetInstance()->isAttack && e->nx!=0)
+				{
+					breakable_brick->SetAttackedAnimation();
+					breakable_brick->isEnable = false;
+				}
+				else if (e->ny < 0)
+				{
+					isOnGround = true;
+					isFloating = false;
+				}
+				else if (breakable_brick->GetState()== BREAKABLE_BRICK_COIN_STATE)
+				{
+					if (e->nx != 0)
+					{
+						breakable_brick->isEnable = false;
+					}
+				}
+			}
+			else if (dynamic_cast<CSwitch*>(e->obj))
+			{
+				x += dx;
+				y += dy;
+			     CSwitch* switch_item = dynamic_cast<CSwitch*>(e->obj);
+				 if (e->ny < 0)
+				 {
+					 isOnGround = true;
+					 switch_item->SetState(SWITCH_STATE_TOUCHED);
+					 isJumpOnSwitch = true;
+				 }
+			}
 		}
 	}
 
@@ -316,11 +371,6 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 }
 
-
-/*
-	reset mario status to the beginning state of a scene
-*/
-
 void CMario::BigMario()
 {
 	InitState();
@@ -361,40 +411,6 @@ void CMario::Die()
 {
 	SetState(MARIO_STATE_DIE);
 }
-
-//void CMario::CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem)
-//{
-//	float mario_left, mario_top, mario_right, mario_bottom,
-//		item_left, item_top, item_right, item_bottom;
-//
-//	GetBoundingBox(mario_left, mario_top, mario_right, mario_bottom);
-//	
-//
-//	for (UINT i = 0;i < listItem->size();i++)
-//	{	
-//		if (listItem->at(i)->isStop) continue;
-//		listItem->at(i)->GetBoundingBox(item_left, item_top, item_right, item_bottom);
-//
-//		if (CGameObject::AABB(mario_left, mario_top, mario_right, mario_bottom,
-//			item_left, item_top, item_right, item_bottom))
-//		{
-//			listItem->at(i)->isEnable = false;
-//			listItem->at(i)->isStop = true;
-//			int state = listItem->at(i)->GetState();
-//			switch (state)
-//			{
-//			case ITEM_MUSHROOM:
-//				
-//				SetLevel(MARIO_LEVEL_BIG);
-//				//xét lại vị trí của mario khi mario ở size bự, nếu k xét bị lọt xuống k có ground để đỡ mario
-//				y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
-//				break;
-//			}
-//		}
-//	}
-//}
-//
-
 
 CMario* CMario::GetInstance()
 {

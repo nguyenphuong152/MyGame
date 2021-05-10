@@ -7,6 +7,8 @@
 #define DEBRIS_FX				2
 
 #define ANIMATED_TIME			300
+#define DEBRIS_VELOCITY_X		0.1f
+#define DEBRIS_VELOCITY_Y		0.5f
 
 enum class EffectName {
 	attack_by_tail,
@@ -19,6 +21,7 @@ class CEffect : public CGameObject
 	friend class CEffectPool;
 private:
 	CEffect();
+	EffectName effect;
 	int ani;
 	bool inUse = false;
 	DWORD animated_start;
@@ -37,6 +40,7 @@ public:
 
 	bool FinishAnimated();
 	void SetEffect(EffectName name, CGameObject* obj);
+	void SetEffect(EffectName name,CGameObject* obj, int nx, int ny);
 	void StartAnimated() { animated_start = GetTickCount64(); }
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);

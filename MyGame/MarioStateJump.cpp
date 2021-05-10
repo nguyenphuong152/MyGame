@@ -50,7 +50,10 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 			CMarioState::throw_fireball_jump.GetInstance()->StartThrowing();
 		}
 	}
-	CMarioOnAirStates::HandleInput(mario,  input);
+	else
+	{
+		CMarioOnAirStates::HandleInput(mario, input);
+	}
 }
 
 void CMarioStateJump::Update(DWORD dt, CMario& mario)

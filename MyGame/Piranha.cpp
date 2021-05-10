@@ -1,6 +1,7 @@
 #include "Piranha.h"
 #include "Ground.h"
 #include "Utils.h"
+#include "EffectPool.h"
 
 CPiranha::CPiranha()
 {
@@ -95,4 +96,13 @@ void CPiranha::ResetActive()
 {
 	active = 0;
 	active_start = 0;
+}
+
+void CPiranha::SetAttackedAnimation()
+{
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
+	{
+		effect->SetEffect(EffectName::attack_by_tail, this);
+	}
 }

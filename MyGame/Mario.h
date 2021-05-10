@@ -102,7 +102,7 @@ class CMarioState;
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
-#define MARIO_RACOON_BBOX_WIDTH  63
+#define MARIO_RACOON_BBOX_WIDTH  85
 #define MARIO_RACOON_BBOX_HEIGHT 84
 
 #define MARIO_SMALL_BBOX_WIDTH  40
@@ -140,6 +140,7 @@ public:
 	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
+	bool isJumpOnSwitch = false;
 	
 	//can nhac lai
 	bool isKicking = false;

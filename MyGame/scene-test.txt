@@ -6,6 +6,7 @@
 30	textures\Map\World1-1\world-1-1.png	255	255	255
 40	textures\fireball.png	255	255	255
 50	textures\effect.png	0	0	0
+60	textures\brick-debris.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -183,11 +184,10 @@
 41003	46	0	68	23	60
 41004	68	0	93	23	60
 #brickblock					
-42001	821	563	871	613	40
-42002	878	563	928	613	40
-42003	935	563	985	613	40
-42004	992	563	1042	613	40
-
+42001	821	563	871	613	20
+42002	878	563	928	613	20
+42003	935	563	985	613	20
+42004	992	563	1042	613	20
 
 #COIN	
 #coinbrick				
@@ -207,6 +207,11 @@
 
 #GREEN_MUSHROOM					
 53001	856	361	907	413	20
+
+#switch					
+54001	467	431	517	481	20
+54002	533	431	583	481	20
+54003	599	431	649	481	20
 
 #PIPE
 60001	69	35	85	51	20
@@ -452,6 +457,10 @@
 # ==== GREEN_MUSHROOM =========
 530	53001	100
 
+#switch					
+540	54001	400	54002	400
+541	54003	100
+
 # ==== RED venus=========
 #down
 601	61001	100	61002	100
@@ -508,6 +517,9 @@
 # QUESTION BRICK 
 22	401	402
 
+#block brick
+23	420	402	421
+
 # para goomba
 31	311	312	313	314
 
@@ -522,6 +534,9 @@
 
 #GREEN_MUSHROOM
 28	530
+
+#switch
+21	540	541
 
 #RED PLANT
 60	601	602	603	604
@@ -550,7 +565,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	2000	1100	1
+0	5500	1100	1
 
 # FIREBALL
 1	0	0	0

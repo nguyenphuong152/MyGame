@@ -146,6 +146,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
+    <ClCompile Include="Switch.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -207,6 +209,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h" />
@@ -250,6 +253,7 @@
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
+    <ClInclude Include="Switch.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

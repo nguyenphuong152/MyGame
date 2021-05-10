@@ -7,7 +7,7 @@ class CEffectPool
 
 	int ani_set = -1;
 
-	static const int POOL_SIZE = 3;
+	static const int POOL_SIZE = 10;
 	CEffect effects[POOL_SIZE];
 	CEffect* _firstAvailable;
 	CMario* player;

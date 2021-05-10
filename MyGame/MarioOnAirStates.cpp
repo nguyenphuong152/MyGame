@@ -8,6 +8,7 @@
 #include "MarioStatePreFly.h"
 #include "FireBall.h"
 #include "FireBallPool.h"
+#include "MarioStateSpin.h"
 #include "MarioStateThrowingFireballJumping.h"
 
 CMarioOnAirStates::CMarioOnAirStates()
@@ -27,8 +28,16 @@ void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
 		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
 		mario.SetVelocityX(MARIO_WALKING_SPEED);
 	}
-
-	
+    
+	else if (input == Input::PRESS_A)
+	{
+		if (mario.level == MARIO_LEVEL_RACOON)
+		{
+			CMarioState::spin.GetInstance()->isAttack = true;
+			mario.ChangeState(CMarioState::spin.GetInstance());
+			CMarioState::spin.GetInstance()->StartSpinning();
+		}
+	}
 }
 
 
