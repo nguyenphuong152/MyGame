@@ -34,7 +34,7 @@ void CMarioHoldingShellStates::HandleInput(CMario& mario, Input input)
 	{
 		if (mario.isOnGround)
 		{
-			mario.isOnGround = false;
+			mario.canJumpHigh = true;
 			mario.ChangeState(CMarioState::holdshell_jump.GetInstance());
 			CMarioState::holdshell_jump.GetInstance()->StartJumping();
 		}

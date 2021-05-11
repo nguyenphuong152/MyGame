@@ -34,13 +34,16 @@ void CMarioStateHoldShellAndJump::HandleInput(CMario& mario, Input input)
 	{
 		mario.canJumpHigh = false;
 	}
-	CMarioHoldingShellStates::HandleInput(mario, input);
+	else {
+		CMarioHoldingShellStates::HandleInput(mario, input);
+	}
 }
 
 void CMarioStateHoldShellAndJump::Update(DWORD dt, CMario& mario)
 {
 	if (mario.canJumpHigh)
 	{
+		DebugOut(L"heeloo \n");
 		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
 		{
 			mario.canJumpHigh = false;

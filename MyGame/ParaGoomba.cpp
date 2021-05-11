@@ -20,7 +20,7 @@ void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if(state!=GOOMBA_STATE_DIE_WITH_DEFLECT) vy+= PARA_GOOMBA_GRAVITY * dt;
+	vy += PARA_GOOMBA_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
@@ -44,58 +44,65 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
+	if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
 	{
 		x += dx;
 		y += dy;
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny = 0;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 
-		float rdx = 0, rdy = 0;
+		coEvents.clear();
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		CalcPotentialCollisions(coObjects, coEvents);
 
-		//day object ra mot khoang de k bi chong va cham
-		x += min_tx * dx + nx * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny = 0;
 
-			if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj))
+			float rdx = 0, rdy = 0;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			//day object ra mot khoang de k bi chong va cham
+			x += min_tx * dx + nx * 0.4f;
+
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+
+			//collision logic with other objects
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				if (e->nx != 0)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj))
 				{
-					this->nx = -this->nx;
-					vx = this->nx * GOOMBA_WALKING_SPEED;
+					if (e->nx != 0)
+					{
+						this->nx = -this->nx;
+						vx = this->nx * GOOMBA_WALKING_SPEED;
+					}
 				}
-			}
-			else if (dynamic_cast<CGround*>(e->obj))
-			{
-				if (e->ny < 0)
+				else if (dynamic_cast<CGround*>(e->obj))
 				{
-					isOnGround = true;
+					if (e->ny < 0)
+					{
+						isOnGround = true;
+					}
 				}
 			}
 		}
-	}
 
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
 }
 
 void CParaGoomba::Render()

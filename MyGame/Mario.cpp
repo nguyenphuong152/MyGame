@@ -125,7 +125,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
-				/*else if (e->nx != 0)
+				else if (e->nx != 0)
 				{
 					if (CMarioState::spin.GetInstance()->isAttack)
 					{
@@ -134,13 +134,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							goomba->SetLevel(GOOMBA_LEVEL_1);
 						}
 						goomba->SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
+						goomba->vy = -GOOMBA_DEFLECT_SPEED;
 					}
-					else
+				/*	else
 					{
 						if (untouchable == 0)
 							LevelMarioDown(goomba, GOOMBA_STATE_DIE);
-					}
-				}*/
+					}*/
+				}
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
 			{

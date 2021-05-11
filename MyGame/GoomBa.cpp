@@ -44,7 +44,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	
-	if(state!=GOOMBA_STATE_DIE_WITH_DEFLECT)vy += 0.0015f * dt;
+	vy += 0.0015f * dt;
 
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
@@ -135,7 +135,6 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
-		vy = -GOOMBA_DEFLECT_SPEED;
 		vx = 4*GOOMBA_WALKING_SPEED*nx;
 		SetAttackedAnimation();
 		break;
