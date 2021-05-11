@@ -70,6 +70,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 			if (mario.isOnGround && mario.level != MARIO_LEVEL_SMALL)
 			{
 				mario.ChangeState(CMarioState::sit.GetInstance());
+				CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
 			}
 		}
 	}
