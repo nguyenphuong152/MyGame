@@ -173,6 +173,7 @@ public:
 	}
 
 	void SetLevel(int l) { level = l; }
+	void LevelUp();
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 

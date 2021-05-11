@@ -6,6 +6,7 @@
 #include "MarioStateIdle.h"
 #include "MarioStateRun.h"
 #include "MarioStateDrop.h"
+#include "MarioStateTransform.h"
 #include "MarioStateSpin.h"
 #include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
@@ -26,6 +27,7 @@
 #include "Piranha.h"
 #include "BreakableBrick.h"
 #include "Switch.h"
+#include "PowerUp.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -123,7 +125,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
-				else if (e->nx != 0)
+				/*else if (e->nx != 0)
 				{
 					if (CMarioState::spin.GetInstance()->isAttack)
 					{
@@ -138,7 +140,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (untouchable == 0)
 							LevelMarioDown(goomba, GOOMBA_STATE_DIE);
 					}
-				}
+				}*/
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) //if e->obj is Goomba
 			{
@@ -164,10 +166,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (koopa->GetState() == KOOPA_STATE_DIE)
 					{
+						isKicking = true;
+						ChangeState(CMarioState::kick.GetInstance());
+						CMarioState::kick.GetInstance()->StartKicking();
 						if (canHoldShell)
 						{
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
 							koopa->isHolded = true;
+							isKicking = false;
 						}
 					}
 				/*	else if (untouchable == 0)
@@ -219,20 +225,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (e->ny != 0)
+				if (e->ny < 0)
 				{
 					isOnGround = true;
 					isFloating = false;
-					//cục gạch chưa touch mới vào xét
-					if (brick->GetState() == BRICK_STATE_UNTOUCH)
-					{
-						if (e->ny > 0)
-						{
-							brick->SetState(BRICK_STATE_TOUCHED);
-						}
+				}
+				
+				if (brick->GetState() == BRICK_STATE_UNTOUCH)
+				{
+					if (e->ny > 0) {
+						brick->SetState(BRICK_STATE_TOUCHED);
+						canJumpHigh = false;
 					}
 				}
-
 				if (brick->GetType() == BrickType::twinkle_brick && brick->GetState()!=BRICK_STATE_TOUCHED)
 				{
 					
@@ -298,6 +303,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					 isJumpOnSwitch = true;
 				 }
 			}
+			else if (dynamic_cast<CPowerUp*>(e->obj))
+			{
+			    CPowerUp* power = dynamic_cast<CPowerUp*> (e->obj);
+				if (power->isActive)
+				{
+					ChangeState(CMarioState::transform.GetInstance());
+					CMarioState::transform.GetInstance()->StartTransform();
+					LevelUp();
+					power->isEnable = false;
+				}
+            }
 		}
 	}
 
@@ -410,6 +426,13 @@ void CMario::ImmortalMario()
 void CMario::Die()
 {
 	SetState(MARIO_STATE_DIE);
+}
+
+void CMario::LevelUp()
+{
+	if(level<MARIO_LEVEL_RACOON) level++;
+
+	y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
 }
 
 CMario* CMario::GetInstance()

@@ -108,7 +108,7 @@ void CParaGoomba::Render()
 	}
 	else if (level == GOOMBA_LEVEL_1)
 	{
-		if (state == PARA_GOOMBA_STATE_DIE)
+		if (state == GOOMBA_STATE_DIE)
 		{
 			ani = PARA_GOOMBA_ANI_DIE;
 		}

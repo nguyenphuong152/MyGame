@@ -60,10 +60,8 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<CBrick*>(e->obj) && GetPowerUpType() == PowerUpType::super_leaf)
 				{
-					if (e->ny < 0)
-					{
-						isEnable = false;
-					}
+					x += dx;
+					y += dy;
 				}
 				else if (dynamic_cast<CGround*>(e->obj) && GetPowerUpType() == PowerUpType::super_mushroom)
 				{
@@ -162,7 +160,7 @@ void CPowerUp::HandleUpdateSuperLeaf()
 
 	if (vy > 0)
 	{
-		vy = LEAF_DEFLECT_SPEED / 5;
+		vy = LEAF_DEFLECT_SPEED / 6;
 		vx = LEAF_VELOCITY_X * direction;
 		if (changeDirection == 0)  StartChangeDirection();
 	}

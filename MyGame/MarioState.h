@@ -10,6 +10,7 @@ class CMarioStateFly;
 class CMarioStateSpin;
 class CMarioStateDrop;
 class CMarioStateKick;
+class CMarioStateTransform;
 class CMarioStateThrowFireballJumping;
 class CMarioStateThrowFireball;
 class CMarioStateHoldShellIdle;
@@ -39,6 +40,7 @@ public:
 	static CMarioStateSpin spin;
 	static CMarioStateDrop drop;
 	static CMarioStateKick kick;
+	static CMarioStateTransform transform;
 	static CMarioStateThrowFireballJumping throw_fireball_jump;
 	static CMarioStateThrowFireball throw_fireball;
 	static CMarioStateHoldShellIdle holdshell_idle;
@@ -47,7 +49,6 @@ public:
 	static CMarioStateHoldShellAndDrop holdshell_drop;
 
 	CMarioState();
-	//CMarioState(CMarioState::MarioStates currentState);
 	virtual ~CMarioState() {};
 
 	virtual void Enter(CMario& mario) = 0;

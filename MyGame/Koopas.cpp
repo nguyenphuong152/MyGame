@@ -9,6 +9,7 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Camera.h"
+#include "PowerUp.h"
 
 CKoopas::CKoopas()
 {
@@ -41,6 +42,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt,coObjects);
 
+	if (player->isKicking) isHolded = false;
+
 	if (GetLevel() == KOOPA_LEVEL_1)
 	{
 		//die ->recover
@@ -55,21 +58,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(KOOPA_STATE_WALKING);
 		}
 
-		if (isHolded)
-		{
-			if (player->isKicking)
-			{
-				SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
-				isHolded = false;
-			}
-			else {
-				UpdateShellPosition();
-			}
+		if (isHolded) {
+			UpdateShellPosition();
 		}
-		else if(state!=KOOPA_STATE_DIE_WITH_VELOCITY) 
-			vy += KOOPA_GRAVITY * dt;
 		
+		if (player->isKicking&&!isHolded)
+		{
+			SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
+		}
 
+		if(!isHolded&& !player->isKicking)vy += KOOPA_GRAVITY * dt;
+		
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -125,7 +124,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					}
 				}
-				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
+				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBrick*>(e->obj)|| dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
 				{
 					if (e->nx != 0)
 					{
