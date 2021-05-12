@@ -28,6 +28,7 @@
 #include "BreakableBrick.h"
 #include "Switch.h"
 #include "PowerUp.h"
+#include "RedVenusFireTrap.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -135,6 +136,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						goomba->SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
 						goomba->vy = -GOOMBA_DEFLECT_SPEED;
+						goomba->ny = -1;
 					}
 				/*	else
 					{
@@ -165,7 +167,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx!=0)
 				{
-					if (koopa->GetState() == KOOPA_STATE_DIE)
+					if (CMarioState::spin.GetInstance()->isAttack)
+					{
+						koopa->AttackedByTail();
+						
+					}
+					else if (koopa->GetState() == KOOPA_STATE_DIE)
 					{
 						isKicking = true;
 						ChangeState(CMarioState::kick.GetInstance());
@@ -274,21 +281,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
 				CBreakableBrick* breakable_brick = dynamic_cast<CBreakableBrick*>(e->obj);
-				if (CMarioState::spin.GetInstance()->isAttack && e->nx!=0)
+				if (breakable_brick->GetState()== BREAKABLE_BRICK_COIN_STATE)
 				{
-					breakable_brick->SetAttackedAnimation();
 					breakable_brick->isEnable = false;
 				}
-				else if (e->ny < 0)
+				else
 				{
-					isOnGround = true;
-					isFloating = false;
-				}
-				else if (breakable_brick->GetState()== BREAKABLE_BRICK_COIN_STATE)
-				{
-					if (e->nx != 0)
+					if (CMarioState::spin.GetInstance()->isAttack && e->nx != 0)
 					{
+						breakable_brick->SetAttackedAnimation();
 						breakable_brick->isEnable = false;
+					}
+					else if (e->ny < 0)
+					{
+						isOnGround = true;
+						isFloating = false;
 					}
 				}
 			}
@@ -309,12 +316,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			    CPowerUp* power = dynamic_cast<CPowerUp*> (e->obj);
 				if (power->isActive)
 				{
-					ChangeState(CMarioState::transform.GetInstance());
-					CMarioState::transform.GetInstance()->StartTransform();
-					LevelUp();
+					if (level < MARIO_LEVEL_RACOON)
+					{
+						ChangeState(CMarioState::transform.GetInstance());
+						CMarioState::transform.GetInstance()->StartTransform();
+						LevelUp();
+					}
 					power->isEnable = false;
 				}
             }
+			else if (dynamic_cast<CRedVenusFireTrap*>(e->obj))
+			{
+			CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(e->obj);
+			if (e->nx != 0 && CMarioState::spin.GetInstance()->isAttack)
+			{
+				venus->SetAttackedAnimation();
+				venus->isEnable = false;
+			}
+			}
 		}
 	}
 
@@ -330,7 +349,7 @@ void CMario::Render()
 	int alpha = 255;
 
 	if (untouchable) alpha = 128;
-	animation_set->at(ani)->Render(nx,x, y, alpha);
+	animation_set->at(ani)->Render(nx,1,x, y, alpha);
 	//RenderBoundingBox();
 }
 

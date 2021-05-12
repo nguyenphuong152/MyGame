@@ -30,7 +30,7 @@ void CMapLayer::RenderLayer()
                 continue;
             }
             else {
-                CSprites::GetInstance()->Get(tileIdSet[id])->Draw(0, j * TILE_WIDTH, i * TILE_WIDTH);
+                CSprites::GetInstance()->Get(tileIdSet[id])->Draw(-1,1, j * TILE_WIDTH, i * TILE_WIDTH);
                 id++;
             }
            

@@ -11,6 +11,7 @@
 CGoomBa::CGoomBa()
 {
 	isEnable = true;
+	ny = 1;
 	SetState(GOOMBA_STATE_WALKING);
 	SetLevel(GOOMBA_LEVEL_1);
 }
@@ -44,7 +45,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	
-	vy += 0.0015f * dt;
+	vy += GOOMBA_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
@@ -113,12 +114,12 @@ void CGoomBa::Render()
 	{
 		ani = GOOMBA_ANI_WALKING;
 	}
-	else 
+	else
 	{
 		ani = GOOMBA_ANI_DIE;
 	}
-		
-	animation_set->at(ani)->Render(0, x, y);
+	
+	animation_set->at(ani)->Render(1,ny, x, y);
 	//RenderBoundingBox();
 }
 

@@ -57,6 +57,7 @@ public:
 	float dy;
 
 	int nx; //huong; 
+	int ny;
 	//nx = 1 => left
 	//nx = -1 => right
 

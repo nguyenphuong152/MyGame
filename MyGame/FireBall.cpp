@@ -37,7 +37,7 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 
 void CFireball::Render()
 {
-	animation_set->at(0)->Render(0, x, y);
+	animation_set->at(0)->Render(1,1, x, y);
 	//RenderBoundingBox();
 }
 

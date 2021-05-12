@@ -10,7 +10,7 @@ CPowerUp::CPowerUp(float x,float  y)
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x, y-0.5);
+	SetPosition(x+0.5,y-0.5);
 }
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
@@ -63,12 +63,15 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 					x += dx;
 					y += dy;
 				}
-				else if (dynamic_cast<CGround*>(e->obj) && GetPowerUpType() == PowerUpType::super_mushroom)
+				else if (dynamic_cast<CGround*>(e->obj))
 				{
-					if (e->nx != 0)
-					{
+					if (e->nx != 0 && GetPowerUpType() == PowerUpType::super_mushroom){
 						this->nx = -this->nx;
 						vx = this->nx * MUSHROOM_VELOCITY_X;
+					}
+					else if (e->ny < 0 && GetPowerUpType() == PowerUpType::super_leaf)
+					{
+						isEnable = false;
 					}
 				}
 				else if (dynamic_cast<CCamera*>(e->obj))
@@ -110,7 +113,8 @@ void CPowerUp::Render()
 {
 	if (GetPowerUpType() != PowerUpType::none)
 	{
-		animation_set->at(POWER_UP_ANI)->Render(1, x, y);
+		animation_set->at(POWER_UP_ANI)->Render(1,1, x, y);
+		RenderBoundingBox();
 	}
 }
 

@@ -109,10 +109,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::RELEASE_A)
 	{
-		if (CMarioState::spin.GetInstance()->isAttack)
-		{
-			CMarioState::spin.GetInstance()->isAttack = false;
-		}
+		CMarioState::spin.GetInstance()->isAttack = false;
 	}
 }
 

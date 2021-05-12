@@ -78,7 +78,7 @@ void CCoin::Render()
 		ani = COIN_ANI_JUMPING;
 	else
 		ani = COIN_ANI_SPINNING;
-	animation_set->at(ani)->Render(1,x,y);
+	animation_set->at(ani)->Render(1,1,x,y);
 	//RenderBoundingBox();
 }
 

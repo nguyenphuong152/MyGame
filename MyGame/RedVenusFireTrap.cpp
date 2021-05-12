@@ -1,7 +1,9 @@
 ﻿#include "RedVenusFireTrap.h"
+#include "RedVenusFireTrap.h"
 #include "Ground.h"
 #include "FireBall.h"
 #include "FireBallPool.h"
+#include "EffectPool.h"
 
 
 CRedVenusFireTrap ::CRedVenusFireTrap()
@@ -34,7 +36,7 @@ void CRedVenusFireTrap::Render()
 	}
 
 	
-		animation_set->at(ani)->Render(nx, x, y);
+		animation_set->at(ani)->Render(nx,1, x, y);
 }
 
 void CRedVenusFireTrap::SetState(int state)
@@ -170,5 +172,14 @@ void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
 				SetState(VENUS_STATE_GO_UP);
 			}
 		}
+	}
+}
+
+void CRedVenusFireTrap::SetAttackedAnimation()
+{
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
+	{
+		effect->SetEffect(EffectName::attack_by_tail, this);
 	}
 }

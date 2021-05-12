@@ -6,6 +6,7 @@
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.1f
 #define KOOPA_GRAVITY			0.0015f
+#define KOOPA_DEFLECT_SPEED		0.4f;
 
 #define KOOPA_BBOX_WIDTH		52
 #define KOOPA_BBOX_HEIGHT		84
@@ -50,5 +51,7 @@ public:
 	int GetLevel() { return this->level; };
 	virtual void SetState(int state);
 	void UpdateShellPosition();
+	void SetAttackedAnimation();
+	void AttackedByTail();
 };
 

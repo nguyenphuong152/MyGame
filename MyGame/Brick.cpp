@@ -31,7 +31,8 @@ void CBrick::Render()
 	{
 		ani = BRICK_ANI_TOUCHED;
 	}
-	animation_set->at(ani)->Render(0, x, y);
+	//RenderBoundingBox();
+	animation_set->at(ani)->Render(-1,1, x, y);
 }
 
 void CBrick::SetState(int state)

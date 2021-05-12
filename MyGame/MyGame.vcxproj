@@ -160,6 +160,9 @@
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="GreenVenusFireTrap.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Letter.cpp" />
+    <ClCompile Include="LetterManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -222,7 +225,10 @@
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="GreenVenusFireTrap.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Letter.h" />
+    <ClInclude Include="LetterManager.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
     <ClInclude Include="MarioStateHoldShellAndDrop.h" />

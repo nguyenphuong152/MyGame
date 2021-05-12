@@ -8,6 +8,7 @@ CParaGoomba::CParaGoomba()
 {
 	isEnable = true;
 	nx = -1;
+	ny = 1;
 	SetLevel(GOOMBA_LEVEL_2);
 	SetState(PARA_GOOMBA_STATE_WALKING);
 }
@@ -19,13 +20,11 @@ void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-	vy += PARA_GOOMBA_GRAVITY * dt;
-
-	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
-
 	if (level == GOOMBA_LEVEL_2)
 	{
+		CGameObject::Update(dt, coObjects);
+		vy += GOOMBA_GRAVITY * dt;
+
 		if (walking == 1 && GetTickCount64() - walking_start > PARA_GOOMBA_WALKING_TIME)
 		{
 			walking = 0;
@@ -43,15 +42,7 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				jumpingTimes += 1;
 			}
 		}
-	}
 
-	if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -103,6 +94,9 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
+	else {
+		CGoomBa::Update(dt, coObjects);
+	}
 }
 
 void CParaGoomba::Render()
@@ -125,8 +119,8 @@ void CParaGoomba::Render()
 		}
 	}
 	
-	animation_set->at(ani)->Render(0, x, y);
-	RenderBoundingBox();
+	animation_set->at(ani)->Render(nx,ny, x, y);
+	//RenderBoundingBox();
 }
 
 void CParaGoomba::SetState(int state)

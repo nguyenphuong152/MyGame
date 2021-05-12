@@ -33,8 +33,8 @@ void CBreakableBrick::Render()
 		ani = BREAKABLE_BRICK_VISUAL_ANI;
 	else
 		ani = BREAKABLE_BRICK_COIN_ANI;
-	animation_set->at(ani)->Render(1, x, y);
-	//RenderBoundingBox();
+	animation_set->at(ani)->Render(1,1, x, y);
+	RenderBoundingBox();
 }
 
 void CBreakableBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

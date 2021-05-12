@@ -7,6 +7,7 @@
 40	textures\fireball.png	255	255	255
 50	textures\effect.png	0	0	0
 60	textures\brick-debris.png	255	255	255
+70	textures\hud.png	25	25	25
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -275,6 +276,30 @@
 19003	173	2	211	52	50
 19004	227	2	265	52	50
 19005	280	2	321	52	50
+
+#HUD					
+#board					
+99900	34	382	734	469	70
+#arrow sign WHITE					
+99910	190	484	217	508	70
+#arrow sign BLACK					
+99911	274	484	296	508	70
+#power sign WHITE					
+99912	217	484	265	508	70
+#power sign BLACK			
+99913	301	484	343	508	70
+					
+#number					
+99990	95	71	121	94	70
+99991	161	71	181	94	70
+99992	212	71	238	94	70
+99993	269	71	295	94	70
+99994	323	71	349	94	70
+99995	380	71	406	94	70
+99996	434	71	460	94	70
+99997	485	71	511	94	70
+99998	536	71	562	94	70
+99999	590	71	616	94	70
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -583,3 +608,22 @@
 #id	name	texture_id	tileperRow	tileperColumn
 [MAP]
 7000	textures\Map\World1-1\world-1-1-map.tmx	30	29	30
+
+[FONT]
+0	99990
+1	99991
+2	99992
+3	99993
+4	99994
+5	99995
+6	99996
+7	99997
+8	99998
+9	99999
+arrowWhite	99910
+arrowBlack	99911
+powerWhite	99912
+powerBlack	99913
+
+[HUD]
+99900

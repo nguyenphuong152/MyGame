@@ -568,14 +568,14 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="25" name="Boundary" visible="0">
+ <objectgroup id="25" name="Boundary">
   <object id="235" x="-66" y="2" width="66" height="1964"/>
   <object id="236" x="-64" y="-58" width="8620" height="54"/>
   <object id="237" x="8448.85" y="-5.21212" width="88" height="1974.3"/>
-  <object id="238" x="4.90909" y="1293.67" width="8428" height="53"/>
+  <object id="238" x="7.93939" y="1417.91" width="8428" height="53"/>
  </objectgroup>
- <objectgroup id="26" name="Camera" visible="0">
-  <object id="243" x="9.33334" y="751.212" width="764" height="539.667"/>
+ <objectgroup id="26" name="Camera">
+  <object id="243" x="3.27273" y="657.273" width="764" height="760.67"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary" visible="0">
   <object id="253" x="1510" y="1117" width="25" height="13"/>
