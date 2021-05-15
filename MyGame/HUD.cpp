@@ -3,7 +3,9 @@
 #include "Sprites.h"
 #include "Textures.h"
 #include "Game.h"
-#include "LetterManager.h"
+#include "Utils.h"
+#include "Camera.h"
+#include "HUDContent.h"
 
 HUD* HUD::__instance = NULL;
 
@@ -17,14 +19,16 @@ void HUD::Render()
 {
 	RenderBoundingBox();
 	CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x, y);
-	RenderWorldOrder();
+	HUDContent::GetInstance()->Render();
+
 }
 
 void HUD::SetPosition()
 {
 	CCamera* camera = CCamera::GetInstance();
-	x = camera->x;
-	y = camera->y+HUD_POSTION_Y;
+	x = floor(camera->x);
+	y = floor(camera->y+HUD_POSTION_Y);
+
 }
 
 void HUD::RenderBoundingBox()
@@ -49,20 +53,19 @@ void HUD::RenderBoundingBox()
 	CGame::GetInstance()->Draw(0, 0, x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 255);
 }
 
-
-void HUD::SetWorldOrder()
+void HUD::Init(int texture)
 {
-	world_order = "1";
-	CLetterManager::GetInstance()->GetLetterTexture(world_order)->SetPosition(110,25);
-}
-
-void HUD::RenderWorldOrder()
-{
-	CLetterManager::GetInstance()->GetLetterTexture(world_order)->Render();
+	this->HUD_texture = texture;
+	HUDContent::GetInstance()->SetUpContent();
 }
 
 void HUD::Update()
 {
 	SetPosition();
-	SetWorldOrder();
+	HUDContent::GetInstance()->Update();
+}
+
+void HUD::AddLetter(string name, int texture)
+{
+	letters[name] = texture;
 }

@@ -288,10 +288,10 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Letter.cpp">
+    <ClCompile Include="HUDContent.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="LetterManager.cpp">
+    <ClCompile Include="Text.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
   </ItemGroup>
@@ -482,10 +482,10 @@
     <ClInclude Include="HUD.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Letter.h">
+    <ClInclude Include="HUDContent.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="LetterManager.h">
+    <ClInclude Include="Text.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>

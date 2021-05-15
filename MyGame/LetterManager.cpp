@@ -13,8 +13,3 @@ void CLetterManager::AddLetter(string name, int texture)
 	LPLETTERS l = new CLetter(name,texture);
 	letters[name] = l;
 }
-
-void CLetterManager::Render(string name)
-{
-	letters[name]->Render();
-}

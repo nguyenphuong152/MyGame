@@ -161,8 +161,7 @@
     <ClCompile Include="GreenVenusFireTrap.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HUD.cpp" />
-    <ClCompile Include="Letter.cpp" />
-    <ClCompile Include="LetterManager.cpp" />
+    <ClCompile Include="HUDContent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -197,6 +196,7 @@
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
     <ClCompile Include="Switch.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -226,9 +226,8 @@
     <ClInclude Include="GreenVenusFireTrap.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Letter.h" />
-    <ClInclude Include="LetterManager.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
     <ClInclude Include="MarioStateHoldShellAndDrop.h" />
@@ -262,6 +261,7 @@
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
     <ClInclude Include="Switch.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

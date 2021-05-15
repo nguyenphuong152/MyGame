@@ -1,27 +1,47 @@
 #pragma once
-#include "Camera.h"
+#include <string>
+#include <unordered_map>
+#include "Utils.h"
 
-#define HUD_WIDTH	765
-#define HUD_HEIGHT	86
+using namespace std;
+
+#define HUD_WIDTH	766
+#define HUD_HEIGHT	88
 
 #define HUD_POSTION_Y	636
+
+#define HUD_ALIGN_TOP		23
+#define HUD_ALIGN_BOTTOM	48 
+#define HUD_ALIGN_RIGHT		378
+#define HUD_ALIGN_LEFT		115 
+#define HUD_WHITE_SPACE		22
 
 class HUD {
 	float x,y;
 
 	int HUD_texture;
-	string world_order;
+
 	static HUD* __instance;
+	unordered_map<string, int> letters;
+
+	int countdown_start = GetTickCount64();
+
 public:
+
 	static HUD* GetInstance();
-	void SetTexture(int texture) { this->HUD_texture = texture; };
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; };
+	
+	void Init(int texture);
 	void SetPosition();
-	void SetWorldOrder();
-	void SetMarioLifeNumber();
+
 	void Render();
-	void Update();
-	void RenderWorldOrder();
-	void RenderMarioLife();
 	void RenderBoundingBox();
+	
+	void Update();
+	void AddLetter(string name, int texture);
+	int GetTextureOfLetter(string name) { return letters[name]; };
+	
+	void StartCountdown() { countdown_start = GetTickCount64(); };
+	int GetCountdownStart() { return countdown_start; };
+
 };

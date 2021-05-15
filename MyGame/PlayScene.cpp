@@ -14,7 +14,6 @@
 #include "MapObjects.h"
 #include "EffectPool.h"
 #include "HUD.h"
-#include "LetterManager.h"
 
 
 using namespace std;
@@ -227,9 +226,9 @@ void CPlayScene::_ParseSection_HUD(string line)
 
 	if (tokens.size() < 1) return;
 	int texture = atoi(tokens[0].c_str());
-     
-	HUD::GetInstance()->SetTexture(texture);
+    
 	HUD::GetInstance()->SetPosition();
+	HUD::GetInstance()->Init(texture);
 }
 
 void CPlayScene::_ParseSection_Letters(string line)
@@ -240,7 +239,7 @@ void CPlayScene::_ParseSection_Letters(string line)
 	string name = tokens[0].c_str();
 	int texture = atoi(tokens[1].c_str());
 
-	CLetterManager::GetInstance()->AddLetter(name, texture);
+	HUD::GetInstance()->AddLetter(name, texture);
 }
 
 void CPlayScene::Load()
