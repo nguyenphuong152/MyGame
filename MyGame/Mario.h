@@ -140,7 +140,9 @@ public:
 	bool canHoldShell = false;
 	bool powerMode = false;
 	bool isFloating = false;
-	
+	bool isJumpOnSwitch = false;
+	bool disablePower = false;
+
 	//can nhac lai
 	bool isKicking = false;
 	
@@ -172,6 +174,7 @@ public:
 	}
 
 	void SetLevel(int l) { level = l; }
+	void LevelUp();
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 

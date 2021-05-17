@@ -17,6 +17,8 @@
 #include "Coin.h"
 #include "PowerUp.h"
 #include "One-upMushroom.h"
+#include "BreakableBrick.h"
+#include "Switch.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -121,7 +123,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(1800, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -135,26 +137,41 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("y", &y);
 
 					CGameObject* item = NULL;
-					if (strcmp(element->Attribute("name"),"bcoin") == 0)
+					if (strcmp(element->Attribute("name"), "bcoin") == 0)
 					{
-						item = new CCoin(CoinType::jumping_coin,x,y);
+						item = new CCoin(CoinType::jumping_coin, x, y);
 						objects.push_back(item);
 					}
 					else if (strcmp(element->Attribute("name"), "powerup") == 0)
 					{
-						item = new CPowerUp(x,y);
+						item = new CPowerUp(x, y);
 						objects.push_back(item);
 					}
 					else if (strcmp(element->Attribute("name"), "one-up") == 0)
 					{
-						item = new COneUpMushroom(x,y);
+						item = new COneUpMushroom(x, y);
+						const char* aniRaw = element->Attribute("type");
+						int ani = atoi(aniRaw);
+						item->SetAnimation(ani);
+						objects.push_back(item);
+					}
+					else if (strcmp(element->Attribute("name"), "switch") == 0)
+					{
+						item = new CSwitch();
 						const char* aniRaw = element->Attribute("type");
 						int ani = atoi(aniRaw);
 						item->SetAnimation(ani);
 						objects.push_back(item);
 					}
 
-					obj = new CBrick(item,y);
+					if (strcmp(element->Attribute("type"), "1") == 0)
+					{
+						obj = new CBrick(item, y, BrickType::question_brick);
+					}
+					else
+					{
+						obj = new CBrick(item, y, BrickType::twinkle_brick);
+					}
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
 					
@@ -215,6 +232,19 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("y", &y);
 
 					obj = new CCoin(CoinType::spinning_coin, x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "Brick") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					obj = new CBreakableBrick(x, y);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();

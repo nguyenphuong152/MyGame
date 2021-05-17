@@ -44,6 +44,6 @@ public:
 	void CheckDirection();
 	void CheckDirectionForRender(int position_pipe);
 	void HandleShooting(int position_pipe, int bbox_height);
-
+	void SetAttackedAnimation();
 };
 

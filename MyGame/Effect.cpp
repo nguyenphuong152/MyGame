@@ -1,0 +1,113 @@
+#include "EffectPool.h"
+#include "Utils.h"
+
+
+CEffect::CEffect()
+{
+	inUse = false;
+	ani = -1;
+	animated_start = 0;
+}
+
+void CEffect::SetEffect(EffectName name, CGameObject* obj)
+{
+	if (obj != NULL)
+	{
+		isEnable = true;
+		inUse = true;
+		effect = name;
+
+		switch (name)
+		{
+		case EffectName::attack_by_tail:
+			ani = ATTACK_BY_TAIL_FX;
+			break;
+		case EffectName::fireball_explose:
+			ani = FIREBALL_EXPLOSE_FX;
+			break;
+		}
+
+		SetPosition(obj->x, obj->y);
+		StartAnimated();
+	}
+}
+
+void CEffect::SetEffect(EffectName name, CGameObject* obj, int nx_direction,int ny_direction)
+{
+	if (obj != NULL)
+	{
+		isEnable = true;
+		inUse = true;
+		effect = name;
+
+		if(name == EffectName::debris)
+		{
+			ani = DEBRIS_FX;
+			vy = DEBRIS_VELOCITY_Y * ny_direction;
+			vx = DEBRIS_VELOCITY_X * nx_direction;
+		}
+
+		SetPosition(obj->x, obj->y - 10);
+		StartAnimated();
+	}
+}
+
+void CEffect::Render()
+{
+	if (ani!= -1)
+	{
+		animation_set->at(ani)->Render(1,1, x, y);
+	}
+		
+	//RenderBoundingBox();
+}
+
+
+void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
+
+	CGameObject::Update(dt, colObject);
+
+	if (effect == EffectName::debris)
+	{
+		vy += 0.0015 * dt;
+		if (vy > 0) vy = 0.2f;
+
+		if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME*3)
+		{
+			isEnable = false;
+			animated_start = 0;
+		}
+
+		x += dx;
+		y += dy;
+	} 
+	else if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME)
+	{
+		isEnable = false;
+		animated_start = 0;
+	}
+}
+
+void CEffect::GetBoundingBox(float& l, float& t, float& r, float& b)
+{
+	l = x;
+	t = y;
+	r = 0;
+	b = 0;
+}
+
+void CEffect::SetState(int state)
+{
+	CGameObject::SetState(state);
+}
+
+bool CEffect::FinishAnimated()
+{
+	if (!isEnable&& inUse)
+	{
+		inUse = false;
+		return true;
+	}
+	else return false;
+}
+

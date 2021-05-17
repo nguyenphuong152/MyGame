@@ -19,12 +19,6 @@
     <Filter Include="Header Files\Mario">
       <UniqueIdentifier>{68cadb09-35ed-410d-b174-ebb85a9adeb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Enemies">
-      <UniqueIdentifier>{ff7444a7-f3ca-4955-9972-6ad2fcc159e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Enemies">
-      <UniqueIdentifier>{7f1700bc-3c16-4e31-b5de-d5c6202463db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\TinyXml">
       <UniqueIdentifier>{349fb991-5feb-44a7-9bfa-8568fb790917}</UniqueIdentifier>
     </Filter>
@@ -85,6 +79,24 @@
     <Filter Include="Source Files\Objects\Misc">
       <UniqueIdentifier>{5be7df63-e186-484b-aee8-6155af885fbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Effect">
+      <UniqueIdentifier>{7eb5c094-c5b6-4d9d-871d-25d8e494cf81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Effect">
+      <UniqueIdentifier>{2b3a5d3f-1a05-41c3-9e68-4f3809c96491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies">
+      <UniqueIdentifier>{ff7444a7-f3ca-4955-9972-6ad2fcc159e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies">
+      <UniqueIdentifier>{7f1700bc-3c16-4e31-b5de-d5c6202463db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HUD">
+      <UniqueIdentifier>{940f1bce-263b-4716-b67f-9419fd64913f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{6a8af6ef-5bd1-46c1-93c9-0a52e63014b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -118,13 +130,13 @@
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
     <ClCompile Include="GoomBa.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Koopas.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="RedVenusFireTrap.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="FireBallPool.cpp">
       <Filter>Source Files\Objects\Fireball</Filter>
@@ -151,9 +163,6 @@
       <Filter>Source Files\MapManager</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Items.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
@@ -238,16 +247,16 @@
       <Filter>Source Files\Objects\Platform</Filter>
     </ClCompile>
     <ClCompile Include="Piranha.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="GreenVenusFireTrap.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ParaGoomba.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ParaKoopa.cpp">
-      <Filter>Source Files\Enemies</Filter>
+      <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
@@ -260,6 +269,30 @@
     </ClCompile>
     <ClCompile Include="One-upMushroom.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files\Objects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectPool.cpp">
+      <Filter>Source Files\Objects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Switch.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioStateTransform.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDContent.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,13 +330,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GoomBa.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Koopas.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="RedVenusFireTrap.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="FireBallPool.h">
       <Filter>Header Files\Objects\Fireball</Filter>
@@ -324,9 +357,6 @@
       <Filter>Header Files\MapManager</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Items.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
@@ -411,16 +441,16 @@
       <Filter>Header Files\Objects\Platform</Filter>
     </ClInclude>
     <ClInclude Include="Piranha.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="GreenVenusFireTrap.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ParaGoomba.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ParaKoopa.h">
-      <Filter>Header Files\Enemies</Filter>
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Header Files\Objects\Misc</Filter>
@@ -433,6 +463,30 @@
     </ClInclude>
     <ClInclude Include="One-upMushroom.h">
       <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files\Objects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectPool.h">
+      <Filter>Header Files\Objects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Switch.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateTransform.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDContent.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

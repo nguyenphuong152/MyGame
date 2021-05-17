@@ -9,12 +9,15 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Camera.h"
+#include "PowerUp.h"
+#include "EffectPool.h"
 
 CKoopas::CKoopas()
 {
 	isEnable = true;
 	this->player = CMario::GetInstance();
 	nx = 1;
+	ny = 1;
 	SetLevel(KOOPA_LEVEL_1);
 	SetState(KOOPA_STATE_WALKING);
 }
@@ -41,6 +44,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt,coObjects);
 
+	if (player->isKicking) isHolded = false;
+
 	if (GetLevel() == KOOPA_LEVEL_1)
 	{
 		//die ->recover
@@ -52,24 +57,22 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
 			//xet lai vi tri k thoi rua se bi roi xuong
 			y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+			if (ny == -1) ny = 1;
 			SetState(KOOPA_STATE_WALKING);
 		}
 
-		if (isHolded)
-		{
-			if (player->isKicking)
-			{
-				SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
-				isHolded = false;
-			}
-			else {
-				UpdateShellPosition();
-			}
+		if (isHolded) {
+			UpdateShellPosition();
 		}
-		else if(state!=KOOPA_STATE_DIE_WITH_VELOCITY) 
+		else {
 			vy += KOOPA_GRAVITY * dt;
+		}
 		
-
+		if (player->isKicking&&!isHolded)
+		{
+			SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
+		}
+		
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -125,14 +128,33 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					}
 				}
-				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
+				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
 				{
+
 					if (e->nx != 0)
 					{
 						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
 						{
 							this->nx = -this->nx;
 							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+							x += dx;
+						}
+					}
+				}
+				else if (dynamic_cast<CBrick*>(e->obj))
+				{
+					CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+					if (e->nx != 0)
+					{
+						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+						{
+							this->nx = -this->nx;
+							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+							if (brick->GetState() == BRICK_STATE_UNTOUCH)
+							{
+								brick->SetState(BRICK_STATE_TOUCHED);
+							}
 						}
 					}
 				}
@@ -154,7 +176,7 @@ void CKoopas::Render()
 		ani = KOOPA_ANI_RECOVER;
 
 	//change direction for koopas
-	animation_set->at(ani)->Render(nx, x, y);
+	animation_set->at(ani)->Render(nx,ny, x, y);
 }
 
 
@@ -209,4 +231,23 @@ void CKoopas::UpdateShellPosition()
 
 	y = player->y;
 	if (player->level != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
+}
+
+void CKoopas::SetAttackedAnimation()
+{
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
+	{
+		effect->SetEffect(EffectName::attack_by_tail, this);
+	}
+}
+
+void CKoopas::AttackedByTail()
+{
+	SetState(KOOPA_STATE_DIE);
+	ny = -1;
+	vy = -KOOPA_DEFLECT_SPEED;
+	SetAttackedAnimation();
+	isHolded = false;
+	player->isKicking = false;
 }

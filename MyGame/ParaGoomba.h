@@ -19,7 +19,7 @@
 
 #define SHORT_JUMP_VELOCITY_Y				0.25f
 #define HIGH_JUMP_VELOCITY_Y				0.45f
-#define PARA_GOOMBA_GRAVITY					0.0015f
+
 
 
 class CParaGoomba :public CGoomBa {

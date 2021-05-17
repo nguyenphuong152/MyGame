@@ -19,8 +19,6 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
-	CFireBallPool* pool;
-	
 	
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> listItems;
@@ -31,6 +29,8 @@ protected:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
+	void _ParseSection_HUD(string line);
+	void _ParseSection_Letters(string line);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

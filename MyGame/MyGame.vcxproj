@@ -146,6 +146,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp" />
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp" />
@@ -153,11 +154,14 @@
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectPool.cpp" />
     <ClCompile Include="FireBallPool.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="GreenVenusFireTrap.cpp" />
     <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="Items.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="HUDContent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -179,6 +183,7 @@
     <ClCompile Include="MarioStateSpin.cpp" />
     <ClCompile Include="MarioStateStop.cpp" />
     <ClCompile Include="MarioStateThrowingFireball.cpp" />
+    <ClCompile Include="MarioStateTransform.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="One-upMushroom.cpp" />
@@ -190,6 +195,8 @@
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
+    <ClCompile Include="Switch.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -206,15 +213,20 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h" />
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectPool.h" />
     <ClInclude Include="FireBallPool.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="GreenVenusFireTrap.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
@@ -227,7 +239,6 @@
     <ClInclude Include="MarioStateFly.h" />
     <ClInclude Include="MarioStateHoldShellIdle.h" />
     <ClInclude Include="MarioStateJump.h" />
-    <ClInclude Include="Items.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MarioState.h" />
     <ClInclude Include="MarioStateIdle.h" />
@@ -238,6 +249,7 @@
     <ClInclude Include="MarioStateSpin.h" />
     <ClInclude Include="MarioStateStop.h" />
     <ClInclude Include="MarioStateThrowingFireball.h" />
+    <ClInclude Include="MarioStateTransform.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="One-upMushroom.h" />
@@ -248,6 +260,8 @@
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
+    <ClInclude Include="Switch.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

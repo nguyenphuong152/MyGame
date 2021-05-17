@@ -76,11 +76,30 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)
 {
 	mario.isSitting = false;
-	mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT+10;
+	if (mario.level == MARIO_LEVEL_BIG||mario.level==MARIO_LEVEL_FIRE)
+	{
+		mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
+	else if (mario.level == MARIO_LEVEL_RACOON)
+	{
+		mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
 }
 
 CMarioStateSit* CMarioStateSit::GetInstance()
 {
 	if (__instance == NULL) __instance = new CMarioStateSit();
 	return __instance;
+}
+
+void CMarioStateSit::SetPositionBeforeSitting(CMario &mario)
+{
+	if (mario.level == MARIO_LEVEL_BIG || mario.level == MARIO_LEVEL_FIRE)
+	{
+		mario.y += MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
+	else if (mario.level == MARIO_LEVEL_RACOON)
+	{
+		mario.y += MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
 }

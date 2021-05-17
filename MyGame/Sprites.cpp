@@ -20,10 +20,10 @@ CSprites* CSprites::GetInstance()
 	return __instance;
 }
 
-void CSprite::Draw(int nx,float x, float y, int alpha)
+void CSprite::Draw(int nx,int ny,float x, float y, int alpha)
 {
 	CGame* game = CGame::GetInstance();
-	game->Draw(nx,x, y, texture, left, top, right, bottom, alpha);
+	game->Draw(nx,ny,x, y, texture, left, top, right, bottom, alpha);
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)

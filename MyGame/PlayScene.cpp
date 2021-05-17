@@ -7,12 +7,13 @@
 #include "Pipe.h"
 #include "Animations.h"
 #include "Game.h"
-#include "Items.h"
 #include "MarioState.h"
 #include "Fireball.h"
 #include "Camera.h"
 #include "FireBallPool.h"
 #include "MapObjects.h"
+#include "EffectPool.h"
+#include "HUD.h"
 
 
 using namespace std;
@@ -27,17 +28,20 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 	See scene1.txt, scene2.txt for detail format specification
 */
 
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_TEXTURES 2
-#define SCENE_SECTION_SPRITES 3
-#define SCENE_SECTION_ANIMATIONS 4
+#define SCENE_SECTION_UNKNOWN		-1
+#define SCENE_SECTION_TEXTURES		 2
+#define SCENE_SECTION_SPRITES		 3
+#define SCENE_SECTION_ANIMATIONS		4
 #define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
-#define SCENE_SECTION_MAP	7
+#define SCENE_SECTION_OBJECTS			6
+#define SCENE_SECTION_MAP				7
+#define SCENE_SECTION_LETTERS			8
+#define SCENE_SECTION_HUD				9
 
-#define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_FIREBALL 1
-#define OBJECT_TYPE_PORTAL	3
+#define OBJECT_TYPE_MARIO		0
+#define OBJECT_TYPE_FIREBALL	1
+#define OBJECT_TYPE_EFFECT		2
+#define OBJECT_TYPE_PORTAL		3
 
 #define MAX_SCENE_LINE 2048
 
@@ -159,10 +163,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		pool = CFireBallPool::GetInstance();
-		for (int i = 0; i < pool->POOL_SIZE; i++)
+		CFireBallPool* fireball_pool = CFireBallPool::GetInstance();
+		for (int i = 0; i < fireball_pool->POOL_SIZE; i++)
 		{
-			objects.push_back(&pool->fireballs[i]);
+			objects.push_back(&fireball_pool->fireballs[i]);
+		}
+	} break;
+	case OBJECT_TYPE_EFFECT:
+	{
+		CEffectPool* effect_pool = CEffectPool::GetInstance();
+		effect_pool->SetEffectAnimation(ani_set_id);
+		for (int i = 0; i < effect_pool->POOL_SIZE; i++)
+		{
+			objects.push_back(&effect_pool->effects[i]);
 		}
 	} break;
 	/*case OBJECT_TYPE_PORTAL:
@@ -179,7 +192,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if (object_type != OBJECT_TYPE_FIREBALL)
+	if (object_type != OBJECT_TYPE_FIREBALL&&object_type!=OBJECT_TYPE_EFFECT)
 	{
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -205,6 +218,28 @@ void CPlayScene::_ParseSection_MAP(string line)
 	CMap::GetInstance()->CreateTileSet();
 	CMap::GetInstance()->HandleMap();
 	CMapObjects::GetInstance()->GenerateObject(&path[0],objects);
+}
+
+void CPlayScene::_ParseSection_HUD(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+	int texture = atoi(tokens[0].c_str());
+    
+	HUD::GetInstance()->SetPosition();
+	HUD::GetInstance()->Init(texture);
+}
+
+void CPlayScene::_ParseSection_Letters(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	string name = tokens[0].c_str();
+	int texture = atoi(tokens[1].c_str());
+
+	HUD::GetInstance()->AddLetter(name, texture);
 }
 
 void CPlayScene::Load()
@@ -240,6 +275,14 @@ void CPlayScene::Load()
 		if (line == "[MAP]") {
 			section = SCENE_SECTION_MAP; continue;
 		}
+		if (line == "[FONT]")
+		{
+			section = SCENE_SECTION_LETTERS; continue;
+		}
+		if (line == "[HUD]")
+		{
+			section = SCENE_SECTION_HUD; continue;
+		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -254,6 +297,8 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		case SCENE_SECTION_HUD: _ParseSection_HUD(line); break;
+		case SCENE_SECTION_LETTERS:_ParseSection_Letters(line); break;
 		}
 	}
 
@@ -293,6 +338,8 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	CFireBallPool::GetInstance()->Update();
+	CEffectPool::GetInstance()->Update();
+	HUD::GetInstance()->Update();
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
@@ -312,7 +359,7 @@ void CPlayScene::Render()
 	}
 
 	CMap::GetInstance()->RenderForeground();
-
+	HUD::GetInstance()->Render();
 	//render mario sau cung
 	objects[0]->Render();
 
@@ -374,7 +421,6 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		input = Input::PRESS_A;
 		mario->HandleInput(input);
-		mario->powerMode = true;
 		break;
 	}
 }

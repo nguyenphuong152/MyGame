@@ -70,6 +70,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 			if (mario.isOnGround && mario.level != MARIO_LEVEL_SMALL)
 			{
 				mario.ChangeState(CMarioState::sit.GetInstance());
+				CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
 			}
 		}
 	}
@@ -88,8 +89,10 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	else if (input == Input::PRESS_A)
 	{
 		mario.canHoldShell = true;
+		mario.powerMode = true;
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
+			CMarioState::spin.GetInstance()->isAttack = true;
 			mario.ChangeState(CMarioState::spin.GetInstance());
 			CMarioState::spin.GetInstance()->StartSpinning();
 		}
@@ -103,6 +106,10 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 				CMarioState::throw_fireball.GetInstance()->StartThrowing();
 			}
 		}
+	}
+    else if (input == Input::RELEASE_A)
+	{
+		CMarioState::spin.GetInstance()->isAttack = false;
 	}
 }
 

@@ -1,15 +1,20 @@
 ﻿#include "Brick.h"
 #include "Utils.h"
 #include "Mario.h"
-#include "Items.h"
 #include "Coin.h"
 #include "PowerUp.h"
 #include "One-upMushroom.h"
+#include "Switch.h"
 
-CBrick::CBrick(CGameObject* item,float y)
+CBrick::CBrick(CGameObject* item,float y, BrickType type)
 {
 	this->item = item;
-	SetAnimation(BRICK_ANI);
+	this->type = type;
+	if (type == BrickType::question_brick)
+	{
+		SetAnimation(BRICK_ANI);
+	}
+	else SetAnimation(TWINKLE_BRICK_ANI);
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
 	oldY = y;
@@ -26,7 +31,8 @@ void CBrick::Render()
 	{
 		ani = BRICK_ANI_TOUCHED;
 	}
-	animation_set->at(ani)->Render(0, x, y);
+	//RenderBoundingBox();
+	animation_set->at(ani)->Render(-1,1, x, y);
 }
 
 void CBrick::SetState(int state)
@@ -50,6 +56,12 @@ void CBrick::SetState(int state)
 		{
 			COneUpMushroom* oneup_mushroom = dynamic_cast<COneUpMushroom*>(item);
 			oneup_mushroom->SetState(ONE_UP_MUSHROOM_STATE_GO_UP);
+		}
+		else if (dynamic_cast<CSwitch*>(item))
+		{
+			CSwitch* switch_item = dynamic_cast<CSwitch*>(item);
+			switch_item->SetState(SWITCH_STATE_UNTOUCH);
+			switch_item->SetPosition(x-1, y - BRICK_BBOX_HEIGHT+1);
 		}
 
 	}

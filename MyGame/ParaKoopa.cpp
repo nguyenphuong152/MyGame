@@ -23,6 +23,7 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		CGameObject::Update(dt, coObjects);
 		vy += PARA_KOOPA_GRAVITY * dt;
+
 		if (isOnGround) SetState(PARA_KOOPA_STATE_JUMPING);
 
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -80,7 +81,7 @@ void CParaKoopa::Render()
 	if (GetLevel()==KOOPA_LEVEL_2)
 	{
 		ani = PARA_KOOPA_ANI_JUMPING;
-		animation_set->at(ani)->Render(0, x, y);
+		animation_set->at(ani)->Render(0,0, x, y);
 	}
 	else
 	{

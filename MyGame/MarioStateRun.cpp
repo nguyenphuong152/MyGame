@@ -39,6 +39,7 @@ void CMarioStateRun::Update(DWORD dt, CMario& mario)
 	
 	if (!mario.powerMode)
 	{
+		DebugOut(L"vo\n");
 		mario.ChangeState(CMarioState::walk.GetInstance());
 	}
 	else {

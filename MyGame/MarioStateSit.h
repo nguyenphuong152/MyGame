@@ -20,6 +20,7 @@ public:
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt, CMario& mario);
 	void SetPositionAferSitting(CMario& mario);
+	void SetPositionBeforeSitting(CMario& mario);
 	static CMarioStateSit* GetInstance();
 
 };

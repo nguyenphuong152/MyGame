@@ -29,7 +29,7 @@ void COneUpMushroom::SetState(int state)
 
 void COneUpMushroom::Render()
 {
-	animation_set->at(ONE_UP_MUSHROOM_ANI)->Render(1, x, y);
+	animation_set->at(ONE_UP_MUSHROOM_ANI)->Render(1,1, x, y);
 }
 
 void COneUpMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)

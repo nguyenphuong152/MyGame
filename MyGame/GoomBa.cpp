@@ -4,10 +4,14 @@
 #include "Pipe.h"
 #include "Brick.h"
 #include "ParaGoomba.h"
+#include "PowerUp.h"
+#include "EffectPool.h"
+#include "Effect.h"
 
 CGoomBa::CGoomBa()
 {
 	isEnable = true;
+	ny = 1;
 	SetState(GOOMBA_STATE_WALKING);
 	SetLevel(GOOMBA_LEVEL_1);
 }
@@ -41,7 +45,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	
-	vy += 0.0015f * dt;
+	vy += GOOMBA_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
 
@@ -59,58 +63,64 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny = 0;
-
-		float rdx = 0, rdy = 0;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		x += min_tx * dx + nx * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		//collision logic with other objects
-		for (UINT i = 0;i < coEventsResult.size();i++)
+		if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-			if ( dynamic_cast<CBrick*>(e->obj))
-			{
-				if (e->nx != 0)
-				{
-					this->nx = -this->nx;
-					vx = this->nx * GOOMBA_WALKING_SPEED;
-				}
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny = 0;
 
-			}
-			else if (dynamic_cast<CBox*>(e->obj)) 
+			float rdx = 0, rdy = 0;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			//day object ra mot khoang de k bi chong va cham
+			x += min_tx * dx + nx * 0.4f;
+
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+
+			//collision logic with other objects
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				x += dx;
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj))
+				{
+					if (e->nx != 0)
+					{
+						this->nx = -this->nx;
+						vx = this->nx * GOOMBA_WALKING_SPEED;
+					}
+
+				}
+				else if (dynamic_cast<CBox*>(e->obj))
+				{
+					x += dx;
+				}
 			}
 		}
+
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-
-	//DebugOut(L"[INFO]vy: %f \n", vy);
-
-	for (UINT i = 0;i < coEvents.size();i++) delete coEvents[i];
 }
 
 void CGoomBa::Render()
 {
 	int ani=-1;
-	if (state == GOOMBA_STATE_WALKING )
+	if (state == GOOMBA_STATE_WALKING || state==GOOMBA_STATE_DIE_WITH_DEFLECT)
 	{
 		ani = GOOMBA_ANI_WALKING;
 	}
-	else if (state == GOOMBA_STATE_DIE)
+	else
 	{
 		ani = GOOMBA_ANI_DIE;
 	}
-		
-	animation_set->at(ani)->Render(0, x, y);
-	RenderBoundingBox();
+	
+	animation_set->at(ani)->Render(1,ny, x, y);
+	//RenderBoundingBox();
 }
 
 void CGoomBa::SetState(int state)
@@ -125,5 +135,18 @@ void CGoomBa::SetState(int state)
 	case GOOMBA_STATE_WALKING:
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
+	case GOOMBA_STATE_DIE_WITH_DEFLECT:
+		vx = 4*GOOMBA_WALKING_SPEED*nx;
+		SetAttackedAnimation();
+		break;
+	}
+}
+
+void CGoomBa::SetAttackedAnimation()
+{
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
+	{
+		effect->SetEffect(EffectName::attack_by_tail, this);
 	}
 }

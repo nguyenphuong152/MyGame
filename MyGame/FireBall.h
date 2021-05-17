@@ -53,6 +53,7 @@ public:
 	void AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp);
 	void DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject);
 	void HandleFireballForVenus();
+	void ExplosedFireball();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void Render();
