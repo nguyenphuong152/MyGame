@@ -30,6 +30,7 @@ void CMarioStateFly::Enter(CMario& mario)
 }
 void CMarioStateFly::HandleInput(CMario& mario, Input input)
 {
+	CGame* game = CGame::GetInstance();
 	if (input == Input::PRESS_S&&mario.level==MARIO_LEVEL_RACOON)
 	{
 		mario.isOnGround = false;
@@ -43,9 +44,9 @@ void CMarioStateFly::HandleInput(CMario& mario, Input input)
 
 void CMarioStateFly::Update(DWORD dt, CMario& mario)
 {
-	if (mario.vy > 0)
+	if (mario.isOnGround)
 	{
-		mario.ChangeState(CMarioState::drop.GetInstance());
+		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
 }
 

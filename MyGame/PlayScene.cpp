@@ -421,7 +421,6 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		input = Input::PRESS_A;
 		mario->HandleInput(input);
-		mario->powerMode = true;
 		break;
 	}
 }

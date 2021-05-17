@@ -10,11 +10,11 @@ using namespace std;
 
 #define HUD_POSTION_Y	636
 
-#define HUD_ALIGN_TOP		23
+#define HUD_ALIGN_TOP		22
 #define HUD_ALIGN_BOTTOM	48 
 #define HUD_ALIGN_RIGHT		378
 #define HUD_ALIGN_LEFT		115 
-#define HUD_WHITE_SPACE		22
+#define HUD_BLANKSPACE		24
 
 class HUD {
 	float x,y;

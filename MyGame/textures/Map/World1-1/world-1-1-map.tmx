@@ -366,7 +366,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="13" name="Solid" visible="0">
+ <objectgroup id="13" name="Solid">
   <object id="1" x="2" y="1246" width="1869.82" height="48"/>
   <object id="2" x="1057.42" y="1105.33" width="95.9091" height="140.394"/>
   <object id="3" x="1872" y="1201" width="1392" height="93"/>
@@ -400,7 +400,7 @@
   <object id="146" x="6238.67" y="1390.17" width="97.6667" height="99"/>
   <object id="209" x="6720" y="1104.67" width="94.6666" height="47.3333"/>
  </objectgroup>
- <objectgroup id="14" name="Ghost" visible="0">
+ <objectgroup id="14" name="Ghost">
   <object id="28" x="720.523" y="1104.97" width="142.597" height="139.113"/>
   <object id="29" x="817.891" y="1008.86" width="140.712" height="231.742"/>
   <object id="30" x="1200.45" y="1104.34" width="239.337" height="140.113"/>
@@ -430,7 +430,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Coin" visible="0">
+ <objectgroup id="15" name="Coin">
   <object id="59" x="3236.5" y="983.5"/>
   <object id="64" x="3333.17" y="887.667"/>
   <object id="68" x="3428.75" y="792"/>
@@ -520,7 +520,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Enemy" visible="0">
+ <objectgroup id="15" name="Enemy">
   <object id="91" name="red_koopa" type="70" x="1652.33" y="1030.66" width="31" height="26"/>
   <object id="98" name="red_venus" type="60" x="1081.15" y="1139.97"/>
   <object id="255" name="goomba" type="3" x="2282" y="1142" width="22.5" height="21.5"/>
@@ -529,7 +529,7 @@
   <object id="260" name="para-goomba" type="31" x="2684" y="1117" width="24" height="26"/>
   <object id="261" name="green_para-koopa" type="71" x="4165" y="900" width="27" height="32"/>
  </objectgroup>
- <objectgroup id="20" name="Label" visible="0">
+ <objectgroup id="20" name="Label">
   <object id="131" name="warp-pipe" type="down" x="624" y="1090" width="96" height="28">
    <properties>
     <property name="direction" value="down"/>
@@ -541,7 +541,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="21" name="Portal" visible="0">
+ <objectgroup id="21" name="Portal">
   <object id="135" name="hidden-scene" type="1" x="627.636" y="1161" width="88.9697" height="33.3333">
    <properties>
     <property name="cameraID" type="int" value="1"/>
@@ -553,17 +553,17 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="22" name="SwitchBlocks" visible="0">
+ <objectgroup id="22" name="SwitchBlocks">
   <object id="206" x="6070" y="1076">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="23" name="Block" visible="0">
+ <objectgroup id="23" name="Block">
   <object id="198" x="6071.67" y="1126.33" visible="0">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="24" name="Card" visible="0">
+ <objectgroup id="24" name="Card">
   <object id="202" x="8063.5" y="1056">
    <point/>
   </object>
@@ -575,9 +575,9 @@
   <object id="238" x="7.93939" y="1417.91" width="8428" height="53"/>
  </objectgroup>
  <objectgroup id="26" name="Camera">
-  <object id="243" x="3.27273" y="657.273" width="764" height="760.67"/>
+  <object id="243" x="9.33334" y="654.243" width="764" height="760.67"/>
  </objectgroup>
- <objectgroup id="28" name="ObjectBoundary" visible="0">
+ <objectgroup id="28" name="ObjectBoundary">
   <object id="253" x="1510" y="1117" width="25" height="13"/>
   <object id="254" x="1824.5" y="1112" width="25" height="18"/>
  </objectgroup>

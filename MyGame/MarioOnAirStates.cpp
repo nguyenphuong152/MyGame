@@ -38,6 +38,10 @@ void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
 			CMarioState::spin.GetInstance()->StartSpinning();
 		}
 	}
+	else if (input == Input::RELEASE_A)
+	{
+		CMarioState::spin.GetInstance()->isAttack = false;
+	}
 }
 
 

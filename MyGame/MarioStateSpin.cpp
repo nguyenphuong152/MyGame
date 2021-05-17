@@ -14,7 +14,7 @@ void CMarioStateSpin::Enter(CMario& mario)
 }
 void CMarioStateSpin::HandleInput(CMario& mario, Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario, input);
+	//CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateSpin::Update(DWORD dt, CMario& mario)

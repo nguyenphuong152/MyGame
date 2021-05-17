@@ -141,7 +141,8 @@ public:
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isJumpOnSwitch = false;
-	
+	bool disablePower = false;
+
 	//can nhac lai
 	bool isKicking = false;
 	

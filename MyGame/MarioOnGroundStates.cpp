@@ -89,6 +89,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	else if (input == Input::PRESS_A)
 	{
 		mario.canHoldShell = true;
+		mario.powerMode = true;
 		if (mario.level == MARIO_LEVEL_RACOON)
 		{
 			CMarioState::spin.GetInstance()->isAttack = true;
@@ -106,8 +107,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 			}
 		}
 	}
-
-	if (input == Input::RELEASE_A)
+    else if (input == Input::RELEASE_A)
 	{
 		CMarioState::spin.GetInstance()->isAttack = false;
 	}

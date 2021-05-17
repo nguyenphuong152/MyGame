@@ -7,6 +7,8 @@ class HUDContent {
 	CText* live;
 	CText* point;
 	CText* time;
+	CText* coin;
+	CText* power;
 public:
 	static HUDContent* GetInstance();
 	void Render();

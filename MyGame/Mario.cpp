@@ -67,9 +67,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
-	//tru  power khi o trang thai k fly, hoac fly còn dư;
-	if (!powerMode && powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) powerLevel -= 10;
+	////tru  power khi o trang thai k fly, hoac fly còn dư;
+	if (!powerMode && powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) {
+		if (isOnGround) powerLevel -= 10;
+	}
 
 	//if no collision occured, proceed normally
 	if (coEvents.size() == 0 )
