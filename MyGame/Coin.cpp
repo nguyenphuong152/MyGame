@@ -7,7 +7,7 @@ CCoin::CCoin(CoinType type, float x, float y)
 	this->type = type;
 	isEnable = true;
 	SetAnimation(COIN_ANI);
-	SetPosition(x, y - 1);
+	SetPosition(x, y);
 }
 
 void CCoin::SetState(int state)
@@ -84,8 +84,8 @@ void CCoin::Render()
 
 void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
+	l = x+1;
+	t = y+1;
 	r = x + COIN_BBOX_WIDTH;
 	b = y + COIN_BBOX_HEIGHT;
 }

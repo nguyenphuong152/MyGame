@@ -3,7 +3,7 @@
 
 #define COIN_ANI			25
 
-#define COIN_BBOX_WIDTH		36
+#define COIN_BBOX_WIDTH		30
 #define COIN_BBOX_HEIGHT	42
 
 #define COIN_STATE_JUMPING		10

@@ -12,15 +12,16 @@ CMarioStateHoldShellAndJump::CMarioStateHoldShellAndJump() {
 
 void CMarioStateHoldShellAndJump::Enter(CMario& mario)
 {
+	int marioLevel = mario.GetLevel();
 	mario.isOnGround = false;
-	if (mario.level == MARIO_LEVEL_SMALL)
+	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_HANDLESHELL_JUMP_DROP);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (marioLevel == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_HANDLESHELL_JUMP_FLY_DROP);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_HANDLESHELL_JUMP_DROP);
 	}

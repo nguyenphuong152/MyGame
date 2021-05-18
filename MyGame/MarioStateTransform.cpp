@@ -10,11 +10,11 @@ CMarioStateTransform::CMarioStateTransform() {
 
 void CMarioStateTransform::Enter(CMario& mario)
 {
-	if (mario.level == MARIO_LEVEL_BIG)
+	if (mario.GetLevel() == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_ITEM_SMALL_TO_BIG);
 	}
-	else if(mario.level==MARIO_LEVEL_RACOON) 
+	else if(mario.GetLevel()==MARIO_LEVEL_RACOON) 
 	{
 		mario.SetAnimation(MARIO_ANI_ITEM_BIG_TO_RACOON);
 	}

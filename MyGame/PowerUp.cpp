@@ -3,6 +3,8 @@
 #include "Brick.h"
 #include "Ground.h"
 #include "Camera.h"
+#include "Utils.h"
+#include "Box.h"
 
 CPowerUp::CPowerUp(float x,float  y)
 {
@@ -10,7 +12,7 @@ CPowerUp::CPowerUp(float x,float  y)
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x+0.5,y-0.5);
+	SetPosition(x+0.15,y);
 }
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
@@ -81,9 +83,12 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						isEnable = false;
 					}
 				}
-				else {
-					x += dx;
-					vx = this->nx * MUSHROOM_VELOCITY_X;
+				else if(dynamic_cast<CBox*>(e->obj)) {
+					if (e->nx != 0)
+					{
+						vx = this->nx * MUSHROOM_VELOCITY_X;
+						x += dx;
+					}
 				}
 			}
 		}
@@ -96,9 +101,14 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 void CPowerUp::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
-	t = y;
+	t = y+1;
 	r = x + POWER_UP_BBOX_WIDTH;
 	b = y + POWER_UP_BBOX_WIDTH;
+
+	if (isActive)
+	{
+		b = y + POWER_UP_BBOX_WIDTH + 9;
+	}
 }
 
 void CPowerUp::SetState(int state)
@@ -114,14 +124,14 @@ void CPowerUp::Render()
 	if (GetPowerUpType() != PowerUpType::none)
 	{
 		animation_set->at(POWER_UP_ANI)->Render(1,1, x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 
 
 void CPowerUp::DefinePowerUpType()
 {
-	int level = CMario::GetInstance()->level;
+	int level = CMario::GetInstance()->GetLevel();
 
 	ActivatePower();
 
@@ -182,7 +192,7 @@ void CPowerUp::HandleUpdateSuperMushroom()
 {
 	if (state == POWERUP_STATE_WALKING) vy += POWER_UP_GRAVITY * dt;
 
-	if (y <= start_y - BRICK_BBOX_HEIGHT-1 )
+	if (y <= start_y - BRICK_BBOX_HEIGHT )
 	{
 		SetState(POWERUP_STATE_WALKING);
 	}

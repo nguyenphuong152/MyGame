@@ -166,6 +166,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
     <ClCompile Include="MarioHoldingShellStates.cpp" />
+    <ClCompile Include="MarioStateGetIntoPipe.cpp" />
     <ClCompile Include="MarioStateHoldShellAndDrop.cpp" />
     <ClCompile Include="MarioStateHoldShellAndJump.cpp" />
     <ClCompile Include="MarioStateHoldShellAndRun.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="One-upMushroom.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="ObjectBoundary.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
@@ -230,6 +232,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
+    <ClInclude Include="MarioStateGetIntoPipe.h" />
     <ClInclude Include="MarioStateHoldShellAndDrop.h" />
     <ClInclude Include="MarioStateHoldShellAndJump.h" />
     <ClInclude Include="MarioStateHoldShellAndRun.h" />
@@ -253,6 +256,7 @@
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="One-upMushroom.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="ObjectBoundary.h" />
     <ClInclude Include="ParaGoomba.h" />

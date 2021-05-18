@@ -40,7 +40,7 @@ void CText::Update()
 	switch (content)
 	{
 	case Content::Live:
-		SetText("9");
+		SetLive();
 		break;
 	case Content::World:
 		SetText("1");
@@ -134,6 +134,11 @@ void CText::Countdown()
 	SetText(to_string(default_time));
 }
 
+void CText::SetLive()
+{
+	int live = CMario::GetInstance()->GetLive();
+	SetText(to_string(live));
+}
 
 void Letter::SetLetter(int letter)
 {

@@ -14,6 +14,7 @@
 #include "MapObjects.h"
 #include "EffectPool.h"
 #include "HUD.h"
+#include "MarioStateGetIntoPipe.h"
 
 
 using namespace std;
@@ -358,11 +359,18 @@ void CPlayScene::Render()
 		}
 	}
 
-	CMap::GetInstance()->RenderForeground();
 	HUD::GetInstance()->Render();
-	//render mario sau cung
-	objects[0]->Render();
 
+	if (player->marioState== CMarioState::go_to_pipe.GetInstance())
+	{
+		objects[0]->Render();
+		CMap::GetInstance()->RenderForeground();
+	}
+	else {
+		CMap::GetInstance()->RenderForeground();
+		//render mario sau cung
+		objects[0]->Render();
+	}
 }
 
 /*

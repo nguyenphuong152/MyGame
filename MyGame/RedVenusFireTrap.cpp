@@ -115,7 +115,7 @@ void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CRedVenusFireTrap::CheckDirection()
 {
 	float mario_y = CMario::GetInstance()->y;
-	if (CMario::GetInstance()->level != MARIO_LEVEL_SMALL)
+	if (CMario::GetInstance()->GetLevel() != MARIO_LEVEL_SMALL)
 	{
 		mario_y += MARIO_BIG_BBOX_HEIGHT-MARIO_SMALL_BBOX_HEIGHT;
 	}

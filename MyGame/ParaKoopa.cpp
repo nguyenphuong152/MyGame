@@ -7,6 +7,7 @@ CParaKoopa::CParaKoopa()
 {
 	isEnable = true;
 	nx = -1;
+	ny = 1;
 	vx = KOOPA_WALKING_SPEED*nx;
 	SetLevel(KOOPA_LEVEL_2);
 	SetState(PARA_KOOPA_STATE_JUMPING);
@@ -81,7 +82,7 @@ void CParaKoopa::Render()
 	if (GetLevel()==KOOPA_LEVEL_2)
 	{
 		ani = PARA_KOOPA_ANI_JUMPING;
-		animation_set->at(ani)->Render(0,0, x, y);
+		animation_set->at(ani)->Render(0,ny, x, y);
 	}
 	else
 	{

@@ -15,18 +15,19 @@ CMarioStateJump::CMarioStateJump() {
 void CMarioStateJump::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	if (mario.level == MARIO_LEVEL_SMALL)
+	int marioLevel = mario.GetLevel();
+	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_JUMP);
 	}
-	else if(mario.level == MARIO_LEVEL_RACOON) {
+	else if(marioLevel == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_JUMP);
 	}
-	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	else if (marioLevel == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_JUMP);
 	}
@@ -40,7 +41,7 @@ void CMarioStateJump::HandleInput(CMario& mario,Input input)
 	{
 		mario.canJumpHigh = false;
 	}
-	else if (input == Input::PRESS_A && mario.level == MARIO_LEVEL_FIRE)
+	else if (input == Input::PRESS_A && mario.GetLevel() == MARIO_LEVEL_FIRE)
 	{
 		CFireball* fireball = CFireBallPool::GetInstance()->Create();
 		if (fireball != NULL)

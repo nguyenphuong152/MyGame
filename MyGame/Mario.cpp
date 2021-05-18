@@ -6,6 +6,7 @@
 #include "MarioStateIdle.h"
 #include "MarioStateRun.h"
 #include "MarioStateDrop.h"
+#include "MarioStateGetIntoPipe.h"
 #include "MarioStateTransform.h"
 #include "MarioStateSpin.h"
 #include "MarioStateHoldShellIdle.h"
@@ -29,6 +30,7 @@
 #include "Switch.h"
 #include "PowerUp.h"
 #include "RedVenusFireTrap.h"
+#include "One-upMushroom.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -43,6 +45,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+	SetLive(MARIO_DEFAULT_LIVE);
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -157,7 +160,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (koopa->GetLevel() == KOOPA_LEVEL_2)
 						{
 							koopa->SetLevel(KOOPA_LEVEL_1);
-							koopa->SetState(PARA_KOOPA_STATE_WALKING);
+							if (CMarioState::spin.GetInstance()->isAttack)
+							{
+								koopa->AttackedByTail();
+							}
+							else {
+								koopa->SetState(PARA_KOOPA_STATE_WALKING);
+							}
 						}
 						else {
 							koopa->SetState(KOOPA_STATE_DIE);
@@ -170,7 +179,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (CMarioState::spin.GetInstance()->isAttack)
 					{
-						koopa->AttackedByTail();
+						if (koopa->GetState() == KOOPA_STATE_WALKING)
+						{
+							koopa->AttackedByTail();
+						}
 						
 					}
 					else if (koopa->GetState() == KOOPA_STATE_DIE)
@@ -196,12 +208,32 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
-			else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
+			else if (dynamic_cast<CGround*>(e->obj) )
 			{
+			CGround* ground = dynamic_cast<CGround*>(e->obj);
 				if (e->ny < 0)
 				{
 					isOnGround = true;
 					isFloating = false;
+					if (ground->GetType()==GroundType::normal_ground)
+					{
+						if (marioState == CMarioState::go_to_pipe.GetInstance()&&CMarioState::go_to_pipe.GetInstance()->pipeDown)
+						{
+							CCamera::GetInstance()->AdjustPositionToHiddenScene();
+							old_x = x;
+							old_y = y;
+							SetPosition(HIDDEN_SCENE_X+420, HIDDEN_SCENE_Y+10);
+						}
+						else if (CMarioState::go_to_pipe.GetInstance()->pipeDown== false){
+							SetPosition(old_x, old_y);
+
+						}
+					}
+					else {
+						CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = false;
+						canGoIntoPipe = false;
+						ChangeState(CMarioState::idle.GetInstance());
+					}
 				}
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
@@ -335,6 +367,40 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				venus->isEnable = false;
 			}
 			}
+			else if (dynamic_cast<COneUpMushroom*>(e->obj))
+			{
+			   COneUpMushroom* mushroom = dynamic_cast<COneUpMushroom*>(e->obj);
+			   live++;
+			   mushroom->isEnable = false;
+            }
+			else if (dynamic_cast<CPipe*>(e->obj)) {
+			     CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
+				 if (e->ny < 0)
+				 {
+					 isOnGround = true;
+					 isFloating = false;
+					 if (pipe->GetType() == PipeType::entry)
+					 {
+						 canGoIntoPipe = true;
+					 }
+					 else if (pipe->GetType() == PipeType::hidden_down)
+					 {
+						 CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = true;
+						 this->nx = 1;
+					 }
+				 }
+				 else if (e->ny > 0)
+				 {
+					if (pipe->GetType() == PipeType::hidden_up)
+					{
+						ChangeState(CMarioState::go_to_pipe.GetInstance());
+					}
+				 }
+				 if (marioState == CMarioState::go_to_pipe.GetInstance())
+				 {
+					 y += dy;
+				 }
+            }
 		}
 	}
 

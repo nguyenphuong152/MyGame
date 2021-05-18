@@ -89,6 +89,8 @@ class CMarioState;
 
 #define MARIO_ANI_RACCOON_ATTACK_BY_TAIL			59
 #define MARIO_ANI_IMMORTAL_JUMP						60
+#define MARIO_ANI_GET_INTO_PIPE						61
+#define MARIO_ANI_DROP_FROP_PIPE					62
 
 #define	MARIO_LEVEL_SMALL		1
 #define	MARIO_LEVEL_BIG			2
@@ -98,7 +100,7 @@ class CMarioState;
 
 
 #define MARIO_BIG_BBOX_WIDTH  42
-#define MARIO_BIG_BBOX_HEIGHT 81
+#define MARIO_BIG_BBOX_HEIGHT 77
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
@@ -115,8 +117,7 @@ class CMarioState;
 
 
 #define MARIO_POWER_LEVEL 720
-//type  handle animation with time
-
+#define MARIO_DEFAULT_LIVE 4
 
 class CMario : public CGameObject
 {
@@ -128,12 +129,18 @@ class CMario : public CGameObject
 	float start_x;
 	float start_y;
 
+	//save position before go to secret scene
+	float old_x;
+	float old_y;
+
+	int live;
+	int level;
 public:
 	static CMario* __instance;
 	CMarioState* marioState;
 
-	int level;
 	int animation;
+	int powerLevel;
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canJumpHigh = false;
@@ -141,13 +148,10 @@ public:
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isJumpOnSwitch = false;
-	bool disablePower = false;
+	bool canGoIntoPipe = false;
 
 	//can nhac lai
 	bool isKicking = false;
-	
-
-	int powerLevel;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -174,6 +178,11 @@ public:
 	}
 
 	void SetLevel(int l) { level = l; }
+	int GetLevel() { return level; };
+
+	void SetLive(int lives) { live = lives; };
+	int GetLive() { return live; };
+
 	void LevelUp();
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
@@ -184,15 +193,13 @@ public:
 	void FireMario();
 	void ImmortalMario();
 	void Die();
+
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	static  CMario* GetInstance();
-
-	//Kiem tra collision voi item
-	//void CheckCollisionWithItems(vector<LPGAMEOBJECT>* listItem);
 };
 
 

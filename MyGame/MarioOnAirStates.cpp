@@ -31,7 +31,7 @@ void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
     
 	else if (input == Input::PRESS_A)
 	{
-		if (mario.level == MARIO_LEVEL_RACOON)
+		if (mario.GetLevel() == MARIO_LEVEL_RACOON)
 		{
 			CMarioState::spin.GetInstance()->isAttack = true;
 			mario.ChangeState(CMarioState::spin.GetInstance());

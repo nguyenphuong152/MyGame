@@ -62,60 +62,59 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		cam_center_X = x  + width / 2;
 		cam_center_Y = y  + height/ 2;
 
-			CalcPotentialCollisions(colObject, coEvents);
+		CalcPotentialCollisions(colObject, coEvents);
 
-			if (coEvents.size() == 0)
+		if (coEvents.size() == 0)
+		{
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny = 0;
+			float rdx = 0, rdy = 0;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			x += min_tx * dx + 0.4f;
+			y += min_ty * dy + 0.4f;
+
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				x += dx;
-				y += dy;
-			}
-			else
-			{
-				float min_tx, min_ty, nx = 0, ny = 0;
-				float rdx = 0, rdy = 0;
-
-				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-				x += min_tx * dx + 0.4f;
-				y += min_ty * dy + 0.4f;
-
-				if (nx != 0) vx = 0;
-				if (ny != 0) vy = 0;
-
-				for (UINT i = 0; i < coEventsResult.size(); i++)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (dynamic_cast<CBoundary*>(e->obj))
 				{
-					LPCOLLISIONEVENT e = coEventsResult[i];
-					if (dynamic_cast<CBoundary*>(e->obj))
+					if (e->nx < 0)
 					{
-						if (e->nx < 0)
-						{
-							isReachBoundaryRight = true;
-						}
-						else if (e->nx > 0) {
-							isReachBoundaryLeft = true;
-						}
+						isReachBoundaryRight = true;
+					}
+					else if (e->nx > 0) {
+						isReachBoundaryLeft = true;
+					}
 
-						if (e->ny < 0)
-						{
-							isReachBoundaryBottom = true;
-							DebugOut(L"voooooo \n");
-						}
+					if (e->ny < 0)
+					{
+						isReachBoundaryBottom = true;
+					}
 						
-					}
-					else if (e->nx != 0) //neu dung nhung objects khac thi di tiep
-					{
-						vx = player->vx;
-						x += dx;
-					}
-					else if (e->ny != 0)
-					{
-						vy = player->vy;
-						y += dy;
-					}
+				}
+				else if (e->nx != 0) //neu dung nhung objects khac thi di tiep
+				{
+					vx = player->vx;
+					x += dx;
+				}
+				else if (e->ny != 0)
+				{
+					vy = player->vy;
+					y += dy;
 				}
 			}
+		}
 
-			for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		game->SetCamPos(x, y);
 	}
 	else {
@@ -173,4 +172,18 @@ void CCamera::InactiveCamera()
 {
 	vx = 0;
 	vy = 0;
+}
+
+void CCamera::AdjustPositionToHiddenScene()
+{
+	cam_old_x = x;
+	cam_old_y = y;
+	x = HIDDEN_SCENE_X;
+	y = HIDDEN_SCENE_Y;
+	CGame::GetInstance()->SetCamPos(x, y);
+}
+
+void CCamera::GoBackToNormal()
+{
+	CGame::GetInstance()->SetCamPos(cam_old_x, cam_old_y);
 }
