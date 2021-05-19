@@ -53,6 +53,7 @@ public:
 	void RenderText();
 	void RenderPower();
 	void Countdown();
+	void SetLive();
 	void StartFlashing() { flashing_start = GetTickCount64(); flashing = 1; };
 };
 

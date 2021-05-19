@@ -92,6 +92,14 @@ void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 					}
 				}
+				else if (dynamic_cast<CCamera*>(e->obj))
+				{
+					if (e->ny < 0)
+					{
+						vy =  MUSHROOM_VELOCITY_Y;
+						y += dy;
+					}
+				}
 			}
 		}
 

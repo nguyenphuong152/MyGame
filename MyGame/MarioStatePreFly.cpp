@@ -11,14 +11,15 @@ CMarioStatePreFly::CMarioStatePreFly() {
 
 void CMarioStatePreFly::Enter(CMario& mario)
 {
-	if (mario.level == MARIO_LEVEL_SMALL)
+	int marioLevel = mario.GetLevel();
+	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_PRE_FLY);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL) {
+	else if (marioLevel == MARIO_LEVEL_RACOON || marioLevel == MARIO_LEVEL_IMMORTAL) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_PRE_FLY);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_PRE_FLY);
 	}

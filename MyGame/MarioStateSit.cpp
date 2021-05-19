@@ -14,16 +14,17 @@ CMarioStateSit::CMarioStateSit() {
 void CMarioStateSit::Enter(CMario& mario)
 {
 	mario.isSitting = true;
-	mario.SetVelocityX(0);
-	if (mario.level == MARIO_LEVEL_BIG)
+	mario.vx = 0;
+	int marioLevel = mario.GetLevel();
+	if (marioLevel == MARIO_LEVEL_BIG)
 	{
 		mario.SetAnimation(MARIO_ANI_BIG_SIT);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON || mario.level == MARIO_LEVEL_IMMORTAL)
+	else if (marioLevel == MARIO_LEVEL_RACOON || marioLevel == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_RACCOON_SIT);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_SIT);
 	}
@@ -76,11 +77,11 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)
 {
 	mario.isSitting = false;
-	if (mario.level == MARIO_LEVEL_BIG||mario.level==MARIO_LEVEL_FIRE)
+	if (mario.GetLevel() == MARIO_LEVEL_BIG||mario.GetLevel()==MARIO_LEVEL_FIRE)
 	{
 		mario.y -= MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON)
+	else if (mario.GetLevel() == MARIO_LEVEL_RACOON)
 	{
 		mario.y -= MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 	}
@@ -94,11 +95,11 @@ CMarioStateSit* CMarioStateSit::GetInstance()
 
 void CMarioStateSit::SetPositionBeforeSitting(CMario &mario)
 {
-	if (mario.level == MARIO_LEVEL_BIG || mario.level == MARIO_LEVEL_FIRE)
+	if (mario.GetLevel() == MARIO_LEVEL_BIG || mario.GetLevel() == MARIO_LEVEL_FIRE)
 	{
 		mario.y += MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON)
+	else if (mario.GetLevel() == MARIO_LEVEL_RACOON)
 	{
 		mario.y += MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_SIT_HEIGHT;
 	}

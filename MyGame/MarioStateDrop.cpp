@@ -13,15 +13,16 @@ CMarioStateDrop::CMarioStateDrop() {
 void CMarioStateDrop::Enter(CMario& mario)
 {
 	mario.isOnGround = false;
-	if (mario.level == MARIO_LEVEL_SMALL)
+	int marioLevel = mario.GetLevel();
+	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_DROP);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_DROP);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (marioLevel == MARIO_LEVEL_RACOON) {
 		if (mario.isFloating)
 		{
 			mario.SetAnimation(MARIO_ANI_RACCOON_DROP_FLY);
@@ -30,7 +31,7 @@ void CMarioStateDrop::Enter(CMario& mario)
 			mario.SetAnimation(MARIO_ANI_RACCOON_DROP);
 		}
 	}
-	else if (mario.level == MARIO_LEVEL_IMMORTAL)
+	else if (marioLevel == MARIO_LEVEL_IMMORTAL)
 	{
 		mario.SetAnimation(MARIO_ANI_IMMORTAL_JUMP);
 	}
@@ -40,7 +41,7 @@ void CMarioStateDrop::Enter(CMario& mario)
 }
 void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_S && mario.level == MARIO_LEVEL_RACOON)
+	if (input == Input::PRESS_S && mario.GetLevel() == MARIO_LEVEL_RACOON)
 	{
 		mario.isFloating = true;
 		mario.SetVelocityY(-MARIO_SPEED_Y_WHEN_FLOATING);

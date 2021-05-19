@@ -106,14 +106,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (dynamic_cast<CObjectBoundary*>(e->obj))
 				{
 					if (e->nx != 0) {
-						this->nx = -this->nx;
 						if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
 						{
 							vx = KOOPA_SHELL_VELOCITY_X * this->nx;
 							x += dx;
 						}
 						else
+						{
+							this->nx = -this->nx;
 							vx = KOOPA_WALKING_SPEED * this->nx;
+						}
 
 					}
 				}
@@ -128,7 +130,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					}
 				}
-				else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CPipe*>(e->obj))
+				else if (dynamic_cast<CGround*>(e->obj))
 				{
 
 					if (e->nx != 0)
@@ -141,7 +143,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else if (dynamic_cast<CBrick*>(e->obj))
+				else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj))
 				{
 					CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
@@ -197,13 +199,8 @@ void CKoopas::SetState(int state)
 		vx = nx*KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_DIE_WITH_VELOCITY:
-		if (player->nx > 0)
-		{
-			nx = 1;
-		}
-		else {
-			nx = -1;
-		}
+		if (player->nx > 0) nx = 1;
+		else nx = -1;
 		vx = KOOPA_SHELL_VELOCITY_X*nx;
 		break;
 	case KOOPA_STATE_RECOVER:
@@ -217,10 +214,11 @@ void CKoopas::SetState(int state)
 
 void CKoopas::UpdateShellPosition()
 {
+	int marioLevel = player->GetLevel();
 	if (player->nx > 0)
 	{
 		x = player->x + VALUE_ADJUST_SHELL + 20;
-		if (player->level != MARIO_LEVEL_RACOON)
+		if (marioLevel != MARIO_LEVEL_RACOON)
 		{
 			x = player->x + VALUE_ADJUST_SHELL + 2;
 		}
@@ -230,7 +228,7 @@ void CKoopas::UpdateShellPosition()
 	}
 
 	y = player->y;
-	if (player->level != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
+	if (marioLevel != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
 }
 
 void CKoopas::SetAttackedAnimation()

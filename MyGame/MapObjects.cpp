@@ -19,6 +19,7 @@
 #include "One-upMushroom.h"
 #include "BreakableBrick.h"
 #include "Switch.h"
+#include "Pipe.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -57,8 +58,13 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
+					const char* type = element->Attribute("name");
 
-					obj = new CGround(width, height);
+					if (strcmp(type, "hidden-ground") == 0)
+						obj = new CGround(width, height, GroundType::hidden_ground);
+					else
+						obj = new CGround(width, height, GroundType::normal_ground);
+
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
 
@@ -123,7 +129,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1800, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(6500, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -249,6 +255,28 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+			}
+			else if (strcmp(attributeName, "SecretPipe") == 0)
+			{
+			while (element)
+			{
+				element->QueryFloatAttribute("x", &x);
+				element->QueryFloatAttribute("y", &y);
+				const char* type = element->Attribute("name");
+
+				if (strcmp(type, "pipe-in") == 0)
+					obj = new CPipe(PipeType::entry);
+				else if (strcmp(type, "hidden-pipe-down") == 0)
+					obj = new CPipe(PipeType::hidden_down);
+				else if(strcmp(type, "hidden-pipe-up") == 0)
+					obj = new CPipe(PipeType::hidden_up);
+				else obj = new CPipe(PipeType::exit);
+
+				obj->SetPosition(x, y);
+				objects.push_back(obj);
+
+				element = element->NextSiblingElement();
+			}
 			}
 		}
 	}

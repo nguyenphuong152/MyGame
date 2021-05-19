@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#define POWER_UP_BBOX_WIDTH		49
+#define POWER_UP_BBOX_WIDTH		40
 #define POWER_UP_GRAVITY		0.003f
 
 #define POWER_UP_ANI			0

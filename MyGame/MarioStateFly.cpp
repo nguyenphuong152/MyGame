@@ -13,14 +13,15 @@ CMarioStateFly::CMarioStateFly() {
 
 void CMarioStateFly::Enter(CMario& mario)
 {
-	if (mario.level == MARIO_LEVEL_SMALL)
+	int marioLevel = mario.GetLevel();
+	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
 		mario.SetAnimation(MARIO_ANI_SMALL_FLY);
 	}
-	else if (mario.level == MARIO_LEVEL_RACOON) {
+	else if (marioLevel == MARIO_LEVEL_RACOON) {
 		mario.SetAnimation(MARIO_ANI_RACCOON_FLY);
 	}
-	else if (mario.level == MARIO_LEVEL_FIRE)
+	else if (marioLevel == MARIO_LEVEL_FIRE)
 	{
 		mario.SetAnimation(MARIO_ANI_FIRE_FLY);
 	}
@@ -31,7 +32,7 @@ void CMarioStateFly::Enter(CMario& mario)
 void CMarioStateFly::HandleInput(CMario& mario, Input input)
 {
 	CGame* game = CGame::GetInstance();
-	if (input == Input::PRESS_S&&mario.level==MARIO_LEVEL_RACOON)
+	if (input == Input::PRESS_S&&mario.GetLevel()==MARIO_LEVEL_RACOON)
 	{
 		mario.isOnGround = false;
 		mario.SetVelocityY(-MARIO_FLYING_SPEED);

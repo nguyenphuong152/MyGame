@@ -7,6 +7,7 @@
 #include "MarioStateRun.h"
 #include "MarioStatePreFly.h"
 #include "MarioStateFly.h"
+#include "MarioStateGetIntoPipe.h"
 #include "MarioStateSpin.h"
 #include "MarioStateThrowingFireball.h"
 #include "FireBall.h"
@@ -67,10 +68,17 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		}
 		else if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (mario.isOnGround && mario.level != MARIO_LEVEL_SMALL)
+			if (mario.isOnGround && mario.GetLevel() != MARIO_LEVEL_SMALL)
 			{
-				mario.ChangeState(CMarioState::sit.GetInstance());
-				CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
+				if (mario.canGoIntoPipe)
+				{
+					mario.ChangeState(CMarioState::go_to_pipe.GetInstance());
+					CMarioState::go_to_pipe.GetInstance()->pipeDown = true;
+				}
+				else {
+					mario.ChangeState(CMarioState::sit.GetInstance());
+					CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
+				}
 			}
 		}
 	}
@@ -81,7 +89,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	}
 	else if (input == Input::PRESS_DOWN && mario.vx == 0)
 	{
-		if (mario.isOnGround && mario.level != MARIO_LEVEL_SMALL)
+		if (mario.isOnGround && mario.GetLevel() != MARIO_LEVEL_SMALL)
 		{
 			mario.ChangeState(CMarioState::sit.GetInstance());
 		}
@@ -90,13 +98,13 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	{
 		mario.canHoldShell = true;
 		mario.powerMode = true;
-		if (mario.level == MARIO_LEVEL_RACOON)
+		if (mario.GetLevel() == MARIO_LEVEL_RACOON)
 		{
 			CMarioState::spin.GetInstance()->isAttack = true;
 			mario.ChangeState(CMarioState::spin.GetInstance());
 			CMarioState::spin.GetInstance()->StartSpinning();
 		}
-		else if (mario.level == MARIO_LEVEL_FIRE)
+		else if (mario.GetLevel() == MARIO_LEVEL_FIRE)
 		{
 			CFireball* fireball = CFireBallPool::GetInstance()->Create();
 			if (fireball != NULL)

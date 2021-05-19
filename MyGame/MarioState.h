@@ -11,6 +11,7 @@ class CMarioStateSpin;
 class CMarioStateDrop;
 class CMarioStateKick;
 class CMarioStateTransform;
+class CMarioStateGetIntoPipe;
 class CMarioStateThrowFireballJumping;
 class CMarioStateThrowFireball;
 class CMarioStateHoldShellIdle;
@@ -41,6 +42,7 @@ public:
 	static CMarioStateDrop drop;
 	static CMarioStateKick kick;
 	static CMarioStateTransform transform;
+	static CMarioStateGetIntoPipe go_to_pipe;
 	static CMarioStateThrowFireballJumping throw_fireball_jump;
 	static CMarioStateThrowFireball throw_fireball;
 	static CMarioStateHoldShellIdle holdshell_idle;
