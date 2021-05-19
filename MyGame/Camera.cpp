@@ -185,5 +185,7 @@ void CCamera::AdjustPositionToHiddenScene()
 
 void CCamera::GoBackToNormal()
 {
-	CGame::GetInstance()->SetCamPos(cam_old_x, cam_old_y);
+	x = cam_old_x;
+	y = cam_old_y;
+	CGame::GetInstance()->SetCamPos(x, y);
 }

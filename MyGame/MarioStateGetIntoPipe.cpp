@@ -1,5 +1,5 @@
 #include "MarioStateGetIntoPipe.h"
-#include "MarioStateWalk.h"
+#include "MarioStateIdle.h"
 #include "MarioStateJump.h"
 #include "MarioOnGroundStates.h"
 #include "Mario.h"
@@ -24,7 +24,22 @@ void CMarioStateGetIntoPipe::HandleInput(CMario& mario, Input input)
 
 void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 {
-	mario.vy = 0.2f;
+	if (isUp)
+	{
+		mario.vy = -0.2f;
+		if (position_out_x != NULL && position_out_y != NULL)
+		{
+			if (mario.y < position_out_y - MARIO_RACOON_BBOX_HEIGHT-35)
+			{
+				ResetFlag();
+				mario.ChangeState(CMarioState::idle.GetInstance());
+				mario.SetPosition(mario.x, position_out_y - MARIO_RACOON_BBOX_HEIGHT);
+			}
+		}
+	}
+	else {
+		mario.vy = 0.2f;
+	}
 	if (isTouchHiddenPipe) mario.vy = 0.8f;
 }
 
