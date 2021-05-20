@@ -2,6 +2,7 @@
 #include "MarioStateJump.h"
 #include "MarioStateDrop.h"
 #include "MarioStateThrowingFireballJumping.h"
+#include "MarioStateGetIntoPipe.h"
 #include "FireBall.h"
 #include "FireBallPool.h"
 

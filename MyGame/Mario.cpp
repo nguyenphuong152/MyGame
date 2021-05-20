@@ -9,6 +9,7 @@
 #include "MarioStateGetIntoPipe.h"
 #include "MarioStateTransform.h"
 #include "MarioStateSpin.h"
+#include "MarioStateFly.h"
 #include "MarioStateHoldShellIdle.h"
 #include "Goomba.h"
 #include "Portal.h"
@@ -215,23 +216,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					isOnGround = true;
 					isFloating = false;
-					if (ground->GetType()==GroundType::normal_ground)
+					canGoIntoPipe = false;
+					if(CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe == true)
 					{
-						if (marioState == CMarioState::go_to_pipe.GetInstance()&&CMarioState::go_to_pipe.GetInstance()->pipeDown)
-						{
-							CCamera::GetInstance()->AdjustPositionToHiddenScene();
-							old_x = x;
-							old_y = y;
-							SetPosition(HIDDEN_SCENE_X+420, HIDDEN_SCENE_Y+10);
-						}
-						else if (CMarioState::go_to_pipe.GetInstance()->pipeDown== false){
-							SetPosition(old_x, old_y);
-
-						}
-					}
-					else {
 						CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = false;
-						canGoIntoPipe = false;
 						ChangeState(CMarioState::idle.GetInstance());
 					}
 				}
@@ -254,8 +242,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny >0)
 				{
-					ChangeState(CMarioState::drop.GetInstance());
-					powerMode = false;
+					if (marioState == CMarioState::fly.GetInstance())
+					{
+						ChangeState(CMarioState::drop.GetInstance());
+						powerMode = false;
+					}
+					else if (marioState == CMarioState::go_to_pipe.GetInstance())
+					{
+						if (!CMarioState::go_to_pipe.GetInstance()->isUp)vy = -MARIO_IN_PIPE_VELOCITY_Y;
+						else vy = MARIO_IN_PIPE_VELOCITY_Y;
+					}
 					y += dy;
 				}
 				else if (e->ny < 0)
@@ -379,11 +375,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				 {
 					 isOnGround = true;
 					 isFloating = false;
+					 canGoIntoPipe = false;
+					 //neu dung vo pipe co loi vao thi bat cờ , đợi ng chơi nhấn down thì di xuống
 					 if (pipe->GetType() == PipeType::entry)
 					 {
 						 canGoIntoPipe = true;
+						 CMarioState::go_to_pipe.GetInstance()->SetPositionChangeCam(pipe->x,pipe->y+6);
 					 }
-					 else if (pipe->GetType() == PipeType::hidden_down)
+					 else if (pipe->GetType() == PipeType::hidden)
 					 {
 						 CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = true;
 						 this->nx = 1;
@@ -391,9 +390,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				 }
 				 else if (e->ny > 0)
 				 {
-					if (pipe->GetType() == PipeType::hidden_up)
+					if (pipe->GetType() == PipeType::hidden)
 					{
 						ChangeState(CMarioState::go_to_pipe.GetInstance());
+						CMarioState::go_to_pipe.GetInstance()->SetPositionChangeCam(pipe->x, pipe->y - 30);
+						CMarioState::go_to_pipe.GetInstance()->isUp = true;
+						CMarioState::go_to_pipe.GetInstance()->inPipe = 1;
+						SetPosition(x + 20, y);
+					}
+					else if (pipe->GetType() == PipeType::exit)
+					{
+						vy = -MARIO_IN_PIPE_VELOCITY_Y;
+						CMarioState::go_to_pipe.GetInstance()->SetPostionOut(pipe->x, pipe->y);
 					}
 				 }
 				 if (marioState == CMarioState::go_to_pipe.GetInstance())
@@ -471,6 +479,11 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	if (isSitting)
 	{
 		b = y + MARIO_BIG_BBOX_SIT_HEIGHT;
+	}
+	else if (marioState == CMarioState::go_to_pipe.GetInstance())
+	{
+		l = x;
+		r = x + MARIO_BIG_BBOX_WIDTH;
 	}
 }
 

@@ -115,7 +115,6 @@ class CMarioState;
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
 
-
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
 
@@ -128,10 +127,6 @@ class CMario : public CGameObject
 	// initial position of Mario at scene
 	float start_x;
 	float start_y;
-
-	//save position before go to secret scene
-	float old_x;
-	float old_y;
 
 	int live;
 	int level;

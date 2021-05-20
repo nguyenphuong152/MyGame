@@ -58,12 +58,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
-					const char* type = element->Attribute("name");
-
-					if (strcmp(type, "hidden-ground") == 0)
-						obj = new CGround(width, height, GroundType::hidden_ground);
-					else
-						obj = new CGround(width, height, GroundType::normal_ground);
+					obj = new CGround(width, height, GroundType::normal_ground);
 
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
@@ -266,14 +261,14 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 				if (strcmp(type, "pipe-in") == 0)
 					obj = new CPipe(PipeType::entry);
-				else if (strcmp(type, "hidden-pipe-down") == 0)
-					obj = new CPipe(PipeType::hidden_down);
-				else if(strcmp(type, "hidden-pipe-up") == 0)
-					obj = new CPipe(PipeType::hidden_up);
-				else obj = new CPipe(PipeType::exit);
+				else if (strcmp(type, "hidden-pipe") == 0)
+					obj = new CPipe(PipeType::hidden);
+				else 
+					obj = new CPipe(PipeType::exit);
+
+				objects.push_back(obj);
 
 				obj->SetPosition(x, y);
-				objects.push_back(obj);
 
 				element = element->NextSiblingElement();
 			}

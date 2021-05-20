@@ -73,7 +73,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 				if (mario.canGoIntoPipe)
 				{
 					mario.ChangeState(CMarioState::go_to_pipe.GetInstance());
-					CMarioState::go_to_pipe.GetInstance()->pipeDown = true;
+					CMarioState::go_to_pipe.GetInstance()->inPipe = 1;
 				}
 				else {
 					mario.ChangeState(CMarioState::sit.GetInstance());

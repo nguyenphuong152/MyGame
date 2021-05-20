@@ -1,19 +1,19 @@
 #pragma once
 #include "GameObject.h"
 
-#define PIPE_WIDTH 46
+#define PIPE_WIDTH 84
 
 enum class PipeType {
 	entry,
 	exit,
-	hidden_down,
-	hidden_up
+	hidden,
 };
 
 class CPipe : public CGameObject
 {
-	PipeType type;
 public:
+	float pos_out_x, pos_out_y;
+	PipeType type;
 	CPipe(PipeType type);
 	PipeType GetType() { return type; };
 	virtual void Render();

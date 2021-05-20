@@ -9,6 +9,7 @@
 #include "Ground.h"
 #include "Box.h"
 #include "Brick.h"
+#include "HUD.h"
 
 CCamera* CCamera::__instance = NULL;
 
@@ -161,6 +162,10 @@ void CCamera::FollowPlayerVertically()
 	else if (player->GetState() == CMarioState::drop.GetInstance() && player->y > cam_center_Y|| player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
 	{
 		if (!isReachBoundaryBottom) vy = player->vy;
+		else if (player->isOnGround)
+		{
+			vy = 0;
+		}
 	}
 	else if (player->isOnGround)
 	{
@@ -180,10 +185,14 @@ void CCamera::AdjustPositionToHiddenScene()
 	cam_old_y = y;
 	x = HIDDEN_SCENE_X;
 	y = HIDDEN_SCENE_Y;
+	HUD::GetInstance()->SetPosition(HUD_POSTION_Y-35);
 	CGame::GetInstance()->SetCamPos(x, y);
 }
 
 void CCamera::GoBackToNormal()
 {
-	CGame::GetInstance()->SetCamPos(cam_old_x, cam_old_y);
+	x = cam_old_x;
+	y = cam_old_y;
+	HUD::GetInstance()->SetPosition(HUD_POSTION_Y);
+	CGame::GetInstance()->SetCamPos(x, y);
 }

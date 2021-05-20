@@ -23,12 +23,20 @@ void HUD::Render()
 
 }
 
-void HUD::SetPosition()
+void HUD::SetPosition(float pos_hud)
+{
+	position_y = pos_hud;
+	CCamera* camera = CCamera::GetInstance();
+	x = floor(camera->x);
+	y = floor(camera->y+ pos_hud);
+
+}
+
+void HUD::UpdatePosition()
 {
 	CCamera* camera = CCamera::GetInstance();
 	x = floor(camera->x);
-	y = floor(camera->y+HUD_POSTION_Y);
-
+	y = floor(camera->y + position_y);
 }
 
 void HUD::RenderBoundingBox()
@@ -61,7 +69,7 @@ void HUD::Init(int texture)
 
 void HUD::Update()
 {
-	SetPosition();
+	UpdatePosition();
 	HUDContent::GetInstance()->Update();
 }
 
