@@ -7,7 +7,6 @@ enum class PipeType {
 	entry,
 	exit,
 	hidden,
-	portal
 };
 
 class CPipe : public CGameObject

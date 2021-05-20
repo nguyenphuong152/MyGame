@@ -18,6 +18,7 @@ using namespace std;
 
 class HUD {
 	float x,y;
+	float position_y;
 
 	int HUD_texture;
 
@@ -32,12 +33,13 @@ public:
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; };
 	
 	void Init(int texture);
-	void SetPosition();
+	void SetPosition(float pos_hud);
 
 	void Render();
 	void RenderBoundingBox();
 	
 	void Update();
+	void UpdatePosition();
 	void AddLetter(string name, int texture);
 	int GetTextureOfLetter(string name) { return letters[name]; };
 	

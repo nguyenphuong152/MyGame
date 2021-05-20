@@ -228,7 +228,7 @@ void CPlayScene::_ParseSection_HUD(string line)
 	if (tokens.size() < 1) return;
 	int texture = atoi(tokens[0].c_str());
     
-	HUD::GetInstance()->SetPosition();
+	HUD::GetInstance()->SetPosition(HUD_POSTION_Y);
 	HUD::GetInstance()->Init(texture);
 }
 
@@ -359,8 +359,6 @@ void CPlayScene::Render()
 		}
 	}
 
-	HUD::GetInstance()->Render();
-
 	if (player->marioState== CMarioState::go_to_pipe.GetInstance())
 	{
 		objects[0]->Render();
@@ -371,6 +369,8 @@ void CPlayScene::Render()
 		//render mario sau cung
 		objects[0]->Render();
 	}
+
+	HUD::GetInstance()->Render();
 }
 
 /*
