@@ -263,8 +263,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					obj = new CPipe(PipeType::entry);
 				else if (strcmp(type, "hidden-pipe") == 0)
 					obj = new CPipe(PipeType::hidden);
-				else 
+				else {
 					obj = new CPipe(PipeType::exit);
+				}
 
 				objects.push_back(obj);
 

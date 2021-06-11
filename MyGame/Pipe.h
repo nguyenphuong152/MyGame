@@ -12,7 +12,6 @@ enum class PipeType {
 class CPipe : public CGameObject
 {
 public:
-	float pos_out_x, pos_out_y;
 	PipeType type;
 	CPipe(PipeType type);
 	PipeType GetType() { return type; };

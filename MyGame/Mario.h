@@ -179,6 +179,7 @@ public:
 	int GetLive() { return live; };
 
 	void LevelUp();
+	void RecalculatePower();
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 

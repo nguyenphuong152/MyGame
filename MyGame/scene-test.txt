@@ -8,6 +8,7 @@
 50	textures\effect.png	0	0	0
 60	textures\brick-debris.png	255	255	255
 70	textures\hud.png	25	25	25
+80	textures\reward.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -303,6 +304,19 @@
 99998	536	71	562	94	70
 99999	590	71	616	94	70
 
+#FXcard					
+#mushroom					
+55100	14	80	64	130	80
+55101	190	80	238	130	80
+#star					
+55102	134	80	184	130	80
+55103	275	80	325	130	80
+#white-flower					
+55104	74	80	124	130	80
+55105	233	80	278	130	80
+#line					
+55106	318	80	350	130	80
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== MARIO =========
@@ -536,6 +550,15 @@
 #PARA KOOPAS
 71	711	712	713	714
 
+#CARD
+550	51001	200	55001	200	55002	200
+#mushrom-card
+551	55100	70	55101	70	55106	70
+#star-card
+552	55102	70	55103	70	55106	70
+#white-flower-card
+553	55104	70	55105	70	55106	70
+
 
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -589,6 +612,10 @@
 
 #PARA KOOPAS
 71	712	713	714	715	711
+
+
+#CARD
+55	550	551	552	553
 
 
 [OBJECTS]
