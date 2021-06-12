@@ -300,6 +300,9 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Source Files\Objects\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="MarioTail.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -499,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="Pipe.h">
       <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioTail.h">
+      <Filter>Header Files\Mario</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

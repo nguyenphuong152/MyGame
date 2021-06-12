@@ -623,7 +623,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	6500	1100	1
+0	10	1100	1
 
 # FIREBALL
 1	0	0	0
@@ -635,6 +635,8 @@
 # type	l	t	ani_set_id	r	b	scene_id
 #50	115	98	0	148	150	1	
 
+# TAIL
+4	0	0	0
 
 
 

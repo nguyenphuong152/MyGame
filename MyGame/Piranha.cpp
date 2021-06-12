@@ -100,9 +100,5 @@ void CPiranha::ResetActive()
 
 void CPiranha::SetAttackedAnimation()
 {
-	CEffect* effect = CEffectPool::GetInstance()->Create();
-	if (effect != NULL)
-	{
-		effect->SetEffect(EffectName::attack_by_tail, this);
-	}
+	CRedVenusFireTrap::SetAttackedAnimation();
 }

@@ -6,7 +6,7 @@
 using namespace std;
 
 #define HUD_WIDTH	766
-#define HUD_HEIGHT	88
+#define HUD_HEIGHT	200
 
 #define HUD_POSTION_Y	636
 

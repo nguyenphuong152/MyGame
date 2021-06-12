@@ -15,6 +15,7 @@
 #include "EffectPool.h"
 #include "HUD.h"
 #include "MarioStateGetIntoPipe.h"
+#include "MarioTail.h"
 
 
 using namespace std;
@@ -43,6 +44,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_FIREBALL	1
 #define OBJECT_TYPE_EFFECT		2
 #define OBJECT_TYPE_PORTAL		3
+#define OBJECT_TYPE_TAIL		4
 
 #define MAX_SCENE_LINE 2048
 
@@ -170,6 +172,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			objects.push_back(&fireball_pool->fireballs[i]);
 		}
 	} break;
+	case OBJECT_TYPE_TAIL:
+	{
+		obj = new CMarioTail();
+		obj->SetPosition((player->x+2)*player->nx, player->y+MARIO_RACOON_BBOX_HEIGHT+32);
+		player->AttachTail((CMarioTail*)obj);
+		objects.push_back(obj);
+	} break;
 	case OBJECT_TYPE_EFFECT:
 	{
 		CEffectPool* effect_pool = CEffectPool::GetInstance();
@@ -193,7 +202,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if (object_type != OBJECT_TYPE_FIREBALL&&object_type!=OBJECT_TYPE_EFFECT)
+	if (object_type == OBJECT_TYPE_MARIO)
 	{
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);

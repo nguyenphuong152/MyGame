@@ -4,6 +4,7 @@ class CMarioState;
 
 #include "GameObject.h"
 #include "Input.h"
+#include "MarioTail.h"
 
 #define MARIO_WALKING_SPEED			0.25f 
 #define MARIO_RUNNING_SPEED			0.4f
@@ -133,6 +134,7 @@ class CMario : public CGameObject
 public:
 	static CMario* __instance;
 	CMarioState* marioState;
+	CMarioTail* tail;
 
 	int animation;
 	int powerLevel;
@@ -193,7 +195,10 @@ public:
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
+	void AttachTail(CMarioTail* tail);
+
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void RenderRaccoonMarioBoundingBox();
 
 	static  CMario* GetInstance();
 };
