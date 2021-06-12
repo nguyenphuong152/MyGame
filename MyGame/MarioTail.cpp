@@ -10,10 +10,9 @@ CMarioTail::CMarioTail()
 void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 {
 	//vy = CMario::GetInstance()->vy;
-	vx = CMario::GetInstance()->vx;
 	CGameObject::Update(dt, colObject); 
 
-	
+	vx = CMario::GetInstance()->vx;
 	DebugOut(L"%f ---- mario %f \n", vx, CMario::GetInstance()->vx);
 	//vy = CMario::GetInstance()->vy;
 
