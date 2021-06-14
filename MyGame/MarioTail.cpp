@@ -1,60 +1,102 @@
 #include "MarioTail.h"
 #include "Mario.h"
+#include "MarioStateSpin.h"
 #include "Utils.h"
+#include "BreakableBrick.h"
+#include "Brick.h"
+#include "GoomBa.h"
+#include "Koopas.h"
+#include "RedVenusFireTrap.h"
+
 
 CMarioTail::CMarioTail()
 {
 	isEnable = false;
 }
 
-void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
+void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 {
-	//vy = CMario::GetInstance()->vy;
-	CGameObject::Update(dt, colObject); 
+	CMario* player = CMario::GetInstance();
 
-	vx = CMario::GetInstance()->vx;
-	DebugOut(L"%f ---- mario %f \n", vx, CMario::GetInstance()->vx);
-	//vy = CMario::GetInstance()->vy;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(colObject, coEvents);
-
-	if (coEvents.size() == 0)
+	if (player->marioState != CMarioState::spin.GetInstance())
 	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny = 0;
-		float rdx = 0, rdy = 0;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		x += min_tx * dx + 0.4f;
-		y += min_ty * dy + 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		if (player->nx > 0)
+		{
+			SetPosition(player->x, player->y + MARIO_RACOON_BBOX_HEIGHT - 32);
+		}
+		else {
+			SetPosition((player->x + MARIO_RACOON_BBOX_WIDTH -22), player->y + MARIO_RACOON_BBOX_HEIGHT - 32);
+		}
 	}
 
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	
+	if (CMarioState::spin.GetInstance()->isAttack)
+	{
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			if (objects[i]->isEnable == true && objects[i]->nx!=0&&AABB(objects[i]))
+			{
+				if (dynamic_cast<CBreakableBrick*>(objects[i]))
+				{
+					CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(objects[i]);
+					if ( bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
+					{
+						bBrick->SetAttackedAnimation();
+						bBrick->isEnable = false;
+					}
+				}
+				else if (dynamic_cast<CBrick*>(objects[i]))
+			    {
+					CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
+					if (brick->GetType() == BrickType::twinkle_brick &&  brick->GetState() != BRICK_STATE_TOUCHED)
+					{
+						brick->SetState(BRICK_STATE_TOUCHED);
+					}
+				}
+				else if (dynamic_cast<CGoomBa*>(objects[i]))
+				{
+					CGoomBa* goomba = dynamic_cast<CGoomBa*>(objects[i]);
+					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
+					{
+						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
+						{
+							goomba->SetLevel(GOOMBA_LEVEL_1);
+						}
+						goomba->SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
+						goomba->vy = -GOOMBA_DEFLECT_SPEED;
+						goomba->ny = -1;
+					}
+				}
+				else if (dynamic_cast<CKoopas*>(objects[i]))
+				{
+					CKoopas* koopa = dynamic_cast<CKoopas*>(objects[i]);
+					if (koopa->GetState() == KOOPA_STATE_WALKING)
+					{
+						koopa->AttackedByTail();
+					}
+				}
+				else if (dynamic_cast<CRedVenusFireTrap*> (objects[i]))
+				{
+					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
+					venus->SetAttackedAnimation();
+					venus->isEnable = false;
+				}
+			}
+		
+		}
+	}
+
+
 }
 
 void CMarioTail::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + 20;
-	b = y + 25;
+	r = x + MARIO_TAIL_BBOX;
+	b = y + MARIO_TAIL_BBOX;
 }

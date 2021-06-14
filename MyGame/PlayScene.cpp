@@ -338,11 +338,11 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	//player->CheckCollisionWithItems(&listItems);
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{
+			if (dynamic_cast<CMarioTail*>(objects[i])) continue;
 			objects[i]->Update(dt, &coObjects);
 		}
 	}
@@ -350,6 +350,11 @@ void CPlayScene::Update(DWORD dt)
 	CFireBallPool::GetInstance()->Update();
 	CEffectPool::GetInstance()->Update();
 	HUD::GetInstance()->Update();
+
+	if (player->tail->isEnable)
+	{
+		player->tail->Update(objects);
+	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;

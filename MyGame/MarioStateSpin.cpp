@@ -24,7 +24,17 @@ void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 		mario.vx = 0;
 		isAttack = false;
 		mario.ChangeState(CMarioState::idle.GetInstance());
-		
+	}
+
+	if (mario.GetLevel() == MARIO_LEVEL_RACOON)
+	{
+		if (mario.nx == 1)
+		{
+			mario.tail->SetPosition(mario.x + MARIO_RACOON_BBOX_WIDTH, mario.y + MARIO_RACOON_BBOX_HEIGHT - 32);
+		}
+		else {
+			mario.tail->SetPosition((mario.x -10), mario.y + MARIO_RACOON_BBOX_HEIGHT - 32);
+		}
 	}
 }
 
