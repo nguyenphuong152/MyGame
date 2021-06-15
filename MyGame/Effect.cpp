@@ -32,7 +32,7 @@ void CEffect::SetEffect(EffectName name, CGameObject* obj)
 	}
 }
 
-void CEffect::SetEffect(EffectName name, CGameObject* obj, int nx_direction,int ny_direction)
+void CEffect::SetEffect(EffectName name, CGameObject* obj, int nx_direction,int ny_direction,Points point)
 {
 	if (obj != NULL)
 	{
@@ -46,17 +46,27 @@ void CEffect::SetEffect(EffectName name, CGameObject* obj, int nx_direction,int 
 			vy = DEBRIS_VELOCITY_Y * ny_direction;
 			vx = DEBRIS_VELOCITY_X * nx_direction;
 		}
+		else if (name == EffectName::point && point!=Points::NONE)
+		{
+			if (point == Points::POINT_100)   ani = P_100;
+			else if (point == Points::POINT_200)  ani = P_200;
+			else ani = P_300;
 
+			vy = -DEBRIS_VELOCITY_Y;
+		}
+		
 		SetPosition(obj->x, obj->y - 10);
 		StartAnimated();
 	}
 }
 
+
+
 void CEffect::Render()
 {
 	if (ani!= -1)
 	{
-		animation_set->at(ani)->Render(1,1, x, y);
+		animation_set->at(ani)->Render(-1,1, x, y);
 	}
 		
 	//RenderBoundingBox();
@@ -67,25 +77,26 @@ void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt, colObject);
 
-	if (effect == EffectName::debris)
+	if (effect == EffectName::debris||effect ==EffectName::point)
 	{
 		vy += 0.0015 * dt;
-		if (vy > 0) vy = 0.2f;
-
-		if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME*3)
-		{
-			isEnable = false;
-			animated_start = 0;
+		if (vy > 0 && effect == EffectName::debris) {
+			vy = 0.2f;
 		}
 
 		x += dx;
 		y += dy;
-	} 
-	else if (inUse && GetTickCount64() - animated_start > ANIMATED_TIME)
-	{
-		isEnable = false;
-		animated_start = 0;
 	}
+	
+	if (effect == EffectName::debris)
+	{
+		DisableEffect(ANIMATED_TIME * 3);
+	}
+	else {
+		DisableEffect(ANIMATED_TIME );
+	}
+	
+	
 }
 
 void CEffect::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -99,6 +110,15 @@ void CEffect::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CEffect::SetState(int state)
 {
 	CGameObject::SetState(state);
+}
+
+void CEffect::DisableEffect(int time)
+{
+	if (inUse && GetTickCount64() - animated_start > time)
+	{
+		isEnable = false;
+		animated_start = 0;
+	}
 }
 
 bool CEffect::FinishAnimated()

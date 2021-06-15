@@ -20,6 +20,11 @@
 
 #define GOOMBA_DIE_TIME		700
 
+enum class AttackedBy
+{
+	Tail,
+	Mario
+};
 
 class CGoomBa : public CGameObject
 {
@@ -37,6 +42,6 @@ public:
 	int GetLevel() { return this->level; };
 	virtual void SetState(int state);
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
-	void SetAttackedAnimation();
+	void SetAttackedAnimation(AttackedBy obj);
 };
 

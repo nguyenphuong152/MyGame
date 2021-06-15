@@ -317,6 +317,16 @@
 #line					
 55106	318	80	350	130	80
 
+#EFFECT-POINT					
+90100	182	266	217	292	70
+90200	224	266	262	292	70
+91000	359	266	406	292	70
+
+#star					
+55001	602	362	652	412	20
+#white-flower					
+55002	1109	362	1159	412	20
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== MARIO =========
@@ -553,11 +563,16 @@
 #CARD
 550	51001	200	55001	200	55002	200
 #mushrom-card
-551	55100	70	55101	70	55106	70
+551	55100	100	55101	100	55106	100
 #star-card
-552	55102	70	55103	70	55106	70
+552	55102	100	55103	100	55106	100
 #white-flower-card
-553	55104	70	55105	70	55106	70
+553	55104	100	55105	100	55106	100
+
+#EFFECT-POINT
+901	90100	100
+902	90200	100
+910	91000	100
 
 
 # id	ani1	ani2	ani3
@@ -604,8 +619,8 @@
 #FIREBALL
 62	620
 
-#EFFECTPool - ball - mario_attack - debris
-65	621	202	410
+#EFFECTPool - ball - mario_attack - debris-point-point-point
+65	621	202	410	901	902	910
 
 #KOOPAS
 70	701	702	703	704
@@ -623,7 +638,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	10	1100	1
+0	7800	1100	1
 
 # FIREBALL
 1	0	0	0

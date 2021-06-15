@@ -137,16 +137,23 @@ void CGoomBa::SetState(int state)
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
 		vx = 4*GOOMBA_WALKING_SPEED*nx;
-		SetAttackedAnimation();
+		SetAttackedAnimation(AttackedBy::Tail);
 		break;
 	}
 }
 
-void CGoomBa::SetAttackedAnimation()
+void CGoomBa::SetAttackedAnimation(AttackedBy obj)
 {
 	CEffect* effect = CEffectPool::GetInstance()->Create();
 	if (effect != NULL)
 	{
-		effect->SetEffect(EffectName::attack_by_tail, this);
+		if (obj == AttackedBy::Tail)
+		{
+			effect->SetEffect(EffectName::attack_by_tail, this);
+		}
+		else if (obj == AttackedBy::Mario)
+		{
+			effect->SetEffect(EffectName::point, this,1,1,Points::POINT_100);
+		}
 	}
 }

@@ -35,6 +35,7 @@
 #include "One-upMushroom.h"
 #include "MarioTail.h"
 #include "Textures.h"
+#include "Card.h"
 
 CMario* CMario::__instance = NULL;
 
@@ -129,6 +130,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							goomba->SetState(GOOMBA_STATE_DIE);
 							goomba->StartDie();
 						}
+						goomba->SetAttackedAnimation(AttackedBy::Mario);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
@@ -159,6 +161,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						koopa->SetState(KOOPA_STATE_DIE);
 						koopa->StartDie();
 					}
+					koopa->SetAttackedAnimation(AttackedBy::Mario);
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				else if (e->nx != 0)
@@ -206,14 +209,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (dynamic_cast<CBox*>(e->obj))
 					{
-						x += dx;
-						if (marioState == CMarioState::walk.GetInstance())
+						if (marioState != CMarioState::run.GetInstance())
 						{
 							vx = MARIO_WALKING_SPEED * this->nx;
 						}
 						else {
 							vx = MARIO_RUNNING_SPEED * this->nx;
 						}
+						x += dx;
 						
 					}
 				}
@@ -345,6 +348,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			else if (dynamic_cast<CCard*>(e->obj))
+			{
+			    CCard* card = dynamic_cast<CCard*>(e->obj);
+				if (e->ny > 0)
+				{
+					card->SetState(CARD_STATE_TOUCH);
+				}
+            }
 		}
 	}
 	marioState->Update(dt, *this);

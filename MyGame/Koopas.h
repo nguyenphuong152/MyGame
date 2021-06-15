@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Mario.h"
+#include "GoomBa.h"
 
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.1f
@@ -51,7 +52,7 @@ public:
 	int GetLevel() { return this->level; };
 	virtual void SetState(int state);
 	void UpdateShellPosition();
-	void SetAttackedAnimation();
+	void SetAttackedAnimation(AttackedBy obj);
 	void AttackedByTail();
 };
 

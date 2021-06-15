@@ -12,6 +12,7 @@
 #include "PowerUp.h"
 #include "EffectPool.h"
 
+
 CKoopas::CKoopas()
 {
 	isEnable = true;
@@ -231,12 +232,19 @@ void CKoopas::UpdateShellPosition()
 	if (marioLevel != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
 }
 
-void CKoopas::SetAttackedAnimation()
+void CKoopas::SetAttackedAnimation(AttackedBy obj)
 {
 	CEffect* effect = CEffectPool::GetInstance()->Create();
 	if (effect != NULL)
 	{
-		effect->SetEffect(EffectName::attack_by_tail, this);
+		if (obj == AttackedBy::Tail)
+		{
+			effect->SetEffect(EffectName::attack_by_tail, this);
+		}
+		else if (obj == AttackedBy::Mario)
+		{
+			effect->SetEffect(EffectName::point, this,1,1,Points::POINT_100);
+		}
 	}
 }
 
@@ -245,7 +253,7 @@ void CKoopas::AttackedByTail()
 	SetState(KOOPA_STATE_DIE);
 	ny = -1;
 	vy = -KOOPA_DEFLECT_SPEED;
-	SetAttackedAnimation();
+	SetAttackedAnimation(AttackedBy::Tail);
 	isHolded = false;
 	player->isKicking = false;
 }
