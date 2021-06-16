@@ -404,7 +404,7 @@
   <object id="30" x="1200.45" y="1104.34" width="239.337" height="140.113"/>
   <object id="31" x="1392.68" y="1008.23" width="190.967" height="237.613"/>
   <object id="32" x="1537.16" y="912.118" width="189.71" height="332.242"/>
-  <object id="33" x="1537.16" y="1152.71" width="285.194" height="91.8699"/>
+  <object id="33" x="1525.16" y="1152.71" width="297.194" height="91.8699"/>
   <object id="34" x="3889.06" y="433.444" width="190.967" height="89.229"/>
   <object id="35" x="4176.77" y="576.041" width="190.967" height="47.1135"/>
   <object id="36" x="4418" y="529.339" width="667.487" height="43.7697"/>
@@ -519,13 +519,13 @@
   </object>
  </objectgroup>
  <objectgroup id="15" name="Enemy">
-  <object id="91" name="red_koopa" type="70" x="1652.33" y="1030.66" width="31" height="26"/>
+  <object id="91" name="red_koopa" type="70" x="3534.63" y="1026.18" width="31" height="26"/>
   <object id="98" name="red_venus" type="60" x="1081.15" y="1139.97"/>
   <object id="255" name="goomba" type="3" x="2282" y="1142" width="22.5" height="21.5"/>
   <object id="256" name="piranha" type="64" x="5350.5" y="1164.5" width="25" height="23"/>
   <object id="258" name="green_venus" type="63" x="5542" y="1128" width="25.5" height="26"/>
   <object id="260" name="para-goomba" type="31" x="2684" y="1117" width="24" height="26"/>
-  <object id="261" name="green_para-koopa" type="71" x="4165" y="900" width="27" height="32"/>
+  <object id="261" name="green_para-koopa" type="71" x="1557.36" y="920.455" width="27" height="32"/>
  </objectgroup>
  <objectgroup id="21" name="Portal">
   <object id="135" name="hidden-scene" type="1" x="627.636" y="1161" width="88.9697" height="33.3333">
@@ -562,7 +562,7 @@
   <object id="290" name="hidden-pipe" x="6246.67" y="1472.67" width="43" height="12.6667"/>
   <object id="296" name="hidden-pipe" x="6932.5" y="1473.67" width="43" height="12.6667"/>
  </objectgroup>
- <objectgroup id="26" name="Camera">
+ <objectgroup id="26" name="Camera" visible="0">
   <object id="243" x="9.33334" y="654.243" width="764" height="760.67"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">

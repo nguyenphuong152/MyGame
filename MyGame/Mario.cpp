@@ -130,7 +130,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							goomba->SetState(GOOMBA_STATE_DIE);
 							goomba->StartDie();
 						}
-						goomba->SetAttackedAnimation(AttackedBy::Mario);
+						goomba->SetAttackedAnimation(AttackedBy::Mario,Points::POINT_100);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
@@ -149,35 +149,30 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (koopa->GetLevel() == KOOPA_LEVEL_2)
 					{
 						koopa->SetLevel(KOOPA_LEVEL_1);
-						if (CMarioState::spin.GetInstance()->isAttack)
-						{
-							koopa->AttackedByTail();
-						}
-						else {
-							koopa->SetState(PARA_KOOPA_STATE_WALKING);
-						}
+						koopa->SetState(PARA_KOOPA_STATE_WALKING);
 					}
 					else {
 						koopa->SetState(KOOPA_STATE_DIE);
 						koopa->StartDie();
 					}
-					koopa->SetAttackedAnimation(AttackedBy::Mario);
+					koopa->SetAttackedAnimation(AttackedBy::Mario,Points::POINT_100);
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				else if (e->nx != 0)
-				{
-					if (koopa->GetState() == KOOPA_STATE_DIE)
+				{	
+					if (koopa->GetState() == KOOPA_STATE_DIE&&marioState!=CMarioState::kick.GetInstance())
 					{
-						isKicking = true;
+
 						ChangeState(CMarioState::kick.GetInstance());
 						CMarioState::kick.GetInstance()->StartKicking();
-						if (canHoldShell)
+						if (powerMode)
 						{
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
 							koopa->isHolded = true;
-							isKicking = false;
 						}
+
 					}
+					
 					/*	else if (untouchable == 0)
 						{
 							LevelMarioDown(koopa, KOOPA_STATE_DIE);
@@ -340,7 +335,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CMarioState::go_to_pipe.GetInstance()->SetPositionChangeCam(pipe->x, pipe->y - 30);
 						CMarioState::go_to_pipe.GetInstance()->isUp = true;
 						CMarioState::go_to_pipe.GetInstance()->inPipe = 1;
-						SetPosition(x + 20, y);
+						SetPosition(x + 10, y);
 					}
 					else if (pipe->GetType() == PipeType::exit)
 					{

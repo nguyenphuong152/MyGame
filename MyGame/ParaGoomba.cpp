@@ -15,14 +15,30 @@ CParaGoomba::CParaGoomba()
 
 void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 { 
-	CGoomBa::GetBoundingBox(l, t, r, b);
+	if (level == GOOMBA_LEVEL_2)
+	{
+		l = x;
+		t = y;
+		r = x + GOOMBA_BBOX_WIDTH;
+
+		if (state == PARA_GOOMBA_STATE_WALKING)
+		{
+			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_WALKING;
+		}
+		else {
+			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_FLY;
+		}
+	}
+	else {
+		CGoomBa::GetBoundingBox(l, t, r, b);
+	}
 }
 
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (level == GOOMBA_LEVEL_2)
 	{
-		CGameObject::Update(dt, coObjects);
+		CEnemy::Update(dt, coObjects);
 		vy += GOOMBA_GRAVITY * dt;
 
 		if (walking == 1 && GetTickCount64() - walking_start > PARA_GOOMBA_WALKING_TIME)

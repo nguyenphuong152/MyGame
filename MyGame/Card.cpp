@@ -24,10 +24,12 @@ void CCard::Render()
 void CCard::SetState(int state)
 {
 	CGameObject::SetState(state);
+
+	srand((unsigned)time(0));
+
 	if (state == CARD_STATE_TOUCH)
 	{
-		numbAni = 1 + rand() % (3 + 1 - 1);
-		DebugOut(L"bunnn %d \n", numbAni);
+		numbAni = 1 + rand() % 3;
 		vy = -CARD_VELOCITY_Y;
 		StartAnimated();
 	}

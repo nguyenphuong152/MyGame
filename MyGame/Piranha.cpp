@@ -5,7 +5,6 @@
 
 CPiranha::CPiranha()
 {
-	isEnable = true;
 	SetState(PIRANHA_STATE_ACTIVE);
 	vy = PIRANHA_VELOCITY_Y;
 }
@@ -96,9 +95,4 @@ void CPiranha::ResetActive()
 {
 	active = 0;
 	active_start = 0;
-}
-
-void CPiranha::SetAttackedAnimation()
-{
-	CRedVenusFireTrap::SetAttackedAnimation();
 }

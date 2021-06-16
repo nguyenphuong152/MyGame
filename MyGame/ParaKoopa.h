@@ -14,7 +14,6 @@
 
 class CParaKoopa : public CKoopas
 {
-	bool isOnGround;
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void Render();

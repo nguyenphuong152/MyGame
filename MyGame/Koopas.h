@@ -1,17 +1,17 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Enemy.h"
 #include "Mario.h"
 #include "GoomBa.h"
 
-#define KOOPA_SHELL_VELOCITY_X	0.5f
+#define KOOPA_SHELL_VELOCITY_X	0.8f
 #define KOOPA_WALKING_SPEED		0.1f
 #define KOOPA_GRAVITY			0.0015f
-#define KOOPA_DEFLECT_SPEED		0.4f;
+#define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
-#define KOOPA_BBOX_HEIGHT		84
-#define KOOPA_BBOX_HEIGHT_DIE	50
+#define KOOPA_BBOX_HEIGHT		82
+#define KOOPA_BBOX_HEIGHT_DIE	48
 
 #define VALUE_ADJUST_SHELL		28
 #define KOOPA_DIE_TIME			5000
@@ -30,15 +30,12 @@
 #define KOOPA_LEVEL_2	2
 #define KOOPA_LEVEL_1	1
 
-class CKoopas : public CGameObject
+class CKoopas : public CEnemy
 {
 protected:
 	CMario* player;
-	int die;
 	int recover;
-	DWORD _dieStart;
 	DWORD _recoverStart;
-	int level;
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -46,13 +43,13 @@ protected:
 public:
 	CKoopas();
 	bool isHolded = false;
-	void StartDie() { die = 1; _dieStart = GetTickCount64(); };
+	bool isOnGround = false;
+	
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
-	void SetLevel(int level) { this->level = level; };
-	int GetLevel() { return this->level; };
+	
 	virtual void SetState(int state);
 	void UpdateShellPosition();
-	void SetAttackedAnimation(AttackedBy obj);
+
 	void AttackedByTail();
 };
 

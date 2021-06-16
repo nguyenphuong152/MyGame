@@ -473,7 +473,6 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 		input = Input::RELEASE_A;
 		mario->HandleInput(input);
 		mario->powerMode = false;
-		mario->canHoldShell = false;
 		break;
 	}
 }

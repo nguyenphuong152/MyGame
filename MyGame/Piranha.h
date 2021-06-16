@@ -25,5 +25,4 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	void StartActive();
 	void ResetActive();
-	void SetAttackedAnimation();
 };

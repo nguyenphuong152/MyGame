@@ -36,11 +36,6 @@ void CMarioStateKick::Update(DWORD dt, CMario& mario)
 	if (GetTickCount64()-_kickingStart > MARIO_KICKING_TIME)
 	{
 		mario.ChangeState(CMarioState::idle.GetInstance());
-		mario.isKicking = false;
-	}
-	if (mario.isKicking)
-	{
-		mario.canHoldShell = false;
 	}
 }
 

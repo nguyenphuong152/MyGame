@@ -69,7 +69,7 @@ void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 				else if (dynamic_cast<CKoopas*>(objects[i]))
 				{
 					CKoopas* koopa = dynamic_cast<CKoopas*>(objects[i]);
-					if (koopa->GetState() == KOOPA_STATE_WALKING)
+					if (koopa->isOnGround)
 					{
 						koopa->AttackedByTail();
 					}
@@ -77,7 +77,7 @@ void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 				else if (dynamic_cast<CRedVenusFireTrap*> (objects[i]))
 				{
 					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
-					venus->SetAttackedAnimation();
+					venus->SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
 					venus->isEnable = false;
 				}
 			}

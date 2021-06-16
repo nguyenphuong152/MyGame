@@ -10,7 +10,6 @@
 
 CGoomBa::CGoomBa()
 {
-	isEnable = true;
 	ny = 1;
 	SetState(GOOMBA_STATE_WALKING);
 	SetLevel(GOOMBA_LEVEL_1);
@@ -22,17 +21,7 @@ void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + GOOMBA_BBOX_WIDTH;
-	if (level == GOOMBA_LEVEL_2)
-	{
-		if (state == PARA_GOOMBA_STATE_WALKING)
-		{
-			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_WALKING;
-		}
-		else {
-			b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_FLY;
-		}
-	}
-	else if (level == GOOMBA_LEVEL_1)
+	if (level == GOOMBA_LEVEL_1)
 	{
 		if (state == GOOMBA_STATE_DIE)
 			b = y + GOOMBA_BBOX_HEIGHT_DIE;
@@ -43,7 +32,7 @@ void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	CEnemy::Update(dt, coObjects);
 	
 	vy += GOOMBA_GRAVITY * dt;
 
@@ -137,23 +126,8 @@ void CGoomBa::SetState(int state)
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
 		vx = 4*GOOMBA_WALKING_SPEED*nx;
-		SetAttackedAnimation(AttackedBy::Tail);
+		SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
 		break;
 	}
 }
 
-void CGoomBa::SetAttackedAnimation(AttackedBy obj)
-{
-	CEffect* effect = CEffectPool::GetInstance()->Create();
-	if (effect != NULL)
-	{
-		if (obj == AttackedBy::Tail)
-		{
-			effect->SetEffect(EffectName::attack_by_tail, this);
-		}
-		else if (obj == AttackedBy::Mario)
-		{
-			effect->SetEffect(EffectName::point, this,1,1,Points::POINT_100);
-		}
-	}
-}

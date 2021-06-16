@@ -546,7 +546,7 @@
 # ==== KOOPAS =========
 701	70001	100	70002	100
 702	70003	100
-703	70003	50	70004	50	70005	50
+703	70003	20	70004	20	70005	20
 704	70006	50	70003	50
 
 # ==== PARA KOOPAS =========
@@ -638,7 +638,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	7800	1100	1
+0	1800	1100	1
 
 # FIREBALL
 1	0	0	0

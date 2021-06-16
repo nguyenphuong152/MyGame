@@ -141,14 +141,11 @@ public:
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canJumpHigh = false;
-	bool canHoldShell = false;
+
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isJumpOnSwitch = false;
 	bool canGoIntoPipe = false;
-
-	//can nhac lai
-	bool isKicking = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);

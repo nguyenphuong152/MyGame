@@ -157,6 +157,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectPool.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FireBallPool.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="GreenVenusFireTrap.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectPool.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FireBallPool.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="GreenVenusFireTrap.h" />

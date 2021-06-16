@@ -306,6 +306,9 @@
     <ClCompile Include="Card.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -511,6 +514,9 @@
     </ClInclude>
     <ClInclude Include="Card.h">
       <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

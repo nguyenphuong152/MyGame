@@ -96,7 +96,6 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	}
 	else if (input == Input::PRESS_A)
 	{
-		mario.canHoldShell = true;
 		mario.powerMode = true;
 		if (mario.GetLevel() == MARIO_LEVEL_RACOON)
 		{
