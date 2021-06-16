@@ -114,12 +114,10 @@ void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPC
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
-void CGameObject::RenderBoundingBox()
-{
-	D3DXVECTOR3 p(x, y, 0);
-	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+RECT CGameObject::CalculateRect()
+{
+	RECT rect;
 
 	float l, t, r, b;
 
@@ -129,6 +127,17 @@ void CGameObject::RenderBoundingBox()
 	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
+
+	return rect;
+}
+
+
+void CGameObject::RenderBoundingBox()
+{
+	D3DXVECTOR3 p(x, y, 0);
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+
+	RECT rect = CalculateRect();
 
 	CGame::GetInstance()->Draw(0,0,x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }

@@ -5,7 +5,6 @@
 
 CParaKoopa::CParaKoopa()
 {
-	isEnable = true;
 	nx = -1;
 	ny = 1;
 	vx = KOOPA_WALKING_SPEED*nx;
@@ -22,7 +21,7 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (GetLevel() == KOOPA_LEVEL_2)
 	{
-		CGameObject::Update(dt, coObjects);
+		CEnemy::Update(dt, coObjects);
 		vy += PARA_KOOPA_GRAVITY * dt;
 
 		if (isOnGround) SetState(PARA_KOOPA_STATE_JUMPING);

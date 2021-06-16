@@ -20,6 +20,7 @@
 #include "BreakableBrick.h"
 #include "Switch.h"
 #include "Pipe.h"
+#include "Card.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -124,7 +125,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(6500, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(1400, y, width, height); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -238,6 +239,22 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element = element->NextSiblingElement();
 				}
 			}
+			else if (strcmp(attributeName,"Card") == 0)
+			{
+				while (element)
+				{
+					obj = new CCard();
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					const char* aniRaw = element->Attribute("type");
+					int ani = atoi(aniRaw);
+					obj->SetAnimation(ani);
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
 			else if (strcmp(attributeName, "Brick") == 0)
 			{
 				while (element)
@@ -263,8 +280,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					obj = new CPipe(PipeType::entry);
 				else if (strcmp(type, "hidden-pipe") == 0)
 					obj = new CPipe(PipeType::hidden);
-				else 
+				else {
 					obj = new CPipe(PipeType::exit);
+				}
 
 				objects.push_back(obj);
 

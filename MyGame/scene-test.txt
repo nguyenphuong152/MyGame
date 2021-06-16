@@ -8,6 +8,7 @@
 50	textures\effect.png	0	0	0
 60	textures\brick-debris.png	255	255	255
 70	textures\hud.png	25	25	25
+80	textures\reward.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -303,6 +304,29 @@
 99998	536	71	562	94	70
 99999	590	71	616	94	70
 
+#FXcard					
+#mushroom					
+55100	14	80	64	130	80
+55101	190	80	238	130	80
+#star					
+55102	134	80	184	130	80
+55103	275	80	325	130	80
+#white-flower					
+55104	74	80	124	130	80
+55105	233	80	278	130	80
+#line					
+55106	318	80	350	130	80
+
+#EFFECT-POINT					
+90100	182	266	217	292	70
+90200	224	266	262	292	70
+91000	359	266	406	292	70
+
+#star					
+55001	602	362	652	412	20
+#white-flower					
+55002	1109	362	1159	412	20
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== MARIO =========
@@ -522,7 +546,7 @@
 # ==== KOOPAS =========
 701	70001	100	70002	100
 702	70003	100
-703	70003	50	70004	50	70005	50
+703	70003	20	70004	20	70005	20
 704	70006	50	70003	50
 
 # ==== PARA KOOPAS =========
@@ -535,6 +559,20 @@
 
 #PARA KOOPAS
 71	711	712	713	714
+
+#CARD
+550	51001	200	55001	200	55002	200
+#mushrom-card
+551	55100	100	55101	100	55106	100
+#star-card
+552	55102	100	55103	100	55106	100
+#white-flower-card
+553	55104	100	55105	100	55106	100
+
+#EFFECT-POINT
+901	90100	100
+902	90200	100
+910	91000	100
 
 
 # id	ani1	ani2	ani3
@@ -581,8 +619,8 @@
 #FIREBALL
 62	620
 
-#EFFECTPool - ball - mario_attack - debris
-65	621	202	410
+#EFFECTPool - ball - mario_attack - debris-point-point-point
+65	621	202	410	901	902	910
 
 #KOOPAS
 70	701	702	703	704
@@ -591,12 +629,16 @@
 71	712	713	714	715	711
 
 
+#CARD
+55	550	551	552	553
+
+
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	6500	1100	1
+0	1800	1100	1
 
 # FIREBALL
 1	0	0	0
@@ -608,6 +650,8 @@
 # type	l	t	ani_set_id	r	b	scene_id
 #50	115	98	0	148	150	1	
 
+# TAIL
+4	0	0	0
 
 
 

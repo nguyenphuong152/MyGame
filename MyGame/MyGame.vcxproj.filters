@@ -300,6 +300,15 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Source Files\Objects\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="MarioTail.cpp">
+      <Filter>Source Files\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -499,6 +508,15 @@
     </ClInclude>
     <ClInclude Include="Pipe.h">
       <Filter>Header Files\Objects\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioTail.h">
+      <Filter>Header Files\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,7 +8,6 @@
 
 CRedVenusFireTrap ::CRedVenusFireTrap()
 {
-	isEnable = true;
 	startShooting = -1;
 	isShooting = false;
 	isShootingUp = false;
@@ -172,14 +171,5 @@ void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
 				SetState(VENUS_STATE_GO_UP);
 			}
 		}
-	}
-}
-
-void CRedVenusFireTrap::SetAttackedAnimation()
-{
-	CEffect* effect = CEffectPool::GetInstance()->Create();
-	if (effect != NULL)
-	{
-		effect->SetEffect(EffectName::attack_by_tail, this);
 	}
 }

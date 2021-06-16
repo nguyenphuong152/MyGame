@@ -4,6 +4,7 @@ class CMarioState;
 
 #include "GameObject.h"
 #include "Input.h"
+#include "MarioTail.h"
 
 #define MARIO_WALKING_SPEED			0.25f 
 #define MARIO_RUNNING_SPEED			0.4f
@@ -133,20 +134,18 @@ class CMario : public CGameObject
 public:
 	static CMario* __instance;
 	CMarioState* marioState;
+	CMarioTail* tail;
 
 	int animation;
 	int powerLevel;
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canJumpHigh = false;
-	bool canHoldShell = false;
+
 	bool powerMode = false;
 	bool isFloating = false;
 	bool isJumpOnSwitch = false;
 	bool canGoIntoPipe = false;
-
-	//can nhac lai
-	bool isKicking = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -179,6 +178,7 @@ public:
 	int GetLive() { return live; };
 
 	void LevelUp();
+	void RecalculatePower();
 	void SetAnimation(int ani) { animation = ani; }
 	int GetCurrentAnimation() { return animation; }
 
@@ -192,7 +192,10 @@ public:
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
+	void AttachTail(CMarioTail* tail);
+
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void RenderRaccoonMarioBoundingBox();
 
 	static  CMario* GetInstance();
 };

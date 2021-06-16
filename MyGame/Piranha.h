@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "RedVenusFireTrap.h"
 
 #define PIRANHA_STATE_ACTIVE 100
 
@@ -14,7 +14,7 @@
 
 #define ACTIVE_TIME			300
 
-class CPiranha : public CGameObject
+class CPiranha : public CRedVenusFireTrap
 {
 	int active;
 	DWORD active_start;
@@ -25,5 +25,4 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	void StartActive();
 	void ResetActive();
-	void SetAttackedAnimation();
 };

@@ -54,9 +54,9 @@ void CBreakableBrick::SetAttackedAnimation()
 
 	if (effect_1 != NULL&&effect_2!=NULL&&effect_3!=NULL&&effect_4!=NULL)
 	{
-		effect_1->SetEffect(EffectName::debris, this,-1,-1);
-		effect_2->SetEffect(EffectName::debris, this, -1, 1);
-		effect_3->SetEffect(EffectName::debris, this, 1, -1);
-		effect_4->SetEffect(EffectName::debris, this, 1, 1);
+		effect_1->SetEffect(EffectName::debris, this,-1,-1,Points::NONE);
+		effect_2->SetEffect(EffectName::debris, this, -1, 1, Points::NONE);
+		effect_3->SetEffect(EffectName::debris, this, 1, -1, Points::NONE);
+		effect_4->SetEffect(EffectName::debris, this, 1, 1, Points::NONE);
 	}
 }

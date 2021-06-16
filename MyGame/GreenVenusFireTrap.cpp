@@ -6,7 +6,6 @@
 
 CGreenVenusFireTrap::CGreenVenusFireTrap()
 {
-	isEnable = true;
 	startShooting = -1;
 	isShooting = false;
 	isShootingUp = false;

@@ -5,16 +5,22 @@
 #define POSITION_PLAYER_OUT_PIPE_Y 1180
 
 #define MARIO_IN_PIPE_VELOCITY_Y 0.2f
+#define CHANGE_STATE_TIME	450
 
 class CMarioStateGetIntoPipe : public CMarioOnGroundStates
 {
+private:
+	DWORD _changeStateStart =  0;
 public:
+	int isChangeState = 0;
 	bool isTouchHiddenPipe = false;
 	bool isUp = false;
 	int inPipe = 0;
 	float position_toggle_cam_x, position_toggle_cam_y;
 	float position_out_x, position_out_y;
 	static CMarioStateGetIntoPipe* __instance;
+
+	void StartChangeState() { _changeStateStart = GetTickCount64(); isChangeState = 1; };
 
 	CMarioStateGetIntoPipe();
 	virtual ~CMarioStateGetIntoPipe() {};

@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Enemy.h"
 #include "Utils.h"
 #include "Mario.h"
 
@@ -26,7 +26,7 @@
 #define FIREBALL_POSITION_X			360
 #define FIREBALL_POSITION_Y			344
 
-class CRedVenusFireTrap : public CGameObject
+class CRedVenusFireTrap : public CEnemy
 {
 protected:
 	DWORD startShooting = -1;
@@ -40,10 +40,12 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
+
 	void StartShooting();
 	void CheckDirection();
 	void CheckDirectionForRender(int position_pipe);
+
 	void HandleShooting(int position_pipe, int bbox_height);
-	void SetAttackedAnimation();
+
 };
 
