@@ -97,6 +97,12 @@
     <Filter Include="Source Files\HUD">
       <UniqueIdentifier>{6a8af6ef-5bd1-46c1-93c9-0a52e63014b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Misc\Decoration">
+      <UniqueIdentifier>{a5d56f9d-2829-4fa3-9650-86ec454de5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Misc\Decoration">
+      <UniqueIdentifier>{db3157c6-ae35-48c0-8c35-d4cd9f2925d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -309,6 +315,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Decoration.cpp">
+      <Filter>Source Files\Objects\Misc\Decoration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -517,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoration.h">
+      <Filter>Header Files\Objects\Misc\Decoration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ HUD* HUD::GetInstance()
 void HUD::Render()
 {
 	RenderBoundingBox();
-	CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x, y);
+	CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x+30, y);
 	HUDContent::GetInstance()->Render();
 
 }

@@ -185,7 +185,7 @@ void CCamera::AdjustPositionToHiddenScene()
 	cam_old_y = y;
 	x = HIDDEN_SCENE_X;
 	y = HIDDEN_SCENE_Y;
-	HUD::GetInstance()->SetPosition(HUD_POSTION_Y-35);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y-35);
 	CGame::GetInstance()->SetCamPos(x, y);
 }
 
@@ -193,6 +193,6 @@ void CCamera::GoBackToNormal()
 {
 	x = cam_old_x;
 	y = cam_old_y;
-	HUD::GetInstance()->SetPosition(HUD_POSTION_Y);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
 	CGame::GetInstance()->SetCamPos(x, y);
 }

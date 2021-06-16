@@ -19,9 +19,9 @@ CMapLayer::CMapLayer(TiXmlElement* layer) {
 void CMapLayer::RenderLayer()
 {
     int id = 0;
-    for (int i = 0; i <MAPHEIGHT; i++)
+    for (int i = 0; i <MAPWORLD_HEIGHT; i++)
     {
-        for (int j = 0; j < MAPWIDTH; j++)
+        for (int j = 0; j < MAPWORLD_WIDTH; j++)
         {
             if (id == tileIdSet.size()) return;
 
