@@ -430,14 +430,24 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	1800	1100	1
+0	98	143	1
 
 # EFFECT
 2	0	0	65
 
-# --- SCENE PORTAL ----
-# type	l	t	ani_set_id	r	b	scene_id
-#50	115	98	0	148	150	1	
+[PORTAL]
+#type - spriteId - sceneId
+#start		
+num-0	20009	0
+#123456		
+num-1	20011	3
+num-2	20012	0
+num-3	20013	4
+num-4	20014	0
+num-5	20015	0
+num-6	20016	0
+#bich		
+bonus-slot	20017	0
 
 # TAIL
 4	0	0	0

@@ -93,6 +93,10 @@ class CMarioState;
 #define MARIO_ANI_GET_INTO_PIPE						61
 #define MARIO_ANI_DROP_FROP_PIPE					62
 
+#define MARIO_ANI_WALK_OW_SMALL						63
+#define MARIO_ANI_WALK_OW_BIG						64
+#define MARIO_ANI_WALK_OW_RACCOON					65
+
 #define	MARIO_LEVEL_SMALL		1
 #define	MARIO_LEVEL_BIG			2
 #define	MARIO_LEVEL_RACOON		3
@@ -132,7 +136,7 @@ class CMario : public CGameObject
 	int live;
 	int level;
 public:
-	static CMario* __instance;
+	//static CMario* __instance;
 	CMarioState* marioState;
 	CMarioTail* tail;
 
@@ -197,7 +201,7 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderRaccoonMarioBoundingBox();
 
-	static  CMario* GetInstance();
+	//static  CMario* GetInstance();
 };
 
 

@@ -1,16 +1,16 @@
 #include "One-upMushroom.h"
 #include "PowerUp.h"
-#include "Mario.h"
 #include "Ground.h"
 #include "Camera.h"
 #include "Brick.h"
 #include "Utils.h"
 
-COneUpMushroom::COneUpMushroom(float x, float y)
+COneUpMushroom::COneUpMushroom(float x, float y,CMario* mario)
 {
 	isEnable = true;
 	start_y = y;
 	SetPosition(x, y - 1);
+	player = mario;
 }
 
 void COneUpMushroom::SetState(int state)
@@ -22,7 +22,7 @@ void COneUpMushroom::SetState(int state)
 	}
 	else
 	{
-		nx = -CMario::GetInstance()->nx;
+		nx = -player->nx;
 		vx = MUSHROOM_VELOCITY_X * nx;
 	}
 }

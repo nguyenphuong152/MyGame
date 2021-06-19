@@ -3,8 +3,9 @@
 #include "Brick.h"
 #include "EffectPool.h"
 
-CBreakableBrick::CBreakableBrick(float x, float y)
+CBreakableBrick::CBreakableBrick(float x, float y, CMario* mario)
 {
+	player = mario;
 	isEnable = true;
 	SetAnimation(BREAKABLE_BRICK_ANI);
 	SetState(BREAKABLE_BRICK_VISUAL_STATE);
@@ -19,7 +20,7 @@ void CBreakableBrick::SetState(int state)
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (CMario::GetInstance()->isJumpOnSwitch)
+	if (player->isJumpOnSwitch)
 	{
 		SetState(BREAKABLE_BRICK_COIN_STATE);
 	}

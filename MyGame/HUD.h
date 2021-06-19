@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include "Utils.h"
+#include "Mario.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ class HUD {
 	unordered_map<string, int> letters;
 
 	int countdown_start = GetTickCount64();
+	CMario* player;
 
 public:
 
@@ -47,4 +49,5 @@ public:
 	void StartCountdown() { countdown_start = GetTickCount64(); };
 	int GetCountdownStart() { return countdown_start; };
 
+	void SetPlayer(CMario* mario) { player = mario; };
 };

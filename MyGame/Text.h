@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Utils.h"
+#include "Mario.h"
 
 #define WORLD_TEXT_SIZE 1
 #define LIVE_TEXT_SIZE	1
@@ -45,8 +46,11 @@ class CText {
 	DWORD flashing_start;
 	int flashing = 0;
 
+	CMario* player;
 public:
 	CText(Content content,float x,float y);
+	
+	void SetPlayer(CMario* mario) { player = mario; };
 	void SetText(string text);
 	void SetPower(int number);
 	void Update();

@@ -2,7 +2,6 @@
 #include "Utils.h"
 #include "MarioStateIdle.h"
 #include "MarioStateKick.h"
-#include "Mario.h"
 #include "Boundary.h"
 #include "Box.h"
 #include "ObjectBoundary.h"
@@ -17,7 +16,6 @@
 
 CKoopas::CKoopas()
 {
-	this->player = CMario::GetInstance();
 	nx = 1;
 	ny = 1;
 	isOnGround = true;
@@ -208,11 +206,10 @@ void CKoopas::SetState(int state)
 
 void CKoopas::UpdateShellPosition()
 {
-	int marioLevel = player->GetLevel();
 	if (player->nx > 0)
 	{
 		x = player->x + VALUE_ADJUST_SHELL + 20;
-		if (marioLevel != MARIO_LEVEL_RACOON)
+		if (player->GetLevel() != MARIO_LEVEL_RACOON)
 		{
 			x = player->x + VALUE_ADJUST_SHELL + 2;
 		}
@@ -221,8 +218,8 @@ void CKoopas::UpdateShellPosition()
 		x = player->x - VALUE_ADJUST_SHELL;
 	}
 
-	y = player->y;
-	if (marioLevel != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
+	y = player->x;
+	if (player->GetLevel() != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
 }
 
 

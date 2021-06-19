@@ -16,5 +16,6 @@ void CDecoration::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = b = 0;
+	r = x+42;
+	b = y + 48;
 }

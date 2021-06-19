@@ -519,7 +519,7 @@
   </object>
  </objectgroup>
  <objectgroup id="15" name="Enemy">
-  <object id="91" name="red_koopa" type="70" x="3534.63" y="1026.18" width="31" height="26"/>
+  <object id="91" name="red_koopa" type="70" x="458.872" y="1153.45" width="31" height="26"/>
   <object id="98" name="red_venus" type="60" x="1081.15" y="1139.97"/>
   <object id="255" name="goomba" type="3" x="2282" y="1142" width="22.5" height="21.5"/>
   <object id="256" name="piranha" type="64" x="5350.5" y="1164.5" width="25" height="23"/>
@@ -562,8 +562,8 @@
   <object id="290" name="hidden-pipe" x="6246.67" y="1472.67" width="43" height="12.6667"/>
   <object id="296" name="hidden-pipe" x="6932.5" y="1473.67" width="43" height="12.6667"/>
  </objectgroup>
- <objectgroup id="26" name="Camera" visible="0">
-  <object id="243" x="9.33334" y="654.243" width="764" height="760.67"/>
+ <objectgroup id="26" name="Camera">
+  <object id="243" x="3.27273" y="657.879" width="764" height="760.67"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="253" x="1510" y="1117" width="25" height="13"/>

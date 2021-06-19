@@ -9,14 +9,14 @@
 #include "RedVenusFireTrap.h"
 
 
-CMarioTail::CMarioTail()
+CMarioTail::CMarioTail(CMario* mario)
 {
 	isEnable = false;
+	player = mario;
 }
 
 void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 {
-	CMario* player = CMario::GetInstance();
 
 	if (player->marioState != CMarioState::spin.GetInstance())
 	{

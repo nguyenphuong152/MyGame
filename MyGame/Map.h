@@ -9,7 +9,6 @@ typedef CMapLayer* LPLAYERS;
 
 class CMap
 {
-	static CMap* __instance;
 protected:
 	int id;
 	const char*  mapFilePath;
@@ -21,13 +20,11 @@ protected:
 	CMapLayer* layerForeground;
 	
 public:
-	void AddMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
+	CMap(int id, const char*  mapFilePath, int texId,int tilePerRow, int TilePerColumn);
 	void CreateTileSet();
 	void HandleMap();
 	void RenderMap();
 	void RenderForeground();
-
-	static CMap* GetInstance();
 };
 
 

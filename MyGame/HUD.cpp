@@ -18,7 +18,13 @@ HUD* HUD::GetInstance()
 void HUD::Render()
 {
 	RenderBoundingBox();
-	CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x+30, y);
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	{
+		CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x, y);
+	}
+	else {
+		CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x+30, y);
+	}
 	HUDContent::GetInstance()->Render();
 
 }
@@ -64,6 +70,7 @@ void HUD::RenderBoundingBox()
 void HUD::Init(int texture)
 {
 	this->HUD_texture = texture;
+	HUDContent::GetInstance()->SetUpPlayer(player);
 	HUDContent::GetInstance()->SetUpContent();
 }
 

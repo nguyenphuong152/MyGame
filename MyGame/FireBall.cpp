@@ -12,7 +12,7 @@
 CFireball::CFireball()
 {
 	SetAnimation(FIREBALL_ANI);
-	player = CMario::GetInstance();
+	player = NULL;
 }
 
 void CFireball::AllocateFireballToMario()
@@ -20,7 +20,7 @@ void CFireball::AllocateFireballToMario()
 	SetPosition(player->x+10, player->y+20);
 	isEnable = true;
 	inUse = true;
-	vx = CMario::GetInstance()->nx * FIREBALL_VELOCITY_X;
+	vx = player->nx * FIREBALL_VELOCITY_X;
 	vy = FIREBALL_VELOCITY_Y_NEAR;
 }
 

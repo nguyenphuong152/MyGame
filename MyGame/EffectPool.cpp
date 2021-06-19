@@ -6,16 +6,21 @@ CEffectPool* CEffectPool::__instance = NULL;
 CEffectPool::CEffectPool()
 {
 	//The first one is available.
-	_firstAvailable = &effects[0];
+
+	DebugOut(L"vo \n");
+	
+	effects[0] = new CEffect();
+	_firstAvailable = effects[0];
 
 	// Each particle points to the next.
 	for (int i = 0; i < POOL_SIZE - 1; i++)
 	{
-		effects[i].SetNext(&effects[i + 1]);
+		effects[i]->SetNext(effects[i + 1]);
+		effects[i + 1] = new CEffect();
 	}
 
 	// The last one terminates the list.
-	effects[POOL_SIZE - 1].SetNext(NULL);
+	effects[POOL_SIZE - 1]->SetNext(NULL);
 }
 
 CEffect* CEffectPool::Create()
@@ -39,11 +44,11 @@ void CEffectPool::Update()
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
-		if (effects[i].FinishAnimated())
+		if (effects[i]->FinishAnimated())
 		{
 			// Add this particle to the front of the list.
-			effects[i].SetNext(_firstAvailable);
-			_firstAvailable = &effects[i];
+			effects[i]->SetNext(_firstAvailable);
+			_firstAvailable = effects[i];
 		};
 	}
 }
@@ -52,4 +57,12 @@ CEffectPool* CEffectPool::GetInstance()
 {
 	if (__instance == NULL) __instance = new CEffectPool();
 	return __instance;
+}
+
+void CEffectPool::Init(vector<LPGAMEOBJECT> objects)
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		objects.push_back(effects[i]);
+	}
 }

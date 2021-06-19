@@ -32,7 +32,7 @@ public:
 	void FollowPlayerHorizontally();
 	void FollowPlayerVertically();
 
-	void SetProperty(float l, float r, float width, float height);
+	void SetProperty(float l, float r, float width, float height,CMario* mario);
 
 	void InactiveCamera();
 
