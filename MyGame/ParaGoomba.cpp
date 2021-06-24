@@ -6,7 +6,6 @@
 
 CParaGoomba::CParaGoomba()
 {
-	isEnable = true;
 	nx = -1;
 	ny = 1;
 	SetLevel(GOOMBA_LEVEL_2);

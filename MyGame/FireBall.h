@@ -47,6 +47,7 @@ public:
 		_state.next = fireball;
 	}
 
+	void SetPlayer(CMario* mario) { player = mario; };
 	bool FinishShooting();
 
 	void AllocateFireballToMario();

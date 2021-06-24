@@ -1,5 +1,6 @@
 ﻿#pragma once
 class CMarioStateIdle;
+class CMarioOverworldState;
 class CMarioStateWalk;
 class CMarioStateJump;
 class CMarioStateSit;
@@ -49,6 +50,7 @@ public:
 	static CMarioStateHoldShellAndRun holdshell_run;
 	static CMarioStateHoldShellAndJump holdshell_jump;
 	static CMarioStateHoldShellAndDrop holdshell_drop;
+	static CMarioOverworldState walking_overworld;
 
 	CMarioState();
 	virtual ~CMarioState() {};

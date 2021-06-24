@@ -21,6 +21,8 @@
 #include "Switch.h"
 #include "Pipe.h"
 #include "Card.h"
+#include "Decoration.h"
+#include "Portal.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -30,7 +32,7 @@ CMapObjects* CMapObjects::GetInstance()
 	else return __instance;
 }
 
-void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& objects)
+void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& objects, CMario* mario)
 {
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
@@ -125,7 +127,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1400, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(x, y, width, height,mario); //sua vi tri cam
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -146,12 +148,12 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					}
 					else if (strcmp(element->Attribute("name"), "powerup") == 0)
 					{
-						item = new CPowerUp(x, y);
+						item = new CPowerUp(x, y,mario);
 						objects.push_back(item);
 					}
 					else if (strcmp(element->Attribute("name"), "one-up") == 0)
 					{
-						item = new COneUpMushroom(x, y);
+						item = new COneUpMushroom(x, y,mario);
 						const char* aniRaw = element->Attribute("type");
 						int ani = atoi(aniRaw);
 						item->SetAnimation(ani);
@@ -262,7 +264,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
-					obj = new CBreakableBrick(x, y);
+					obj = new CBreakableBrick(x, y,mario);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -290,6 +292,66 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 				element = element->NextSiblingElement();
 			}
+			}
+			else if (strcmp(attributeName, "AnimatedBG") == 0)
+			{
+				while (element)
+				{
+					const char* itemName = element->Attribute("name");
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					const char* aniRaw = element->Attribute("type");
+					int ani = atoi(aniRaw);
+
+					if (strcmp(itemName, "tree") == 0)
+					{
+						obj = new CDecoration(Type::Tree);
+					}
+					else if (strcmp(itemName, "help") == 0)
+					{
+						obj = new CDecoration(Type::Help);
+					}
+					obj->SetAnimation(ani);
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+
+					element = element->NextSiblingElement();
+				}
+			}
+			else if (strcmp(attributeName, "WorldGraph") == 0)
+			{
+				while (element)
+				{
+					int tex = 0;
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					const char* port_type = element->Attribute("type");
+					int type = atoi(port_type);
+					TiXmlElement* ele = element->FirstChild("properties")->FirstChild("property")->ToElement();
+					while (ele)
+					{
+						const char* name = ele->Attribute("name");
+						const char* value = ele->Attribute("value");
+						if (strcmp(name, "ani") == 0)
+						{
+							if (value != NULL)
+							{
+								tex = atoi(value);
+							}
+						}
+						ele = ele->NextSiblingElement();
+					}
+					
+					
+					obj = new CPortal(tex,type);
+					
+					obj->SetPosition(x, y);
+					objects.push_back(obj); 
+
+					element = element->NextSiblingElement();
+				}
 			}
 		}
 	}

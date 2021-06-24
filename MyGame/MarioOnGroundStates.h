@@ -1,5 +1,7 @@
 #pragma once
 #include "MarioState.h"
+#define MARIO_SPEED 0.3f
+
 
 class CMarioOnGroundStates : public CMarioState
 {

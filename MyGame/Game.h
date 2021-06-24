@@ -14,6 +14,9 @@ using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
+#define OVERWORLD_MAP	4
+#define WORLD1_1_MAP	3
+
 class CGame
 {
 	static CGame* __instance;
@@ -40,7 +43,6 @@ class CGame
 	int screen_height;
 
 	unordered_map <int, LPSCENE > scenes;
-	int current_scene;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
@@ -54,6 +56,7 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
+	int current_scene;
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 

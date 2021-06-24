@@ -33,7 +33,6 @@
 class CKoopas : public CEnemy
 {
 protected:
-	CMario* player;
 	int recover;
 	DWORD _recoverStart;
 

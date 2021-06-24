@@ -12,6 +12,7 @@
 #include "MarioStateFly.h"
 #include "MarioStateWalk.h"
 #include "MarioStateHoldShellIdle.h"
+#include "MarioOverworldState.h"
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
@@ -37,7 +38,7 @@
 #include "Textures.h"
 #include "Card.h"
 
-CMario* CMario::__instance = NULL;
+//CMario* CMario::__instance = NULL;
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -55,10 +56,13 @@ CMario::CMario(float x, float y) : CGameObject()
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//calculate dx, dy
+	//calculate dx, d
 	CGameObject::Update(dt);
-
-	vy += MARIO_GRAVITY * dt;
+	if (marioState != CMarioState::walking_overworld.GetInstance())
+	{
+		//DebugOut(L"%f \n", vy);
+		vy += MARIO_GRAVITY * dt;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -182,7 +186,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				SetPosition(p->x + 2, p->y - 2);
+				CMarioState::walking_overworld.GetInstance()->SetSceneSwitching(p->GetSceneId());
+				
 			}
 			else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
 			{
@@ -385,7 +391,13 @@ void  CMario::SetState(int state)
 }
 
 void CMario::InitState() {
-	marioState = CMarioState::idle.GetInstance();
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	{
+		marioState = CMarioState::idle.GetInstance();
+	}
+	else {
+		marioState = CMarioState::walking_overworld.GetInstance();
+	}
 }
 
 void CMario::RecalculatePower()
@@ -464,7 +476,6 @@ void CMario::RaccoonMario()
 	InitState();
 	SetLevel(MARIO_LEVEL_RACOON);
 	y -= 100;
-	SetSpeed(0, 0);
 	nx = 1;
 	tail->isEnable = true;
 }
@@ -519,8 +530,8 @@ void CMario::RenderRaccoonMarioBoundingBox()
 	}
 }
 
-CMario* CMario::GetInstance()
-{
-	if (__instance == NULL) __instance = new CMario();
-	return __instance;
-}
+//CMario* CMario::GetInstance()
+//{
+//	if (__instance == NULL) __instance = new CMario();
+//	return __instance;
+//}

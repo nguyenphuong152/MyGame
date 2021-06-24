@@ -45,8 +45,8 @@ public:
 	CEffect* GetNext() {
 		return _state.next;
 	}
-	void SetNext(CEffect* fireball) {
-		_state.next = fireball;
+	void SetNext(CEffect* effect) { 
+		_state.next = effect;
 	}
 
 	bool FinishAnimated();

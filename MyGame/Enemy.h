@@ -13,6 +13,9 @@ protected:
 	DWORD die_start;
 	int level;
 	int die;
+
+	CMario* player;
+
 public:
 	CEnemy();
 	~CEnemy();
@@ -25,4 +28,5 @@ public:
 
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
 	void SetAttackedAnimation(AttackedBy obj,Points point);
+	void SetPlayerData(CMario& mario);
 };

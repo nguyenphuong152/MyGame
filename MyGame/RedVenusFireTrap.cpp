@@ -90,7 +90,7 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny < 0)
 				{
-					if(CMario::GetInstance()->y> POSITION_PIPE_Y-45)
+					if(player->y> POSITION_PIPE_Y-45)
 						SetState(VENUS_STATE_GO_DOWN);
 					else SetState(VENUS_STATE_GO_UP);
 				}
@@ -113,13 +113,13 @@ void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CRedVenusFireTrap::CheckDirection()
 {
-	float mario_y = CMario::GetInstance()->y;
-	if (CMario::GetInstance()->GetLevel() != MARIO_LEVEL_SMALL)
+	float mario_y = player->y;
+	if (player->GetLevel() != MARIO_LEVEL_SMALL)
 	{
 		mario_y += MARIO_BIG_BBOX_HEIGHT-MARIO_SMALL_BBOX_HEIGHT;
 	}
 
-	if (mario_y > POSITION_PIPE_Y-50)
+	if (mario_y> POSITION_PIPE_Y-50)
 	{
 		state = VENUS_STATE_SHOOT_DOWN;
 	}
@@ -132,17 +132,17 @@ void CRedVenusFireTrap::CheckDirection()
 
 void CRedVenusFireTrap::StartShooting()
 {
-	startShooting = GetTickCount(); 
+	startShooting = GetTickCount64(); 
 	isShooting = true;
 	vy = 0;
-	CFireball* fireball = CFireBallPool::GetInstance()->Create();
-	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);
+	/*CFireball* fireball = CFireBallPool::GetInstance()->Create();
+	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);*/
 	if (isShootingUp) isShootingUp = false;
 }
 
 void CRedVenusFireTrap::CheckDirectionForRender(int position_pipe)
 {
-	if (CMario::GetInstance()->x < position_pipe)  nx = -1;
+	if (player->x < position_pipe)  nx = -1;
 	else nx = 1;
 }
 
@@ -162,7 +162,7 @@ void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
 		{
 			isShooting = false;
 			startShooting = -1;
-			if (CMario::GetInstance()->y > position_pipe - 45)
+			if (player->y > position_pipe - 45)
 			{
 				SetState(VENUS_STATE_GO_DOWN);
 			}

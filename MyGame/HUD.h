@@ -2,13 +2,15 @@
 #include <string>
 #include <unordered_map>
 #include "Utils.h"
+#include "Mario.h"
 
 using namespace std;
 
 #define HUD_WIDTH	766
 #define HUD_HEIGHT	200
 
-#define HUD_POSTION_Y	636
+#define HUD_POSITION_Y	636
+#define HUD_POSITION_Y_OW	600
 
 #define HUD_ALIGN_TOP		22
 #define HUD_ALIGN_BOTTOM	48 
@@ -26,6 +28,7 @@ class HUD {
 	unordered_map<string, int> letters;
 
 	int countdown_start = GetTickCount64();
+	CMario* player;
 
 public:
 
@@ -46,4 +49,5 @@ public:
 	void StartCountdown() { countdown_start = GetTickCount64(); };
 	int GetCountdownStart() { return countdown_start; };
 
+	void SetPlayer(CMario* mario) { player = mario; };
 };

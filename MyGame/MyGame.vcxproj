@@ -155,6 +155,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectPool.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
     <ClCompile Include="MarioHoldingShellStates.cpp" />
+    <ClCompile Include="MarioOverworldState.cpp" />
     <ClCompile Include="MarioStateGetIntoPipe.cpp" />
     <ClCompile Include="MarioStateHoldShellAndDrop.cpp" />
     <ClCompile Include="MarioStateHoldShellAndJump.cpp" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Decoration.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectPool.h" />
     <ClInclude Include="Enemy.h" />
@@ -237,6 +240,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
+    <ClInclude Include="MarioOverworldState.h" />
     <ClInclude Include="MarioStateGetIntoPipe.h" />
     <ClInclude Include="MarioStateHoldShellAndDrop.h" />
     <ClInclude Include="MarioStateHoldShellAndJump.h" />

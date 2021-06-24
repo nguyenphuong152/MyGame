@@ -6,10 +6,7 @@
 
 CGreenVenusFireTrap::CGreenVenusFireTrap()
 {
-	startShooting = -1;
-	isShooting = false;
-	isShootingUp = false;
-	SetState(VENUS_STATE_GO_UP);
+	CRedVenusFireTrap::CRedVenusFireTrap();
 }
 
 void CGreenVenusFireTrap::Render()
@@ -63,7 +60,7 @@ void CGreenVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny < 0)
 				{
-					if (CMario::GetInstance()->y > POSITION_PIPE_Y - 45)
+					if (player->y > POSITION_PIPE_Y - 45)
 						SetState(VENUS_STATE_GO_DOWN);
 					else SetState(VENUS_STATE_GO_UP);
 				}

@@ -10,15 +10,8 @@ using namespace std;
 
 #define TILE_WIDTH 48
 
-CMap* CMap::__instance = NULL;
 
-CMap* CMap::GetInstance()
-{
-	if (__instance == NULL) __instance = new CMap();
-	return __instance;
-}
-
-void CMap::AddMap(int id, const char* mapFilePath, int texId, int tilePerRow, int tilePerColumn)
+CMap::CMap(int id, const char* mapFilePath, int texId, int tilePerRow, int tilePerColumn)
 {
 	this->id = id;
 	this->mapFilePath = mapFilePath;

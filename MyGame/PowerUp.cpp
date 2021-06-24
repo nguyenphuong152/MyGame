@@ -6,13 +6,14 @@
 #include "Utils.h"
 #include "Box.h"
 
-CPowerUp::CPowerUp(float x,float  y)
+CPowerUp::CPowerUp(float x,float  y,CMario* mario)
 {
 	changeDirection_start = 0;
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
 	SetPosition(x+0.15,y);
+	player = mario;
 }
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
@@ -131,7 +132,7 @@ void CPowerUp::Render()
 
 void CPowerUp::DefinePowerUpType()
 {
-	int level = CMario::GetInstance()->GetLevel();
+	int level = player->GetLevel();
 
 	ActivatePower();
 
@@ -155,7 +156,7 @@ void CPowerUp::SetStateForSuperMushroom()
 	}
 	else
 	{
-		nx = -CMario::GetInstance()->nx;
+		nx = -player->nx;
 		vx = MUSHROOM_VELOCITY_X * nx;
 	}
 }

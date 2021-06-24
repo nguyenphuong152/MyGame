@@ -5,7 +5,7 @@ class CFireBallPool
 {
 	friend class CPlayScene;
 	static const int POOL_SIZE = 5;
-	CFireball fireballs[POOL_SIZE];
+	CFireball *fireballs[POOL_SIZE];
 	CFireball* _firstAvailable;
 	CMario* player;
 public:
@@ -13,6 +13,7 @@ public:
 	CFireBallPool();
 	CFireball* Create();
 	void Update();
+	void Init(vector<LPGAMEOBJECT> objects);
 
 	static CFireBallPool* GetInstance();
 };

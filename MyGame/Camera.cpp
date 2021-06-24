@@ -5,6 +5,7 @@
 #include "MarioStateFly.h"
 #include "MarioStateDrop.h"
 #include "MarioStateJump.h"
+#include "MarioOverworldState.h"
 #include "Pipe.h"
 #include "Ground.h"
 #include "Box.h"
@@ -13,17 +14,17 @@
 
 CCamera* CCamera::__instance = NULL;
 
-void CCamera::SetProperty(float l, float t, float width, float height)
+void CCamera::SetProperty(float l, float t, float width, float height,CMario* mario)
 {
 	x = l;
 	y = t;
 	this->width = width;
 	this->height = height;
-	cam_center_X = x+width/ 2;
-	cam_center_Y = y+height/2;
+	cam_center_X = x+width/ 2-5;
+	cam_center_Y = y+height/2-5;
 	isEnable = true;
 	isReachBoundaryBottom = true;
-	player = CMario::GetInstance();
+	player = mario;
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -55,72 +56,72 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGame* game = CGame::GetInstance();
 
-	if (player->state != MARIO_STATE_DIE)
-	{
-		FollowPlayerHorizontally();
-		FollowPlayerVertically();
-
-		cam_center_X = x  + width / 2;
-		cam_center_Y = y  + height/ 2;
-
-		CalcPotentialCollisions(colObject, coEvents);
-
-		if (coEvents.size() == 0)
+		if (player->state != MARIO_STATE_DIE && player->marioState!=CMarioState::walking_overworld.GetInstance())
 		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny = 0;
-			float rdx = 0, rdy = 0;
+			FollowPlayerHorizontally();
+			FollowPlayerVertically();
 
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			cam_center_X = x + width / 2 - 5;
+			cam_center_Y = y + height / 2 - 5;
 
-			x += min_tx * dx + 0.4f;
-			y += min_ty * dy + 0.4f;
+			CalcPotentialCollisions(colObject, coEvents);
 
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
-
-			for (UINT i = 0; i < coEventsResult.size(); i++)
+			if (coEvents.size() == 0)
 			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<CBoundary*>(e->obj))
-				{
-					if (e->nx < 0)
-					{
-						isReachBoundaryRight = true;
-					}
-					else if (e->nx > 0) {
-						isReachBoundaryLeft = true;
-					}
+				x += dx;
+				y += dy;
+			}
+			else
+			{
+				float min_tx, min_ty, nx = 0, ny = 0;
+				float rdx = 0, rdy = 0;
 
-					if (e->ny < 0)
+				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+				x += min_tx * dx + 0.4f;
+				y += min_ty * dy + 0.4f;
+
+				if (nx != 0) vx = 0;
+				if (ny != 0) vy = 0;
+
+				for (UINT i = 0; i < coEventsResult.size(); i++)
+				{
+					LPCOLLISIONEVENT e = coEventsResult[i];
+					if (dynamic_cast<CBoundary*>(e->obj))
 					{
-						isReachBoundaryBottom = true;
+						if (e->nx < 0)
+						{
+							isReachBoundaryRight = true;
+						}
+						else if (e->nx > 0) {
+							isReachBoundaryLeft = true;
+						}
+
+						if (e->ny < 0)
+						{
+							isReachBoundaryBottom = true;
+						}
+
 					}
-						
-				}
-				else if (e->nx != 0) //neu dung nhung objects khac thi di tiep
-				{
-					vx = player->vx;
-					x += dx;
-				}
-				else if (e->ny != 0)
-				{
-					vy = player->vy;
-					y += dy;
+					else if (e->nx != 0) //neu dung nhung objects khac thi di tiep
+					{
+						vx = player->vx;
+						x += dx;
+					}
+					else if (e->ny != 0)
+					{
+						vy = player->vy;
+						y += dy;
+					}
 				}
 			}
-		}
 
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		game->SetCamPos(x, y);
-	}
-	else {
-		InactiveCamera();
-	}
+			for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+			game->SetCamPos(x, y);
+		}
+		else {
+			InactiveCamera();
+		}
 }
 
 void CCamera::FollowPlayerHorizontally()
@@ -185,7 +186,7 @@ void CCamera::AdjustPositionToHiddenScene()
 	cam_old_y = y;
 	x = HIDDEN_SCENE_X;
 	y = HIDDEN_SCENE_Y;
-	HUD::GetInstance()->SetPosition(HUD_POSTION_Y-35);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y-35);
 	CGame::GetInstance()->SetCamPos(x, y);
 }
 
@@ -193,6 +194,6 @@ void CCamera::GoBackToNormal()
 {
 	x = cam_old_x;
 	y = cam_old_y;
-	HUD::GetInstance()->SetPosition(HUD_POSTION_Y);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
 	CGame::GetInstance()->SetCamPos(x, y);
 }

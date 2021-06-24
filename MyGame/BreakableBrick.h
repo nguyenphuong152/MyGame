@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 
 #define BREAKABLE_BRICK_ANI			23
 
@@ -15,8 +16,9 @@
 
 class CBreakableBrick : public CGameObject
 {
+	CMario* player;
 public:
-	CBreakableBrick(float x, float y);
+	CBreakableBrick(float x, float y, CMario* mario);
 	void SetAttackedAnimation();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

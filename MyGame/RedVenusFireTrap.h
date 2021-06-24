@@ -32,9 +32,7 @@ protected:
 	DWORD startShooting = -1;
 	bool isShooting;
 	bool isShootingUp;
-
 public:
-
 	CRedVenusFireTrap();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

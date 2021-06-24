@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 #define POWER_UP_BBOX_WIDTH		40
 #define POWER_UP_GRAVITY		0.003f
 
@@ -30,13 +31,14 @@ class CPowerUp : public CGameObject
 	PowerUpType powerup_type;
 
 	float start_y;
+	CMario* player;
 
 	int changeDirection = 0;
 	int direction = 1;
 	DWORD changeDirection_start;
 public:
 	bool isActive = false;
-	CPowerUp(float x,float y);
+	CPowerUp(float x,float y, CMario* player);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state) ;

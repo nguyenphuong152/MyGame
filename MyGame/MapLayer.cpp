@@ -1,6 +1,7 @@
 ﻿#include "MapLayer.h"
 #include "Utils.h"
 #include "Sprites.h"
+#include "Game.h"
 
 #define TILE_WIDTH 48
 
@@ -19,9 +20,22 @@ CMapLayer::CMapLayer(TiXmlElement* layer) {
 void CMapLayer::RenderLayer()
 {
     int id = 0;
-    for (int i = 0; i <MAPHEIGHT; i++)
+    float width, height;
+
+    if (CGame::GetInstance()->current_scene == 4)
     {
-        for (int j = 0; j < MAPWIDTH; j++)
+        width = MAPWORLD_WIDTH;
+        height = MAPWORLD_HEIGHT;
+    }
+    else if (CGame::GetInstance()->current_scene == 3)
+    {
+        width = MAPWIDTH;
+        height = MAPHEIGHT;
+    }
+
+    for (int i = 0; i <height; i++)
+    {
+        for (int j = 0; j < width; j++)
         {
             if (id == tileIdSet.size()) return;
 

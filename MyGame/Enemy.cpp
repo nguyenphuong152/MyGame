@@ -4,6 +4,7 @@
 CEnemy::CEnemy()
 {
 	isEnable = true;
+	player = NULL;
 }
 
 CEnemy::~CEnemy()
@@ -36,3 +37,8 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 		}
 	}
 }
+
+void CEnemy::SetPlayerData(CMario& mario)
+{
+	player = &mario;
+}	

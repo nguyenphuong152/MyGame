@@ -97,6 +97,18 @@
     <Filter Include="Source Files\HUD">
       <UniqueIdentifier>{6a8af6ef-5bd1-46c1-93c9-0a52e63014b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Misc\Decoration">
+      <UniqueIdentifier>{a5d56f9d-2829-4fa3-9650-86ec454de5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Misc\Decoration">
+      <UniqueIdentifier>{db3157c6-ae35-48c0-8c35-d4cd9f2925d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Misc\Portal">
+      <UniqueIdentifier>{54355a6b-a070-4642-bbab-fe5e85b5288c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Misc\Portal">
+      <UniqueIdentifier>{75410bb8-428a-4fd3-8d51-5daa0dd88a36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -163,9 +175,6 @@
       <Filter>Source Files\MapManager</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
@@ -309,6 +318,15 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Decoration.cpp">
+      <Filter>Source Files\Objects\Misc\Decoration</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\Objects\Misc\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioOverworldState.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -372,9 +390,6 @@
       <Filter>Header Files\MapManager</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -517,6 +532,15 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoration.h">
+      <Filter>Header Files\Objects\Misc\Decoration</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Header Files\Objects\Misc\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioOverworldState.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

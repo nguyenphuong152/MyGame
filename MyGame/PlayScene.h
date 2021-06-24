@@ -11,6 +11,7 @@
 #include "Coin.h"
 #include "RedVenusFireTrap.h"
 #include "FireBall.h"
+#include "MapObjects.h"
 
 
 
@@ -19,9 +20,11 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
+
+	CMap* map;
+	CMapObjects* map_objects;
 	
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> listItems;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

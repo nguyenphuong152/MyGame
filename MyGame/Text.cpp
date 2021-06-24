@@ -3,6 +3,7 @@
 #include "Sprites.h"
 #include "Utils.h"
 #include "Mario.h"
+#include "Game.h"
 
 CText::CText(Content content,float x, float y)
 {
@@ -92,7 +93,7 @@ void CText::SetText(string input)
 }
 
 void CText::SetPower(int number) {
-	int powerLevel = CMario::GetInstance()->powerLevel/100;
+	int powerLevel = player->powerLevel/100;
 
 	for (int i = 0; i < number; i++)
 	{
@@ -136,7 +137,7 @@ void CText::Countdown()
 
 void CText::SetLive()
 {
-	int live = CMario::GetInstance()->GetLive();
+	int live = player->GetLive();
 	SetText(to_string(live));
 }
 
@@ -155,7 +156,13 @@ void Letter::SetLetter(string letter)
 
 void Letter::Render()
 {
-	CSprites::GetInstance()->Get(texture)->Draw(-1, 1, x, y);
+	if (CGame::GetInstance()->current_scene!=OVERWORLD_MAP)
+	{
+		CSprites::GetInstance()->Get(texture)->Draw(-1, 1, x, y);
+	}
+	else {
+		CSprites::GetInstance()->Get(texture)->Draw(-1, 1, x+30, y);
+	}
 }
 
 void Letter::SetPosition(float x, float y)
