@@ -4,13 +4,14 @@
 #include "Camera.h"
 #include "Brick.h"
 #include "Utils.h"
+#include "Game.h"
 
-COneUpMushroom::COneUpMushroom(float x, float y,CMario* mario)
+COneUpMushroom::COneUpMushroom(float x, float y)
 {
 	isEnable = true;
 	start_y = y;
 	SetPosition(x, y - 1);
-	player = mario;
+	player = CGame::GetInstance()->GetPlayer();
 }
 
 void COneUpMushroom::SetState(int state)

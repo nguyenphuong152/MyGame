@@ -148,7 +148,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					x += dx;
 				}
-				else if (e->ny > 0)
+				else if (e->ny < 0)
 				{
 					isOnGround = true;
 				}

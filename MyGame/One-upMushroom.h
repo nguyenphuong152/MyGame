@@ -11,7 +11,7 @@ class COneUpMushroom :public CGameObject {
 	float start_y;
 	CMario* player;
 public:
-	COneUpMushroom(float x,float y,CMario* mario);
+	COneUpMushroom(float x,float y);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);

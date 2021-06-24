@@ -12,6 +12,8 @@
 #include "RedVenusFireTrap.h"
 #include "FireBall.h"
 #include "MapObjects.h"
+#include "HUD.h"
+#include "Text.h"
 
 
 
@@ -23,7 +25,10 @@ protected:
 
 	CMap* map;
 	CMapObjects* map_objects;
-	
+
+	HUD* hud;
+	Letter* letters;
+
 	vector<LPGAMEOBJECT> objects;
 
 	void _ParseSection_TEXTURES(string line);

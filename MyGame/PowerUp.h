@@ -31,14 +31,15 @@ class CPowerUp : public CGameObject
 	PowerUpType powerup_type;
 
 	float start_y;
-	CMario* player;
 
 	int changeDirection = 0;
 	int direction = 1;
 	DWORD changeDirection_start;
+
+	CMario* player;
 public:
 	bool isActive = false;
-	CPowerUp(float x,float y, CMario* player);
+	CPowerUp(float x,float y);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state) ;

@@ -55,6 +55,7 @@ void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 			{
 				inPipe = 0;
 				CCamera::GetInstance()->AdjustPositionToHiddenScene();
+				
 				mario.SetPosition(HIDDEN_SCENE_X + 420, HIDDEN_SCENE_Y + 5);
 			}
 			mario.vy = MARIO_IN_PIPE_VELOCITY_Y;

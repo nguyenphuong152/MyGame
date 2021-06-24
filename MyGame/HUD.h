@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "Utils.h"
 #include "Mario.h"
+#include "HUDContent.h"
 
 using namespace std;
 
@@ -22,32 +23,34 @@ class HUD {
 	float x,y;
 	float position_y;
 
-	int HUD_texture;
+	int countdown_start = GetTickCount64();
+	/*CMario* player;
+	*/
+
+	unordered_map<string, int> letters;
+	int hud_texture;
 
 	static HUD* __instance;
-	unordered_map<string, int> letters;
-
-	int countdown_start = GetTickCount64();
-	CMario* player;
 
 public:
-
 	static HUD* GetInstance();
+
+	void AddLetter(string name, int texture);
+	int GetTextureOfLetter(string name) { return letters[name]; };
+
+	void Init(int texture, float pos_hud);
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; };
 	
-	void Init(int texture);
 	void SetPosition(float pos_hud);
 
 	void Render();
 	void RenderBoundingBox();
+
+	void Unload();
 	
 	void Update();
 	void UpdatePosition();
-	void AddLetter(string name, int texture);
-	int GetTextureOfLetter(string name) { return letters[name]; };
 	
-	void StartCountdown() { countdown_start = GetTickCount64(); };
+	//void StartCountdown() { countdown_start = GetTickCount64(); };
 	int GetCountdownStart() { return countdown_start; };
-
-	void SetPlayer(CMario* mario) { player = mario; };
 };

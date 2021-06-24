@@ -16,6 +16,7 @@
 #include "HUD.h"
 #include "MarioStateGetIntoPipe.h"
 #include "MarioTail.h"
+#include "PowerUp.h"
 
 
 using namespace std;
@@ -31,14 +32,15 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 */
 
 #define SCENE_SECTION_UNKNOWN		-1
-#define SCENE_SECTION_TEXTURES		 2
-#define SCENE_SECTION_SPRITES		 3
-#define SCENE_SECTION_ANIMATIONS		4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS			6
-#define SCENE_SECTION_MAP				7
+#define SCENE_SECTION_TEXTURES		 1
+#define SCENE_SECTION_SPRITES		 2
+#define SCENE_SECTION_ANIMATIONS		3
+#define SCENE_SECTION_ANIMATION_SETS	4
+#define SCENE_SECTION_OBJECTS			5
+#define SCENE_SECTION_MAP				6
+#define SCENE_SECTION_HUD				7
 #define SCENE_SECTION_LETTERS			8
-#define SCENE_SECTION_HUD				9
+
 
 #define OBJECT_TYPE_MARIO		0
 #define OBJECT_TYPE_FIREBALL	1
@@ -161,17 +163,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMario(x,y);
 		obj->SetPosition(x, y);
 		player = (CMario*)obj;
+		CGame::GetInstance()->SetMainPlayer(player);
+
+		if (CGame::GetInstance()->current_scene == 3)
+		{
+			DebugOut(L"[PLAYERIFO %f %f \n", player->x,player->y);
+		}
 
 		DebugOut(L"[INFO] Player object created!\n");
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		CFireBallPool* fireball_pool = CFireBallPool::GetInstance();
-		fireball_pool->Init(objects);
+		CFireBallPool::GetInstance()->SetFireballAnimation(ani_set_id);
+		CFireBallPool::GetInstance()->Init(objects);
 	} break;
 	case OBJECT_TYPE_TAIL:
 	{
-		obj = new CMarioTail(player);
+		obj = new CMarioTail(objects);
 		obj->SetPosition((player->x+2)*player->nx, player->y+MARIO_RACOON_BBOX_HEIGHT+32);
 		player->AttachTail((CMarioTail*)obj);
 		objects.push_back(obj);
@@ -179,9 +187,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_EFFECT:
 	{
 		CEffectPool* effect_pool = CEffectPool::GetInstance();
-		effect_pool->SetEffectAnimation(ani_set_id);
-		//DebugOut(L"size %d \n",effect_pool.)
-		effect_pool->Init(objects);
+		if (effect_pool == NULL)
+		{
+			effect_pool->SetEffectAnimation(ani_set_id);
+			//DebugOut(L"size %d \n",effect_pool.)
+			effect_pool->Init(objects);
+		}
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -215,7 +226,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	mMap->CreateTileSet();
 	mMap->HandleMap();
 	map = (CMap*)mMap;
-	CMapObjects::GetInstance()->GenerateObject(&path[0],objects,player);
+	map_objects = new CMapObjects();
+	map_objects->GenerateObject(&path[0], objects);
 }
 
 void CPlayScene::_ParseSection_HUD(string line)
@@ -224,17 +236,23 @@ void CPlayScene::_ParseSection_HUD(string line)
 
 	if (tokens.size() < 1) return;
 	int texture = atoi(tokens[0].c_str());
-    
+	float pos;
+
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
-		HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
+		pos = HUD_POSITION_Y;
 	}
 	else {
-		HUD::GetInstance()->SetPosition(HUD_POSITION_Y_OW);
+		pos = HUD_POSITION_Y_OW;
 	}
 	
-	HUD::GetInstance()->SetPlayer(player);
-	HUD::GetInstance()->Init(texture);
+	//HUD::GetInstance()->SetPlayer(player);
+	HUD::GetInstance()->Init(texture, pos);
+	/*if (CGame::GetInstance()->current_scene == 3)
+	{
+		DebugOut(L"[RENDERHUD-1] %d \n", HUD::GetInstance()->hud_texture);
+	}*/
+	
 }
 
 void CPlayScene::_ParseSection_Letters(string line)
@@ -311,6 +329,8 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	
+	//DebugOut(L"[OBJECT SIZE] %d \n", objects.size());
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -318,6 +338,9 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	if (player == NULL) return;
+
 	vector<LPGAMEOBJECT> coObjects;
 
 	for (size_t i = 1; i < objects.size(); i++)
@@ -328,40 +351,27 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	for (size_t i = 0; i < objects.size(); i++)
+	for (size_t i = 1; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{
-			if (dynamic_cast<CMarioTail*>(objects[i])) continue;
-			else if (dynamic_cast<CEnemy*>(objects[i]))
-			{
-				CEnemy* enemy = dynamic_cast<CEnemy*>(objects[i]);
-				enemy->SetPlayerData(*player);
-			}
 			objects[i]->Update(dt, &coObjects);
 		}
 	}
-
+	
 	CFireBallPool::GetInstance()->Update();
 	CEffectPool::GetInstance()->Update();
 	HUD::GetInstance()->Update();
 
-	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
-	{
-		if (player->tail->isEnable)
-		{
-			player->tail->Update(objects);
-		}
-	}
-	
-
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == NULL) return;
+	player->Update(dt, &coObjects);
 }
 
 void CPlayScene::Render()
 {
+	if (player == NULL) return;
+
 	map->RenderMap();
+
 	for (int i = 1; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
@@ -370,13 +380,13 @@ void CPlayScene::Render()
 		}
 	}
 
-	
-	objects[0]->Render();
+	player->Render();
+
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
+		//DebugOut(L"vo render foreground \n");
 		map->RenderForeground();
 	}
-	
 
 	HUD::GetInstance()->Render();
 }
@@ -394,6 +404,14 @@ void CPlayScene::Unload()
 	}
 
 	objects.clear();
+	
+	HUD::GetInstance()->Unload();
+
+	map_objects = NULL;
+	map = NULL;
+
+	CGame::GetInstance()->DeletePlayer();
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -409,6 +427,7 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		input = Input::PRESS_S;
 		mario->HandleInput(input);
+		mario->canChangeMap = true;
 		break;
 	case DIK_DOWN:
 		input = Input::PRESS_DOWN;
@@ -440,6 +459,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		input = Input::PRESS_A;
 		mario->HandleInput(input);
+		break;
+	case DIK_6 :
+		mario->SwitchOverworld();
 		break;
 	}
 }

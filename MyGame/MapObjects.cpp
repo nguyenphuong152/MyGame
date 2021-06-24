@@ -23,6 +23,7 @@
 #include "Card.h"
 #include "Decoration.h"
 #include "Portal.h"
+#include "Game.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -32,7 +33,7 @@ CMapObjects* CMapObjects::GetInstance()
 	else return __instance;
 }
 
-void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& objects, CMario* mario)
+void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& objects)
 {
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
@@ -68,6 +69,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING SOLID] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Ghost") == 0)
 			{
@@ -84,6 +86,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING GHOST] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Boundary") == 0)
 			{
@@ -100,6 +103,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING BOUARYND] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "ObjectBoundary") == 0)
 			{
@@ -116,6 +120,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING OBJBOUND] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Camera") == 0)
 			{
@@ -127,11 +132,13 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height,mario); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING CAM] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "QuestionBlocks") == 0)
 			{
@@ -148,12 +155,12 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					}
 					else if (strcmp(element->Attribute("name"), "powerup") == 0)
 					{
-						item = new CPowerUp(x, y,mario);
+						item = new CPowerUp(x, y);
 						objects.push_back(item);
 					}
 					else if (strcmp(element->Attribute("name"), "one-up") == 0)
 					{
-						item = new COneUpMushroom(x, y,mario);
+						item = new COneUpMushroom(x, y);
 						const char* aniRaw = element->Attribute("type");
 						int ani = atoi(aniRaw);
 						item->SetAnimation(ani);
@@ -182,6 +189,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Enemy") == 0)
 			{
@@ -227,6 +235,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING ENEMY] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Coin") == 0)
 			{
@@ -240,6 +249,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING COIN] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName,"Card") == 0)
 			{
@@ -256,6 +266,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING CARD] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "Brick") == 0)
 			{
@@ -264,34 +275,36 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
-					obj = new CBreakableBrick(x, y,mario);
+					obj = new CBreakableBrick(x, y);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING BRICK] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "SecretPipe") == 0)
 			{
-			while (element)
-			{
-				element->QueryFloatAttribute("x", &x);
-				element->QueryFloatAttribute("y", &y);
-				const char* type = element->Attribute("name");
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					const char* type = element->Attribute("name");
 
-				if (strcmp(type, "pipe-in") == 0)
-					obj = new CPipe(PipeType::entry);
-				else if (strcmp(type, "hidden-pipe") == 0)
-					obj = new CPipe(PipeType::hidden);
-				else {
-					obj = new CPipe(PipeType::exit);
+					if (strcmp(type, "pipe-in") == 0)
+						obj = new CPipe(PipeType::entry);
+					else if (strcmp(type, "hidden-pipe") == 0)
+						obj = new CPipe(PipeType::hidden);
+					else {
+						obj = new CPipe(PipeType::exit);
+					}
+
+					objects.push_back(obj);
+
+					obj->SetPosition(x, y);
+
+					element = element->NextSiblingElement();
 				}
-
-				objects.push_back(obj);
-
-				obj->SetPosition(x, y);
-
-				element = element->NextSiblingElement();
-			}
+				//DebugOut(L"[DONE LOADING PIPE] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "AnimatedBG") == 0)
 			{
@@ -318,6 +331,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING ANIMATEDBACKGROUND] - %d \n", objects.size());
 			}
 			else if (strcmp(attributeName, "WorldGraph") == 0)
 			{
@@ -349,9 +363,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					
 					obj->SetPosition(x, y);
 					objects.push_back(obj); 
-
 					element = element->NextSiblingElement();
 				}
+				//DebugOut(L"[DONE LOADING WORLDGRAPH] - %d \n", objects.size());
 			}
 		}
 	}

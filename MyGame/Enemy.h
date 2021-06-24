@@ -28,5 +28,5 @@ public:
 
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
 	void SetAttackedAnimation(AttackedBy obj,Points point);
-	void SetPlayerData(CMario& mario);
+	
 };

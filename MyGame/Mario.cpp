@@ -43,6 +43,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
+	canChangeMap = false;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	InitState();
@@ -359,9 +360,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             }
 		}
 	}
-	marioState->Update(dt, *this);
+
+	//DebugOut(L"[MARIO VX] %f \n", vx);
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	marioState->Update(dt, *this);
 }
 
 void CMario::Render()
@@ -501,6 +505,11 @@ void CMario::ImmortalMario()
 void CMario::Die()
 {
 	SetState(MARIO_STATE_DIE);
+}
+
+void CMario::SwitchOverworld()
+{
+	CGame::GetInstance()->SwitchScene(4);
 }
 
 void CMario::LevelUp()
