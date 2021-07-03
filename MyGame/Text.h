@@ -27,7 +27,8 @@ enum class Content {
 
 class Letter {
 	float x, y;
-	int texture;
+	int texture = 0;
+
 public:
 	void SetLetter(int letter);
 	void SetLetter(string letter);
@@ -45,12 +46,9 @@ class CText {
 	int power;
 	DWORD flashing_start;
 	int flashing = 0;
-
-	CMario* player;
 public:
 	CText(Content content,float x,float y);
 	
-	void SetPlayer(CMario* mario) { player = mario; };
 	void SetText(string text);
 	void SetPower(int number);
 	void Update();

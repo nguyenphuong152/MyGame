@@ -30,12 +30,13 @@ class CFireball : public CGameObject
 	friend class CFireBallPool;
 private:
 	CFireball();
-	bool isShootingUp;
-	bool inUse = false;
-	bool isBelongToVenus;
-
-	CMario* player;
 	union {
+		struct
+		{
+			bool isBelongToVenus;
+			bool isShootingUp;
+			bool inUse;
+		} live;
 		//state when it's available
 		CFireball* next;
 	} _state;
@@ -46,13 +47,11 @@ public:
 	void SetNext(CFireball* fireball) {
 		_state.next = fireball;
 	}
-
-	void SetPlayer(CMario* mario) { player = mario; };
 	bool FinishShooting();
 
 	void AllocateFireballToMario();
 	void AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp);
-	void DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject);
+	void DisableFireballByCamera();
 	void HandleFireballForVenus();
 	void ExplosedFireball();
 

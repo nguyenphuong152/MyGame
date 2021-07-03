@@ -1,9 +1,9 @@
 #pragma once
 #include "MarioState.h"
 
+
 class CMarioHoldingShellStates : public CMarioState
 {
-
 public:
 	static CMarioHoldingShellStates* __instance;
 

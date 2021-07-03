@@ -12,6 +12,7 @@
 #include "PowerUp.h"
 #include "EffectPool.h"
 #include "MarioStateHoldShellIdle.h"
+#include "BreakableBrick.h"
 
 
 CKoopas::CKoopas()
@@ -44,31 +45,32 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CEnemy::Update(dt,coObjects);
 
-	if (isHolded == true&& player->powerMode == true)
+	if (player->isHoldKoopa == true)
 	{
 		UpdateShellPosition();
 	}
 	else {
 		vy += KOOPA_GRAVITY * dt;
 	}
-	
-	if (player->marioState == CMarioState::kick.GetInstance())
+
+	if (player->GetState() == CMarioState::kick.GetInstance()&&player->isHoldKoopa == true)
 	{
-	   SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
+		player->isHoldKoopa = false;
+		SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 	}
 
-	//die ->recover
-	if (GetTickCount64() - CEnemy::die_start > KOOPA_DIE_TIME && die) {
-		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-		SetState(KOOPA_STATE_RECOVER);
-	}
-	//recover->live
-	if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
-		//xet lai vi tri k thoi rua se bi roi xuong
-		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-		if (ny == -1) ny = 1;
-		SetState(KOOPA_STATE_WALKING);
-	}
+	////die ->recover
+	//if (GetTickCount64() - CEnemy::die_start > KOOPA_DIE_TIME && die) {
+	//	y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+	//	SetState(KOOPA_STATE_RECOVER);
+	//}
+	////recover->live
+	//if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
+	//	//xet lai vi tri k thoi rua se bi roi xuong
+	//	y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+	//	if (ny == -1) ny = 1;
+	//	SetState(KOOPA_STATE_WALKING);
+	//}
 
 		
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -101,7 +103,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBox*>(e->obj)||dynamic_cast<CCamera*>(e->obj)|| dynamic_cast<CObjectBoundary*>(e->obj))
+			if (dynamic_cast<CBox*>(e->obj)||dynamic_cast<CObjectBoundary*>(e->obj))
 			{
 				if (e->nx != 0)
 				{
@@ -110,7 +112,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
 					}
 					else
-					{ 
+					{
 						if (dynamic_cast<CObjectBoundary*>(e->obj))
 						{
 							this->nx = -this->nx;
@@ -124,7 +126,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isOnGround = true;
 				}
 			}
-			else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj))
+			else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj)||dynamic_cast<CBreakableBrick*>(e->obj))
 			{
 
 				if (e->nx != 0)
@@ -137,7 +139,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							brick->SetState(BRICK_STATE_TOUCHED);
 						}
+					}else if (dynamic_cast<CBreakableBrick*>(e->obj))
+					{
+						CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(e->obj);
+						if (bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
+						{
+							bBrick->SetAttackedAnimation();
+							bBrick->isEnable = false;
+						}
 					}
+
 					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
 					{
 						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
@@ -148,7 +159,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					x += dx;
 				}
-				else if (e->ny > 0)
+				else if (e->ny < 0)
 				{
 					isOnGround = true;
 				}
@@ -218,7 +229,7 @@ void CKoopas::UpdateShellPosition()
 		x = player->x - VALUE_ADJUST_SHELL;
 	}
 
-	y = player->x;
+	y = player->y-2;
 	if (player->GetLevel() != MARIO_LEVEL_SMALL) y = player->y + VALUE_ADJUST_SHELL+2;
 }
 

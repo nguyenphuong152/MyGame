@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Mario.h"
 #include "GameObject.h"
 
 #define BRICK_BBOX_WIDTH 49
@@ -30,6 +31,7 @@ public:
 
 	CBrick(CGameObject* item,float y, BrickType type);
 	BrickType GetType() { return type; };
+
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);

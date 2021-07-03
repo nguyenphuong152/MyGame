@@ -93,9 +93,9 @@ class CMarioState;
 #define MARIO_ANI_GET_INTO_PIPE						61
 #define MARIO_ANI_DROP_FROP_PIPE					62
 
-#define MARIO_ANI_WALK_OW_SMALL						63
-#define MARIO_ANI_WALK_OW_BIG						64
-#define MARIO_ANI_WALK_OW_RACCOON					65
+#define MARIO_ANI_WALK_OW_SMALL						0
+#define MARIO_ANI_WALK_OW_BIG						1
+#define MARIO_ANI_WALK_OW_RACCOON					2
 
 #define	MARIO_LEVEL_SMALL		1
 #define	MARIO_LEVEL_BIG			2
@@ -142,6 +142,7 @@ public:
 
 	int animation;
 	int powerLevel;
+
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canJumpHigh = false;
@@ -150,6 +151,9 @@ public:
 	bool isFloating = false;
 	bool isJumpOnSwitch = false;
 	bool canGoIntoPipe = false;
+	bool canChangeMap = false;
+	bool isHoldKoopa = false;
+
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -192,6 +196,7 @@ public:
 	void FireMario();
 	void ImmortalMario();
 	void Die();
+	void SwitchOverworld();
 
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);

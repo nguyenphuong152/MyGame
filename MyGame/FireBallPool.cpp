@@ -25,6 +25,7 @@ CFireball* CFireBallPool::Create()
 	// Make sure the pool isn't full --- all fireballs are used.
 	if (_firstAvailable != NULL) {
 		CFireball* newBall = _firstAvailable;
+		newBall->SetAnimation(ani_set);
 		_firstAvailable = newBall->GetNext();
 		return newBall;
 	}
@@ -56,8 +57,9 @@ CFireBallPool* CFireBallPool::GetInstance()
 }
 
 
-void CFireBallPool::Init(vector<LPGAMEOBJECT> objects)
+void CFireBallPool::Init(vector<LPGAMEOBJECT> &objects, int ani)
 {
+	SetFireballAnimation(ani);
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		objects.push_back(fireballs[i]);

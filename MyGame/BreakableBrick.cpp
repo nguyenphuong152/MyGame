@@ -2,10 +2,11 @@
 #include "Utils.h"
 #include "Brick.h"
 #include "EffectPool.h"
+#include "Game.h"
 
-CBreakableBrick::CBreakableBrick(float x, float y, CMario* mario)
+CBreakableBrick::CBreakableBrick(float x, float y)
 {
-	player = mario;
+	player = CGame::GetInstance()->GetPlayer();
 	isEnable = true;
 	SetAnimation(BREAKABLE_BRICK_ANI);
 	SetState(BREAKABLE_BRICK_VISUAL_STATE);

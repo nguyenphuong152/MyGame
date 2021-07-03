@@ -2,7 +2,6 @@
 #include "HUD.h"
 #include "Sprites.h"
 #include "Utils.h"
-#include "Mario.h"
 #include "Game.h"
 
 CText::CText(Content content,float x, float y)
@@ -93,6 +92,7 @@ void CText::SetText(string input)
 }
 
 void CText::SetPower(int number) {
+	CMario* player = CGame::GetInstance()->GetPlayer();
 	int powerLevel = player->powerLevel/100;
 
 	for (int i = 0; i < number; i++)
@@ -137,9 +137,13 @@ void CText::Countdown()
 
 void CText::SetLive()
 {
+	CMario* player = CGame::GetInstance()->GetPlayer();
 	int live = player->GetLive();
 	SetText(to_string(live));
 }
+
+/*Letter*/
+
 
 void Letter::SetLetter(int letter)
 {
@@ -169,6 +173,7 @@ void Letter::SetPosition(float x, float y)
 {
 	float hud_x, hud_y;
 	HUD::GetInstance()->GetPosition(hud_x, hud_y);
-	this->x = floor(hud_x + x);
-	this->y = floor(hud_y + y);
+	this->x = floor(x+hud_x);
+	this->y = floor(y+hud_y);
 }
+

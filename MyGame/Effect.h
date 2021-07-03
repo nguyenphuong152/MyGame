@@ -37,16 +37,15 @@ private:
 	bool inUse = false;
 	DWORD animated_start;
 
-	union {
-		//state when it's available
-		CEffect* next;
-	} _state;
+	
+	//state when it's available
+	CEffect* next;
 public:
 	CEffect* GetNext() {
-		return _state.next;
+		return next;
 	}
 	void SetNext(CEffect* effect) { 
-		_state.next = effect;
+		next = effect;
 	}
 
 	bool FinishAnimated();

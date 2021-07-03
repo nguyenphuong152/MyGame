@@ -5,15 +5,16 @@
 #include "Camera.h"
 #include "Utils.h"
 #include "Box.h"
+#include "Game.h"
 
-CPowerUp::CPowerUp(float x,float  y,CMario* mario)
+CPowerUp::CPowerUp(float x,float  y)
 {
 	changeDirection_start = 0;
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x+0.15,y);
-	player = mario;
+	SetPosition(x+0.1,y);
+	player = CGame::GetInstance()->GetPlayer();
 }
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)

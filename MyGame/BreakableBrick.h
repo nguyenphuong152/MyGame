@@ -18,7 +18,7 @@ class CBreakableBrick : public CGameObject
 {
 	CMario* player;
 public:
-	CBreakableBrick(float x, float y, CMario* mario);
+	CBreakableBrick(float x, float y);
 	void SetAttackedAnimation();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

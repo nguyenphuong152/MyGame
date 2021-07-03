@@ -4,13 +4,14 @@
 #include "Camera.h"
 #include "Brick.h"
 #include "Utils.h"
+#include "Game.h"
 
-COneUpMushroom::COneUpMushroom(float x, float y,CMario* mario)
+COneUpMushroom::COneUpMushroom(float x, float y)
 {
 	isEnable = true;
 	start_y = y;
 	SetPosition(x, y - 1);
-	player = mario;
+	player = CGame::GetInstance()->GetPlayer();
 }
 
 void COneUpMushroom::SetState(int state)
@@ -37,7 +38,7 @@ void COneUpMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + POWER_UP_BBOX_WIDTH;
-	b = y + POWER_UP_BBOX_WIDTH;
+	b = y + POWER_UP_BBOX_WIDTH+7;
 }
 
 void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
@@ -92,14 +93,14 @@ void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 					}
 				}
-				else if (dynamic_cast<CCamera*>(e->obj))
+				/*else if (dynamic_cast<CCamera*>(e->obj))
 				{
 					if (e->ny < 0)
 					{
 						vy =  MUSHROOM_VELOCITY_Y;
 						y += dy;
 					}
-				}
+				}*/
 			}
 		}
 

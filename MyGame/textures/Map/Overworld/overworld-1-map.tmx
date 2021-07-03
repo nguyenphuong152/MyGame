@@ -360,15 +360,6 @@
    </properties>
    <point/>
   </object>
-  <object id="16" name="node-15" type="0" x="288.667" y="434">
-   <properties>
-    <property name="adjacent_list" value="14,16"/>
-    <property name="adjacent_weight" value="l,r"/>
-    <property name="node_id" type="int" value="15"/>
-    <property name="scene" value=""/>
-   </properties>
-   <point/>
-  </object>
   <object id="17" name="node-16" type="8" x="384.667" y="434">
    <properties>
     <property name="adjacent_list" value="15,17"/>

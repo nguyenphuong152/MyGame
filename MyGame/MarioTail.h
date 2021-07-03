@@ -9,8 +9,8 @@ class CMarioTail : public CGameObject
 {
 	CMario* player;
 	public:
-		CMarioTail(CMario* mario);
+		CMarioTail();
 		virtual void Render();
 		virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-		void Update(vector<LPGAMEOBJECT> objects);
+		void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };

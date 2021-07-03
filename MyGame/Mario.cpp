@@ -43,6 +43,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
+	canChangeMap = false;
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	InitState();
@@ -101,12 +102,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
+		if(rdx != 0 && rdx!=dx)
+			x += nx*abs(rdx); 
 
 		//block every object first
-		x += min_tx * dx + nx * 0.25f;
-		y += min_ty * dy + ny * 0.25f;
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -164,15 +165,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{	
-					if (koopa->GetState() == KOOPA_STATE_DIE&&marioState!=CMarioState::kick.GetInstance())
+					if (koopa->GetState() == KOOPA_STATE_DIE)
 					{
-
-						ChangeState(CMarioState::kick.GetInstance());
-						CMarioState::kick.GetInstance()->StartKicking();
 						if (powerMode)
 						{
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
-							koopa->isHolded = true;
+							isHoldKoopa = true;
+							//koopa->isHolded = true;
+						}
+						else {
+							ChangeState(CMarioState::kick.GetInstance());
+							CMarioState::kick.GetInstance()->StartKicking();
+							koopa->SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 						}
 
 					}
@@ -206,6 +210,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+				else if (e->ny > 0)
+				{
+					y += dy;
+				}
 				else if (e->nx != 0)
 				{
 					if (dynamic_cast<CBox*>(e->obj))
@@ -219,6 +227,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						x += dx;
 						
+					}
+					else  if (e->nx != 0)
+					{
+						RecalculatePower();
+						ChangeState(CMarioState::walk.GetInstance());
 					}
 				}
 			}
@@ -359,9 +372,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             }
 		}
 	}
-	marioState->Update(dt, *this);
+
+	//DebugOut(L"[MARIO VX] %f \n", vx);
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	marioState->Update(dt, *this);
 }
 
 void CMario::Render()
@@ -501,6 +517,11 @@ void CMario::ImmortalMario()
 void CMario::Die()
 {
 	SetState(MARIO_STATE_DIE);
+}
+
+void CMario::SwitchOverworld()
+{
+	CGame::GetInstance()->SwitchScene(4);
 }
 
 void CMario::LevelUp()

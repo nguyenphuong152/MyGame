@@ -134,9 +134,11 @@ void CRedVenusFireTrap::StartShooting()
 {
 	startShooting = GetTickCount64(); 
 	isShooting = true;
+
 	vy = 0;
-	/*CFireball* fireball = CFireBallPool::GetInstance()->Create();
-	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);*/
+
+	CFireball* fireball = CFireBallPool::GetInstance()->Create();
+	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);
 	if (isShootingUp) isShootingUp = false;
 }
 
@@ -160,7 +162,9 @@ void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
 		DWORD now = GetTickCount();
 		if (now - startShooting > TIME_SHOOTING)
 		{
+			isShootingUp = false;
 			isShooting = false;
+
 			startShooting = -1;
 			if (player->y > position_pipe - 45)
 			{

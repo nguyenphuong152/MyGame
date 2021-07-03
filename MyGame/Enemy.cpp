@@ -1,10 +1,11 @@
 #include "Enemy.h"
+#include "Game.h"
 
 
 CEnemy::CEnemy()
 {
 	isEnable = true;
-	player = NULL;
+	player = CGame::GetInstance()->GetPlayer();
 }
 
 CEnemy::~CEnemy()
@@ -38,7 +39,7 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 	}
 }
 
-void CEnemy::SetPlayerData(CMario& mario)
-{
-	player = &mario;
-}	
+//void CEnemy::SetPlayerData(CMario& mario)
+//{
+//	player = &mario;
+//}	

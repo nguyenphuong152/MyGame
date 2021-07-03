@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "HUDContent.h"
 
+
 HUD* HUD::__instance = NULL;
 
 HUD* HUD::GetInstance()
@@ -15,15 +16,26 @@ HUD* HUD::GetInstance()
 	return __instance;
 }
 
+void HUD::Init(int texture, float pos_hud)
+{
+	SetPosition(pos_hud);
+	hud_texture = texture;
+	HUDContent::GetInstance()->SetUpContent();
+}
+
 void HUD::Render()
 {
 	RenderBoundingBox();
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
-		CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x, y);
+		//(L"[RENDERHUD-1] %d \n",hud_texture);
+		CSprites::GetInstance()->Get(hud_texture)->Draw(-1, 1, x, y);
+		
 	}
 	else {
-		CSprites::GetInstance()->Get(HUD_texture)->Draw(-1, 1, x+30, y);
+		//DebugOut(L"[RENDERHUD-2] %d \n", hud_texture);
+		CSprites::GetInstance()->Get(hud_texture)->Draw(-1, 1, x+30, y);
+		//DebugOut(L"[RENDERHUD-2] \n");
 	}
 	HUDContent::GetInstance()->Render();
 
@@ -67,12 +79,17 @@ void HUD::RenderBoundingBox()
 	CGame::GetInstance()->Draw(0, 0, x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 255);
 }
 
-void HUD::Init(int texture)
+void HUD::Unload()
 {
-	this->HUD_texture = texture;
-	HUDContent::GetInstance()->SetUpPlayer(player);
-	HUDContent::GetInstance()->SetUpContent();
+	hud_texture = -1;
+	HUDContent::GetInstance()->Unload();
 }
+
+void HUD::AddLetter(string name, int texture)
+{
+	letters[name] = texture;
+}
+
 
 void HUD::Update()
 {
@@ -80,7 +97,3 @@ void HUD::Update()
 	HUDContent::GetInstance()->Update();
 }
 
-void HUD::AddLetter(string name, int texture)
-{
-	letters[name] = texture;
-}

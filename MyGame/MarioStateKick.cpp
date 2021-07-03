@@ -10,6 +10,7 @@ CMarioStateKick::CMarioStateKick() {
 
 void CMarioStateKick::Enter(CMario& mario)
 {
+	mario.SetVelocityX(0);
 	int marioLevel = mario.GetLevel();
 	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
@@ -35,6 +36,7 @@ void CMarioStateKick::Update(DWORD dt, CMario& mario)
 {
 	if (GetTickCount64()-_kickingStart > MARIO_KICKING_TIME)
 	{
+		_kickingStart = 0;
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
 }

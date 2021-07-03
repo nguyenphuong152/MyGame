@@ -43,19 +43,15 @@ void CMarioOverworldState::HandleInput(CMario& mario, Input input)
 		{
 			mario.vy = -MARIO_SPEED;
 		}
-	} else if (input == Input::PRESS_S)
-	{
-		if (scene_id != 0)
-		{
-			CGame::GetInstance()->SwitchScene(scene_id);
-			mario.ChangeState(CMarioState::idle.GetInstance());
-		}
-	}
+	} 
 }
 
 void CMarioOverworldState::Update(DWORD dt, CMario& mario)
 {
-
+	if (scene_id != 0 && mario.canChangeMap == true)
+	{
+		CGame::GetInstance()->SwitchScene(scene_id);
+	}
 }
 
 void CMarioOverworldState::SetSceneSwitching(int scene_id)

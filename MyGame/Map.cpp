@@ -85,7 +85,7 @@ void CMap::RenderMap()
 	{
 		layers[i]->RenderLayer();
 	}
-
+	//DebugOut(L"vo render map \n");
 }
 
 void CMap::RenderForeground()

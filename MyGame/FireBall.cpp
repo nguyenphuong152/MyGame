@@ -8,18 +8,23 @@
 #include "Effect.h"
 #include "EffectPool.h"
 #include "Boundary.h"
+#include "Game.h"
 
 CFireball::CFireball()
 {
-	SetAnimation(FIREBALL_ANI);
-	player = NULL;
+	_state.live.isBelongToVenus = false;
+	_state.live.isShootingUp = false;
+	_state.live.inUse = false;
 }
 
 void CFireball::AllocateFireballToMario()
 {
-	SetPosition(player->x+10, player->y+20);
+	CMario* player = CGame::GetInstance()->GetPlayer();
 	isEnable = true;
-	inUse = true;
+
+	SetPosition(player->x+10, player->y+20);
+	_state.live.inUse = true;
+
 	vx = player->nx * FIREBALL_VELOCITY_X;
 	vy = FIREBALL_VELOCITY_Y_NEAR;
 }
@@ -28,11 +33,14 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 {
 	SetPosition(x,y);
 	isEnable = true;
-	inUse = true;
-	isBelongToVenus = true;
-	this->isShootingUp = isShootingUp;
+
+	_state.live.inUse = true;
+	_state.live.isBelongToVenus = true;
+	_state.live.isShootingUp = isShootingUp;
+
 	vx = nx * FIREBALL_VELOCITY_X*0.5;
 	vy = FIREBALL_VENUS_VELOCITY_Y_NEAR;
+	
 }
 
 void CFireball::Render()
@@ -48,9 +56,9 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	vy += FIREBALL_GRAVITY * dt;
 
-	DisableFireballByCamera(colObject);
+	DisableFireballByCamera();
 
-	if (isBelongToVenus) HandleFireballForVenus();
+	if (_state.live.isBelongToVenus) HandleFireballForVenus();
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -61,7 +69,7 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		CalcPotentialCollisions(colObject, coEvents);
 
 	//if no collision occured, proceed normally
-	if (coEvents.size() == 0 || isBelongToVenus == true)
+	if (coEvents.size() == 0 || _state.live.isBelongToVenus == true)
 	{
 		x += dx;
 		y += dy;
@@ -142,27 +150,21 @@ void CFireball::ExplosedFireball()
 	}
 }
 
-void CFireball::DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject)
+void CFireball::DisableFireballByCamera()
 {
-	for (UINT i = 0; i < listObject->size(); i++)
-	{
-		if (dynamic_cast<CCamera*>(listObject->at(i)))
-		{
-			CCamera* cam = dynamic_cast<CCamera*>(listObject->at(i));
-			if (AABB(cam) == false) {
-				isEnable = false;
-			}
-		}
+	CCamera* cam = CGame::GetInstance()->GetMainCamera();
+	if (AABB(cam) == false) {
+		isEnable = false;
 	}
 }
 
 bool CFireball::FinishShooting()
 {
-	if (!inUse) return false;
+	if (!_state.live.inUse) return false;
 	else if (!isEnable)
 	{
-		inUse = false;
-		if (isBelongToVenus) isBelongToVenus = false;
+		_state.live.inUse = false;
+		if (_state.live.isBelongToVenus) _state.live.isBelongToVenus = false;
 		return true;
 	}
 	else return false;
@@ -170,8 +172,10 @@ bool CFireball::FinishShooting()
 
 void CFireball::HandleFireballForVenus()
 {
+	CMario* player = CGame::GetInstance()->GetPlayer();
+
 	int dir = -1;
-	if (isShootingUp) dir = 1;
+	if (_state.live.isShootingUp) dir = 1;
 
 	if (player->x > RANGE_X_LEFT && player->x < RANGE_X_RIGHT)
 	{

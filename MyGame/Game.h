@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include "Mario.h"
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -9,6 +10,7 @@
 #include<unordered_map>
 
 #include "Scene.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -36,8 +38,10 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	float cam_x = 0.0f;
-	float cam_y = 0.0f;
+	/*float cam_x = 0.0f;
+	float cam_y = 0.0f;*/
+	CCamera* main_cam;
+	CMario* player;
 
 	int screen_width;
 	int screen_height;
@@ -59,6 +63,14 @@ public:
 	int current_scene;
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
+
+	void SetMainCamera(CCamera*  cam) { this->main_cam = cam; }
+	void SetMainPlayer(CMario* mario) { this->player = mario; }
+
+	CCamera* GetMainCamera() { return this->main_cam; }
+	CMario* GetPlayer() { return this->player; }
+
+	void DeletePlayer() { this->player = NULL; };
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
@@ -84,7 +96,7 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	static CGame* GetInstance();
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	//void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 
 	~CGame();
 };

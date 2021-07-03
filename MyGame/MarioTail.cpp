@@ -9,14 +9,18 @@
 #include "RedVenusFireTrap.h"
 
 
-CMarioTail::CMarioTail(CMario* mario)
+CMarioTail::CMarioTail()
 {
+	this->player = CGame::GetInstance()->GetPlayer();
 	isEnable = false;
-	player = mario;
 }
 
-void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
+void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vector<LPCOLLISIONEVENT> coEvents;
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (player->marioState != CMarioState::spin.GetInstance())
 	{
@@ -31,30 +35,30 @@ void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 
 	if (CMarioState::spin.GetInstance()->isAttack)
 	{
-		for (size_t i = 0; i < objects.size(); i++)
+		for (size_t i = 0; i < coObjects->size(); i++)
 		{
-			if (objects[i]->isEnable == true && objects[i]->nx!=0&&AABB(objects[i]))
+			if (coObjects->at(i)->isEnable == true && coObjects->at(i)->nx!=0&&AABB(coObjects->at(i)))
 			{
-				if (dynamic_cast<CBreakableBrick*>(objects[i]))
+				if (dynamic_cast<CBreakableBrick*>(coObjects->at(i)))
 				{
-					CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(objects[i]);
+					CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(coObjects->at(i));
 					if ( bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
 					{
 						bBrick->SetAttackedAnimation();
 						bBrick->isEnable = false;
 					}
 				}
-				else if (dynamic_cast<CBrick*>(objects[i]))
+				else if (dynamic_cast<CBrick*>(coObjects->at(i)))
 			    {
-					CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
+					CBrick* brick = dynamic_cast<CBrick*>(coObjects->at(i));
 					if (brick->GetType() == BrickType::twinkle_brick &&  brick->GetState() != BRICK_STATE_TOUCHED)
 					{
 						brick->SetState(BRICK_STATE_TOUCHED);
 					}
 				}
-				else if (dynamic_cast<CGoomBa*>(objects[i]))
+				else if (dynamic_cast<CGoomBa*>(coObjects->at(i)))
 				{
-					CGoomBa* goomba = dynamic_cast<CGoomBa*>(objects[i]);
+					CGoomBa* goomba = dynamic_cast<CGoomBa*>(coObjects->at(i));
 					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
 					{
 						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
@@ -66,17 +70,17 @@ void CMarioTail::Update(vector<LPGAMEOBJECT> objects)
 						goomba->ny = -1;
 					}
 				}
-				else if (dynamic_cast<CKoopas*>(objects[i]))
+				else if (dynamic_cast<CKoopas*>(coObjects->at(i)))
 				{
-					CKoopas* koopa = dynamic_cast<CKoopas*>(objects[i]);
+					CKoopas* koopa = dynamic_cast<CKoopas*>(coObjects->at(i));
 					if (koopa->isOnGround)
 					{
 						koopa->AttackedByTail();
 					}
 				}
-				else if (dynamic_cast<CRedVenusFireTrap*> (objects[i]))
+				else if (dynamic_cast<CRedVenusFireTrap*> (coObjects->at(i)))
 				{
-					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(objects[i]);
+					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(coObjects->at(i));
 					venus->SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
 					venus->isEnable = false;
 				}
