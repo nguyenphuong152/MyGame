@@ -37,12 +37,6 @@
     <Filter Include="Source Files\Objects">
       <UniqueIdentifier>{75272ed2-bc7a-4d7e-a8bd-d72781eda082}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Fireball">
-      <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Fireball">
-      <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Objects\Camera">
       <UniqueIdentifier>{1804e33f-872b-4156-90cf-0ebd243e68f6}</UniqueIdentifier>
     </Filter>
@@ -79,12 +73,6 @@
     <Filter Include="Source Files\Objects\Misc">
       <UniqueIdentifier>{5be7df63-e186-484b-aee8-6155af885fbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Effect">
-      <UniqueIdentifier>{7eb5c094-c5b6-4d9d-871d-25d8e494cf81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Effect">
-      <UniqueIdentifier>{2b3a5d3f-1a05-41c3-9e68-4f3809c96491}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Objects\Enemies">
       <UniqueIdentifier>{ff7444a7-f3ca-4955-9972-6ad2fcc159e9}</UniqueIdentifier>
     </Filter>
@@ -108,6 +96,30 @@
     </Filter>
     <Filter Include="Header Files\Objects\Misc\Portal">
       <UniqueIdentifier>{75410bb8-428a-4fd3-8d51-5daa0dd88a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\ObjectPool">
+      <UniqueIdentifier>{ad68f86a-fff4-42da-8dae-8435a3c16cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\ObjectPool\Effect">
+      <UniqueIdentifier>{7eb5c094-c5b6-4d9d-871d-25d8e494cf81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\ObjectPool\Fireball">
+      <UniqueIdentifier>{2afd3014-226d-4c5c-816b-e62b69a248ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\ObjectPool">
+      <UniqueIdentifier>{a0600ea8-8952-4af3-941e-caef3218f448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\ObjectPool\Fireball">
+      <UniqueIdentifier>{d734f5d5-c1fb-4a68-ad9b-81d92a3f7034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\ObjectPool\Effect">
+      <UniqueIdentifier>{2b3a5d3f-1a05-41c3-9e68-4f3809c96491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\ObjectPool\Boomerang">
+      <UniqueIdentifier>{59d4f7e0-47cd-43da-9661-5b88e9e68115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\ObjectPool\Boomerang">
+      <UniqueIdentifier>{16e8c777-3fa9-4189-968b-e11d84c84a36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,10 +163,10 @@
       <Filter>Source Files\Objects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="FireBallPool.cpp">
-      <Filter>Source Files\Objects\Fireball</Filter>
+      <Filter>Source Files\Objects\ObjectPool\Fireball</Filter>
     </ClCompile>
     <ClCompile Include="Fireball.cpp">
-      <Filter>Source Files\Objects\Fireball</Filter>
+      <Filter>Source Files\Objects\ObjectPool\Fireball</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp">
       <Filter>Source Files\TinyXml</Filter>
@@ -280,10 +292,10 @@
       <Filter>Source Files\Objects\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
-      <Filter>Source Files\Objects\Effect</Filter>
+      <Filter>Source Files\Objects\ObjectPool\Effect</Filter>
     </ClCompile>
     <ClCompile Include="EffectPool.cpp">
-      <Filter>Source Files\Objects\Effect</Filter>
+      <Filter>Source Files\Objects\ObjectPool\Effect</Filter>
     </ClCompile>
     <ClCompile Include="BreakableBrick.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
@@ -326,6 +338,15 @@
     </ClCompile>
     <ClCompile Include="MarioOverworldState.cpp">
       <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
+    <ClCompile Include="BoomerangBrother.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Source Files\Objects\ObjectPool\Boomerang</Filter>
+    </ClCompile>
+    <ClCompile Include="BoomerangPool.cpp">
+      <Filter>Source Files\Objects\ObjectPool\Boomerang</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,10 +393,10 @@
       <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="FireBallPool.h">
-      <Filter>Header Files\Objects\Fireball</Filter>
+      <Filter>Header Files\Objects\ObjectPool\Fireball</Filter>
     </ClInclude>
     <ClInclude Include="Fireball.h">
-      <Filter>Header Files\Objects\Fireball</Filter>
+      <Filter>Header Files\Objects\ObjectPool\Fireball</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h">
       <Filter>Header Files\TinyXml</Filter>
@@ -495,10 +516,10 @@
       <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h">
-      <Filter>Header Files\Objects\Effect</Filter>
+      <Filter>Header Files\Objects\ObjectPool\Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectPool.h">
-      <Filter>Header Files\Objects\Effect</Filter>
+      <Filter>Header Files\Objects\ObjectPool\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BreakableBrick.h">
       <Filter>Header Files\Objects\Misc</Filter>
@@ -541,6 +562,15 @@
     </ClInclude>
     <ClInclude Include="MarioOverworldState.h">
       <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomerangBrother.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Header Files\Objects\ObjectPool\Boomerang</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomerangPool.h">
+      <Filter>Header Files\Objects\ObjectPool\Boomerang</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,10 @@
 #define MAPWORLD_HEIGHT	14
 #define MAPWORLD_WIDTH	16
 
+#define MAPWIDTH1_3 158
+#define MAPHEIGHT1_3	50
+
+
 class CMapLayer {
 
 	const char* mapInfo;
@@ -17,4 +21,5 @@ class CMapLayer {
 public:
 	CMapLayer(TiXmlElement* layer);
 	void RenderLayer();
+	void SetWidthHeight(float& width, float& height);
 };

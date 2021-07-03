@@ -23,6 +23,7 @@
 #include "Card.h"
 #include "Decoration.h"
 #include "Portal.h"
+#include "BoomerangBrother.h"
 #include "Game.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
@@ -132,7 +133,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(6000, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(250, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 
@@ -227,6 +228,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					else if (strcmp(enemyName, "green_para-koopa") == 0)
 					{
 						obj = new CParaKoopa();
+					}
+					else if (strcmp(enemyName, "boomerang_brother") == 0)
+					{
+						obj = new CBoomerangBrother();
 					}
 
 					obj->SetAnimation(ani);
