@@ -152,6 +152,7 @@ public:
 	bool isJumpOnSwitch = false;
 	bool canGoIntoPipe = false;
 	bool canChangeMap = false;
+	bool isHoldKoopa = false;
 
 
 	CMario(float x = 0.0f, float y = 0.0f);

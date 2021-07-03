@@ -57,8 +57,9 @@ CFireBallPool* CFireBallPool::GetInstance()
 }
 
 
-void CFireBallPool::Init(vector<LPGAMEOBJECT> &objects)
+void CFireBallPool::Init(vector<LPGAMEOBJECT> &objects, int ani)
 {
+	SetFireballAnimation(ani);
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		objects.push_back(fireballs[i]);

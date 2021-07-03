@@ -1,11 +1,11 @@
 #pragma once
 #include "MarioOnGroundStates.h"
-#define MARIO_KICKING_TIME 200
+#define MARIO_KICKING_TIME 400
 
 class CMarioStateKick : public CMarioOnGroundStates
 {
 private:
-	DWORD _kickingStart;
+	DWORD _kickingStart = 0;
 public:
 	static CMarioStateKick* __instance;
 

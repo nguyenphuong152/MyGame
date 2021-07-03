@@ -16,12 +16,17 @@ CCamera* CCamera::__instance = NULL;
 
 void CCamera::SetProperty(float l, float t, float width, float height)
 {
+	//sua start_x neu vi tri cam thay doi
 	x = start_x = l ;
+
+    //xoa line nay
+	start_x = 3;
+
 	y = start_y= t ;
 	this->width = width;
 	this->height = height;
 	cam_center_X = x+width/ 2-10;
-	cam_center_Y = y+height/2-5;
+	cam_center_Y = y+height/2;
 	isEnable = true;
 	player = CGame::GetInstance()->GetPlayer();
 	SetState(CAMERA_STATE_NORMAL);
@@ -67,11 +72,11 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	if (player->state != MARIO_STATE_DIE && player->marioState!=CMarioState::walking_overworld.GetInstance())
 	{
+		cam_center_X = x + width / 2 - 10;
+		cam_center_Y = y + height / 2;
+
 		FollowPlayerHorizontally();
 		FollowPlayerVertically();
-
-		cam_center_X = x + width / 2 - 10;
-		cam_center_Y = y + height / 2 - 5;
 
 		CalcPotentialCollisions(colObject, coEvents);
 
@@ -125,7 +130,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 void CCamera::FollowPlayerHorizontally()
 {
-
+	//DebugOut(L"startx %f ---- x %f --- camcentetr %f --- mario %f \n", start_x, x,cam_center_X,player->x);
 	if (x>start_x && !isReachBoundaryRight)
 	{
 		if (player->x > cam_center_X && player->vx > 0 || player->x < cam_center_X && player->vx < 0)
@@ -146,6 +151,7 @@ void CCamera::FollowPlayerHorizontally()
 
 void CCamera::FollowPlayerVertically()
 {
+	
 	if (player->GetState() == CMarioState::fly.GetInstance())
 	{
 	    if (y == start_y && player->vy > 0)
@@ -157,9 +163,11 @@ void CCamera::FollowPlayerVertically()
 			vy = player->vy;
 		}
 	}
-	else if (player->GetState() == CMarioState::drop.GetInstance() && player->y > cam_center_Y|| player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
+	else if (player->GetState() == CMarioState::drop.GetInstance()&&player->y > cam_center_Y || player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
 	{
-		if (y<start_y) vy = player->vy;
+		if (y < start_y) {
+			vy = player->vy;
+		}
 		else if (player->isOnGround)
 		{
 			vy = 0;

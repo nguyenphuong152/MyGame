@@ -1,7 +1,7 @@
 #include "Switch.h"
 
 CSwitch::CSwitch() {
-	isEnable = false;
+	isEnable = true;
 	SetState(SWITCH_STATE_UNTOUCH);
 }
 

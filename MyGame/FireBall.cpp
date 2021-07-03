@@ -56,7 +56,7 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	vy += FIREBALL_GRAVITY * dt;
 
-	DisableFireballByCamera(colObject);
+	DisableFireballByCamera();
 
 	if (_state.live.isBelongToVenus) HandleFireballForVenus();
 
@@ -150,17 +150,11 @@ void CFireball::ExplosedFireball()
 	}
 }
 
-void CFireball::DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject)
+void CFireball::DisableFireballByCamera()
 {
-	for (UINT i = 0; i < listObject->size(); i++)
-	{
-		if (dynamic_cast<CCamera*>(listObject->at(i)))
-		{
-			CCamera* cam = dynamic_cast<CCamera*>(listObject->at(i));
-			if (AABB(cam) == false) {
-				isEnable = false;
-			}
-		}
+	CCamera* cam = CGame::GetInstance()->GetMainCamera();
+	if (AABB(cam) == false) {
+		isEnable = false;
 	}
 }
 

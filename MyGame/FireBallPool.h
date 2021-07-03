@@ -16,7 +16,7 @@ public:
 	CFireBallPool();
 	CFireball* Create();
 	void Update();
-	void Init(vector<LPGAMEOBJECT> &objects);
+	void Init(vector<LPGAMEOBJECT> &objects, int ani);
 
 	void SetFireballAnimation(int ani) { this->ani_set = ani; };
 

@@ -12,8 +12,8 @@ CEffectPool::CEffectPool()
 	// Each particle points to the next.
 	for (int i = 0; i < POOL_SIZE - 1; i++)
 	{
-		effects[i]->SetNext(effects[i + 1]);
 		effects[i + 1] = new CEffect();
+		effects[i]->SetNext(effects[i + 1]);
 	}
 
 	// The last one terminates the list.
@@ -56,8 +56,9 @@ CEffectPool* CEffectPool::GetInstance()
 	return __instance;
 }
 
-void CEffectPool::Init(vector<LPGAMEOBJECT> &objects)
+void CEffectPool::Init(vector<LPGAMEOBJECT> &objects, int ani)
 {
+	SetEffectAnimation(ani);
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		objects.push_back(effects[i]);

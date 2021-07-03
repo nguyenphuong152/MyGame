@@ -17,7 +17,7 @@ public:
 	CEffect* Create();
 	void SetEffectAnimation(int ani) { this->ani_set = ani; };
 	void Update();
-	void Init(vector<LPGAMEOBJECT> &objects);
+	void Init(vector<LPGAMEOBJECT> &objects,int ani);
 
 	static CEffectPool* GetInstance();
 };

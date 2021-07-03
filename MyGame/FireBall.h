@@ -51,7 +51,7 @@ public:
 
 	void AllocateFireballToMario();
 	void AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp);
-	void DisableFireballByCamera(vector<LPGAMEOBJECT>* listObject);
+	void DisableFireballByCamera();
 	void HandleFireballForVenus();
 	void ExplosedFireball();
 

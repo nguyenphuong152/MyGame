@@ -174,25 +174,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		CFireBallPool::GetInstance()->SetFireballAnimation(ani_set_id);
-		CFireBallPool::GetInstance()->Init(objects);
+		CFireBallPool::GetInstance()->Init(objects,ani_set_id);
 	} break;
 	case OBJECT_TYPE_TAIL:
 	{
-		obj = new CMarioTail(objects);
+		obj = new CMarioTail();
 		obj->SetPosition((player->x+2)*player->nx, player->y+MARIO_RACOON_BBOX_HEIGHT+32);
 		player->AttachTail((CMarioTail*)obj);
 		objects.push_back(obj);
 	} break;
 	case OBJECT_TYPE_EFFECT:
 	{
-		CEffectPool* effect_pool = CEffectPool::GetInstance();
-		if (effect_pool == NULL)
-		{
-			effect_pool->SetEffectAnimation(ani_set_id);
-			//DebugOut(L"size %d \n",effect_pool.)
-			effect_pool->Init(objects);
-		}
+		CEffectPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -384,7 +377,6 @@ void CPlayScene::Render()
 
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
-		//DebugOut(L"vo render foreground \n");
 		map->RenderForeground();
 	}
 
