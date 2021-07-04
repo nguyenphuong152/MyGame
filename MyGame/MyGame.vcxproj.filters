@@ -348,6 +348,9 @@
     <ClCompile Include="BoomerangPool.cpp">
       <Filter>Source Files\Objects\ObjectPool\Boomerang</Filter>
     </ClCompile>
+    <ClCompile Include="MagicNoteBlock.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="BoomerangPool.h">
       <Filter>Header Files\Objects\ObjectPool\Boomerang</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicNoteBlock.h">
+      <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

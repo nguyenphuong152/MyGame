@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="36" nextobjectid="488">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="37" nextobjectid="491">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -385,7 +385,7 @@
 </data>
  </layer>
  <objectgroup id="13" name="Solid">
-  <object id="1" x="2" y="1010" width="3784" height="44"/>
+  <object id="1" x="3.5" y="1010.5" width="3784" height="44"/>
   <object id="5" x="3839.33" y="1008" width="528" height="52"/>
   <object id="13" x="4418.67" y="1011.33" width="3162" height="44.6667"/>
   <object id="295" x="7009.21" y="2161.09" width="93.697" height="187.394"/>
@@ -523,7 +523,7 @@
   <object id="341" x="1775.67" y="816" width="48" height="48"/>
   <object id="343" x="1728" y="816.417" width="48" height="48"/>
  </objectgroup>
- <objectgroup id="15" name="Enemy">
+ <objectgroup id="15" name="Enemy" visible="0">
   <object id="471" name="red_koopa" type="70" x="1806.83" y="661.5" width="13" height="13">
    <properties>
     <property name="ani_id" value="70"/>
@@ -539,13 +539,17 @@
  <objectgroup id="27" name="Camera" visible="0">
   <object id="239" x="11.5152" y="421.152" width="840" height="641.333"/>
  </objectgroup>
- <objectgroup id="28" name="ObjectBoundary">
+ <objectgroup id="28" name="ObjectBoundary" visible="0">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>
   <object id="245" x="1729" y="673.167" width="14.6667" height="93"/>
-  <object id="485" x="849.333" y="901.333" width="13.3333" height="57.3333"/>
-  <object id="486" x="1045.33" y="901.333" width="8" height="57.3333"/>
+  <object id="485" x="849.333" y="857.333" width="13.3333" height="152"/>
+  <object id="486" x="1045.33" y="854.667" width="8" height="153.333"/>
  </objectgroup>
  <objectgroup id="24" name="Card" visible="0" locked="1">
   <object id="286" type="55" x="7175.52" y="743.273" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup id="36" name="MagicNoteBlock">
+  <object id="489" x="1489.33" y="766.667" width="48" height="49.3333"/>
+  <object id="490" x="1389.33" y="864.667" width="48" height="49.3333"/>
  </objectgroup>
 </map>

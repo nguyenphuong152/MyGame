@@ -4,7 +4,7 @@
 class CBoomerangPool
 {
 	friend class CPlayScene;
-	static const int POOL_SIZE = 4;
+	static const int POOL_SIZE = 10;
 
 	int ani_set = -1;
 

@@ -4,7 +4,7 @@
 
 CEnemy::CEnemy()
 {
-	isEnable = true;
+	isEnable = false;
 	player = CGame::GetInstance()->GetPlayer();
 }
 

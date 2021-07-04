@@ -4,11 +4,15 @@
 
 #define BOOMERANG_BBOX_WIDTH		48
 
-#define BOOMERANG_VELOCITY_X			0.3f
-#define BOOMERANG_VELOCITY_Y_NEAR	0.1f		
+#define MAX_DISTANCE	350
+
+#define BOOMERANG_VELOCITY_X		0.5f
+#define BOOMERANG_VELOCITY_Y		0.3f
+
+#define BOOMERANG_TURNBACK_SPEED	0.01f
 
 
-#define BOOMERANG_GRAVITY			0.0015f
+#define BOOMERANG_GRAVITY			0.01f
 
 class CBoomerang : public CGameObject
 {
@@ -18,7 +22,10 @@ private:
 	union {
 		struct
 		{
+			CBoomerangBrother* bBrother;
 			bool inUse;
+			bool changeDirection;
+			float start_x;
 		} live;
 		//state when it's available
 		CBoomerang* next;
@@ -33,6 +40,13 @@ public:
 	bool FinishShooting();
 
 	void StartThrowing(CBoomerangBrother* bBrother);
+	void SetBoomerangBrother(CBoomerangBrother* bBrother) {
+		_state.live.bBrother = bBrother;
+	}
+
+	void DisableBoomerang();
+	void DisableBoomerangByCamera();
+	void ChangeBoomerangDirection();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void Render();

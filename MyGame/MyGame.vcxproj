@@ -168,6 +168,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDContent.cpp" />
+    <ClCompile Include="MagicNoteBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="MagicNoteBlock.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
     <ClInclude Include="MarioOverworldState.h" />

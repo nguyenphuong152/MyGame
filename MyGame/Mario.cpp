@@ -9,6 +9,7 @@
 #include "MarioStateGetIntoPipe.h"
 #include "MarioStateTransform.h"
 #include "MarioStateSpin.h"
+#include "MarioStateJump.h"
 #include "MarioStateFly.h"
 #include "MarioStateWalk.h"
 #include "MarioStateHoldShellIdle.h"
@@ -37,6 +38,8 @@
 #include "MarioTail.h"
 #include "Textures.h"
 #include "Card.h"
+#include "BoomerangBrother.h"
+#include "MagicNoteBlock.h"
 
 //CMario* CMario::__instance = NULL;
 
@@ -61,9 +64,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	if (marioState != CMarioState::walking_overworld.GetInstance())
 	{
-		//DebugOut(L"%f \n", vy);
 		vy += MARIO_GRAVITY * dt;
 	}
+
+	//DebugOut(L"%f \n", x);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -370,6 +374,37 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny > 0)
 				{
 					card->SetState(CARD_STATE_TOUCH);
+				}
+			}
+			else if (dynamic_cast<CBoomerangBrother*>(e->obj))
+			{
+			CBoomerangBrother* bBrother = dynamic_cast<CBoomerangBrother*>(e->obj);
+				if (e->ny < 0)
+				{
+					bBrother->SetState(BOOMERANGBROTHER_STATE_DIE);
+					bBrother->StartDie();
+				}
+			}
+			else if (dynamic_cast<CMagicNoteBlock*>(e->obj))
+			{
+			CMagicNoteBlock* magicBlock = dynamic_cast<CMagicNoteBlock*>(e->obj);
+				if (e->ny < 0)
+				{
+					isOnGround = true;
+					isFloating = false;
+					isOnMagicBlock = true;
+					CMarioState::idle.GetInstance()->SetStateJumping(MARIO_JUMP_SPEED_Y, *this);
+					if (magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING)
+					{
+						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING,JUMP_ON);
+					}
+				}
+				else if (e->ny > 0)
+				{
+					if (magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING)
+					{
+						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING, JUMP_UNDER);
+					}
 				}
 			}
 		}

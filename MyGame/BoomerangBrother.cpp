@@ -4,12 +4,14 @@
 #include "Ground.h"
 #include "Boomerang.h"
 #include "BoomerangPool.h"
+#include "Game.h"
 
 CBoomerangBrother::CBoomerangBrother()
 {
 	nx = direction = -1;
 	ny = 1;
-	StartWalking();
+	StartThrowing();
+	isHitted = true;
 	SetState(BOOMERANGBROTHER_STATE_WALKING);
 }
 
@@ -27,10 +29,16 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += BOOMERANGBROTHER_GRAVITY * dt;
 
-	if (isOnGround && GetTickCount64() - _startWalking > WALKING_TIME)
-	{
-		SetState(BOOMERANGBROTHER_STATE_JUMPING);
-	}
+	if (GetTickCount64() - die_start > DIETIME && die) isEnable = false;
+
+	//doi huong tuy theo mario
+	CheckDirection();
+
+	//check dieu kien nhay
+	BoomerangBrotherJump();
+
+	//check dieu kien quang bmr
+	BoomerangBrotherThrowBoomerang();
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -87,27 +95,77 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CBoomerangBrother::Render()
 {
 	int ani = BOOMERANGBROTHER_ANI_WALKING;
-	/*if (state == BOOMERANGBROTHER_STATE_JUMPING)
-		ani = BOOMERANGBROTHER_ANI_JUMPING;*/
+	
+	if (state == BOOMERANGBROTHER_STATE_THROWING) {
+		//DebugOut(L"voooooooooooo %d \n", countingTime);
+		ani = BOOMERANGBROTHER_ANI_THROW_ARMY;
+	}
 
 	//change direction for koopas
 	animation_set->at(ani)->Render(nx, ny, x, y);
 	RenderBoundingBox();
 }
 
+void CBoomerangBrother::BoomerangBrotherJump()
+{
+	if (isOnGround && GetTickCount64() - _startWalking > WALKING_TIME)
+	{
+		SetState(BOOMERANGBROTHER_STATE_JUMPING);
+	}
+}
+
+void CBoomerangBrother::CheckDirection()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	if (player->x > x)
+	{
+		nx = 1;
+	}
+	else {
+		nx = -1;
+	}
+}
+
+void CBoomerangBrother::BoomerangBrotherThrowBoomerang()
+{
+	if (GetTickCount64() - _startThrowing > DISABLE_THROWING_TIME && disableThrowing == true && isHitted == true && countingTime < THROWING_TIMES)
+	{
+		SetState(BOOMERANGBROTHER_STATE_THROWING);
+		countingTime++;
+
+	}
+	else if (countingTime == THROWING_TIMES) {
+		ResetThrowing();
+		StartThrowing();
+		SetState(BOOMERANGBROTHER_STATE_WALKING);
+	}
+
+}
 
 void CBoomerangBrother::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (state == BOOMERANGBROTHER_STATE_WALKING) vx = BOOMERANGBROTHER_WALKING_SPEED* direction;
+	if (state == BOOMERANGBROTHER_STATE_WALKING) 
+	{
+		vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
+		StartWalking();
+	}
 	else if(state == BOOMERANGBROTHER_STATE_JUMPING){
+		ResetWalking();
+		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
+	}
+	else if (state == BOOMERANGBROTHER_STATE_THROWING)
+	{
 		CBoomerang* bmr = CBoomerangPool::GetInstance()->Create();
 		if (bmr != NULL)
 		{
 			bmr->StartThrowing(this);
+			isHitted = false;
 		}
-
-		ResetWalking();
+	}
+	else {
+		vx = 0;
 		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
+		ny = -1;
 	}
 }
