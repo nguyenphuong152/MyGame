@@ -265,7 +265,7 @@
    </properties>
    <point/>
   </object>
-  <object id="5" name="node-5" type="3" x="480.667" y="50">
+  <object id="5" name="node-5" type="2" x="480.667" y="50">
    <properties>
     <property name="adjacent_list" value="4,6"/>
     <property name="adjacent_weight" value="l,r"/>

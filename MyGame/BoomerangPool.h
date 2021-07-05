@@ -19,6 +19,7 @@ public:
 	void Init(vector<LPGAMEOBJECT>& objects, int ani);
 
 	void SetBoomerangAnimation(int ani) { this->ani_set = ani; };
+	void Unload();
 
 	static CBoomerangPool* GetInstance();
 };

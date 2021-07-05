@@ -539,11 +539,11 @@
  <objectgroup id="27" name="Camera" visible="0">
   <object id="239" x="11.5152" y="421.152" width="840" height="641.333"/>
  </objectgroup>
- <objectgroup id="28" name="ObjectBoundary" visible="0">
+ <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>
   <object id="245" x="1729" y="673.167" width="14.6667" height="93"/>
-  <object id="485" x="849.333" y="857.333" width="13.3333" height="152"/>
-  <object id="486" x="1045.33" y="854.667" width="8" height="153.333"/>
+  <object id="485" x="849.333" y="857.333" width="13.3333" height="104"/>
+  <object id="486" x="1045.33" y="854.667" width="8" height="109.333"/>
  </objectgroup>
  <objectgroup id="24" name="Card" visible="0" locked="1">
   <object id="286" type="55" x="7175.52" y="743.273" width="50" height="50"/>

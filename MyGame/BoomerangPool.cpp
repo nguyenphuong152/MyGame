@@ -38,6 +38,7 @@ CBoomerang* CBoomerangPool::Create()
 
 void CBoomerangPool::Update()
 {
+	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
@@ -48,6 +49,16 @@ void CBoomerangPool::Update()
 			_firstAvailable = boomerangs[i];
 		};
 	}
+}
+
+void CBoomerangPool::Unload()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		boomerangs[i] = NULL;
+	}
+	_firstAvailable = NULL;
+	__instance = NULL;
 }
 
 CBoomerangPool* CBoomerangPool::GetInstance()
