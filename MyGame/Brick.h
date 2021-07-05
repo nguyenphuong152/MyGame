@@ -45,6 +45,9 @@ public:
 	int GetCoinCounts() { return coinCounts; }
 	void IncreaseCoinCounts() { coinCounts++; };
 
+	void InitBrick();
+	void HandleBrickHasTenCoins();
+
 	void AddCoins(CGameObject* coin);
 	void DisableBrick();
 	bool isTouch;

@@ -8,34 +8,45 @@
 #include "Effect.h"
 #include "EffectPool.h"
 
-CBrick::CBrick(CGameObject* item,float y, BrickType type)
+CBrick::CBrick(CGameObject* item, float y, BrickType type)
 {
 	this->item = item;
+	InitBrick();
+}
+
+CBrick::CBrick(float y, BrickType type)
+{
+	this->item = NULL;
+	InitBrick();
+}
+
+void CBrick::InitBrick()
+{
 	this->type = type;
 	if (type == BrickType::question_brick)
 	{
 		SetAnimation(BRICK_ANI);
 	}
 	else SetAnimation(TWINKLE_BRICK_ANI);
+
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
 	oldY = y;
 	isTouch = false;
 }
 
-CBrick::CBrick(float y, BrickType type)
+void CBrick::HandleBrickHasTenCoins()
 {
-	this->item = NULL;
-	this->type = type;
-	if (type == BrickType::question_brick)
-	{
-		SetAnimation(BRICK_ANI);
+
+	if (type == BrickType::twinkle_brick_coin && coinCounts < NUMBER_OF_COINS && isTouch == true) {
+		if (dynamic_cast<CCoin*>(coins[coinCounts]))
+		{
+			CCoin* coin = dynamic_cast<CCoin*>(coins[coinCounts]);
+			coin->SetState(COIN_STATE_JUMPING);
+		}
+		IncreaseCoinCounts();
+		isTouch = false;
 	}
-	else SetAnimation(TWINKLE_BRICK_ANI);
-	isEnable = true;
-	SetState(BRICK_STATE_UNTOUCH);
-	oldY = y;
-	isTouch = false;
 }
 
 void CBrick::AddCoins(CGameObject* coin)
@@ -100,15 +111,6 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	if (type == BrickType::twinkle_brick_coin && coinCounts < NUMBER_OF_COINS && isTouch == true) {
-		if (dynamic_cast<CCoin*>(coins[coinCounts]))
-		{
-			CCoin* coin = dynamic_cast<CCoin*>(coins[coinCounts]);
-			coin->SetState(COIN_STATE_JUMPING);
-		}
-		IncreaseCoinCounts();
-		isTouch = false;
-	}
 
 	if (state == BRICK_STATE_TOUCHED)
 	{
