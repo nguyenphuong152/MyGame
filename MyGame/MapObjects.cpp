@@ -35,7 +35,7 @@ CMapObjects* CMapObjects::GetInstance()
 	else return __instance;
 }
 
-void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& objects)
+void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& objects)
 {
 	TiXmlDocument doc(mapFilePath);
 	if (!doc.LoadFile())
@@ -148,7 +148,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 
@@ -163,46 +163,71 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
-					CGameObject* item = NULL;
-					if (strcmp(element->Attribute("name"), "bcoin") == 0)
+					if (strcmp(element->Attribute("name"), "none") == 0)
 					{
-						item = new CCoin(CoinType::jumping_coin, x, y);
-						objects.push_back(item);
+						obj = new CBrick(y, BrickType::twinkle_brick_no_item);
 					}
-					else if (strcmp(element->Attribute("name"), "powerup") == 0)
-					{
-						item = new CPowerUp(x, y);
-						objects.push_back(item);
-					}
-					else if (strcmp(element->Attribute("name"), "one-up") == 0)
-					{
-						item = new COneUpMushroom(x, y);
-						const char* aniRaw = element->Attribute("type");
-						int ani = atoi(aniRaw);
-						item->SetAnimation(ani);
-						objects.push_back(item);
-					}
-					else if (strcmp(element->Attribute("name"), "switch") == 0)
-					{
-						item = new CSwitch();
-						const char* aniRaw = element->Attribute("type");
-						int ani = atoi(aniRaw);
-						item->SetAnimation(ani);
-						objects.push_back(item);
-					}
+					else {
+						CGameObject* item = NULL;
+						CGameObject* coins[NUMBER_OF_COINS];
 
-					if (strcmp(element->Attribute("type"), "1") == 0)
-					{
-						obj = new CBrick(item, y, BrickType::question_brick);
-					}
-					else
-					{
-						obj = new CBrick(item, y, BrickType::twinkle_brick);
+						if (strcmp(element->Attribute("name"), "bcoin") == 0)
+						{
+							item = new CCoin(CoinType::jumping_coin, x, y);
+							objects.push_back(item);
+						}
+						else if (strcmp(element->Attribute("name"), "tentimescoin") == 0)
+						{
+							for (int i = 0; i < NUMBER_OF_COINS; i++)
+							{
+								item = new CCoin(CoinType::jumping_coin, x, y);
+								coins[i] = item;
+								objects.push_back(item);
+							}
+						}
+						else if (strcmp(element->Attribute("name"), "powerup") == 0)
+						{
+							item = new CPowerUp(x, y);
+							objects.push_back(item);
+						}
+						else if (strcmp(element->Attribute("name"), "one-up") == 0)
+						{
+							item = new COneUpMushroom(x, y);
+							const char* aniRaw = element->Attribute("type");
+							int ani = atoi(aniRaw);
+							item->SetAnimation(ani);
+							objects.push_back(item);
+						}
+						else if (strcmp(element->Attribute("name"), "switch") == 0)
+						{
+							item = new CSwitch();
+							const char* aniRaw = element->Attribute("type");
+							int ani = atoi(aniRaw);
+							item->SetAnimation(ani);
+							objects.push_back(item);
+						}
+
+
+						if (strcmp(element->Attribute("type"), "1") == 0)
+						{
+							obj = new CBrick(item, y, BrickType::question_brick);
+						}
+						else if (strcmp(element->Attribute("type"), "100") == 0)
+						{
+							obj = new CBrick(item, y, BrickType::twinkle_brick_coin);
+							CBrick* b = (CBrick*)obj;
+							for (int i = 0; i < NUMBER_OF_COINS ;i++)
+							{
+								b->AddCoins(coins[i]);
+							}
+						}
+						else
+						{
+							obj = new CBrick(item, y, BrickType::twinkle_brick);
+						}
 					}
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
-					
-
 					element = element->NextSiblingElement();
 				}
 				//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
@@ -217,7 +242,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					const char* aniRaw = element->Attribute("type");
 					int ani = atoi(aniRaw);
 
-					if (strcmp(enemyName, "red_venus")  == 0)
+					if (strcmp(enemyName, "red_venus") == 0)
 					{
 						obj = new CRedVenusFireTrap();
 					}
@@ -225,18 +250,19 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 					{
 						obj = new CKoopas();
 					}
-					else if (strcmp(enemyName, "goomba")  == 0)
-					{	
+					else if (strcmp(enemyName, "goomba") == 0)
+					{
 						obj = new CGoomBa();
 					}
 					else if (strcmp(enemyName, "para-goomba") == 0)
 					{
 						obj = new CParaGoomba();
 					}
-					else if (strcmp(enemyName, "piranha")== 0)
+					else if (strcmp(enemyName, "piranha") == 0)
 					{
 						obj = new CPiranha();
-					}else if (strcmp(enemyName, "green_venus")  == 0)
+					}
+					else if (strcmp(enemyName, "green_venus") == 0)
 					{
 						obj = new CGreenVenusFireTrap();
 					}
@@ -271,7 +297,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 				}
 				//DebugOut(L"[DONE LOADING COIN] - %d \n", objects.size());
 			}
-			else if (strcmp(attributeName,"Card") == 0)
+			else if (strcmp(attributeName, "Card") == 0)
 			{
 				while (element)
 				{
@@ -377,12 +403,12 @@ void CMapObjects::GenerateObject(const char* mapFilePath,vector<LPGAMEOBJECT>& o
 						}
 						ele = ele->NextSiblingElement();
 					}
-					
-					
-					obj = new CPortal(tex,type);
-					
+
+
+					obj = new CPortal(tex, type);
+
 					obj->SetPosition(x, y);
-					objects.push_back(obj); 
+					objects.push_back(obj);
 					element = element->NextSiblingElement();
 				}
 				//DebugOut(L"[DONE LOADING WORLDGRAPH] - %d \n", objects.size());

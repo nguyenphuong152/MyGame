@@ -275,13 +275,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->ny > 0) {
 						brick->SetState(BRICK_STATE_TOUCHED);
 						canJumpHigh = false;
+						if (brick->GetType() == BrickType::twinkle_brick_coin)
+						{
+							brick->isTouch = true;
+						}
 					}
 				}
 
 			}
 			else if (dynamic_cast<CObjectBoundary*>(e->obj) || dynamic_cast<CSwitch*>(e->obj)) //when reach boundary for koopa
 			{
-				x += dx;
+			if (e->nx != 0)x += dx;
+			else if (e->ny != 0)
+			{
 				y += dy;
 				if (e->ny < 0)
 				{
@@ -293,6 +299,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						isJumpOnSwitch = true;
 					}
 				}
+			}
+				
 			}
 			else if (dynamic_cast<CCoin*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<COneUpMushroom*>(e->obj))
 			{
@@ -425,6 +433,8 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
+	RenderBoundingBox();
+
 
 	/*if (level == MARIO_LEVEL_RACOON)
 	{

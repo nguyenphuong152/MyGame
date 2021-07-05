@@ -48,7 +48,7 @@ void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 
 	if (state == ONE_UP_MUSHROOM_STATE_WALKING) vy += POWER_UP_GRAVITY * dt;
 
-	if (y <= start_y - BRICK_BBOX_HEIGHT - 1)
+	if (y <= start_y - BRICK_BBOX_WIDTH - 1)
 	{
 		SetState(ONE_UP_MUSHROOM_STATE_WALKING);
 	}

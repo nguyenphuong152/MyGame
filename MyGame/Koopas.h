@@ -4,9 +4,9 @@
 #include "Mario.h"
 #include "GoomBa.h"
 
-#define KOOPA_SHELL_VELOCITY_X	0.8f
+#define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.1f
-#define KOOPA_GRAVITY			0.0015f
+#define KOOPA_GRAVITY			0.0025f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52

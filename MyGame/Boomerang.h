@@ -2,8 +2,7 @@
 #include "GameObject.h"
 #include "BoomerangBrother.h"
 
-#define BOOMERANG_BBOX_WIDTH		48
-
+#define BOOMERANG_BBOX_WIDTH		54
 #define MAX_DISTANCE	350
 
 #define BOOMERANG_VELOCITY_X		0.5f

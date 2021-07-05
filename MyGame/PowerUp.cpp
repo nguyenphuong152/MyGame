@@ -126,7 +126,7 @@ void CPowerUp::Render()
 	if (GetPowerUpType() != PowerUpType::none)
 	{
 		animation_set->at(POWER_UP_ANI)->Render(1,1, x, y);
-		//RenderBoundingBox();
+		RenderBoundingBox();
 	}
 }
 
@@ -194,7 +194,7 @@ void CPowerUp::HandleUpdateSuperMushroom()
 {
 	if (state == POWERUP_STATE_WALKING) vy += POWER_UP_GRAVITY * dt;
 
-	if (y <= start_y - BRICK_BBOX_HEIGHT )
+	if (y <= start_y - BRICK_BBOX_WIDTH )
 	{
 		SetState(POWERUP_STATE_WALKING);
 	}
