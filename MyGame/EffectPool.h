@@ -19,5 +19,7 @@ public:
 	void Update();
 	void Init(vector<LPGAMEOBJECT> &objects,int ani);
 
+	void Unload();
+
 	static CEffectPool* GetInstance();
 };

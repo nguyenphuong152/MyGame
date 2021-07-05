@@ -38,6 +38,7 @@ CFireball* CFireBallPool::Create()
 
 void CFireBallPool::Update()
 {
+	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
@@ -48,6 +49,16 @@ void CFireBallPool::Update()
 			_firstAvailable = fireballs[i];
 		};
 	}
+}
+
+void CFireBallPool::Unload()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		fireballs[i] = NULL;
+	}
+	_firstAvailable = NULL;
+	__instance = NULL;
 }
 
 CFireBallPool* CFireBallPool::GetInstance()

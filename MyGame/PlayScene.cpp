@@ -17,6 +17,7 @@
 #include "MarioStateGetIntoPipe.h"
 #include "MarioTail.h"
 #include "PowerUp.h"
+#include "BoomerangPool.h"
 
 
 using namespace std;
@@ -41,12 +42,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_HUD				7
 #define SCENE_SECTION_LETTERS			8
 
-
 #define OBJECT_TYPE_MARIO		0
 #define OBJECT_TYPE_FIREBALL	1
 #define OBJECT_TYPE_EFFECT		2
 #define OBJECT_TYPE_PORTAL		3
 #define OBJECT_TYPE_TAIL		4
+#define OBJECT_TYPE_BOOMERANG	5
 
 #define MAX_SCENE_LINE 2048
 
@@ -165,11 +166,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CMario*)obj;
 		CGame::GetInstance()->SetMainPlayer(player);
 
-		if (CGame::GetInstance()->current_scene == 3)
-		{
-			DebugOut(L"[PLAYERIFO %f %f \n", player->x,player->y);
-		}
-
 		DebugOut(L"[INFO] Player object created!\n");
 	} break;
 	case OBJECT_TYPE_FIREBALL:
@@ -186,6 +182,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_EFFECT:
 	{
 		CEffectPool::GetInstance()->Init(objects, ani_set_id);
+	} break;
+	case OBJECT_TYPE_BOOMERANG:
+	{
+		CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -215,10 +215,10 @@ void CPlayScene::_ParseSection_MAP(string line)
 	int tilePerRow = atoi(tokens[3].c_str());
 	int tilePerColumn = atoi(tokens[4].c_str());
 
-	CMap* mMap = new CMap(id, &path[0], textureId, tilePerRow, tilePerColumn);
-	mMap->CreateTileSet();
-	mMap->HandleMap();
-	map = (CMap*)mMap;
+	map = new CMap(id, &path[0], textureId, tilePerRow, tilePerColumn);
+	map->CreateTileSet();
+	map->HandleMap();
+	
 	map_objects = new CMapObjects();
 	map_objects->GenerateObject(&path[0], objects);
 }
@@ -239,13 +239,8 @@ void CPlayScene::_ParseSection_HUD(string line)
 		pos = HUD_POSITION_Y_OW;
 	}
 	
-	//HUD::GetInstance()->SetPlayer(player);
 	HUD::GetInstance()->Init(texture, pos);
-	/*if (CGame::GetInstance()->current_scene == 3)
-	{
-		DebugOut(L"[RENDERHUD-1] %d \n", HUD::GetInstance()->hud_texture);
-	}*/
-	
+		
 }
 
 void CPlayScene::_ParseSection_Letters(string line)
@@ -354,6 +349,8 @@ void CPlayScene::Update(DWORD dt)
 	
 	CFireBallPool::GetInstance()->Update();
 	CEffectPool::GetInstance()->Update();
+	CBoomerangPool::GetInstance()->Update();
+
 	HUD::GetInstance()->Update();
 
 	player->Update(dt, &coObjects);
@@ -398,6 +395,10 @@ void CPlayScene::Unload()
 	objects.clear();
 	
 	HUD::GetInstance()->Unload();
+
+	CFireBallPool::GetInstance()->Unload();
+	CEffectPool::GetInstance()->Unload();
+	CBoomerangPool::GetInstance()->Unload();
 
 	map_objects = NULL;
 	map = NULL;

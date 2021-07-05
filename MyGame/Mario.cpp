@@ -9,6 +9,7 @@
 #include "MarioStateGetIntoPipe.h"
 #include "MarioStateTransform.h"
 #include "MarioStateSpin.h"
+#include "MarioStateJump.h"
 #include "MarioStateFly.h"
 #include "MarioStateWalk.h"
 #include "MarioStateHoldShellIdle.h"
@@ -37,6 +38,8 @@
 #include "MarioTail.h"
 #include "Textures.h"
 #include "Card.h"
+#include "BoomerangBrother.h"
+#include "MagicNoteBlock.h"
 
 //CMario* CMario::__instance = NULL;
 
@@ -61,9 +64,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	if (marioState != CMarioState::walking_overworld.GetInstance())
 	{
-		//DebugOut(L"%f \n", vy);
 		vy += MARIO_GRAVITY * dt;
 	}
+
+	//DebugOut(L"%f \n", x);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -101,9 +105,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		if(rdx != 0 && rdx!=dx)
-			x += nx*abs(rdx); 
+		//// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if(rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
 
 		//block every object first
 		x += min_tx * dx + nx * 0.4f;
@@ -135,7 +139,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							goomba->SetState(GOOMBA_STATE_DIE);
 							goomba->StartDie();
 						}
-						goomba->SetAttackedAnimation(AttackedBy::Mario,Points::POINT_100);
+						goomba->SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
@@ -160,11 +164,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						koopa->SetState(KOOPA_STATE_DIE);
 						koopa->StartDie();
 					}
-					koopa->SetAttackedAnimation(AttackedBy::Mario,Points::POINT_100);
+					koopa->SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
+
 				}
 				else if (e->nx != 0)
-				{	
+				{
 					if (koopa->GetState() == KOOPA_STATE_DIE)
 					{
 						if (powerMode)
@@ -180,7 +185,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 
 					}
-					
+
 					/*	else if (untouchable == 0)
 						{
 							LevelMarioDown(koopa, KOOPA_STATE_DIE);
@@ -192,7 +197,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				SetPosition(p->x + 2, p->y - 2);
 				CMarioState::walking_overworld.GetInstance()->SetSceneSwitching(p->GetSceneId());
-				
+
 			}
 			else if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
 			{
@@ -226,7 +231,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							vx = MARIO_RUNNING_SPEED * this->nx;
 						}
 						x += dx;
-						
+
 					}
 					else  if (e->nx != 0)
 					{
@@ -317,7 +322,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						isOnGround = true;
 						isFloating = false;
 					}
-				}else if (breakable_brick->GetState() == BREAKABLE_BRICK_COIN_STATE)
+				}
+				else if (breakable_brick->GetState() == BREAKABLE_BRICK_COIN_STATE)
 				{
 					breakable_brick->isEnable = false;
 				}
@@ -364,12 +370,43 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CCard*>(e->obj))
 			{
-			    CCard* card = dynamic_cast<CCard*>(e->obj);
+				CCard* card = dynamic_cast<CCard*>(e->obj);
 				if (e->ny > 0)
 				{
 					card->SetState(CARD_STATE_TOUCH);
 				}
-            }
+			}
+			else if (dynamic_cast<CBoomerangBrother*>(e->obj))
+			{
+			CBoomerangBrother* bBrother = dynamic_cast<CBoomerangBrother*>(e->obj);
+				if (e->ny < 0)
+				{
+					bBrother->SetState(BOOMERANGBROTHER_STATE_DIE);
+					bBrother->StartDie();
+				}
+			}
+			else if (dynamic_cast<CMagicNoteBlock*>(e->obj))
+			{
+			CMagicNoteBlock* magicBlock = dynamic_cast<CMagicNoteBlock*>(e->obj);
+				if (e->ny < 0)
+				{
+					isOnGround = true;
+					isFloating = false;
+					isOnMagicBlock = true;
+					CMarioState::idle.GetInstance()->SetStateJumping(MARIO_JUMP_SPEED_Y, *this);
+					if (magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING)
+					{
+						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING,JUMP_ON);
+					}
+				}
+				else if (e->ny > 0)
+				{
+					if (magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING)
+					{
+						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING, JUMP_UNDER);
+					}
+				}
+			}
 		}
 	}
 

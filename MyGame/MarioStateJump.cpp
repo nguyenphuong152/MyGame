@@ -66,12 +66,16 @@ void CMarioStateJump::Update(DWORD dt, CMario& mario)
 		{
 			mario.canJumpHigh = false;
 		}
+		else if(mario.isOnMagicBlock){
+			mario.vy = -MARIO_JUMP_SPEED_Y/1.5;
+		}
 		else {
 			mario.vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
 	else if( mario.vy>0 )
 	{
+		if (mario.isOnMagicBlock) mario.isOnMagicBlock = false;
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }

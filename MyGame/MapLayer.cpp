@@ -20,18 +20,10 @@ CMapLayer::CMapLayer(TiXmlElement* layer) {
 void CMapLayer::RenderLayer()
 {
     int id = 0;
-    float width, height;
-
-    if (CGame::GetInstance()->current_scene == 4)
-    {
-        width = MAPWORLD_WIDTH;
-        height = MAPWORLD_HEIGHT;
-    }
-    else if (CGame::GetInstance()->current_scene == 3)
-    {
-        width = MAPWIDTH;
-        height = MAPHEIGHT;
-    }
+    float width =0,height = 0;
+    
+    SetWidthHeight(width, height);
+   
 
     for (int i = 0; i <height; i++)
     {
@@ -49,6 +41,25 @@ void CMapLayer::RenderLayer()
             }
            
         }
+    }
+}
+
+void CMapLayer::SetWidthHeight(float& w, float& h)
+{
+    if (CGame::GetInstance()->current_scene == 4)
+    {
+        w = MAPWORLD_WIDTH;
+        h = MAPWORLD_HEIGHT;
+    }
+    else if (CGame::GetInstance()->current_scene == 3)
+    {
+        w = MAPWIDTH;
+        h = MAPHEIGHT;
+    }
+    else if (CGame::GetInstance()->current_scene == 2)
+    {
+        w = MAPWIDTH1_3;
+        h = MAPHEIGHT1_3;
     }
 }
 

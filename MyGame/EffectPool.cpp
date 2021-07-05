@@ -38,6 +38,7 @@ CEffect* CEffectPool::Create()
 
 void CEffectPool::Update()
 {
+	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
@@ -63,4 +64,14 @@ void CEffectPool::Init(vector<LPGAMEOBJECT> &objects, int ani)
 	{
 		objects.push_back(effects[i]);
 	}
+}
+
+void CEffectPool::Unload()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		effects[i] = NULL;
+	}
+	_firstAvailable = NULL;
+	__instance = NULL;
 }

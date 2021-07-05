@@ -19,6 +19,7 @@ public:
 	void Init(vector<LPGAMEOBJECT> &objects, int ani);
 
 	void SetFireballAnimation(int ani) { this->ani_set = ani; };
+	void Unload();
 
 	static CFireBallPool* GetInstance();
 };

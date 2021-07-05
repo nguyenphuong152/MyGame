@@ -144,6 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BoomerangBrother.cpp" />
+    <ClCompile Include="BoomerangPool.cpp" />
     <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BreakableBrick.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDContent.cpp" />
+    <ClCompile Include="MagicNoteBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -218,6 +222,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BoomerangBrother.h" />
+    <ClInclude Include="BoomerangPool.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BreakableBrick.h" />
@@ -238,6 +245,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="MagicNoteBlock.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
     <ClInclude Include="MarioOverworldState.h" />
