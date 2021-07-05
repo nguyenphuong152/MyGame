@@ -19,12 +19,6 @@
     <Filter Include="Header Files\Mario">
       <UniqueIdentifier>{68cadb09-35ed-410d-b174-ebb85a9adeb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TinyXml">
-      <UniqueIdentifier>{349fb991-5feb-44a7-9bfa-8568fb790917}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\TinyXml">
-      <UniqueIdentifier>{4ea9c4bc-32fa-4695-a3a4-4df523c41474}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\MapManager">
       <UniqueIdentifier>{b46c73d0-d9a8-4eb4-868e-8e0bd99f6b3c}</UniqueIdentifier>
     </Filter>
@@ -167,18 +161,6 @@
     </ClCompile>
     <ClCompile Include="Fireball.cpp">
       <Filter>Source Files\Objects\ObjectPool\Fireball</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.cpp">
-      <Filter>Source Files\TinyXml</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.cpp">
-      <Filter>Source Files\TinyXml</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlparser.cpp">
-      <Filter>Source Files\TinyXml</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxmlerror.cpp">
-      <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files\MapManager</Filter>
@@ -351,6 +333,18 @@
     <ClCompile Include="MagicNoteBlock.cpp">
       <Filter>Source Files\Objects\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -400,12 +394,6 @@
     </ClInclude>
     <ClInclude Include="Fireball.h">
       <Filter>Header Files\Objects\ObjectPool\Fireball</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinystr.h">
-      <Filter>Header Files\TinyXml</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\17520\OneDrive\Desktop\tinyxml_2_6_2\tinyxml\tinyxml.h">
-      <Filter>Header Files\TinyXml</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files\MapManager</Filter>
@@ -577,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="MagicNoteBlock.h">
       <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
