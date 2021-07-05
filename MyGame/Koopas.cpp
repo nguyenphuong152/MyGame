@@ -13,6 +13,7 @@
 #include "EffectPool.h"
 #include "MarioStateHoldShellIdle.h"
 #include "BreakableBrick.h"
+#include "MagicNoteBlock.h"
 
 
 CKoopas::CKoopas()
@@ -96,7 +97,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
+		//if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
 		//collision logic with other objects
@@ -126,18 +127,22 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isOnGround = true;
 				}
 			}
-			else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj)||dynamic_cast<CBreakableBrick*>(e->obj))
+			else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj)||dynamic_cast<CBreakableBrick*>(e->obj)|| dynamic_cast<CMagicNoteBlock*>(e->obj))
 			{
 
-				if (e->nx != 0)
+				if (e->nx != 0 && GetState()==KOOPA_STATE_DIE_WITH_VELOCITY)
 				{
 					this->nx = -this->nx;
 					if (dynamic_cast<CBrick*>(e->obj))
 					{
 						CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-						if (brick->GetState() == BRICK_STATE_UNTOUCH)
+						if (brick->GetState() == BRICK_STATE_UNTOUCH && brick->GetType()==BrickType::question_brick)
 						{
 							brick->SetState(BRICK_STATE_TOUCHED);
+						}
+						else {
+							brick->DisableBrick();
+							brick->SetAttackedAnimation();
 						}
 					}else if (dynamic_cast<CBreakableBrick*>(e->obj))
 					{

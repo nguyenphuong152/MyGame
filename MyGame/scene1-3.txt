@@ -626,7 +626,7 @@
 460	46001	100	46002	100
 461	46003	50	46004	50	46001	50	46002	50
 #boomerang
-462	46101	100	46102	100	46103	100	46104	100
+462	46101	50	46102	50	46103	50	46104	50
 
 
 # id	ani1	ani2	ani3
@@ -705,7 +705,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	20	800	1
+0	2000	800	1
 
 # FIREBALL
 1	0	0	62

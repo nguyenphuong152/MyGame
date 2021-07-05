@@ -30,6 +30,7 @@ void CBoomerang::StartThrowing(CBoomerangBrother* bBrother)
 
 void CBoomerang::Render()
 {
+	//DebugOut(L"hello \n");
 	animation_set->at(0)->Render(1, 1, x, y);
 	//RenderBoundingBox();
 }
@@ -111,6 +112,11 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 					x += dx;
 				}
 			}
+			else if (dynamic_cast<CBox*>(e->obj))
+			{
+				if (e->ny != 0) y += dy;
+				else if (e->nx != 0)  x += dx;
+			}
 			else if (dynamic_cast<CBoomerangBrother*>(e->obj))
 			{
 				CBoomerangBrother* bBrother = dynamic_cast<CBoomerangBrother*>(e->obj);
@@ -122,6 +128,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 			}
 		}
 	}
+
+	DisableBoomerangByCamera();
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -155,7 +163,7 @@ void CBoomerang::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = l + BOOMERANG_BBOX_WIDTH;
-	b = t + BOOMERANG_BBOX_WIDTH;
+	b = t + BOOMERANG_BBOX_WIDTH +6;
 }
 
 void CBoomerang::SetState(int state)

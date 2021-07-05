@@ -12,7 +12,7 @@
 #define BREAKABLE_BRICK_TOUCHED_ANI	    1
 #define BREAKABLE_BRICK_COIN_ANI		2 
 
-#define BREAKABLE_BRICK_BBOX_WIDTH	42
+#define BREAKABLE_BRICK_BBOX_WIDTH	48
 
 class CBreakableBrick : public CGameObject
 {

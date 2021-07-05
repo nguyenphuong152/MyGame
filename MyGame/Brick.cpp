@@ -5,29 +5,69 @@
 #include "PowerUp.h"
 #include "One-upMushroom.h"
 #include "Switch.h"
+#include "Effect.h"
+#include "EffectPool.h"
 
-CBrick::CBrick(CGameObject* item,float y, BrickType type)
+CBrick::CBrick(CGameObject* item, float y, BrickType type)
 {
 	this->item = item;
+	InitBrick();
+}
+
+CBrick::CBrick(float y, BrickType type)
+{
+	this->item = NULL;
+	InitBrick();
+}
+
+void CBrick::InitBrick()
+{
 	this->type = type;
 	if (type == BrickType::question_brick)
 	{
 		SetAnimation(BRICK_ANI);
 	}
 	else SetAnimation(TWINKLE_BRICK_ANI);
+
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
 	oldY = y;
+	isTouch = false;
+}
+
+void CBrick::HandleBrickHasTenCoins()
+{
+
+	if (type == BrickType::twinkle_brick_coin && coinCounts < NUMBER_OF_COINS && isTouch == true) {
+		if (dynamic_cast<CCoin*>(coins[coinCounts]))
+		{
+			CCoin* coin = dynamic_cast<CCoin*>(coins[coinCounts]);
+			coin->SetState(COIN_STATE_JUMPING);
+		}
+		IncreaseCoinCounts();
+		isTouch = false;
+	}
+}
+
+void CBrick::AddCoins(CGameObject* coin)
+{
+	coins.push_back(coin);
+}
+
+void CBrick::DisableBrick()
+{
+	isEnable = false;
+	if(item)  item->isEnable = false;
 }
 
 void CBrick::Render()
 {
 	int ani = -1;
-	if (state == BRICK_STATE_UNTOUCH)
+	if (state == BRICK_STATE_UNTOUCH || type == BrickType::twinkle_brick_no_item || type == BrickType::twinkle_brick_coin&&coinCounts<NUMBER_OF_COINS-1)
 	{
 		ani = BRICK_ANI_UNTOUCH;
 	}
-	else if (state == BRICK_STATE_TOUCHED)
+	else if (state == BRICK_STATE_TOUCHED||coinCounts==NUMBER_OF_COINS-1)
 	{
 		ani = BRICK_ANI_TOUCHED;
 	}
@@ -41,6 +81,7 @@ void CBrick::SetState(int state)
 	if (state == BRICK_STATE_TOUCHED)
 	{
 		vy = -BRICK_VELOCITY_Y;
+
 		if (dynamic_cast<CCoin*>(item))
 		{
 			CCoin* coin = dynamic_cast<CCoin*>(item);
@@ -61,26 +102,30 @@ void CBrick::SetState(int state)
 		{
 			CSwitch* switch_item = dynamic_cast<CSwitch*>(item);
 			switch_item->SetState(SWITCH_STATE_UNTOUCH);
-			switch_item->SetPosition(x-1, y - BRICK_BBOX_HEIGHT+1);
+			switch_item->SetPosition(x-1, y - BRICK_BBOX_WIDTH +1);
 		}
-
 	}
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-		CGameObject::Update(dt, coObjects);
-		 if (state == BRICK_STATE_TOUCHED)
-		 {
-			vy += 0.00015*dt;
-			if (y >= oldY)
-			{
-				y = oldY;
-				vy = 0;
-			}
-			
-		 }
+	CGameObject::Update(dt, coObjects);
+
+
+	if (state == BRICK_STATE_TOUCHED)
+	{
+		vy += BRICK_DROP_VELOCITY_Y*dt;
 		y += dy;
+	}
+	if (y >= oldY)
+	{
+		y = oldY;
+		vy = 0;
+		if (type == BrickType::twinkle_brick_coin && state==BRICK_STATE_TOUCHED && coinCounts<NUMBER_OF_COINS || type==BrickType::twinkle_brick_no_item && state == BRICK_STATE_TOUCHED)
+		{
+				SetState(BRICK_STATE_UNTOUCH);
+		}
+	}
 }
 
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -88,7 +133,21 @@ void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	b = y + BRICK_BBOX_WIDTH;
 }
 
+void CBrick::SetAttackedAnimation()
+{
+	CEffect* effect_1 = CEffectPool::GetInstance()->Create();
+	CEffect* effect_2 = CEffectPool::GetInstance()->Create();
+	CEffect* effect_3 = CEffectPool::GetInstance()->Create();
+	CEffect* effect_4 = CEffectPool::GetInstance()->Create();
 
+	if (effect_1 != NULL && effect_2 != NULL && effect_3 != NULL && effect_4 != NULL)
+	{
+		effect_1->SetEffect(EffectName::debris, this, -1, -1, Points::NONE);
+		effect_2->SetEffect(EffectName::debris, this, -1, 1, Points::NONE);
+		effect_3->SetEffect(EffectName::debris, this, 1, -1, Points::NONE);
+		effect_4->SetEffect(EffectName::debris, this, 1, 1, Points::NONE);
+	}
+}

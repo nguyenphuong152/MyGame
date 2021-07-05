@@ -45,9 +45,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_MARIO		0
 #define OBJECT_TYPE_FIREBALL	1
 #define OBJECT_TYPE_EFFECT		2
-#define OBJECT_TYPE_PORTAL		3
+#define OBJECT_TYPE_PORTAL		50
 #define OBJECT_TYPE_TAIL		4
-#define OBJECT_TYPE_BOOMERANG	5
+#define OBJECT_TYPE_BOOMERANG	3
 
 #define MAX_SCENE_LINE 2048
 

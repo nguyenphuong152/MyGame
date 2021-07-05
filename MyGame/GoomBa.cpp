@@ -7,6 +7,7 @@
 #include "PowerUp.h"
 #include "EffectPool.h"
 #include "Effect.h"
+#include "Ground.h"
 
 CGoomBa::CGoomBa()
 {
@@ -76,7 +77,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 
-				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj))
+				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj)||dynamic_cast<CGround*>(e->obj))
 				{
 					if (e->nx != 0)
 					{

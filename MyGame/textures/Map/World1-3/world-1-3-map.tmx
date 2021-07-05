@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="37" nextobjectid="491">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="37" nextobjectid="528">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -415,12 +415,37 @@
   <object id="366" type="0" x="7550" y="4.90833" width="63.6364" height="1080.85"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
-  <object id="336" name="bcoin" type="1" x="1873.33" y="864" width="48" height="48"/>
-  <object id="466" name="bcoin" type="1" x="1536.58" y="912.083" width="48" height="48"/>
-  <object id="325" name="powerup" type="1" x="1728" y="912.667" width="48" height="48"/>
   <object id="475" name="one-up" type="28" x="6334.67" y="1582.67" width="48" height="48"/>
+  <object id="495" name="bcoin" type="1" x="1536" y="912.67" width="48" height="48"/>
+  <object id="496" name="bcoin" type="1" x="1872" y="864.18" width="48" height="48"/>
+  <object id="494" name="none" type="101" x="1536" y="864.18" width="48" height="48"/>
+  <object id="311" name="none" type="101" x="1584" y="960.667" width="48" height="48"/>
+  <object id="312" name="none" type="101" x="1536" y="960.667" width="48" height="48"/>
+  <object id="313" name="none" type="101" x="1488" y="960.667" width="48" height="48"/>
+  <object id="322" name="none" type="101" x="1488" y="912.667" width="48" height="48"/>
+  <object id="331" name="none" type="101" x="1488" y="864.182" width="48" height="48"/>
+  <object id="338" name="none" type="101" x="1584" y="816.45" width="48" height="48"/>
+  <object id="339" name="none" type="101" x="1536" y="816.45" width="48" height="48"/>
+  <object id="340" name="none" type="101" x="1488" y="816.447" width="48" height="48"/>
+  <object id="328" name="none" type="101" x="1632" y="864.18" width="48" height="48"/>
+  <object id="326" name="none" type="101" x="1680.67" y="912.667" width="48" height="48"/>
+  <object id="335" name="none" type="101" x="1680.67" y="864.18" width="48" height="48"/>
+  <object id="314" name="none" type="101" x="1776" y="960.667" width="48" height="48"/>
+  <object id="323" name="none" type="101" x="1776" y="912.667" width="48" height="48"/>
+  <object id="361" name="none" type="101" x="1728.33" y="768.25" width="48" height="48"/>
+  <object id="341" name="none" type="101" x="1776" y="816.45" width="48" height="48"/>
+  <object id="343" name="none" type="101" x="1728.33" y="816.45" width="48" height="48"/>
+  <object id="492" name="powerup" type="200" x="1728.5" y="912.67" width="48" height="48"/>
+  <object id="334" name="none" type="101" x="1872" y="816.45" width="48" height="48"/>
+  <object id="363" name="none" type="101" x="1872" y="768.25" width="48" height="48"/>
+  <object id="491" name="none" type="101" x="1824.33" y="768.25" width="48" height="48"/>
+  <object id="315" name="none" type="101" x="1824" y="960.667" width="48" height="48"/>
+  <object id="318" name="none" type="101" x="1872" y="960.667" width="48" height="48"/>
+  <object id="324" name="none" type="101" x="1824" y="912.667" width="48" height="48"/>
+  <object id="327" name="none" type="101" x="1872" y="912.667" width="48" height="48"/>
+  <object id="523" name="tentimescoin" type="100" x="1776.58" y="768.25" width="48" height="48"/>
  </objectgroup>
- <objectgroup id="15" name="Coin">
+ <objectgroup id="15" name="Coin" visible="0">
   <object id="367" x="2976" y="720" width="48" height="48"/>
   <object id="368" x="3024" y="720" width="48" height="48"/>
   <object id="369" x="3072" y="720" width="48" height="48"/>
@@ -493,38 +518,9 @@
   <object id="453" x="6815.66" y="2064" width="48" height="48"/>
   <object id="454" x="6622.34" y="2063.66" width="48" height="48"/>
   <object id="455" x="6575.66" y="2112.34" width="48" height="48" visible="0"/>
-  <object id="481" x="1536" y="864" width="44" height="48"/>
-  <object id="482" x="1777.33" y="862.667" width="48" height="46.6667"/>
-  <object id="483" x="1873.33" y="817.333" width="46.6667" height="46.6667"/>
  </objectgroup>
- <objectgroup id="19" name="Brick">
-  <object id="311" x="1584" y="960.667" width="48" height="48"/>
-  <object id="312" x="1536" y="960.667" width="48" height="48"/>
-  <object id="313" x="1488" y="960.667" width="48" height="48"/>
-  <object id="314" x="1776" y="960.667" width="48" height="48"/>
-  <object id="315" x="1824" y="960.667" width="48" height="48"/>
-  <object id="318" x="1872" y="960.667" width="48" height="48"/>
-  <object id="322" x="1488" y="912.667" width="48" height="48"/>
-  <object id="323" x="1776" y="912.667" width="48" height="48"/>
-  <object id="324" x="1824" y="912.667" width="48" height="48"/>
-  <object id="326" x="1680" y="912.667" width="48" height="48"/>
-  <object id="327" x="1872" y="912.667" width="48" height="48"/>
-  <object id="331" x="1488" y="864" width="48" height="48"/>
-  <object id="334" x="1872" y="816" width="48" height="48"/>
-  <object id="338" x="1584" y="816.083" width="48" height="48"/>
-  <object id="339" x="1536" y="816.083" width="48" height="48"/>
-  <object id="340" x="1488" y="816.083" width="48" height="48"/>
-  <object id="467" x="1535.75" y="863.916" width="48" height="48"/>
-  <object id="361" x="1728.33" y="768.25" width="48" height="48"/>
-  <object id="360" x="1824" y="768.25" width="48" height="48"/>
-  <object id="363" x="1872" y="768.25" width="48" height="48"/>
-  <object id="328" x="1632" y="864" width="48" height="48"/>
-  <object id="335" x="1680" y="864" width="48" height="48"/>
-  <object id="341" x="1775.67" y="816" width="48" height="48"/>
-  <object id="343" x="1728" y="816.417" width="48" height="48"/>
- </objectgroup>
- <objectgroup id="15" name="Enemy" visible="0">
-  <object id="471" name="red_koopa" type="70" x="1806.83" y="661.5" width="13" height="13">
+ <objectgroup id="15" name="Enemy">
+  <object id="471" name="red_koopa" type="70" x="1753.5" y="678.5" width="13" height="13">
    <properties>
     <property name="ani_id" value="70"/>
    </properties>
@@ -535,6 +531,13 @@
    </properties>
   </object>
   <object id="487" name="boomerang_brother" type="46" x="920" y="908" width="33.3333" height="33.3333"/>
+  <object id="524" name="goomba" type="3" x="2610" y="906">
+   <properties>
+    <property name="ani_id" value="32"/>
+   </properties>
+  </object>
+  <object id="525" name="para-goomba" type="31" x="3010" y="865" width="36" height="25"/>
+  <object id="527" name="para-goomba" type="31" x="3562" y="901.5" width="36" height="25"/>
  </objectgroup>
  <objectgroup id="27" name="Camera" visible="0">
   <object id="239" x="11.5152" y="421.152" width="840" height="641.333"/>
@@ -542,14 +545,14 @@
  <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>
   <object id="245" x="1729" y="673.167" width="14.6667" height="93"/>
-  <object id="485" x="849.333" y="857.333" width="13.3333" height="104"/>
-  <object id="486" x="1045.33" y="854.667" width="8" height="109.333"/>
+  <object id="485" x="850.667" y="872" width="13.3333" height="74.6667"/>
+  <object id="486" x="1042.67" y="864" width="8" height="86.6667"/>
  </objectgroup>
  <objectgroup id="24" name="Card" visible="0" locked="1">
   <object id="286" type="55" x="7175.52" y="743.273" width="50" height="50"/>
  </objectgroup>
  <objectgroup id="36" name="MagicNoteBlock">
-  <object id="489" x="1489.33" y="766.667" width="48" height="49.3333"/>
+  <object id="489" x="1488.18" y="765.333" width="48" height="49.3333"/>
   <object id="490" x="1389.33" y="864.667" width="48" height="49.3333"/>
  </objectgroup>
 </map>

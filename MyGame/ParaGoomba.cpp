@@ -89,19 +89,19 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 
-				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj))
+				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj)|| dynamic_cast<CGround*>(e->obj))
 				{
 					if (e->nx != 0)
 					{
 						this->nx = -this->nx;
 						vx = this->nx * GOOMBA_WALKING_SPEED;
 					}
-				}
-				else if (dynamic_cast<CGround*>(e->obj))
-				{
-					if (e->ny < 0)
+					else if (dynamic_cast<CGround*>(e->obj))
 					{
-						isOnGround = true;
+						if (e->ny < 0)
+						{
+							isOnGround = true;
+						}
 					}
 				}
 			}
