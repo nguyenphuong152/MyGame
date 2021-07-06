@@ -345,6 +345,9 @@
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WoodBlock.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="tinyxml.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodBlock.h">
+      <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

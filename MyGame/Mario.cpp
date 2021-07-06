@@ -40,6 +40,7 @@
 #include "Card.h"
 #include "BoomerangBrother.h"
 #include "MagicNoteBlock.h"
+#include "WoodBlock.h"
 
 //CMario* CMario::__instance = NULL;
 
@@ -412,9 +413,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING)
 					{
 						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING, JUMP_UNDER);
+						if (magicBlock->GetType() == MagicNoteBlockType::invisible)
+						{
+							magicBlock->VisualBlock();
+						}
 					}
 				}
 			}
+			else if (dynamic_cast<CWoodBlock*>(e->obj))
+			{
+				CWoodBlock* woodBlock = dynamic_cast<CWoodBlock*>(e->obj);
+				if (e->nx != 0)
+				{
+					vx = e->nx * FORCE_PUSH_MARIO_AWAY;
+					woodBlock->SetState(WOOD_BLOCK_STATE_TOUCHED,e->nx);
+				}
+            }
 		}
 	}
 
@@ -433,7 +447,7 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 
 	/*if (level == MARIO_LEVEL_RACOON)

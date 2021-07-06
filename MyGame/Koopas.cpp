@@ -140,7 +140,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							brick->SetState(BRICK_STATE_TOUCHED);
 						}
-						else {
+						else if(brick->GetType()!=BrickType::question_brick){
 							brick->DisableBrick();
 							brick->SetAttackedAnimation();
 						}

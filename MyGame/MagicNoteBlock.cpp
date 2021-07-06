@@ -2,12 +2,17 @@
 #include "Game.h"
 #include "Utils.h"
 
-CMagicNoteBlock::CMagicNoteBlock(float x, float y)
+CMagicNoteBlock::CMagicNoteBlock(float x, float y, MagicNoteBlockType type)
 {
-	player = CGame::GetInstance()->GetPlayer();
+	this->type = type;
 	isEnable = true;
+	if (type == MagicNoteBlockType::invisible) invisible = true;
+
+	player = CGame::GetInstance()->GetPlayer();
+
 	SetAnimation(MAGIC_NOTE_BLOCK_ANI);
 	SetState(MAGIC_NOTE_BLOCK_STATE_NORMAL,NORMAL);
+
 	SetPosition(x, y);
 	start_y = y;
 }
@@ -54,11 +59,13 @@ void CMagicNoteBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMagicNoteBlock::Render()
 {
 	int ani = -1;
-	/*if (state == MAGIC_NOTE_BLOCK_STATE_NORMAL)
-		ani = MAGIC_NOTE_ANI_NORMAL;
-	else
-		ani = MAGIC_NOTE_ANI_JUMPING;*/
-	animation_set->at(0)->Render(-1, 1, x, y);
+	if (type==MagicNoteBlockType::visible)
+	{
+		animation_set->at(MAGIC_NOTE_ANI_NORMAL)->Render(-1, 1, x, y);
+	}
+	else if(type==MagicNoteBlockType::invisible && invisible == false){
+		animation_set->at(MAGIC_NOTE_ANI_INVISIBLE)->Render(-1, 1, x, y);
+	}
 	//RenderBoundingBox();
 }
 

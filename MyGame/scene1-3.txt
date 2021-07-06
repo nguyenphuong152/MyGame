@@ -358,6 +358,11 @@
 45003	1169	563	1219	613	20
 45004	1226	563	1276	613	20
 
+#wood_block
+45006	763	565	810	612	20
+45007	706	565	753	612	20
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== MARIO =========
@@ -628,6 +633,9 @@
 #boomerang
 462	46101	50	46102	50	46103	50	46104	50
 
+#woodblock
+463	45006	100
+464	45007	100
 
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -699,13 +707,16 @@
 46	460	461
 47	462
 
+#WOOD_BLOCK
+48	463	464
+
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	2000	800	1
+0	2400	800	1
 
 # FIREBALL
 1	0	0	62
