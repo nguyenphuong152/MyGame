@@ -15,6 +15,8 @@
 #define WOOD_BLOCK_SPEED		0.5f
 #define WOOD_BLOCK_TURNBACK_SPEED	0.1f
 
+#define FORCE_PUSH_MARIO_AWAY	0.15f
+
 class CWoodBlock :public CGameObject
 {
 	float dir;

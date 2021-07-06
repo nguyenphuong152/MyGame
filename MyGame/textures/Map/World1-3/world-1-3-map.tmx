@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="38" nextobjectid="531">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="38" nextobjectid="541">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -416,7 +416,7 @@
   <object id="229" type="0" x="-56.7273" y="4" width="63.6364" height="1132.85"/>
   <object id="231" type="0" x="10.1515" y="1067.27" width="7619.19" height="24.2424"/>
   <object id="236" type="2" x="51.03" y="290.061" width="7568.48" height="42.4242"/>
-  <object id="366" type="0" x="7550" y="4.90833" width="63.6364" height="1080.85"/>
+  <object id="366" type="0" x="7584" y="0.90833" width="63.6364" height="1080.85"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
   <object id="475" name="one-up" type="28" x="6334.67" y="1582.67" width="48" height="48"/>
@@ -490,7 +490,7 @@
   <object id="418" x="5039.33" y="2063.33" width="48" height="48"/>
   <object id="420" x="5135.33" y="2063.33" width="48" height="48"/>
   <object id="422" x="4944" y="2064" width="48" height="48"/>
-  <object id="424" x="4945" y="673" width="48" height="48"/>
+  <object id="424" x="4925" y="675" width="48" height="48"/>
   <object id="425" x="4703" y="767" width="48" height="48"/>
   <object id="426" x="5664.34" y="2064" width="48" height="48"/>
   <object id="427" x="5423.34" y="2111" width="48" height="48"/>
@@ -529,7 +529,7 @@
     <property name="ani_id" value="70"/>
    </properties>
   </object>
-  <object id="479" name="goomba" type="3" x="6176" y="776">
+  <object id="479" name="goomba" type="3" x="4924" y="948">
    <properties>
     <property name="ani_id" value="32"/>
    </properties>
@@ -542,6 +542,18 @@
   </object>
   <object id="525" name="para-goomba" type="31" x="3010" y="865" width="36" height="25"/>
   <object id="527" name="para-goomba" type="31" x="3562" y="901.5" width="36" height="25"/>
+  <object id="534" name="red_koopa" type="70" x="4923.67" y="680.583" width="13" height="13">
+   <properties>
+    <property name="ani_id" value="70"/>
+   </properties>
+  </object>
+  <object id="531" name="boomerang_brother" type="46" x="4091.33" y="926.667" width="33.3333" height="33.3333"/>
+  <object id="537" name="goomba" type="3" x="5020" y="950.5">
+   <properties>
+    <property name="ani_id" value="32"/>
+   </properties>
+  </object>
+  <object id="539" name="brown_para_goomba" type="32" x="6376" y="926.667" width="41.3333" height="40"/>
  </objectgroup>
  <objectgroup id="27" name="Camera" visible="0">
   <object id="239" x="11.5152" y="421.152" width="840" height="641.333"/>
@@ -551,6 +563,10 @@
   <object id="245" x="1729" y="673.167" width="14.6667" height="93"/>
   <object id="485" x="850.667" y="872" width="13.3333" height="74.6667"/>
   <object id="486" x="1042.67" y="864" width="8" height="86.6667"/>
+  <object id="532" x="4022" y="890.667" width="13.3333" height="74.6667"/>
+  <object id="533" x="4214" y="882.667" width="8" height="86.6667"/>
+  <object id="535" x="5074.17" y="675.75" width="14.6667" height="93"/>
+  <object id="536" x="4899.17" y="675.25" width="14.6667" height="93"/>
  </objectgroup>
  <objectgroup id="24" name="Card" visible="0" locked="1">
   <object id="286" type="55" x="7175.52" y="743.273" width="50" height="50"/>

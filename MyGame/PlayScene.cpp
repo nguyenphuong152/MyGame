@@ -18,6 +18,7 @@
 #include "MarioTail.h"
 #include "PowerUp.h"
 #include "BoomerangPool.h"
+#include "MiniGoombaPool.h"
 
 
 using namespace std;
@@ -48,6 +49,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_PORTAL		50
 #define OBJECT_TYPE_TAIL		4
 #define OBJECT_TYPE_BOOMERANG	3
+#define OBJECT_TYPE_MINIGOOMBA	5
 
 #define MAX_SCENE_LINE 2048
 
@@ -186,6 +188,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOOMERANG:
 	{
 		CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
+	} break;
+	case OBJECT_TYPE_MINIGOOMBA:
+	{
+		CMiniGoombaPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -350,6 +356,7 @@ void CPlayScene::Update(DWORD dt)
 	CFireBallPool::GetInstance()->Update();
 	CEffectPool::GetInstance()->Update();
 	CBoomerangPool::GetInstance()->Update();
+	CMiniGoombaPool::GetInstance()->Update();
 
 	HUD::GetInstance()->Update();
 
@@ -360,7 +367,7 @@ void CPlayScene::Render()
 {
 	if (player == NULL) return;
 
-	map->RenderMap();
+	//map->RenderMap();
 
 	for (int i = 1; i < objects.size(); i++)
 	{
@@ -372,10 +379,10 @@ void CPlayScene::Render()
 
 	player->Render();
 
-	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	/* (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
 		map->RenderForeground();
-	}
+	}*/
 
 	HUD::GetInstance()->Render();
 }
@@ -399,6 +406,7 @@ void CPlayScene::Unload()
 	CFireBallPool::GetInstance()->Unload();
 	CEffectPool::GetInstance()->Unload();
 	CBoomerangPool::GetInstance()->Unload();
+	CMiniGoombaPool::GetInstance()->Unload();
 
 	map_objects = NULL;
 	map = NULL;

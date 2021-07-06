@@ -27,6 +27,7 @@
 #include "Game.h"
 #include "MagicNoteBlock.h"
 #include "WoodBlock.h"
+#include "BrownParaGoomBa.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -157,7 +158,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(2000, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(5800, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 
@@ -304,6 +305,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					else if (strcmp(enemyName, "boomerang_brother") == 0)
 					{
 						obj = new CBoomerangBrother();
+					}
+					else if (strcmp(enemyName, "brown_para_goomba") == 0)
+					{
+						obj = new CBrownParaGoomba();
 					}
 
 					obj->SetAnimation(ani);

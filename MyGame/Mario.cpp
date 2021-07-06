@@ -41,6 +41,7 @@
 #include "BoomerangBrother.h"
 #include "MagicNoteBlock.h"
 #include "WoodBlock.h"
+#include "MiniGoomba.h"
 
 //CMario* CMario::__instance = NULL;
 
@@ -428,7 +429,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = e->nx * FORCE_PUSH_MARIO_AWAY;
 					woodBlock->SetState(WOOD_BLOCK_STATE_TOUCHED,e->nx);
 				}
-            }
+			}
+			else if (dynamic_cast<CMiniGoomba*>(e->obj))
+			{
+			CMiniGoomba* g = dynamic_cast<CMiniGoomba*>(e->obj);
+				if (e->nx != 0 || e->ny != 0)
+				{
+					g->SetPosition(x,y);
+					g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
+				}
+			}
 		}
 	}
 

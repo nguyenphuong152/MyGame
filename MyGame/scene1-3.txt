@@ -362,6 +362,9 @@
 45006	763	565	810	612	20
 45007	706	565	753	612	20
 
+#minigoomba					
+32010	521	62	547	91	10
+
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -716,7 +719,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	2400	800	1
+0	6100	800	1
 
 # FIREBALL
 1	0	0	62
@@ -732,6 +735,9 @@
 
 # BOOMERANG
 3	0	0	47
+
+# MINIGOOMBA
+5	0	0	33
 
 #id	name	texture_id	tileperRow	tileperColumn
 [MAP]
