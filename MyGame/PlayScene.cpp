@@ -353,21 +353,27 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 	
-	CFireBallPool::GetInstance()->Update();
-	CEffectPool::GetInstance()->Update();
-	CBoomerangPool::GetInstance()->Update();
-	CMiniGoombaPool::GetInstance()->Update();
+	UpdatePool();
 
 	HUD::GetInstance()->Update();
 
 	player->Update(dt, &coObjects);
 }
 
+void CPlayScene::UpdatePool()
+{
+	CFireBallPool::GetInstance()->Update();
+	CEffectPool::GetInstance()->Update();
+	CBoomerangPool::GetInstance()->Update();
+	CMiniGoombaPool::GetInstance()->Update();
+}
+
+
 void CPlayScene::Render()
 {
 	if (player == NULL) return;
 
-	//map->RenderMap();
+	map->RenderMap();
 
 	for (int i = 1; i < objects.size(); i++)
 	{
@@ -379,10 +385,10 @@ void CPlayScene::Render()
 
 	player->Render();
 
-	/* (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
 		map->RenderForeground();
-	}*/
+	}
 
 	HUD::GetInstance()->Render();
 }
@@ -390,6 +396,13 @@ void CPlayScene::Render()
 /*
 unload current scene
 */
+void CPlayScene::UnloadPool()
+{
+	CFireBallPool::GetInstance()->Unload();
+	CEffectPool::GetInstance()->Unload();
+	CBoomerangPool::GetInstance()->Unload();
+	CMiniGoombaPool::GetInstance()->Unload();
+}
 
 void CPlayScene::Unload()
 {
@@ -403,10 +416,7 @@ void CPlayScene::Unload()
 	
 	HUD::GetInstance()->Unload();
 
-	CFireBallPool::GetInstance()->Unload();
-	CEffectPool::GetInstance()->Unload();
-	CBoomerangPool::GetInstance()->Unload();
-	CMiniGoombaPool::GetInstance()->Unload();
+	UnloadPool();
 
 	map_objects = NULL;
 	map = NULL;

@@ -36,6 +36,13 @@ public:
 	void FollowPlayerHorizontally();
 	void FollowPlayerVertically();
 
+	void GetCamPos(float& x, float& y,float& cam_width, float &cam_height) {
+		x = this->x;
+		y = this->y;
+		cam_width = this->width;
+		cam_height = this->height;
+	}
+
 	void SetProperty(float l, float r, float width, float height);
 
 	void InactiveCamera();

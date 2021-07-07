@@ -158,7 +158,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(5800, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(3600, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 

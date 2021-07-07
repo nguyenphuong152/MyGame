@@ -3,23 +3,21 @@
 #include <vector>
 #include <Windows.h>
 
-#define MAPWIDTH 176
-#define MAPHEIGHT 41
+#define MAX_MAP_SIZE	200
 
-#define MAPWORLD_HEIGHT	14
-#define MAPWORLD_WIDTH	16
-
-#define MAPWIDTH1_3 158
-#define MAPHEIGHT1_3	50
+#define CAM_WIDTH	764
+#define CAM_HEIGHT	760
 
 
 class CMapLayer {
 
 	const char* mapInfo;
-	std::vector<int> tileIdSet;
+	float width, height;
+	
+	int tileset[MAX_MAP_SIZE][MAX_MAP_SIZE];
 
+	void SetRenderRegion(int &cell_startX, int &cell_startY, int &cell_endX, int &cell_endY);
 public:
-	CMapLayer(TiXmlElement* layer);
+	CMapLayer(TiXmlElement* layer, float width, float height);
 	void RenderLayer();
-	void SetWidthHeight(float& width, float& height);
 };
