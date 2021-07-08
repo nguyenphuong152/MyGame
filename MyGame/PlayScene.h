@@ -40,6 +40,9 @@ protected:
 	void _ParseSection_HUD(string line);
 	void _ParseSection_Letters(string line);
 
+	void UpdatePool();
+	void UnloadPool();
+
 public:
 	CPlayScene(int id, LPCWSTR filePath);
 

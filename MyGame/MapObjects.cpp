@@ -26,6 +26,8 @@
 #include "BoomerangBrother.h"
 #include "Game.h"
 #include "MagicNoteBlock.h"
+#include "WoodBlock.h"
+#include "BrownParaGoomBa.h"
 
 CMapObjects* CMapObjects::__instance = NULL;
 
@@ -97,7 +99,15 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
-					obj = new CMagicNoteBlock(x, y);
+					if (strcmp(element->Attribute("type"), "1") == 0)
+					{
+						obj = new CMagicNoteBlock(x, y,MagicNoteBlockType::invisible);
+					}
+					else {
+						obj = new CMagicNoteBlock(x, y, MagicNoteBlockType::visible);
+					}
+
+					
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -148,7 +158,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(1500, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(3600, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 
@@ -232,6 +242,28 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 				}
 				//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
 			}
+			else if (strcmp(attributeName, "WoodBlock") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+
+					CGameObject* item = NULL;
+					if (strcmp(element->Attribute("name"), "powerup") == 0)
+					{
+						item = new CPowerUp(x, y);
+						objects.push_back(item);
+					}
+					
+					obj = new CWoodBlock(item, x);
+
+					obj->SetPosition(x, y);
+					objects.push_back(obj);
+					element = element->NextSiblingElement();
+				}
+			//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
+			}
 			else if (strcmp(attributeName, "Enemy") == 0)
 			{
 				while (element)
@@ -273,6 +305,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					else if (strcmp(enemyName, "boomerang_brother") == 0)
 					{
 						obj = new CBoomerangBrother();
+					}
+					else if (strcmp(enemyName, "brown_para_goomba") == 0)
+					{
+						obj = new CBrownParaGoomba();
 					}
 
 					obj->SetAnimation(ani);

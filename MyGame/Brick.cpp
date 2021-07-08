@@ -11,16 +11,16 @@
 CBrick::CBrick(CGameObject* item, float y, BrickType type)
 {
 	this->item = item;
-	InitBrick();
+	InitBrick(y,type);
 }
 
 CBrick::CBrick(float y, BrickType type)
 {
 	this->item = NULL;
-	InitBrick();
+	InitBrick(y,type);
 }
 
-void CBrick::InitBrick()
+void CBrick::InitBrick(float y, BrickType type)
 {
 	this->type = type;
 	if (type == BrickType::question_brick)
@@ -67,7 +67,7 @@ void CBrick::Render()
 	{
 		ani = BRICK_ANI_UNTOUCH;
 	}
-	else if (state == BRICK_STATE_TOUCHED||coinCounts==NUMBER_OF_COINS-1)
+	else if (state == BRICK_STATE_TOUCHED||coinCounts>NUMBER_OF_COINS-1)
 	{
 		ani = BRICK_ANI_TOUCHED;
 	}
@@ -111,6 +111,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
+	HandleBrickHasTenCoins();
 
 	if (state == BRICK_STATE_TOUCHED)
 	{

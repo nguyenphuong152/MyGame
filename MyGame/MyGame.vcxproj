@@ -151,6 +151,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BreakableBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="BrownParaGoomBa.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -192,6 +193,8 @@
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="MarioTail.cpp" />
+    <ClCompile Include="MiniGoomba.cpp" />
+    <ClCompile Include="MiniGoombaPool.cpp" />
     <ClCompile Include="One-upMushroom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PowerUp.cpp" />
@@ -219,6 +222,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="WoodBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -229,6 +233,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="BreakableBrick.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="BrownParaGoomBa.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Coin.h" />
@@ -271,6 +276,8 @@
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="MarioTail.h" />
+    <ClInclude Include="MiniGoomba.h" />
+    <ClInclude Include="MiniGoombaPool.h" />
     <ClInclude Include="One-upMushroom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PowerUp.h" />
@@ -296,6 +303,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="WoodBlock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

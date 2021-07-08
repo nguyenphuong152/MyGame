@@ -45,7 +45,7 @@ public:
 	int GetCoinCounts() { return coinCounts; }
 	void IncreaseCoinCounts() { coinCounts++; };
 
-	void InitBrick();
+	void InitBrick(float y, BrickType type);
 	void HandleBrickHasTenCoins();
 
 	void AddCoins(CGameObject* coin);

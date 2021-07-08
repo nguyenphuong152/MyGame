@@ -48,10 +48,13 @@ public:
 	void SetPowerUpType(PowerUpType type) { powerup_type = type; };
 	PowerUpType GetPowerUpType() { return powerup_type; };
 	void DefinePowerUpType();
+
 	void SetStateForSuperMushroom();
 	void SetStateForSuperLeaf();
+
 	void HandleUpdateSuperLeaf();
 	void HandleUpdateSuperMushroom();
+
 	void ActivatePower() { isActive = true; };
     
 	void StartChangeDirection() { changeDirection = 1; changeDirection_start = GetTickCount64(); }

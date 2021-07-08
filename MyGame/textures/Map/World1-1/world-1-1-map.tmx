@@ -557,7 +557,7 @@
   <object id="296" name="hidden-pipe" x="6932.5" y="1473.67" width="43" height="12.6667"/>
  </objectgroup>
  <objectgroup id="26" name="Camera">
-  <object id="243" x="3" y="652.546" width="764" height="760.67"/>
+  <object id="243" x="3" y="652.546" width="764" height="760"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="253" x="1510" y="1117" width="25" height="13"/>

@@ -59,19 +59,22 @@ void CMap::HandleMap()
 	for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
 	{
 		string name = layer->FirstChildElement()->Value();
-
 		//render map
 		//layer k có attribute visible mới add vô vẽ
 		// tach layer foreground ra vẽ sau cùng
 		if (layer->Attribute("name") != NULL)
 		{
+			float width, height;
+			layer->QueryFloatAttribute("width", &width);
+			layer->QueryFloatAttribute("height",&height);
+
 			if (strcmp(layer->Attribute("name"), "Foreground") == 0  )
-				layerForeground = new CMapLayer(layer->FirstChildElement());
+				layerForeground = new CMapLayer(layer->FirstChildElement(), width,height);
 			else {
 				const char* attributeVisible = layer->Attribute("visible");
 				if (attributeVisible == NULL && name == "data")
 				{
-					CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement());
+					CMapLayer* mLayer = new CMapLayer(layer->FirstChildElement(), width, height);
 					layers.push_back(mLayer);
 				}
 			}
