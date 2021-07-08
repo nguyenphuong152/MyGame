@@ -162,6 +162,7 @@
     <ClCompile Include="FireBallPool.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="GreenVenusFireTrap.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDContent.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="tinyxml.cpp" />
     <ClCompile Include="tinyxmlerror.cpp" />
     <ClCompile Include="tinyxmlparser.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -244,6 +246,7 @@
     <ClInclude Include="FireBallPool.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="GreenVenusFireTrap.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDContent.h" />
@@ -291,6 +294,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
+    <ClInclude Include="Unit.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

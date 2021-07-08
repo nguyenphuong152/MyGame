@@ -66,10 +66,27 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
-					obj = new CGround(width, height, GroundType::normal_ground);
 
-					obj->SetPosition(x, y);
-					objects.push_back(obj);
+					int groundCounts;
+					if (width > 48)
+					{
+						groundCounts = width / 48;
+						for (int i = 0; i < groundCounts; i++)
+						{
+							obj = new CGround(48, height, GroundType::normal_ground);
+
+							obj->SetPosition(x+i*48, y);
+							objects.push_back(obj);
+						}
+					}
+					else {
+						obj = new CGround(width, height, GroundType::normal_ground);
+
+						obj->SetPosition(x, y);
+						objects.push_back(obj);
+					}
+					
+					
 
 					element = element->NextSiblingElement();
 				}
@@ -158,7 +175,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(3600, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 

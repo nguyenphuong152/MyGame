@@ -19,7 +19,7 @@
 #include "PowerUp.h"
 #include "BoomerangPool.h"
 #include "MiniGoombaPool.h"
-
+#include "Grid.h"
 
 using namespace std;
 
@@ -140,6 +140,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
+	grid = new Grid(8448, 1968, 352, 328);
+
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
@@ -172,26 +174,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		CFireBallPool::GetInstance()->Init(objects,ani_set_id);
+		//CFireBallPool::GetInstance()->Init(objects,ani_set_id);
 	} break;
 	case OBJECT_TYPE_TAIL:
 	{
-		obj = new CMarioTail();
+	/*	obj = new CMarioTail();
 		obj->SetPosition((player->x+2)*player->nx, player->y+MARIO_RACOON_BBOX_HEIGHT+32);
 		player->AttachTail((CMarioTail*)obj);
-		objects.push_back(obj);
+		objects.push_back(obj);*/
 	} break;
 	case OBJECT_TYPE_EFFECT:
 	{
-		CEffectPool::GetInstance()->Init(objects, ani_set_id);
+		//CEffectPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	case OBJECT_TYPE_BOOMERANG:
 	{
-		CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
+		//CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	case OBJECT_TYPE_MINIGOOMBA:
 	{
-		CMiniGoombaPool::GetInstance()->Init(objects, ani_set_id);
+		//CMiniGoombaPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -227,6 +229,9 @@ void CPlayScene::_ParseSection_MAP(string line)
 	
 	map_objects = new CMapObjects();
 	map_objects->GenerateObject(&path[0], objects);
+
+	AddObjectToGrid();
+	DebugOut(L"hello \n");
 }
 
 void CPlayScene::_ParseSection_HUD(string line)
@@ -329,15 +334,15 @@ void CPlayScene::Load()
 }
 
 
-
 void CPlayScene::Update(DWORD dt)
 {
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-	vector<LPGAMEOBJECT> coObjects;
+	coObjects.clear();
+	units.clear();
 
-	for (size_t i = 1; i < objects.size(); i++)
+	/*for (size_t i = 1; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{
@@ -351,13 +356,54 @@ void CPlayScene::Update(DWORD dt)
 		{
 			objects[i]->Update(dt, &coObjects);
 		}
-	}
+	}*/
+	//DebugOut(L"updateeeee objects size %d \n", coObjects.size());
 	
-	UpdatePool();
+	//UpdatePool();
+	UpdateGrid(&coObjects, dt);
 
+	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
 	HUD::GetInstance()->Update();
 
 	player->Update(dt, &coObjects);
+}
+
+void CPlayScene::UpdateGrid(vector<LPGAMEOBJECT>* coObjects,DWORD dt)
+{
+	grid->GetUnitsFromCameraRegion(&units);
+	for (int i = 0; i < units.size(); i++)
+	{
+		LPGAMEOBJECT obj = units[i]->GetObject();
+		//if (dynamic_cast<CMario*>(obj)) continue;
+		if (obj->isEnable)
+		{
+			coObjects->push_back(obj);
+		}
+	}
+
+
+	grid->Update(dt, coObjects);
+
+	for (int i = 0; i < units.size(); i++)
+	{
+		LPGAMEOBJECT obj = units[i]->GetObject();
+		if (obj->isEnable)
+		{
+			float new_x, new_y;
+			obj->GetPosition(new_x, new_y);
+			units[i]->Move(new_x, new_y);
+		}
+	}
+}
+
+void CPlayScene::AddObjectToGrid()
+{
+	for (size_t i = 1; i < objects.size(); i++)
+	{
+		if (dynamic_cast<CCamera*>(objects[i])) continue;
+		Unit* unit;
+		unit = new Unit(grid, objects[i]);
+	}
 }
 
 void CPlayScene::UpdatePool()
