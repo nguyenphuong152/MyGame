@@ -140,8 +140,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
-	grid = new Grid(8448, 1968, 352, 328);
-
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
@@ -178,10 +176,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_TAIL:
 	{
-	/*	obj = new CMarioTail();
+		obj = new CMarioTail();
 		obj->SetPosition((player->x+2)*player->nx, player->y+MARIO_RACOON_BBOX_HEIGHT+32);
 		player->AttachTail((CMarioTail*)obj);
-		objects.push_back(obj);*/
+		objects.push_back(obj);
 	} break;
 	case OBJECT_TYPE_EFFECT:
 	{
@@ -231,7 +229,6 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map_objects->GenerateObject(&path[0], objects);
 
 	AddObjectToGrid();
-	DebugOut(L"hello \n");
 }
 
 void CPlayScene::_ParseSection_HUD(string line)
@@ -340,69 +337,25 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	coObjects.clear();
-	units.clear();
 
-	/*for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{
-			coObjects.push_back(objects[i]);
-		}
-	}
-
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{
-			objects[i]->Update(dt, &coObjects);
-		}
-	}*/
-	//DebugOut(L"updateeeee objects size %d \n", coObjects.size());
-	
+	grid->GetUnitsFromCameraRegion(&coObjects);
 	//UpdatePool();
-	UpdateGrid(&coObjects, dt);
 
 	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
+	grid->Update(dt, &coObjects);
 	HUD::GetInstance()->Update();
-
 	player->Update(dt, &coObjects);
 }
 
-void CPlayScene::UpdateGrid(vector<LPGAMEOBJECT>* coObjects,DWORD dt)
-{
-	grid->GetUnitsFromCameraRegion(&units);
-	for (int i = 0; i < units.size(); i++)
-	{
-		LPGAMEOBJECT obj = units[i]->GetObject();
-		//if (dynamic_cast<CMario*>(obj)) continue;
-		if (obj->isEnable)
-		{
-			coObjects->push_back(obj);
-		}
-	}
-
-
-	grid->Update(dt, coObjects);
-
-	for (int i = 0; i < units.size(); i++)
-	{
-		LPGAMEOBJECT obj = units[i]->GetObject();
-		if (obj->isEnable)
-		{
-			float new_x, new_y;
-			obj->GetPosition(new_x, new_y);
-			units[i]->Move(new_x, new_y);
-		}
-	}
-}
 
 void CPlayScene::AddObjectToGrid()
 {
+	grid = new Grid();
 	for (size_t i = 1; i < objects.size(); i++)
 	{
-		if (dynamic_cast<CCamera*>(objects[i])) continue;
-		Unit* unit;
-		unit = new Unit(grid, objects[i]);
+		if (dynamic_cast<CCamera*>(objects[i]) == false||dynamic_cast<CMarioTail*>(objects[i])== false) {
+			objects[i]->AddObjectToGrid(grid);
+		}
 	}
 }
 
@@ -421,14 +374,14 @@ void CPlayScene::Render()
 
 	map->RenderMap();
 
-	for (int i = 1; i < objects.size(); i++)
+	/*for (int i = 1; i < objects.size(); i++)
 	{
 		if (objects[i]->isEnable)
 		{	
 			objects[i]->Render();
 		}
-	}
-
+	}*/
+	grid->Render();
 	player->Render();
 
 	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)

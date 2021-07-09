@@ -32,7 +32,7 @@ protected:
 	Letter* letters;
 
 	vector<LPGAMEOBJECT> objects;
-	vector<LPUNIT> units;
+	vector<LPGAMEOBJECT> active_objs;
 	vector<LPGAMEOBJECT> coObjects;
 
 	void _ParseSection_TEXTURES(string line);

@@ -8,6 +8,7 @@
 #include "EffectPool.h"
 #include "Effect.h"
 #include "Ground.h"
+#include "Grid.h"
 
 CGoomBa::CGoomBa()
 {
@@ -37,7 +38,9 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	vy += GOOMBA_GRAVITY * dt;
 
-	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
+	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) {
+		isEnable = false;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -92,7 +95,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-
+		grid->Move(this);
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 }

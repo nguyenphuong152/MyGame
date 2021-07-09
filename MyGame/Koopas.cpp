@@ -14,6 +14,7 @@
 #include "MarioStateHoldShellIdle.h"
 #include "BreakableBrick.h"
 #include "MagicNoteBlock.h"
+#include "Grid.h"
 
 
 CKoopas::CKoopas()
@@ -173,6 +174,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	grid->Move(this);
 }
 
 void CKoopas::Render()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="31" nextobjectid="305">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="31" nextobjectid="308">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -368,7 +368,7 @@
  </layer>
  <objectgroup id="13" name="Solid">
   <object id="1" x="2" y="1246" width="1869.82" height="48"/>
-  <object id="2" x="1057.42" y="1105.33" width="95.9091" height="140.394"/>
+  <object id="2" x="1057.42" y="1105.33" width="89.9091" height="140.394"/>
   <object id="3" x="1872" y="1201" width="1392" height="93"/>
   <object id="4" x="3458" y="1248" width="1004" height="46"/>
   <object id="5" x="4562" y="1244" width="236" height="52"/>
@@ -414,7 +414,7 @@
   <object id="40" x="3841.47" y="1056.44" width="334.813" height="18.193"/>
   <object id="41" x="3936.59" y="960.051" width="333.545" height="22.924"/>
  </objectgroup>
- <objectgroup id="18" name="QuestionBlocks" visible="0">
+ <objectgroup id="18" name="QuestionBlocks">
   <object id="47" name="bcoin" type="1" x="541.167" y="1058"/>
   <object id="49" name="bcoin" type="1" x="586" y="1058"/>
   <object id="50" name="bcoin" type="1" x="683.667" y="914.25"/>
@@ -428,7 +428,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Coin" visible="0">
+ <objectgroup id="15" name="Coin">
   <object id="59" x="3236.5" y="983.5"/>
   <object id="64" x="3333.17" y="887.667"/>
   <object id="68" x="3428.75" y="792"/>
@@ -465,7 +465,7 @@
   <object id="227" x="5400" y="359"/>
   <object id="228" x="5449" y="408"/>
  </objectgroup>
- <objectgroup id="19" name="Brick" visible="0">
+ <objectgroup id="19" name="Brick">
   <object id="85" type="1" x="5929.94" y="1104.09">
    <point/>
   </object>
@@ -518,22 +518,22 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Enemy" visible="0">
-  <object id="91" name="red_koopa" type="70" x="1437.54" y="993.45" width="31" height="26"/>
-  <object id="98" name="red_venus" type="60" x="1081.15" y="1139.97"/>
+ <objectgroup id="15" name="Enemy">
+  <object id="91" name="red_koopa" type="70" x="1704.75" y="1001.45" width="31" height="26"/>
+  <object id="98" name="red_venus" type="60" x="1081.15" y="1132.97"/>
   <object id="255" name="goomba" type="3" x="2090" y="1136" width="22.5" height="21.5"/>
   <object id="256" name="piranha" type="64" x="5350.5" y="1164.5" width="25" height="23"/>
   <object id="258" name="green_venus" type="63" x="5542" y="1128" width="25.5" height="26"/>
   <object id="260" name="para-goomba" type="31" x="2684" y="1117" width="24" height="26"/>
-  <object id="261" name="green_para-koopa" type="71" x="1908.03" y="1088.45" width="27" height="32"/>
+  <object id="261" name="green_para-koopa" type="71" x="4083.79" y="855.117" width="27" height="32"/>
   <object id="302" name="red_koopa" type="70" x="6257.83" y="1055" width="31" height="26"/>
  </objectgroup>
- <objectgroup id="22" name="SwitchBlocks" visible="0">
+ <objectgroup id="22" name="SwitchBlocks">
   <object id="206" x="6070" y="1076">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="23" name="Block" visible="0">
+ <objectgroup id="23" name="Block">
   <object id="198" x="6071.67" y="1126.33" visible="0">
    <point/>
   </object>
@@ -543,9 +543,9 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="25" name="Boundary" visible="0">
+ <objectgroup id="25" name="Boundary">
   <object id="235" x="-66" y="2" width="66" height="1964"/>
-  <object id="236" x="-64" y="-58" width="8620" height="54"/>
+  <object id="236" x="-16" y="-6" width="8620" height="54"/>
   <object id="237" x="8443.52" y="-1.21212" width="88" height="1974.3"/>
   <object id="288" x="5812.12" y="1700" width="39.3939" height="263.636"/>
   <object id="300" x="2" y="1415.67" width="8620" height="54"/>
@@ -557,7 +557,7 @@
   <object id="296" name="hidden-pipe" x="6932.5" y="1473.67" width="43" height="12.6667"/>
  </objectgroup>
  <objectgroup id="26" name="Camera">
-  <object id="243" x="3" y="652.546" width="764" height="760"/>
+  <object id="243" x="3" y="652.546" width="764" height="760" visible="0"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="253" x="1510" y="1117" width="25" height="13"/>

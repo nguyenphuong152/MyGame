@@ -4,149 +4,157 @@
 #include "Ground.h"
 #include "Utils.h"
 
-Grid::Grid(int mWidth, int mHeight, int cWidth, int cHeight)
+Grid::Grid()
 {
-    cols = mWidth / cWidth;
-    rows = mHeight / cHeight;
-
-    cell_height = cHeight;
-    cell_width = cWidth;
-
-    //set size cho vector 2d 
-    cells.resize(rows);
-
-    for (int i = 0; i < cells.size(); i++)
-        cells[i].resize(cols);
-
     //clear mang vector
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < NUM_CELL; i++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < NUM_CELL; j++)
         {
             cells[i][j] = NULL ;
         }
     }
-    DebugOut(L"hellp \n");
 }
 
-void Grid::Add(Unit* unit)
+void Grid::Add(LPGAMEOBJECT object)
 {
     //xac dinh unit thuoc o nao cua grid
-    int col = (int)(unit->x/ cell_width);
-    int row = (int)(unit->y/ cell_height);
+    int col = (int)(object->x/ CELL_SIZE);
+    int row = (int)(object->y/ CELL_SIZE);
 
     //DebugOut(L"cell %d-%d \n", row, col);
 
     //them no vao dau cai o ma no thuoc ve
-    unit->prev = NULL;
-    unit->next = cells[row][col];
+    object->prev = NULL;
+    object->next = cells[row][col];
    
-    cells[row][col] = unit;
+    cells[row][col] = object;
 
-    if (unit->next != NULL)
+    if (object->next != NULL)
     {
-        unit->next->prev = unit;
+        object->next->prev = object;
     }
 }
 
 void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
 {
- /*   CCamera* cam = CGame::GetInstance()->GetMainCamera();
-    float cx, cy;
-    float cell_startX, cell_startY, cell_endX, cell_endY;
-    cam->GetPosition(cx, cy);
-
-    cell_startX =  (int)(cx / cell_width);
-    cell_startY =  (int)(cy / cell_height);
-    cell_endX = (int)((cx + CAM_WIDTH) / cell_width + 1);
-    cell_endY = (int)((cy + CAM_HEIGHT) / cell_height + 1);*/
-
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            if(cells[i][j]!=NULL) 
-
-             HandleCell(cells[i][j],dt,coobjs);
-        }
-    }
-}
-
-
-void Grid::HandleCell(Unit* unit,DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-    while (unit != NULL)
-    {
-        if (unit->obj->isEnable == true)
-        {
-            unit->obj->Update(dt, coObjects);
-        }
-        unit = unit->next;
-    }
-}
-
-void Grid::GetUnitsFromCameraRegion(vector<LPUNIT>* units)
-{
-    CCamera* cam = CGame::GetInstance()->GetMainCamera();
-    float cx, cy;
     int cell_startX, cell_startY, cell_endX, cell_endY;
-    cam->GetPosition(cx, cy);
-  
-    cell_startX = (int)(cx / cell_width);
-    cell_startY = (int) (cy / cell_height);
-    cell_endX = (int)((cx + CAM_WIDTH) / cell_width + 1);
-    cell_endY = (int)((cy + CAM_HEIGHT) / cell_height+ 1);
+    GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
 
-    //DebugOut(L"cell k null %d -- %d---%d---%d \n", cell_startX, cell_startY,cell_endX,cell_endY);
-
-    for (int i = cell_startY; i < cell_endY; i++)
+    for (int i = cell_startY; i < cell_endY+1; i++)
     {
-        for (int j = cell_startX; j < cell_endX; j++)
+        for (int j = cell_startX; j < cell_endX+1; j++)
         {
-            Unit* unit = cells[i][j];
-            if (unit == NULL) continue;
-
-            while (unit != NULL)
+            LPGAMEOBJECT obj = cells[i][j];
+            while (obj != NULL)
             {
-                units->push_back(unit);
-                unit = unit->next;
+                if (obj->isEnable)
+                {
+                    obj->Update(dt, coobjs);
+                }
+                obj = obj->next;
             }
         }
     }
 }
 
-void Grid::Move(Unit* unit, float x, float y)
+void Grid::Render()
 {
+    int cell_startX, cell_startY, cell_endX, cell_endY;
+    GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
+
+    for (int i = cell_startY; i < cell_endY+1; i++)
+    {
+        for (int j = cell_startX; j < cell_endX+1; j++)
+        {
+            LPGAMEOBJECT obj = cells[i][j];
+            while (obj != NULL)
+            {
+                if (obj->isEnable)
+                {
+                    obj->Render();
+                }
+                obj = obj->next;
+            }
+        }
+    }
+}
+
+
+
+
+void Grid::GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, int& cell_endY)
+{
+    CCamera* cam = CGame::GetInstance()->GetMainCamera();
+    float cx, cy;
+    cam->GetPosition(cx, cy);
+
+    cell_startX = (int)(cx / CELL_SIZE);
+    cell_startY = (int)(cy / CELL_SIZE);
+    cell_endX = (int)((cx + CAM_WIDTH) / CELL_SIZE);
+    cell_endY = (int)((cy + CAM_HEIGHT) / CELL_SIZE);
+}
+
+void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)
+{
+    
+    int cell_startX, cell_startY, cell_endX, cell_endY;
+    GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
+
+    //DebugOut(L"cell k null %d -- %d---%d---%d \n", cell_startX, cell_startY,cell_endX,cell_endY);
+
+    for (int i = cell_startY; i < cell_endY+1; i++)
+    {
+        for (int j = cell_startX; j < cell_endX+1; j++)
+        {
+            LPGAMEOBJECT objs = cells[i][j];
+            while (objs != NULL)
+            {
+                if (objs->isEnable)
+                {
+                    units->push_back(objs);
+                }
+                objs = objs->next;    
+            }
+        }
+    }
+}
+
+void Grid::Move(LPGAMEOBJECT object)
+{
+    float old_x, old_y, x, y;
+
+    object->GetOldPosition(old_x, old_y);
+    object->GetPosition(x, y);
     //kiem tra old cell cua unit
-    int oldCellX = (int)(unit->x / cell_width);
-    int oldCellY = (int)(unit->y / cell_height);
+
+    int oldCellX = (int)(old_x / CELL_SIZE);
+    int oldCellY = (int)(old_y / CELL_SIZE);
 
     // cell moi cua unit
-    int cellX = (int)(x / cell_width);
-    int cellY = (int)(y / cell_height);
+    int cellX = (int)(x / CELL_SIZE);
+    int cellY = (int)(y / CELL_SIZE);
 
-    unit->x = x;
-    unit->y = y;
-
-    // neu k thay doi thi out
-    if (oldCellX == cellX && oldCellY == cellY) return;
+    // neu k thay doi thi out || ngoai vung thi out
+    if (oldCellX == cellX && oldCellY == cellY ) return;
 
     // thao ra khoi list unit thuoc old cell 
-    if (unit->prev != NULL)
+    if (object->prev != NULL)
     {
-        unit->prev->next = unit->next;
+        object->prev->next = object->next;
     }
 
-    if (unit->next != NULL)
+    if (object->next != NULL)
     {
-        unit->next->prev = unit->prev;
+        object->next->prev = object->prev;
     }
 
     // neu no o dau list cua  oldcell thi go ra, va thay doi dau list cua old cell
-    if (cells[oldCellX][oldCellY] == unit)
+    if (cells[oldCellY][oldCellX] == object)
     {
-        cells[oldCellX][oldCellY] = unit->next;
+        cells[oldCellY][oldCellX] = object->next;
     }
     // add lai vao grid , o list cua cell moi
-    Add(unit);
+
+    Add(object);
 }

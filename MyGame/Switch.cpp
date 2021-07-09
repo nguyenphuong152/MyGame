@@ -1,7 +1,6 @@
 #include "Switch.h"
 
 CSwitch::CSwitch() {
-	isEnable = true;
 	SetState(SWITCH_STATE_UNTOUCH);
 }
 
@@ -23,6 +22,10 @@ void CSwitch::Render()
 void CSwitch::SetState(int state)
 {
 	CGameObject::SetState(state);
+	if (state == SWITCH_STATE_TOUCHED)
+	{
+		isEnable = true;
+	}
 }
 
 void CSwitch::GetBoundingBox(float& l, float& t, float& r, float& b)

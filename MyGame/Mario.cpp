@@ -62,7 +62,7 @@ CMario::CMario(float x, float y) : CGameObject()
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//calculate dx, d
+	//calculate dx, 
 	CGameObject::Update(dt);
 	if (marioState != CMarioState::walking_overworld.GetInstance())
 	{
@@ -446,6 +446,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+	//neu k phai ow moi cho update tail
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	{
+		tail->Update(dt, coObjects);
+	}
 	marioState->Update(dt, *this);
 }
 

@@ -13,7 +13,7 @@ Unit::Unit(Grid* g,LPGAMEOBJECT object)
 	grid->Add(this);
 }
 
-void Unit::Move(double x, double y)
+void Unit::Move(float x, float y, float old_x, float old_y)
 {
-	grid->Move(this, x, y);
+	grid->Move(this, x, y,old_x, old_y);
 }

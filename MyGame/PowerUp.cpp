@@ -19,7 +19,6 @@ CPowerUp::CPowerUp(float x,float  y)
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 {
-
 	CGameObject::Update(dt, colObject);
 
 	if (isActive)

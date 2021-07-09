@@ -5,6 +5,7 @@
 #include "Boomerang.h"
 #include "BoomerangPool.h"
 #include "Game.h"
+#include "Grid.h"
 
 CBoomerangBrother::CBoomerangBrother()
 {
@@ -88,7 +89,8 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
+    
+	grid->Move(this);
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 

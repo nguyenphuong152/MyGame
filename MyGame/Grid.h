@@ -1,25 +1,24 @@
 #pragma once
-#include <vector>
-#include "Unit.h"
+#include "GameObject.h"
 
 #define CAM_WIDTH	764
 #define CAM_HEIGHT	760
 
-using namespace std;
+#define NUM_CELL	200
+
+#define CELL_SIZE	480
 
 class Grid {
-	int cell_width;
-	int cell_height;
-
-	int rows;
-	int cols;
-
-	vector<vector<LPUNIT>> cells;
+	LPGAMEOBJECT cells[NUM_CELL][NUM_CELL] ;
 public:
-	Grid(int  map_width, int map_height, int cell_width, int cell_height);
-	void Add(Unit* unit);
+	Grid();
+	void Add(LPGAMEOBJECT obj);
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
-	void Move(Unit* unit, float x, float y);
-	void HandleCell(Unit* cell,DWORD dt, vector<LPGAMEOBJECT> *coObjs);
-	void GetUnitsFromCameraRegion(vector<LPUNIT>* units);
+	void Render();
+
+	void Move(LPGAMEOBJECT object);
+
+	void GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, int& cell_endY);
+	void GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* objs);
 };

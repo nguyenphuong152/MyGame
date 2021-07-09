@@ -2,6 +2,7 @@
 #include "Ground.h"
 #include "Utils.h"
 #include "EffectPool.h"
+#include "Grid.h"
 
 CPiranha::CPiranha()
 {
@@ -27,7 +28,7 @@ void CPiranha::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	CEnemy::Update(dt, coObjects);
 
 	if (y < PIPE_POSITION_Y && active == 0) StartActive();
 
@@ -79,7 +80,7 @@ void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
+	grid->Move(this);
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 

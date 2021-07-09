@@ -43,10 +43,20 @@ struct CCollisionEvent
 
 class CGameObject
 {
+	friend class Grid;
+protected:
+	Grid* grid;
+	CGameObject* prev;
+	CGameObject* next;
+
 public:
 	//vi tri
 	float x;
 	float y;
+
+    //old postition
+	float old_x;
+	float old_y;
 
 	//van toc
 	float vx;
@@ -66,12 +76,16 @@ public:
 	DWORD dt; //time
 
 	bool isEnable = false;
+	bool isDie = false;
 	
 	LPANIMATION_SET animation_set;
 
 public:
+	void SetOldPosition(float x, float y) { this->old_x = x; this->old_y = y; };
 	void SetPosition(float x, float y) { this->x = x; this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
+	
+	void GetOldPosition(float& x, float& y) { x = this->old_x; y = this->old_y; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx, vy = this->vy; }
 
@@ -87,6 +101,9 @@ public:
 
 	//aabb xét vật tĩnh đụng nhau
 	bool AABB(CGameObject* object);
+
+	void AddObjectToGrid(Grid* grid);
+	void Move();
 
 	void SetAnimation(int ani);
 

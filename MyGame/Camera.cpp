@@ -120,6 +120,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				}
 			}
 		}
+		//DebugOut(L"%f \n", y);
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
@@ -130,7 +131,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 void CCamera::FollowPlayerHorizontally()
 {
-	//DebugOut(L"startx %f ---- x %f --- camcentetr %f --- mario %f \n", start_x, x,cam_center_X,player->x);
+	
 	if (x>start_x && !isReachBoundaryRight)
 	{
 		if (player->x > cam_center_X && player->vx > 0 || player->x < cam_center_X && player->vx < 0)

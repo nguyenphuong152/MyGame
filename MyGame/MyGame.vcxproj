@@ -212,7 +212,6 @@
     <ClCompile Include="tinyxml.cpp" />
     <ClCompile Include="tinyxmlerror.cpp" />
     <ClCompile Include="tinyxmlparser.cpp" />
-    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -294,7 +293,6 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
-    <ClInclude Include="Unit.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

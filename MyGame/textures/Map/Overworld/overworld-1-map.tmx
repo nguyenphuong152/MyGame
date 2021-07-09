@@ -398,7 +398,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Camera" visible="0">
-  <object id="71" x="0.96285" y="-1.98143" width="769" height="671.672" visible="0"/>
+ <objectgroup id="7" name="Camera">
+  <object id="71" x="0.96285" y="-1.98143" width="769" height="671.672"/>
  </objectgroup>
 </map>

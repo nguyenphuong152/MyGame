@@ -68,10 +68,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					int groundCounts;
-					if (width > 48)
+					if (width >= 48)
 					{
-						groundCounts = width / 48;
-						for (int i = 0; i < groundCounts; i++)
+						groundCounts =(int) floor(width / 48);
+						for (int i = 0; i < groundCounts+1; i++)
 						{
 							obj = new CGround(48, height, GroundType::normal_ground);
 

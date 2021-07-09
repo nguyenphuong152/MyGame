@@ -19,5 +19,5 @@ private:
 public:
     Unit(Grid* grid, LPGAMEOBJECT obj);
     LPGAMEOBJECT GetObject() { return obj; };
-    void Move(double x, double y);
+    void Move(float x, float y, float old_x, float old_y);
 };

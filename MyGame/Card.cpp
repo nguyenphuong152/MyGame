@@ -1,4 +1,5 @@
 #include "Card.h"
+#include "Grid.h"
 #include "Utils.h"
 
 CCard::CCard() {
@@ -58,4 +59,5 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			animated_start = 0;
 		}
 	}
+	grid->Move(this);
 }

@@ -1,13 +1,15 @@
 #include "Coin.h"
 #include "Utils.h"
 #include "Brick.h"
+#include "Grid.h"
 
 CCoin::CCoin(CoinType type, float x, float y)
 {
 	this->type = type;
-	isEnable = true;
 	SetAnimation(COIN_ANI);
 	SetPosition(x, y);
+	isEnable = true;
+	if (type == CoinType::spinning_coin) isActive = true;
 }
 
 void CCoin::SetState(int state)
@@ -15,62 +17,78 @@ void CCoin::SetState(int state)
 	CGameObject::SetState(state);
 	if (type == CoinType::jumping_coin&&state==COIN_STATE_JUMPING)
 	{
+		isActive = true;
 		vy = -COIN_DEFLECT_SPEED;
+		StartJumping();
 	}
 }
 
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-	if (type == CoinType::jumping_coin&& state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	//if no collision occured, proceed normally
-	if (coEvents.size() == 0 )
+	if (isActive)
 	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
+		//DebugOut(L"vooooo %d \n", dt);
+		CGameObject::Update(dt, coObjects);
 
-		float rdx = 0, rdy = 0;
+		if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME) {
+			ResetJumping();
+			isEnable = false;
+			isActive = false;
+		}
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		if (type == CoinType::jumping_coin && state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
 
-		//block every object first
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 
-		if (nx != 0) vx = 0;
-		//if (ny != 0) vy = 0;
+		coEvents.clear();
 
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+		//if no collision occured, proceed normally
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny;
 
-			if (dynamic_cast<CBrick*>(e->obj) )
+			float rdx = 0, rdy = 0;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			//block every object first
+			x += min_tx * dx + nx * 0.4f;
+			y += min_ty * dy + ny * 0.4f;
+
+			if (nx != 0) vx = 0;
+			//if (ny != 0) vy = 0;
+
+			//collision logic with other objects
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				if (e->ny < 0)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBrick*>(e->obj))
 				{
-					isEnable = false;
+					if (e->ny < 0)
+					{
+						//DebugOut(L"vo \n");
+						isEnable = false;
+						isDie = true;
+					}
+				}
+				else {
+					y += dy;
 				}
 			}
-			else {
-				y += dy;
-			}
 		}
-	}
 
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		grid->Move(this);
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
 }
 
 
@@ -81,7 +99,10 @@ void CCoin::Render()
 		ani = COIN_ANI_JUMPING;
 	else
 		ani = COIN_ANI_SPINNING;
-	animation_set->at(ani)->Render(1,1,x,y);
+	if (isActive)
+	{
+		animation_set->at(ani)->Render(1, 1, x, y);
+	}
 	//RenderBoundingBox();
 }
 
