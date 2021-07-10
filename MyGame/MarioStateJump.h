@@ -5,7 +5,7 @@
 class CMarioStateJump : public CMarioOnAirStates
 {
 private:
-	DWORD _jumpingStart;
+	ULONGLONG _jumpingStart;
 public:
 	static CMarioStateJump* __instance;
 	CMarioStateJump();

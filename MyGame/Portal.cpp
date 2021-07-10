@@ -10,7 +10,7 @@ CPortal::CPortal(int texture, int scene_id)
 void CPortal::Render()
 {
 	CSprites::GetInstance()->Get(texture)->Draw(-1, 1, x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CPortal::GetBoundingBox(float& l, float& t, float& r, float& b)

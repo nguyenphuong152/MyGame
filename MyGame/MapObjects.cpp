@@ -67,27 +67,35 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
+					obj = new CGround(width, height, GroundType::normal_ground);
+
+					obj->SetPosition(x, y);
+					objects.push_back(obj);				
+
+					element = element->NextSiblingElement();
+				}
+				//DebugOut(L"[DONE LOADING SOLID] - %d \n", objects.size());
+			}
+			if (strcmp(attributeName, "Ground") == 0)
+			{
+				while (element)
+				{
+					element->QueryFloatAttribute("x", &x);
+					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
+
+
 					int groundCounts;
-					if (width >= 48)
+
+					groundCounts = (int)floor(width / 48);
+					for (int i = 0; i < groundCounts + 1; i++)
 					{
-						groundCounts =(int) floor(width / 48);
-						for (int i = 0; i < groundCounts+1; i++)
-						{
-							obj = new CGround(48, height, GroundType::normal_ground);
+						obj = new CGround(48, height, GroundType::normal_ground);
 
-							obj->SetPosition(x+i*48, y);
-							objects.push_back(obj);
-						}
-					}
-					else {
-						obj = new CGround(width, height, GroundType::normal_ground);
-
-						obj->SetPosition(x, y);
+						obj->SetPosition(x + i * 48, y);
 						objects.push_back(obj);
 					}
-					
-					
-
 					element = element->NextSiblingElement();
 				}
 				//DebugOut(L"[DONE LOADING SOLID] - %d \n", objects.size());
@@ -175,7 +183,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("height", &height);
 
 					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(x, y, width, height); //sua vi tri cam
+					CCamera::GetInstance()->SetProperty(6200, y, width, height); //sua vi tri cam
 					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
 					objects.push_back(obj);
 

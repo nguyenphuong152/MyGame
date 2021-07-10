@@ -6,7 +6,7 @@
 class CMarioStateTransform : public CMarioOnGroundStates
 {
 private:
-	DWORD _transformStart;
+	ULONGLONG _transformStart;
 	int isTransform = 0;
 
 public:

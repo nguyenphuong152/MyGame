@@ -17,16 +17,16 @@ CCamera* CCamera::__instance = NULL;
 void CCamera::SetProperty(float l, float t, float width, float height)
 {
 	//sua start_x neu vi tri cam thay doi
-	x = start_x = l ;
+	x = start_x = l;
 
-    //xoa line nay
+	//xoa line nay
 	start_x = 3;
 
-	y = start_y= t ;
+	y = start_y = t;
 	this->width = width;
 	this->height = height;
-	cam_center_X = x+width/ 2-10;
-	cam_center_Y = y+height/2;
+	cam_center_X = x + width / 2 - 10;
+	cam_center_Y = y + height / 2;
 	isEnable = true;
 	player = CGame::GetInstance()->GetPlayer();
 	SetState(CAMERA_STATE_NORMAL);
@@ -70,7 +70,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	coEvents.clear();
 
 
-	if (player->state != MARIO_STATE_DIE && player->marioState!=CMarioState::walking_overworld.GetInstance())
+	if (player->state != MARIO_STATE_DIE && player->marioState != CMarioState::walking_overworld.GetInstance())
 	{
 		cam_center_X = x + width / 2 - 10;
 		cam_center_Y = y + height / 2;
@@ -120,7 +120,6 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				}
 			}
 		}
-		//DebugOut(L"%f \n", y);
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
@@ -131,31 +130,31 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 void CCamera::FollowPlayerHorizontally()
 {
-	
-	if (x>start_x && !isReachBoundaryRight)
+	//DebugOut(L"startx %f ---- x %f --- camcentetr %f --- mario %f \n", start_x, x,cam_center_X,player->x);
+	if (x > start_x && !isReachBoundaryRight)
 	{
 		if (player->x > cam_center_X && player->vx > 0 || player->x < cam_center_X && player->vx < 0)
 		{
 			vx = player->vx;
 		}
-		else 
+		else
 		{
 			vx = 0;
 		}
 	}
-	else if (isReachBoundaryRight && player->x < cam_center_X && player->vx < 0 || x==start_x && player->x > cam_center_X && player->vx > 0)
-		{
-			vx = player->vx;
-			isReachBoundaryRight = false;
-		}
+	else if (isReachBoundaryRight && player->x < cam_center_X && player->vx < 0 || x == start_x && player->x > cam_center_X && player->vx > 0)
+	{
+		vx = player->vx;
+		isReachBoundaryRight = false;
+	}
 }
 
 void CCamera::FollowPlayerVertically()
 {
-	
+
 	if (player->GetState() == CMarioState::fly.GetInstance())
 	{
-	    if (y == start_y && player->vy > 0)
+		if (y == start_y && player->vy > 0)
 		{
 			vy = 0;
 		}
@@ -164,7 +163,7 @@ void CCamera::FollowPlayerVertically()
 			vy = player->vy;
 		}
 	}
-	else if (player->GetState() == CMarioState::drop.GetInstance()&&player->y > cam_center_Y || player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
+	else if (player->GetState() == CMarioState::drop.GetInstance() && player->y > cam_center_Y || player->GetState() == CMarioState::jump.GetInstance() && player->y < cam_center_Y)
 	{
 		if (y < start_y) {
 			vy = player->vy;
@@ -192,7 +191,7 @@ void CCamera::AdjustPositionToHiddenScene()
 	cam_old_y = y;
 	x = HIDDEN_SCENE_X;
 	y = HIDDEN_SCENE_Y;
-	HUD::GetInstance()->SetPosition(HUD_POSITION_Y-35);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y - 35);
 	SetState(CAMERA_STATE_HIDDEN_SCENE);
 }
 

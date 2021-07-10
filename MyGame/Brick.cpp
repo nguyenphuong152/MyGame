@@ -102,7 +102,6 @@ void CBrick::SetState(int state)
 		{
 			CSwitch* switch_item = dynamic_cast<CSwitch*>(item);
 			switch_item->SetState(SWITCH_STATE_UNTOUCH);
-			switch_item->SetPosition(x-1, y - BRICK_BBOX_WIDTH +1);
 		}
 	}
 }

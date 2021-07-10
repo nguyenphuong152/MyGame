@@ -10,7 +10,7 @@ enum class AttackedBy
 class CEnemy :public CGameObject
 {
 protected:
-	DWORD die_start;
+	ULONGLONG die_start;
 	int level;
 	int die;
 

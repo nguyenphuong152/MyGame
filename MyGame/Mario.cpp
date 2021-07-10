@@ -113,7 +113,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		//block every object first
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+	    y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -207,6 +207,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					isOnGround = true;
 					isFloating = false;
+					//set state idle khi vao scene bi mat
 					if (dynamic_cast<CGround*>(e->obj))
 					{
 						canGoIntoPipe = false;
@@ -219,27 +220,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->ny > 0)
 				{
+					if(marioState == CMarioState::go_to_pipe.GetInstance()|| dynamic_cast<CBox*>(e->obj))
 					y += dy;
 				}
 				else if (e->nx != 0)
 				{
-					if (dynamic_cast<CBox*>(e->obj))
-					{
-						if (marioState != CMarioState::run.GetInstance())
-						{
-							vx = MARIO_WALKING_SPEED * this->nx;
-						}
-						else {
-							vx = MARIO_RUNNING_SPEED * this->nx;
-						}
-						x += dx;
-
-					}
-					else  if (e->nx != 0)
-					{
-						RecalculatePower();
-						ChangeState(CMarioState::walk.GetInstance());
-					}
+					RecalculatePower();
+					ChangeState(CMarioState::walk.GetInstance());
 				}
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj) || dynamic_cast<CCamera*>(e->obj))
@@ -285,24 +272,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
-			else if (dynamic_cast<CObjectBoundary*>(e->obj) || dynamic_cast<CSwitch*>(e->obj)) //when reach boundary for koopa
+			else if (dynamic_cast<CObjectBoundary*>(e->obj)) //when reach boundary for koopa
 			{
-			if (e->nx != 0)x += dx;
-			else if (e->ny != 0)
+				if (e->nx != 0)x += dx;
+				if (e->ny != 0)y += dy;
+			}
+			else if (dynamic_cast<CSwitch*>(e->obj)) //when reach boundary for koopa
 			{
-				y += dy;
-				if (e->ny < 0)
+				if (e->ny != 0)
 				{
-					if (dynamic_cast<CSwitch*>(e->obj))
+					y += dy;
+					if (e->ny < 0)
 					{
-						CSwitch* switch_item = dynamic_cast<CSwitch*>(e->obj);
-						isOnGround = true;
-						switch_item->SetState(SWITCH_STATE_TOUCHED);
-						isJumpOnSwitch = true;
+						if (dynamic_cast<CSwitch*>(e->obj))
+						{
+							CSwitch* switch_item = dynamic_cast<CSwitch*>(e->obj);
+							isOnGround = true;
+							switch_item->SetState(SWITCH_STATE_TOUCHED);
+							isJumpOnSwitch = true;
+						}
 					}
 				}
-			}
-				
 			}
 			else if (dynamic_cast<CCoin*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<COneUpMushroom*>(e->obj))
 			{
@@ -365,7 +355,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (pipe->GetType() == PipeType::hidden)
 					{
-
 						ChangeState(CMarioState::go_to_pipe.GetInstance());
 						CMarioState::go_to_pipe.GetInstance()->SetPositionChangeCam(pipe->x, pipe->y - 30);
 						CMarioState::go_to_pipe.GetInstance()->isUp = true;

@@ -28,14 +28,14 @@ class CCoin : public CGameObject
 	bool isActive = false;
 	CoinType type;
 
-	DWORD jump_start;
+	ULONGLONG jump_start;
 	int jumping;
 
 public:
 	CCoin(CoinType type, float x, float y);
 
 	void StartJumping() { jumping = 1; jump_start = GetTickCount64(); }
-	void ResetJumping() { jumping = jump_start = 0; }
+	void ResetJumping() { jumping = 0; jump_start = 0; }
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

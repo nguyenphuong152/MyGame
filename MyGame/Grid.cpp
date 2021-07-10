@@ -3,6 +3,9 @@
 #include "Game.h"
 #include "Ground.h"
 #include "Utils.h"
+#include "Switch.h"
+#include "Koopas.h"
+#include "Pipe.h"
 
 Grid::Grid()
 {
@@ -93,6 +96,7 @@ void Grid::GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, i
     cell_startY = (int)(cy / CELL_SIZE);
     cell_endX = (int)((cx + CAM_WIDTH) / CELL_SIZE);
     cell_endY = (int)((cy + CAM_HEIGHT) / CELL_SIZE);
+
 }
 
 void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)

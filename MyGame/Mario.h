@@ -14,7 +14,7 @@ class CMarioState;
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.5f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
-#define MARIO_GRAVITY				0.0015f
+#define MARIO_GRAVITY				0.003f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
 #define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
@@ -50,7 +50,7 @@ class CMarioState;
 #define MARIO_ANI_RACCOON_SIT		22
 #define MARIO_ANI_RACCOON_JUMP		23
 #define MARIO_ANI_RACCOON_RUN		24
-#define MARIO_ANI_RACCOON_DROP		25
+
 #define MARIO_ANI_RACCOON_PRE_FLY	26
 #define MARIO_ANI_RACCOON_FLY		27
 #define MARIO_ANI_RACCOON_STOP		28
@@ -127,7 +127,7 @@ class CMario : public CGameObject
 {
 
 	int untouchable;
-	DWORD untouchable_start;
+	ULONGLONG untouchable_start;
 
 	// initial position of Mario at scene
 	float start_x;

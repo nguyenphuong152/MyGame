@@ -24,7 +24,7 @@
 
 class CParaGoomba :public CGoomBa {
 
-	DWORD walking_start;
+	ULONGLONG walking_start;
 	int walking;
 	int jumpingTimes;
 	bool isOnGround;

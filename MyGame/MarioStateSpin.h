@@ -5,7 +5,7 @@
 class CMarioStateSpin : public CMarioOnGroundStates
 {
 private:
-	DWORD _spinningStart;
+	ULONGLONG _spinningStart;
 public:
 	static CMarioStateSpin* __instance;
 	bool isAttack = false;

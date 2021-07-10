@@ -25,6 +25,7 @@ class CCamera :public CGameObject
 
 	bool isReachBoundaryRight = false;
 	bool isReachBoundaryTop = false;
+	bool isReachBoundaryLeft = false;
 
 public:
 	virtual void Render();

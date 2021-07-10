@@ -20,6 +20,7 @@
 #include "BoomerangPool.h"
 #include "MiniGoombaPool.h"
 #include "Grid.h"
+#include "Switch.h"
 
 using namespace std;
 
