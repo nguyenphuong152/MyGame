@@ -4,7 +4,8 @@
 enum class AttackedBy
 {
 	Tail,
-	Mario
+	Mario,
+	KoopaShell
 };
 
 class CEnemy :public CGameObject

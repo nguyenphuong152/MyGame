@@ -16,7 +16,10 @@ public:
 	CEffectPool();
 	CEffect* Create();
 	void SetEffectAnimation(int ani) { this->ani_set = ani; };
-	void Update();
+
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
+	void Render();
+
 	void Init(vector<LPGAMEOBJECT> &objects,int ani);
 
 	void Unload();

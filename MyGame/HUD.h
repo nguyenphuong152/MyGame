@@ -7,10 +7,10 @@
 
 using namespace std;
 
-#define HUD_WIDTH	766
+#define HUD_WIDTH	760
 #define HUD_HEIGHT	200
 
-#define HUD_POSITION_Y	636
+#define HUD_POSITION_Y	550
 #define HUD_POSITION_Y_OW	600
 
 #define HUD_ALIGN_TOP		22

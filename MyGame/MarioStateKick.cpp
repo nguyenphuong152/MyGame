@@ -10,7 +10,6 @@ CMarioStateKick::CMarioStateKick() {
 
 void CMarioStateKick::Enter(CMario& mario)
 {
-	mario.SetVelocityX(0);
 	int marioLevel = mario.GetLevel();
 	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
@@ -29,7 +28,7 @@ void CMarioStateKick::Enter(CMario& mario)
 }
 void CMarioStateKick::HandleInput(CMario& mario, Input input)
 {
-	CMarioOnGroundStates::HandleInput(mario, input);
+	
 }
 
 void CMarioStateKick::Update(DWORD dt, CMario& mario)

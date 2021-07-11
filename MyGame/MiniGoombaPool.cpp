@@ -36,18 +36,33 @@ CMiniGoomba* CMiniGoombaPool::Create()
 }
 
 
-void CMiniGoombaPool::Update()
+void CMiniGoombaPool::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
+		if (minigoombas[i]->_state.live.inUse == true)
+		{
+			minigoombas[i]->Update(dt, coObject);
+		}
+
 		if (minigoombas[i]->FinishShooting())
 		{
 			// Add this particle to the front of the list.
 			minigoombas[i]->SetNext(_firstAvailable);
 			_firstAvailable = minigoombas[i];
 		};
+	}
+}
+
+void CMiniGoombaPool::Render()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		if (minigoombas[i]->_state.live.inUse == true)
+		{
+			minigoombas[i]->Render();
+		}
 	}
 }
 

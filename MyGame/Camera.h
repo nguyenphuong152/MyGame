@@ -21,11 +21,12 @@ class CCamera :public CGameObject
 	float cam_old_x;
 	float cam_old_y;
 
-	float start_x, start_y;
+	float start_y;
 
 	bool isReachBoundaryRight = false;
 	bool isReachBoundaryTop = false;
 	bool isReachBoundaryLeft = false;
+	bool isReachBoundaryBottom = false;
 
 public:
 	virtual void Render();
@@ -44,9 +45,10 @@ public:
 		cam_height = this->height;
 	}
 
-	void SetProperty(float l, float r, float width, float height);
+	void SetProperty(float y,float width, float height);
 
 	void InactiveCamera();
+	void InitCamera();
 
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();

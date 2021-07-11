@@ -36,11 +36,15 @@ CBoomerang* CBoomerangPool::Create()
 }
 
 
-void CBoomerangPool::Update()
+void CBoomerangPool::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
+		if (boomerangs[i]->_state.live.inUse == true)
+		{
+			boomerangs[i]->Update(dt, coObject);
+		}
 		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
 		if (boomerangs[i]->FinishShooting())
 		{
@@ -50,6 +54,18 @@ void CBoomerangPool::Update()
 		};
 	}
 }
+
+void CBoomerangPool::Render()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		if (boomerangs[i]->_state.live.inUse == true)
+		{
+			boomerangs[i]->Render();
+		}
+	}
+}
+
 
 void CBoomerangPool::Unload()
 {

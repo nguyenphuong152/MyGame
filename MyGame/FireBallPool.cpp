@@ -36,18 +36,33 @@ CFireball* CFireBallPool::Create()
 }
 
 
-void CFireBallPool::Update()
+void CFireBallPool::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
+		if (fireballs[i]->_state.live.inUse == true)
+		{
+			fireballs[i]->Update(dt, coObject);
+		}
+
 		if (fireballs[i]->FinishShooting())
 		{
 			// Add this particle to the front of the list.
 			fireballs[i]->SetNext(_firstAvailable);
 			_firstAvailable = fireballs[i];
 		};
+	}
+}
+
+void CFireBallPool::Render()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		if (fireballs[i]->_state.live.inUse == true)
+		{
+			fireballs[i]->Render();
+		}
 	}
 }
 

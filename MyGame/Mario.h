@@ -14,13 +14,14 @@ class CMarioState;
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.5f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
-#define MARIO_GRAVITY				0.003f
+#define MARIO_GRAVITY				0.002f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
 #define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
 #define MARIO_DIE_DEFLECT_SPEED		0.7f
 
 #define MARIO_STATE_DIE			300
+#define MARIO_STATE_ALIVE		400
 
 //thu tu theo ani add trong file txt
 #define MARIO_ANI_SMALL_IDLE		0 
@@ -116,6 +117,7 @@ class CMarioState;
 #define MARIO_SMALL_BBOX_HEIGHT 46
 
 #define MARIO_UNTOUCHABLE_TIME 5000
+#define MARIO_DIE_TIME		   1000
 
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
@@ -128,6 +130,9 @@ class CMario : public CGameObject
 
 	int untouchable;
 	ULONGLONG untouchable_start;
+
+	int die;
+	ULONGLONG die_start;
 
 	// initial position of Mario at scene
 	float start_x;
@@ -192,17 +197,24 @@ public:
 	int GetCurrentAnimation() { return animation; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void StartDie() { die = 1; die_start = GetTickCount64(); }
+
+	void ResetUntouchable() { untouchable = 0; untouchable_start = 0; }
+	void ResetDie() { die = 0; die_start = 0; }
+
 	void BigMario();
 	void RaccoonMario();
 	void FireMario();
 	void ImmortalMario();
 	void Die();
 	void SwitchOverworld();
+	void Recover();
 
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
 	void AttachTail(CMarioTail* tail);
+	void CheckMarioOutOfCamera();
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderRaccoonMarioBoundingBox();

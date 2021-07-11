@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define CAM_WIDTH	764
-#define CAM_HEIGHT	760
+#define CAM_WIDTH   760
+#define CAM_HEIGHT	600
 
 #define NUM_CELL	200
 

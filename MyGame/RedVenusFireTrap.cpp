@@ -138,8 +138,8 @@ void CRedVenusFireTrap::StartShooting()
 
 	vy = 0;
 
-	/*CFireball* fireball = CFireBallPool::GetInstance()->Create();
-	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);*/
+	CFireball* fireball = CFireBallPool::GetInstance()->Create();
+	fireball->AllocateFireballToVenus(nx,x,y,isShootingUp);
 	if (isShootingUp) isShootingUp = false;
 }
 

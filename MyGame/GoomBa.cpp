@@ -17,6 +17,21 @@ CGoomBa::CGoomBa()
 	SetLevel(GOOMBA_LEVEL_1);
 }
 
+void CGoomBa::DieWithDeflect(AttackedBy obj)
+{
+	if (GetLevel() == GOOMBA_LEVEL_2)
+	{
+		SetLevel(GOOMBA_LEVEL_1);
+	}
+
+	SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
+	vy = -GOOMBA_DEFLECT_SPEED;
+	ny = -1;
+
+	if(obj!=AttackedBy::KoopaShell)
+	SetAttackedAnimation(obj, Points::NONE);
+}
+
 
 void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -129,9 +144,9 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
-		vx = 4*GOOMBA_WALKING_SPEED*nx;
-		SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
+		vx = 5*GOOMBA_WALKING_SPEED*nx;
 		break;
 	}
 }
+
 

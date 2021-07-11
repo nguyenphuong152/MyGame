@@ -97,6 +97,9 @@ void Grid::GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, i
     cell_endX = (int)((cx + CAM_WIDTH) / CELL_SIZE);
     cell_endY = (int)((cy + CAM_HEIGHT) / CELL_SIZE);
 
+    if (cell_startX < 0) cell_startX = 0;
+    if (cell_startY < 0) cell_startY = 0;
+
 }
 
 void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)

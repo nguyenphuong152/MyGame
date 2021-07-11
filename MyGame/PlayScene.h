@@ -32,7 +32,6 @@ protected:
 	Letter* letters;
 
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> active_objs;
 	vector<LPGAMEOBJECT> coObjects;
 
 	void _ParseSection_TEXTURES(string line);
@@ -45,9 +44,10 @@ protected:
 	void _ParseSection_Letters(string line);
 
 	void AddObjectToGrid();
-	void UpdatePool();
+
+	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
+	void RenderPool();
 	void UnloadPool();
-	void UpdateGrid(vector<LPGAMEOBJECT>* cobjects,DWORD dt);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

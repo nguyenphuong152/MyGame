@@ -49,10 +49,12 @@ CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
 	canChangeMap = false;
+
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	InitState();
 	nx = 1;
+
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -69,8 +71,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += MARIO_GRAVITY * dt;
 	}
 
-	//DebugOut(L"%f \n", x);
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -83,9 +83,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//reset untouchable timer if untouchable time has passed
 	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
-		untouchable_start = 0;
-		untouchable = 0;
+		ResetUntouchable();
 	}
+
+
+	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME)
+	{
+		ResetDie();
+		Recover();
+	}
+
+	CheckMarioOutOfCamera();
+
 	////tru  power khi o trang thai k fly, hoac fly còn dư;
 	if (powerMode == false && isOnGround == true) RecalculatePower();
 
@@ -106,14 +115,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		}
 
-
 		//// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		//if(rdx != 0 && rdx!=dx)
 		//	x += nx*abs(rdx); 
 
 		//block every object first
 		x += min_tx * dx + nx * 0.4f;
-	    y += min_ty * dy + ny * 0.4f;
+		if (marioState != CMarioState::fly.GetInstance())
+		{
+			y += min_ty * dy + ny * 0.4f;
+		}
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -185,7 +196,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							CMarioState::kick.GetInstance()->StartKicking();
 							koopa->SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 						}
-
 					}
 
 					/*	else if (untouchable == 0)
@@ -225,8 +235,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					RecalculatePower();
-					ChangeState(CMarioState::walk.GetInstance());
+					if (dynamic_cast<CBox*>(e->obj))
+					{
+						x += dx;
+					}
+					else {
+						RecalculatePower();
+						ChangeState(CMarioState::walk.GetInstance());
+					}
 				}
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj) || dynamic_cast<CCamera*>(e->obj))
@@ -247,7 +263,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->ny < 0)
 				{
-					CCamera::GetInstance()->InactiveCamera();
+					Die();
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -468,6 +484,8 @@ void  CMario::SetState(int state)
 	CGameObject::SetState(state);
 	if (state == MARIO_STATE_DIE) {
 		vy = -MARIO_DIE_DEFLECT_SPEED;
+		vx = 0;
+		StartDie();
 	}
 }
 
@@ -589,6 +607,14 @@ void CMario::SwitchOverworld()
 	CGame::GetInstance()->SwitchScene(4);
 }
 
+void CMario::Recover()
+{
+	SetState(MARIO_STATE_ALIVE);
+	InitState();
+	SetPosition(start_x, start_y);
+	CGame::GetInstance()->GetMainCamera()->InitCamera();
+}
+
 void CMario::LevelUp()
 {
 	if (level < MARIO_LEVEL_RACOON) level++;
@@ -599,6 +625,17 @@ void CMario::LevelUp()
 void  CMario::AttachTail(CMarioTail* nTail)
 {
 	tail = nTail;
+}
+
+void CMario::CheckMarioOutOfCamera()
+{
+	float cx, cy;
+	CGame::GetInstance()->GetMainCamera()->GetPosition(cx, cy);
+	if (y < cy)
+	{
+		marioState = CMarioState::drop.GetInstance();
+		y += dy;
+	}
 }
 
 void CMario::RenderRaccoonMarioBoundingBox()

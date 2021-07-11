@@ -124,7 +124,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 							else if (brick->GetType() != BrickType::question_brick) {
 								brick->DisableBrick();
-								brick->SetAttackedAnimation();
+								//brick->SetAttackedAnimation();
 							}
 						}
 						ChangeDirection(KOOPA_SHELL_VELOCITY_X);
@@ -201,6 +201,19 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isOnGround = true;
 				}
 			}
+			if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY&& e->nx!=0)
+			{
+				WalkThrough(KOOPA_SHELL_VELOCITY_X);
+				if (dynamic_cast<CGoomBa*>(e->obj))
+				{
+					CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
+					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
+					{
+						goomba->DieWithDeflect(AttackedBy::KoopaShell);
+					}
+				}
+			}
+			
 		}
 	}
 

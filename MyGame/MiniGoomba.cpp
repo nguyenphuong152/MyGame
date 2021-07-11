@@ -34,6 +34,7 @@ void CMiniGoomba::Render()
 }
 
 void CMiniGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
+	colObject->push_back(this);
 	
 	CGameObject::Update(dt, colObject);
     

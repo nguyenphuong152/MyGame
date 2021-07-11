@@ -43,6 +43,9 @@ void CMarioOverworldState::HandleInput(CMario& mario, Input input)
 		{
 			mario.vy = -MARIO_SPEED;
 		}
+		else {
+			DebugOut(L"inactive \n");
+		}
 	} 
 }
 

@@ -36,6 +36,7 @@ void CBoomerang::Render()
 }
 
 void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
+	colObject->push_back(this);
 	CGameObject::Update(dt, colObject);
 
 	if (nx > 0) {

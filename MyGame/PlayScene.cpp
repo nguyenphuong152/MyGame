@@ -173,7 +173,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_FIREBALL:
 	{
-		//CFireBallPool::GetInstance()->Init(objects,ani_set_id);
+		CFireBallPool::GetInstance()->Init(objects,ani_set_id);
 	} break;
 	case OBJECT_TYPE_TAIL:
 	{
@@ -184,15 +184,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	} break;
 	case OBJECT_TYPE_EFFECT:
 	{
-		//CEffectPool::GetInstance()->Init(objects, ani_set_id);
+		CEffectPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	case OBJECT_TYPE_BOOMERANG:
 	{
-		//CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
+		CBoomerangPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	case OBJECT_TYPE_MINIGOOMBA:
 	{
-		//CMiniGoombaPool::GetInstance()->Init(objects, ani_set_id);
+		CMiniGoombaPool::GetInstance()->Init(objects, ani_set_id);
 	} break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -340,14 +340,24 @@ void CPlayScene::Update(DWORD dt)
 	coObjects.clear();
 
 	grid->GetUnitsFromCameraRegion(&coObjects);
-	//UpdatePool();
+	grid->Update(dt, &coObjects);
+
+	UpdatePool(&coObjects,dt);
+
+	player->Update(dt, &coObjects);
 
 	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
-	grid->Update(dt, &coObjects);
+
 	HUD::GetInstance()->Update();
-	player->Update(dt, &coObjects);
 }
 
+void CPlayScene::RenderPool()
+{
+	CFireBallPool::GetInstance()->Render();
+	CEffectPool::GetInstance()->Render();
+	CBoomerangPool::GetInstance()->Render();
+	CMiniGoombaPool::GetInstance()->Render();
+}
 
 void CPlayScene::AddObjectToGrid()
 {
@@ -360,12 +370,12 @@ void CPlayScene::AddObjectToGrid()
 	}
 }
 
-void CPlayScene::UpdatePool()
+void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
 {
-	CFireBallPool::GetInstance()->Update();
-	CEffectPool::GetInstance()->Update();
-	CBoomerangPool::GetInstance()->Update();
-	CMiniGoombaPool::GetInstance()->Update();
+	CFireBallPool::GetInstance()->Update(dt,cobjects);
+	CEffectPool::GetInstance()->Update(dt,cobjects);
+	CBoomerangPool::GetInstance()->Update(dt, cobjects);
+	CMiniGoombaPool::GetInstance()->Update(dt, cobjects);
 }
 
 
@@ -375,14 +385,10 @@ void CPlayScene::Render()
 
 	map->RenderMap();
 
-	/*for (int i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{	
-			objects[i]->Render();
-		}
-	}*/
+	RenderPool();
+
 	grid->Render();
+
 	player->Render();
 
 	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)

@@ -57,7 +57,9 @@ void CBrick::AddCoins(CGameObject* coin)
 void CBrick::DisableBrick()
 {
 	isEnable = false;
-	if(item)  item->isEnable = false;
+	if (item)  item->isEnable = false;
+
+	SetAttackedAnimation();
 }
 
 void CBrick::Render()

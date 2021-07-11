@@ -36,18 +36,33 @@ CEffect* CEffectPool::Create()
 }
 
 
-void CEffectPool::Update()
+void CEffectPool::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (_firstAvailable == NULL) return;
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		//DebugOut(L"die %d, stt  %d \n", fireballs[i].isEnable, i);
+		if (effects[i]->inUse == true)
+		{
+			effects[i]->Update(dt, coObject);
+		}
+
 		if (effects[i]->FinishAnimated())
 		{
 			// Add this particle to the front of the list.
 			effects[i]->SetNext(_firstAvailable);
 			_firstAvailable = effects[i];
 		};
+	}
+}
+
+void CEffectPool::Render()
+{
+	for (int i = 0; i < POOL_SIZE; i++)
+	{
+		if (effects[i]->inUse == true)
+		{
+			effects[i]->Render();
+		}
 	}
 }
 
