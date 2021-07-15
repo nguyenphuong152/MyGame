@@ -34,7 +34,7 @@ class CPowerUp : public CGameObject
 
 	int changeDirection = 0;
 	int direction = 1;
-	DWORD changeDirection_start;
+	ULONGLONG changeDirection_start;
 
 	CMario* player;
 public:

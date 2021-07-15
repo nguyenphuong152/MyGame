@@ -8,12 +8,28 @@
 #include "EffectPool.h"
 #include "Effect.h"
 #include "Ground.h"
+#include "Grid.h"
 
 CGoomBa::CGoomBa()
 {
 	ny = 1;
 	SetState(GOOMBA_STATE_WALKING);
 	SetLevel(GOOMBA_LEVEL_1);
+}
+
+void CGoomBa::DieWithDeflect(AttackedBy obj)
+{
+	if (GetLevel() == GOOMBA_LEVEL_2)
+	{
+		SetLevel(GOOMBA_LEVEL_1);
+	}
+
+	SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
+	vy = -GOOMBA_DEFLECT_SPEED;
+	ny = -1;
+
+	if(obj!=AttackedBy::KoopaShell)
+	SetAttackedAnimation(obj, Points::NONE);
 }
 
 
@@ -37,7 +53,9 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	vy += GOOMBA_GRAVITY * dt;
 
-	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) isEnable = false;
+	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) {
+		isEnable = false;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -92,7 +110,7 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-
+		grid->Move(this);
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 }
@@ -126,9 +144,9 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
-		vx = 4*GOOMBA_WALKING_SPEED*nx;
-		SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
+		vx = 5*GOOMBA_WALKING_SPEED*nx;
 		break;
 	}
 }
+
 

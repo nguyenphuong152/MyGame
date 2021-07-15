@@ -25,7 +25,7 @@ private:
 			CBrownParaGoomba* goomba;
 			bool inUse;
 			int direction;
-			DWORD changeDirection_start;
+			ULONGLONG changeDirection_start;
 			int changeDirection ;
 		} live;
 		//state when it's available
@@ -41,7 +41,7 @@ public:
 	bool FinishShooting();
 
 	void StartChangeDirection() { _state.live.changeDirection = 1; _state.live.changeDirection_start = GetTickCount64(); }
-	void ResetChangeDirection() { _state.live.changeDirection = _state.live.changeDirection_start = 0; }
+	void ResetChangeDirection() { _state.live.changeDirection = 0; _state.live.changeDirection_start = 0; }
 
 	void StartSpawning(CBrownParaGoomba* goomba);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);

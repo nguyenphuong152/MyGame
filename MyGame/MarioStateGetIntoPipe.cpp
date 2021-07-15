@@ -38,7 +38,7 @@ void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 			mario.vy = -MARIO_IN_PIPE_VELOCITY_Y;
 			//DebugOut(L"merio y: %f ---- ps: %f \n", mario.y, (position_out_y - MARIO_RACOON_BBOX_HEIGHT));
 			//set lại vị trí cũ sau khi mario đã chui ra khỏi ống
-			if (mario.y < position_out_y - MARIO_RACOON_BBOX_HEIGHT+13)
+			if (mario.y < POSITION_OUT_PIPE - MARIO_RACOON_BBOX_HEIGHT)
 			{
 				Reset();
 				StartChangeState();

@@ -26,9 +26,9 @@
 class CBoomerangBrother : public CEnemy
 {
 	bool isOnGround;
-	DWORD _startWalking;
+	ULONGLONG _startWalking;
 
-	DWORD _startThrowing;
+	ULONGLONG _startThrowing;
 	bool disableThrowing;
 	int countingTime = 0;
 

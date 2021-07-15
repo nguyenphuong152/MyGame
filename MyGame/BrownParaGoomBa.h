@@ -30,9 +30,9 @@
 
 class CBrownParaGoomba :public CGoomBa {
 
-	DWORD walking_start;
+	ULONGLONG walking_start;
 	int walking;
-	DWORD spawning_start;
+	ULONGLONG spawning_start;
 	int spawning;
 	bool isOnGround;
 
@@ -50,8 +50,8 @@ public:
 	void SpawnMiniGoomba();
 
 	void StartWalking() { walking = 1; walking_start = GetTickCount64(); }
-	void ResetWalking() { walking = walking_start = 0; }
+	void ResetWalking() { walking = 0; walking_start = 0; }
 
 	void StartSpawning() { spawning = 1; spawning_start = GetTickCount64(); }
-	void ResetSpawning() { spawning = spawning_start = 0; }
+	void ResetSpawning() { spawning = 0; spawning_start = 0; }
 };

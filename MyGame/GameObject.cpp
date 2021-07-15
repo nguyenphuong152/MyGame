@@ -7,15 +7,18 @@
 #include "Sprites.h"
 #include "Textures.h"
 #include "FireBallPool.h"
+#include "Grid.h"
 CGameObject::CGameObject()
 {
-	x = y = 0;
+	x = y = old_x = old_y = 0;
 	vx = vy = 0;
 	nx = 1;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	SetOldPosition(x, y);
+
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
@@ -151,6 +154,20 @@ bool CGameObject::AABB(CGameObject* object)
 	if (left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b)
 		return true;
 	return false;
+}
+
+void CGameObject::AddObjectToGrid(Grid* grid)
+{
+	this->grid = grid;
+
+	prev = next = NULL;
+
+	this->grid->Add(this);
+}
+
+void CGameObject::Move()
+{
+	grid->Move(this);
 }
 
 void CGameObject::SetAnimation(int ani)

@@ -61,13 +61,7 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CGoomBa* goomba = dynamic_cast<CGoomBa*>(coObjects->at(i));
 					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
 					{
-						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
-						{
-							goomba->SetLevel(GOOMBA_LEVEL_1);
-						}
-						goomba->SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
-						goomba->vy = -GOOMBA_DEFLECT_SPEED;
-						goomba->ny = -1;
+						goomba->DieWithDeflect(AttackedBy::Tail);
 					}
 				}
 				else if (dynamic_cast<CKoopas*>(coObjects->at(i)))

@@ -74,7 +74,7 @@ void CEffect::Render()
 
 
 void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
-
+	colObject->push_back(this);
 	CGameObject::Update(dt, colObject);
 
 	if (effect == EffectName::debris||effect ==EffectName::point)

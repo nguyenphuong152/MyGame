@@ -44,7 +44,6 @@ void CMarioStateHoldShellAndJump::Update(DWORD dt, CMario& mario)
 {
 	if (mario.canJumpHigh)
 	{
-		DebugOut(L"heeloo \n");
 		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
 		{
 			mario.canJumpHigh = false;

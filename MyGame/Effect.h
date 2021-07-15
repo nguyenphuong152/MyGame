@@ -35,7 +35,7 @@ private:
 	EffectName effect;
 	int ani;
 	bool inUse = false;
-	DWORD animated_start;
+	ULONGLONG animated_start;
 
 	
 	//state when it's available

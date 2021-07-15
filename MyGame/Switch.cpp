@@ -1,8 +1,9 @@
 #include "Switch.h"
+#include "Utils.h"
+#include "Grid.h"
 
 CSwitch::CSwitch() {
-	isEnable = true;
-	SetState(SWITCH_STATE_UNTOUCH);
+	SetPosition(SWITCH_POSITION_X, SWITCH_POSITION_Y);
 }
 
 void CSwitch::Render()
@@ -16,13 +17,23 @@ void CSwitch::Render()
 	{
 		ani = SWITCH_ANI_TOUCHED;
 	}
-	animation_set->at(ani)->Render(-1,1, x, y);
-	//RenderBoundingBox();
+	
+	if (isEnable)
+	{
+		animation_set->at(ani)->Render(-1, 1, x, y);
+		//RenderBoundingBox();
+	}
+	
+	
 }
 
 void CSwitch::SetState(int state)
 {
 	CGameObject::SetState(state);
+	if (state == SWITCH_STATE_UNTOUCH)
+	{
+		isEnable = true;
+	}
 }
 
 void CSwitch::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -40,4 +51,5 @@ void CSwitch::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CSwitch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	grid->Move(this);
 }

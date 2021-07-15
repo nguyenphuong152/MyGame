@@ -18,7 +18,7 @@
 
 class CCard : public CGameObject {
 private:
-	DWORD animated_start;
+	ULONGLONG animated_start;
 	int numbAni = 1;
 public:
 	CCard();

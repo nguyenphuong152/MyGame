@@ -34,7 +34,7 @@ class CKoopas : public CEnemy
 {
 protected:
 	int recover;
-	DWORD _recoverStart;
+	ULONGLONG _recoverStart;
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -50,5 +50,7 @@ public:
 	void UpdateShellPosition();
 
 	void AttackedByTail();
+	void ChangeDirection(float speed);
+	void WalkThrough(float speed);
 };
 

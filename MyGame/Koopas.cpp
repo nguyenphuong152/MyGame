@@ -14,6 +14,7 @@
 #include "MarioStateHoldShellIdle.h"
 #include "BreakableBrick.h"
 #include "MagicNoteBlock.h"
+#include "Grid.h"
 
 
 CKoopas::CKoopas()
@@ -104,76 +105,123 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBox*>(e->obj)||dynamic_cast<CObjectBoundary*>(e->obj))
+			if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CMagicNoteBlock*>(e->obj))
 			{
 				if (e->nx != 0)
 				{
-					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+					if (GetState() == KOOPA_STATE_WALKING)
 					{
-						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
+						ChangeDirection(KOOPA_WALKING_SPEED);
 					}
-					else
+					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
 					{
-						if (dynamic_cast<CObjectBoundary*>(e->obj))
+						if (dynamic_cast<CBrick*>(e->obj))
 						{
-							this->nx = -this->nx;
+							CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+							if (brick->GetState() == BRICK_STATE_UNTOUCH && brick->GetType() == BrickType::question_brick)
+							{
+								brick->SetState(BRICK_STATE_TOUCHED);
+							}
+							else if (brick->GetType() != BrickType::question_brick) {
+								brick->DisableBrick();
+								//brick->SetAttackedAnimation();
+							}
 						}
-						vx = KOOPA_WALKING_SPEED * this->nx;
+						ChangeDirection(KOOPA_SHELL_VELOCITY_X);
 					}
-					x += dx;
 				}
-				else if (e->ny < 0 && dynamic_cast<CBox*>(e->obj))
+				else if (e->ny != 0)
 				{
 					isOnGround = true;
 				}
 			}
-			else if (dynamic_cast<CBrick*>(e->obj)||dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj)||dynamic_cast<CBreakableBrick*>(e->obj)|| dynamic_cast<CMagicNoteBlock*>(e->obj))
+			else if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
-
-				if (e->nx != 0 && GetState()==KOOPA_STATE_DIE_WITH_VELOCITY)
+				CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (e->nx != 0)
 				{
-					this->nx = -this->nx;
-					if (dynamic_cast<CBrick*>(e->obj))
+					if (GetState() == KOOPA_STATE_WALKING && bBrick->GetState()==BREAKABLE_BRICK_COIN_STATE)
 					{
-						CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-						if (brick->GetState() == BRICK_STATE_UNTOUCH && brick->GetType()==BrickType::question_brick)
-						{
-							brick->SetState(BRICK_STATE_TOUCHED);
-						}
-						else if(brick->GetType()!=BrickType::question_brick){
-							brick->DisableBrick();
-							brick->SetAttackedAnimation();
-						}
-					}else if (dynamic_cast<CBreakableBrick*>(e->obj))
+						WalkThrough(KOOPA_WALKING_SPEED);
+					}
+					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY && bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
 					{
-						CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(e->obj);
-						if (bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
-						{
-							bBrick->SetAttackedAnimation();
-							bBrick->isEnable = false;
+						ChangeDirection(KOOPA_SHELL_VELOCITY_X);
+						bBrick->SetAttackedAnimation();
+						bBrick->isEnable = false;
+					}
+				}
+				else if (e->ny < 0)
+				{
+					if (bBrick->GetState() == BREAKABLE_BRICK_COIN_STATE&& GetState() == KOOPA_STATE_WALKING)
+					{
+						isOnGround = false;
+						y += dy;
+					}
+				}
+			}
+			else if (dynamic_cast<CObjectBoundary*>(e->obj))
+			{
+				if (e->nx != 0)
+				{
+					if (GetState() == KOOPA_STATE_WALKING)
+					{
+						ChangeDirection(KOOPA_WALKING_SPEED);
+					}
+					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
+					{
+						WalkThrough(KOOPA_SHELL_VELOCITY_X);
+					}
+				}
+			}
+			else if (dynamic_cast<CGround*>(e->obj))
+			{
+				CGround* gr = dynamic_cast<CGround*>(e->obj);
+				if (e->nx != 0)
+				{
+					if (GetState() == KOOPA_STATE_WALKING)
+					{
+						ChangeDirection(KOOPA_WALKING_SPEED);
+					}
+					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
+					{
+						if(e->nx!=0){
+							if (gr->y - y>KOOPA_BBOX_HEIGHT_DIE)
+							{
+								WalkThrough(KOOPA_SHELL_VELOCITY_X);
+							}
+							else {
+								ChangeDirection(KOOPA_SHELL_VELOCITY_X);
+							}
 						}
 					}
-
-					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
-					{
-						vx = KOOPA_SHELL_VELOCITY_X * this->nx;
-					}
-					else
-					{
-						vx = KOOPA_WALKING_SPEED * this->nx;
-					}
-					x += dx;
 				}
 				else if (e->ny < 0)
 				{
 					isOnGround = true;
 				}
 			}
+			if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY&& e->nx!=0)
+			{
+				WalkThrough(KOOPA_SHELL_VELOCITY_X);
+				if (dynamic_cast<CGoomBa*>(e->obj))
+				{
+					CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
+					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
+					{
+						goomba->DieWithDeflect(AttackedBy::KoopaShell);
+					}
+				}
+			}
+			
 		}
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	grid->Move(this);
 }
+
+
 
 void CKoopas::Render()
 {
@@ -189,6 +237,7 @@ void CKoopas::Render()
 	animation_set->at(ani)->Render(nx,ny, x, y);
 	RenderBoundingBox();
 }
+
 
 
 void CKoopas::SetState(int state)
@@ -250,4 +299,16 @@ void CKoopas::AttackedByTail()
 	isOnGround = false;
 
 	SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
+}
+
+void CKoopas::ChangeDirection(float speed)
+{
+	this->nx = -this->nx;
+	vx = speed * this->nx;
+}
+
+void CKoopas::WalkThrough(float speed)
+{
+	vx = speed * this->nx;
+	x += dx;
 }

@@ -4,13 +4,14 @@
 enum class AttackedBy
 {
 	Tail,
-	Mario
+	Mario,
+	KoopaShell
 };
 
 class CEnemy :public CGameObject
 {
 protected:
-	DWORD die_start;
+	ULONGLONG die_start;
 	int level;
 	int die;
 

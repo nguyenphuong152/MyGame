@@ -5,10 +5,11 @@
 #include "Brick.h"
 #include "Utils.h"
 #include "Game.h"
+#include "Grid.h"
 
 COneUpMushroom::COneUpMushroom(float x, float y)
 {
-	isEnable = true;
+	//isEnable = true;
 	start_y = y;
 	SetPosition(x, y - 1);
 	player = CGame::GetInstance()->GetPlayer();
@@ -19,6 +20,7 @@ void COneUpMushroom::SetState(int state)
 	CGameObject::SetState(state);
 	if (state == ONE_UP_MUSHROOM_STATE_GO_UP)
 	{
+		isEnable = true;
 		vy = -MUSHROOM_VELOCITY_Y;
 	}
 	else
@@ -30,7 +32,7 @@ void COneUpMushroom::SetState(int state)
 
 void COneUpMushroom::Render()
 {
-	animation_set->at(ONE_UP_MUSHROOM_ANI)->Render(1,1, x, y);
+	animation_set->at(ONE_UP_MUSHROOM_ANI)->Render(1, 1, x, y);
 }
 
 void COneUpMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -43,7 +45,6 @@ void COneUpMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 {
-
 	CGameObject::Update(dt, colObject);
 
 	if (state == ONE_UP_MUSHROOM_STATE_WALKING) vy += POWER_UP_GRAVITY * dt;
@@ -103,7 +104,7 @@ void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 				}*/
 			}
 		}
-
+		grid->Move(this);
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }

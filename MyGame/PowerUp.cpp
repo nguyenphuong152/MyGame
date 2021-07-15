@@ -19,7 +19,6 @@ CPowerUp::CPowerUp(float x,float  y)
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 {
-
 	CGameObject::Update(dt, colObject);
 
 	if (isActive)
@@ -90,6 +89,10 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 					{
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 						x += dx;
+					}
+					else if (e->ny < 0 && GetPowerUpType() == PowerUpType::super_leaf)
+					{
+						isEnable = false;
 					}
 				}
 			}

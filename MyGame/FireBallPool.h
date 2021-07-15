@@ -15,7 +15,8 @@ public:
 	static CFireBallPool* __instance;
 	CFireBallPool();
 	CFireball* Create();
-	void Update();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
+	void Render();
 	void Init(vector<LPGAMEOBJECT> &objects, int ani);
 
 	void SetFireballAnimation(int ani) { this->ani_set = ani; };

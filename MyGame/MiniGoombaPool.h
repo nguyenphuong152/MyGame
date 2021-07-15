@@ -15,7 +15,8 @@ public:
 	static CMiniGoombaPool* __instance;
 	CMiniGoombaPool();
 	CMiniGoomba* Create();
-	void Update();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
+	void Render();
 	void Init(vector<LPGAMEOBJECT>& objects, int ani);
 
 	void SetBoomerangAnimation(int ani) { this->ani_set = ani; };

@@ -10,6 +10,9 @@
 #define SWITCH_BBOX_WIDTH	49
 #define SWITCH_BBOX_HEIGHT_TOUCHED	19
 
+#define SWITCH_POSITION_X	6073
+#define SWITCH_POSITION_Y	1060
+
 class CSwitch :public CGameObject
 {
 public:

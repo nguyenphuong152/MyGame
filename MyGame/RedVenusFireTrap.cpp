@@ -4,6 +4,7 @@
 #include "FireBall.h"
 #include "FireBallPool.h"
 #include "EffectPool.h"
+#include "Grid.h"
 
 
 CRedVenusFireTrap ::CRedVenusFireTrap()
@@ -52,7 +53,7 @@ void CRedVenusFireTrap::SetState(int state)
 
 void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	CEnemy::Update(dt, coObjects);
 
 	CheckDirectionForRender(POSITION_PIPE_X);
 	//go up and start shooting then change state go down when it go over the pipe
@@ -98,7 +99,7 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
+	grid->Move(this);
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 

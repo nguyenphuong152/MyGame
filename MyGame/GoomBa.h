@@ -29,7 +29,7 @@ protected:
 	virtual void Render();
 public:
 	CGoomBa();
-
+	void DieWithDeflect(AttackedBy obj);
 	virtual void SetState(int state);
 };
 

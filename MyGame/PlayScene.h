@@ -14,6 +14,7 @@
 #include "MapObjects.h"
 #include "HUD.h"
 #include "Text.h"
+#include "Unit.h"
 
 
 
@@ -22,6 +23,7 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
+	Grid* grid;
 
 	CMap* map;
 	CMapObjects* map_objects;
@@ -30,6 +32,7 @@ protected:
 	Letter* letters;
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> coObjects;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -40,7 +43,10 @@ protected:
 	void _ParseSection_HUD(string line);
 	void _ParseSection_Letters(string line);
 
-	void UpdatePool();
+	void AddObjectToGrid();
+
+	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
+	void RenderPool();
 	void UnloadPool();
 
 public:

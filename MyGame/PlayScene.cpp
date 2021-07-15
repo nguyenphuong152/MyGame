@@ -19,7 +19,8 @@
 #include "PowerUp.h"
 #include "BoomerangPool.h"
 #include "MiniGoombaPool.h"
-
+#include "Grid.h"
+#include "Switch.h"
 
 using namespace std;
 
@@ -227,6 +228,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	
 	map_objects = new CMapObjects();
 	map_objects->GenerateObject(&path[0], objects);
+
+	AddObjectToGrid();
 }
 
 void CPlayScene::_ParseSection_HUD(string line)
@@ -329,43 +332,50 @@ void CPlayScene::Load()
 }
 
 
-
 void CPlayScene::Update(DWORD dt)
 {
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-	vector<LPGAMEOBJECT> coObjects;
+	coObjects.clear();
 
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{
-			coObjects.push_back(objects[i]);
-		}
-	}
+	grid->GetUnitsFromCameraRegion(&coObjects);
+	grid->Update(dt, &coObjects);
 
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{
-			objects[i]->Update(dt, &coObjects);
-		}
-	}
-	
-	UpdatePool();
-
-	HUD::GetInstance()->Update();
+	UpdatePool(&coObjects,dt);
 
 	player->Update(dt, &coObjects);
+
+	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
+
+	HUD::GetInstance()->Update();
 }
 
-void CPlayScene::UpdatePool()
+void CPlayScene::RenderPool()
 {
-	CFireBallPool::GetInstance()->Update();
-	CEffectPool::GetInstance()->Update();
-	CBoomerangPool::GetInstance()->Update();
-	CMiniGoombaPool::GetInstance()->Update();
+	CFireBallPool::GetInstance()->Render();
+	CEffectPool::GetInstance()->Render();
+	CBoomerangPool::GetInstance()->Render();
+	CMiniGoombaPool::GetInstance()->Render();
+}
+
+void CPlayScene::AddObjectToGrid()
+{
+	grid = new Grid();
+	for (size_t i = 1; i < objects.size(); i++)
+	{
+		if (dynamic_cast<CCamera*>(objects[i]) == false||dynamic_cast<CMarioTail*>(objects[i])== false) {
+			objects[i]->AddObjectToGrid(grid);
+		}
+	}
+}
+
+void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
+{
+	CFireBallPool::GetInstance()->Update(dt,cobjects);
+	CEffectPool::GetInstance()->Update(dt,cobjects);
+	CBoomerangPool::GetInstance()->Update(dt, cobjects);
+	CMiniGoombaPool::GetInstance()->Update(dt, cobjects);
 }
 
 
@@ -375,13 +385,9 @@ void CPlayScene::Render()
 
 	map->RenderMap();
 
-	for (int i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isEnable)
-		{	
-			objects[i]->Render();
-		}
-	}
+	RenderPool();
+
+	grid->Render();
 
 	player->Render();
 
