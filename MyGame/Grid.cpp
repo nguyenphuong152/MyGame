@@ -6,6 +6,8 @@
 #include "Switch.h"
 #include "Koopas.h"
 #include "Pipe.h"
+#include "BrownParaGoomBa.h"
+#include "tinyxml.h"
 
 Grid::Grid()
 {
@@ -14,12 +16,12 @@ Grid::Grid()
     {
         for (int j = 0; j < NUM_CELL; j++)
         {
-            cells[i][j] = NULL ;
+            cells[i][j] = new Cell();
         }
     }
 }
 
-void Grid::Add(LPGAMEOBJECT object)
+void Grid::Add(LPGAMEOBJECT object,int id)
 {
     //xac dinh unit thuoc o nao cua grid
     int col = (int)(object->x/ CELL_SIZE);
@@ -39,6 +41,49 @@ void Grid::Add(LPGAMEOBJECT object)
     }
 }
 
+void Grid::ReadFile(const char* mapFilePath)
+{
+    TiXmlDocument doc(mapFilePath);
+    if (!doc.LoadFile())
+    {
+        DebugOut(L"[ERR] TMX FAILED %s\n", ToLPCWSTR(doc.ErrorDesc()));
+        return;
+    }
+
+    TiXmlElement* root = doc.RootElement();
+    TiXmlElement* layer = nullptr;
+
+    for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+    {
+        const char* attributeName = layer->Attribute("name");
+        TiXmlElement* element = layer->FirstChildElement();
+
+        int id, cellx, celly, xEnd, yEnd;
+        if (attributeName != NULL)
+        {
+            if (strcmp(attributeName, "WoodBlock") == 0)
+            {
+                TiXmlElement* ele = element->FirstChild("group")->ToElement();
+                while (ele)
+                {
+                    ele->QueryIntAttribute("id", &id);
+                    ele->QueryIntAttribute("cellx", &cellx);
+                    ele->QueryIntAttribute("celly", &celly);
+                    ele->QueryIntAttribute("xEnd", &xEnd);
+                    ele->QueryIntAttribute("yEnd", &yEnd);
+
+                    D3DXVECTOR4 obj_info = D3DXVECTOR4(cellx, celly, xEnd, yEnd);
+
+                    grid_objs[id] = obj_info;
+
+                    ele = ele->NextSiblingElement();
+                }
+                //DebugOut(L"[DONE LOADING SOLID] - %d \n", objects.size());
+            }
+        }
+    }
+}
+
 void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
 {
     int cell_startX, cell_startY, cell_endX, cell_endY;
@@ -48,14 +93,9 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
     {
         for (int j = cell_startX; j < cell_endX+1; j++)
         {
-            LPGAMEOBJECT obj = cells[i][j];
-            while (obj != NULL)
+            if (cells[i][j] != NULL)
             {
-                if (obj->isEnable)
-                {
-                    obj->Update(dt, coobjs);
-                }
-                obj = obj->next;
+                cells[i][j]->Update(dt, coobjs);
             }
         }
     }
@@ -70,14 +110,9 @@ void Grid::Render()
     {
         for (int j = cell_startX; j < cell_endX+1; j++)
         {
-            LPGAMEOBJECT obj = cells[i][j];
-            while (obj != NULL)
+            if (cells[i][j] != NULL)
             {
-                if (obj->isEnable)
-                {
-                    obj->Render();
-                }
-                obj = obj->next;
+                cells[i][j]->Render();
             }
         }
     }
@@ -114,14 +149,13 @@ void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)
     {
         for (int j = cell_startX; j < cell_endX+1; j++)
         {
-            LPGAMEOBJECT objs = cells[i][j];
-            while (objs != NULL)
+            if (cells[i][j] != NULL)
             {
-                if (objs->isEnable)
-                {
-                    units->push_back(objs);
-                }
-                objs = objs->next;    
+                vector<LPGAMEOBJECT> validObjs;
+                validObjs.clear();
+                validObjs = cells[i][j]->GetListObjectInCell();
+
+                units->insert(units->end(), validObjs.begin(),validObjs.end());
             }
         }
     }
@@ -164,4 +198,15 @@ void Grid::Move(LPGAMEOBJECT object)
     // add lai vao grid , o list cua cell moi
 
     Add(object);
+}
+
+void Grid::Unload()
+{
+    for (int i = 0; i < NUM_CELL; i++)
+    {
+        for (int j = 0; j < NUM_CELL; j++)
+        {
+            cells[i][j] = NULL;
+        }
+    }
 }

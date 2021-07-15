@@ -4,7 +4,7 @@
 class CMiniGoombaPool
 {
 	friend class CPlayScene;
-	static const int POOL_SIZE = 7;
+	static const int POOL_SIZE = 8;
 
 	int ani_set = -1;
 
@@ -19,7 +19,7 @@ public:
 	void Render();
 	void Init(vector<LPGAMEOBJECT>& objects, int ani);
 
-	void SetBoomerangAnimation(int ani) { this->ani_set = ani; };
+	void SetMiniGoombaAnimation(int ani) { this->ani_set = ani; };
 	void Unload();
 
 	static CMiniGoombaPool* GetInstance();

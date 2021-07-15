@@ -53,7 +53,7 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += CARD_GRAVITY * dt;
 		y += dy;
 
-		if (GetTickCount64() - animated_start > ANIMATED_TIME)
+		if (GetTickCount64() - animated_start > CARD_ANIMATED_TIME)
 		{
 			isEnable = false;
 			animated_start = 0;

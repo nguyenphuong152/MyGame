@@ -57,8 +57,8 @@ CMario::CMario(float x, float y) : CGameObject()
 
 	start_x = x;
 	start_y = y;
-	this->x = x;
-	this->y = y;
+	SetPosition(x, y);
+
 	SetLive(MARIO_DEFAULT_LIVE);
 }
 
@@ -70,6 +70,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
+
+	//DebugOut(L"mario vx %f \n", vx);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -89,6 +91,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME)
 	{
+		//DebugOut(L"hello \n");
 		ResetDie();
 		Recover();
 	}
@@ -106,6 +109,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
+		//DebugOut(L"vco event size %d \n", coEvents.size());
 		float min_tx, min_ty, nx = 0, ny;
 
 		float rdx = 0, rdy = 0;
@@ -116,8 +120,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		//// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if(rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
+		/*if(rdx != 0 && rdx!=dx)
+			x += nx*abs(rdx);*/ 
 
 		//block every object first
 		x += min_tx * dx + nx * 0.4f;
@@ -141,7 +145,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
-
 						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
 						{
 							goomba->SetLevel(GOOMBA_LEVEL_1);
@@ -239,13 +242,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						x += dx;
 					}
-					else {
+					else if (dynamic_cast<CGround*>(e->obj))
+					{
 						RecalculatePower();
 						ChangeState(CMarioState::walk.GetInstance());
 					}
 				}
 			}
-			else if (dynamic_cast<CBoundary*>(e->obj) || dynamic_cast<CCamera*>(e->obj))
+			else if (dynamic_cast<CBoundary*>(e->obj))
 			{
 				if (e->ny > 0)
 				{
@@ -259,7 +263,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (!CMarioState::go_to_pipe.GetInstance()->isUp)vy = -MARIO_IN_PIPE_VELOCITY_Y;
 						else vy = MARIO_IN_PIPE_VELOCITY_Y;
 					}
-					y += dy;
+					else {
+						y += dy;
+					}
 				}
 				else if (e->ny < 0)
 				{
@@ -438,10 +444,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMiniGoomba*>(e->obj))
 			{
 			CMiniGoomba* g = dynamic_cast<CMiniGoomba*>(e->obj);
-				if (e->nx != 0 || e->ny != 0)
+			isStuckWithMiniGoomba = true;
+				if (e->nx != 0)
 				{
-					g->SetPosition(x,y);
-					g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
+					//DebugOut(L"hello \n");
+					if (g->GetState() != MINIGOOMBA_STATE_SURROUND_MARIO)
+					{
+						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
+					}
+				}
+				else if (e->ny != 0)
+				{
+					y -= 1;
+					if (g->GetState() != MINIGOOMBA_STATE_SURROUND_MARIO)
+					{
+						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
+					}
 				}
 			}
 		}
@@ -457,6 +475,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		tail->Update(dt, coObjects);
 	}
 	marioState->Update(dt, *this);
+
+	//DebugOut(L"%f  %f\n", vx, vy);
 }
 
 void CMario::Render()
@@ -467,7 +487,7 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
 
 	/*if (level == MARIO_LEVEL_RACOON)

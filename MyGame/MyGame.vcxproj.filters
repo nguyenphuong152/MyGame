@@ -632,5 +632,8 @@
     <ClInclude Include="Grid.h">
       <Filter>Header Files\Game\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Game\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

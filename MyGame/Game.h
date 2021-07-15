@@ -71,6 +71,10 @@ public:
 	CMario* GetPlayer() { return this->player; }
 
 	void DeletePlayer() { this->player = NULL; };
+	void DeleteCam() {
+		main_cam->Unload();
+		main_cam = NULL;
+	}
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }

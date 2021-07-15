@@ -2,8 +2,8 @@
 #include "GameObject.h"
 class CObjectBoundary :public CGameObject
 {
-	int width;
-	int height;
+	float width;
+	float height;
 public:
 	CObjectBoundary(float r, float b);
 	virtual void Render();

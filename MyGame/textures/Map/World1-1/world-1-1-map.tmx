@@ -389,11 +389,8 @@
   <object id="116" x="6864" y="1585" width="153" height="51"/>
   <object id="117" x="6336" y="1390" width="576" height="50"/>
   <object id="209" x="6720" y="1104.67" width="94.6666" height="47.3333"/>
-  <object id="19" x="6721.5" y="867.5" width="91.5" height="138.5"/>
+  <object id="19" x="6721.5" y="477.5" width="91.5" height="528.5"/>
   <object id="320" x="6910.5" y="1388.5" width="9" height="84"/>
-  <object id="321" x="6720.5" y="726.75" width="91.5" height="138.5"/>
-  <object id="322" x="6720.5" y="482.75" width="91.5" height="140.5"/>
-  <object id="323" x="6721.5" y="616.75" width="91.5" height="112.5"/>
   <object id="356" x="6978.67" y="1179.33" width="26.6666" height="69.3333"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
@@ -540,47 +537,15 @@
   </object>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
-  <object id="235" x="6" y="744" width="66" height="600"/>
-  <object id="236" x="504" y="50" width="496" height="54"/>
+  <object id="235" x="6" y="84" width="66" height="1260"/>
   <object id="237" x="8443.52" y="-1.21212" width="88" height="1974.3"/>
   <object id="288" x="5812.12" y="1700" width="39.3939" height="263.636"/>
-  <object id="300" x="76" y="1353" width="484" height="54"/>
-  <object id="324" x="570" y="1353" width="484" height="54"/>
-  <object id="325" x="1062" y="1353" width="484" height="54"/>
-  <object id="326" x="1558" y="1353" width="484" height="54"/>
-  <object id="327" x="2050" y="1353" width="484" height="54"/>
-  <object id="328" x="2550" y="1353" width="484" height="54"/>
-  <object id="329" x="3050" y="1353" width="484" height="54"/>
-  <object id="330" x="3546" y="1353" width="484" height="54"/>
-  <object id="331" x="4038" y="1353" width="484" height="54"/>
-  <object id="332" x="4530" y="1353" width="484" height="54"/>
-  <object id="333" x="5030" y="1353" width="484" height="54"/>
-  <object id="334" x="5526" y="1353" width="484" height="54"/>
-  <object id="335" x="6014" y="1353" width="484" height="54"/>
-  <object id="336" x="6506" y="1353" width="635.515" height="54"/>
-  <object id="337" x="7101.15" y="1353" width="368.848" height="54"/>
-  <object id="338" x="7478" y="1353" width="484" height="54"/>
-  <object id="339" x="7974" y="1353" width="484" height="54"/>
-  <object id="340" x="4" y="50" width="496" height="54"/>
-  <object id="341" x="1004" y="50" width="496" height="54"/>
-  <object id="342" x="1500" y="50" width="496" height="54"/>
-  <object id="343" x="2008" y="50" width="496" height="54"/>
-  <object id="344" x="2508" y="50" width="496" height="54"/>
-  <object id="345" x="3004" y="50" width="496" height="54"/>
-  <object id="346" x="3496" y="50" width="496" height="54"/>
-  <object id="347" x="4492" y="50" width="496" height="54"/>
-  <object id="348" x="3996" y="50" width="496" height="54"/>
-  <object id="349" x="4988" y="50" width="496" height="54"/>
-  <object id="350" x="5476" y="50" width="496" height="54"/>
-  <object id="351" x="5980" y="50" width="496" height="54"/>
-  <object id="352" x="6460" y="50" width="496" height="54"/>
-  <object id="353" x="6964" y="50" width="496" height="54"/>
-  <object id="354" x="7464" y="50" width="496" height="54"/>
-  <object id="355" x="7948" y="50" width="496" height="54"/>
+  <object id="300" x="6" y="1353" width="8450" height="54"/>
+  <object id="340" x="4" y="50" width="8440" height="54"/>
  </objectgroup>
  <objectgroup id="31" name="Ground">
   <object id="1" x="2" y="1246" width="1869.82" height="48"/>
-  <object id="3" x="1872" y="1201" width="1392" height="93"/>
+  <object id="3" x="1872" y="1199" width="1392" height="95"/>
   <object id="4" x="3458" y="1248" width="1004" height="46"/>
   <object id="5" x="4562" y="1244" width="236" height="52"/>
   <object id="13" x="4944" y="1246" width="1718.67" height="50"/>

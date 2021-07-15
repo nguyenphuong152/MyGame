@@ -155,11 +155,11 @@ void CParaGoomba::SetState(int state)
 			isOnGround = false;
 			if (jumpingTimes == JUMPING_TIMES_BEFORE_HIGH_JUMP)
 			{
-				vy = -HIGH_JUMP_VELOCITY_Y;
+				vy = -PARA_GOOMBA_HIGH_JUMP_VELOCITY_Y;
 			}
 			else
 			{
-				vy = -SHORT_JUMP_VELOCITY_Y;
+				vy = -PARA_GOOMBA_SHORT_JUMP_VELOCITY_Y;
 			}
 
 		}

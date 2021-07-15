@@ -34,7 +34,7 @@ CMapObjects* CMapObjects::__instance = NULL;
 CMapObjects* CMapObjects::GetInstance()
 {
 	if (__instance == NULL) __instance = new CMapObjects();
-	else return __instance;
+	return __instance;
 }
 
 void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& objects)
@@ -89,7 +89,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					int groundCounts;
 
 					groundCounts = (int)floor(width / 48);
-					for (int i = 0; i < groundCounts + 1; i++)
+					for (int i = 0; i < groundCounts+1; i++)
 					{
 						obj = new CGround(48, height, GroundType::normal_ground);
 

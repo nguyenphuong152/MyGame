@@ -9,7 +9,7 @@
 #define P_200					4
 #define P_300					5
 
-#define ANIMATED_TIME			300
+#define EFFECT_ANIMATED_TIME			300
 #define DEBRIS_VELOCITY_X		0.1f
 #define DEBRIS_VELOCITY_Y		0.5f
 

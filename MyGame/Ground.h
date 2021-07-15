@@ -8,8 +8,8 @@ enum class GroundType {
 
 class CGround :public CGameObject
 {
-	int width;
-	int height;
+	float width;
+	float height;
 	GroundType type;
 public:
 	GroundType GetType() { return type; };

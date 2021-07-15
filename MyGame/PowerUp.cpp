@@ -13,7 +13,7 @@ CPowerUp::CPowerUp(float x,float  y)
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x+0.1,y);
+	SetPosition(x+0.1f,y);
 	player = CGame::GetInstance()->GetPlayer();
 }
 

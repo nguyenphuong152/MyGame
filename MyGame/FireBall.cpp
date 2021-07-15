@@ -38,7 +38,7 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 	_state.live.isBelongToVenus = true;
 	_state.live.isShootingUp = isShootingUp;
 
-	vx = nx * FIREBALL_VELOCITY_X*0.5;
+	vx = nx * FIREBALL_VELOCITY_X*0.5f;
 	vy = FIREBALL_VENUS_VELOCITY_Y_NEAR;
 	
 }

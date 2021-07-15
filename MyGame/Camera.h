@@ -5,6 +5,9 @@
 #define HIDDEN_SCENE_X 5820
 #define HIDDEN_SCENE_Y 1364
 
+#define CAM_WIDTH	764
+#define CAM_HEIGHT	760
+
 #define CAMERA_STATE_NORMAL			1
 #define CAMERA_STATE_HIDDEN_SCENE	2
 
@@ -52,4 +55,6 @@ public:
 
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();
+
+	void Unload() { __instance = NULL; }
 };

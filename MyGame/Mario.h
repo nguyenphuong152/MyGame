@@ -12,7 +12,7 @@ class CMarioState;
 #define MARIO_START_FLYING_SPEED	0.6f
 #define MARIO_FLYING_SPEED			0.3f
 //0.1f
-#define MARIO_JUMP_SPEED_Y			0.5f
+#define MARIO_JUMP_SPEED_Y			0.6f
 #define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.002f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
@@ -106,7 +106,7 @@ class CMarioState;
 
 
 #define MARIO_BIG_BBOX_WIDTH  42
-#define MARIO_BIG_BBOX_HEIGHT 77
+#define MARIO_BIG_BBOX_HEIGHT 84
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
@@ -114,7 +114,7 @@ class CMarioState;
 #define MARIO_RACOON_BBOX_HEIGHT 84
 
 #define MARIO_SMALL_BBOX_WIDTH  40
-#define MARIO_SMALL_BBOX_HEIGHT 46
+#define MARIO_SMALL_BBOX_HEIGHT 48
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_DIE_TIME		   1000
@@ -151,6 +151,7 @@ public:
 	bool isOnGround = false;
 	bool isSitting = false;
 	bool canJumpHigh = false;
+	bool isStuckWithMiniGoomba = false;
 
 	bool powerMode = false;
 	bool isFloating = false;

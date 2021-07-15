@@ -4,8 +4,8 @@
 
 class CBox :public CGameObject
 {
-	int width;
-	int height;
+	float width;
+	float height;
 public:
 	CBox( float r, float b);
 	virtual void Render();

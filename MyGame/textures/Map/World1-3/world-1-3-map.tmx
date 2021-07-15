@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="38" nextobjectid="541">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="158" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="40" nextobjectid="571">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -388,9 +388,6 @@
   <object id="529" name="powerup" x="2833" y="866.833" width="47" height="49"/>
  </objectgroup>
  <objectgroup id="13" name="Solid">
-  <object id="1" x="3.5" y="1010.5" width="3784" height="44"/>
-  <object id="5" x="3839.33" y="1008" width="528" height="52"/>
-  <object id="13" x="4418.67" y="1011.33" width="3162" height="44.6667"/>
   <object id="296" x="2449" y="815.5" width="46" height="190.5"/>
   <object id="297" x="3601" y="818.5" width="46" height="191"/>
   <object id="298" x="3215" y="816.5" width="46" height="191"/>
@@ -401,19 +398,19 @@
  <objectgroup id="14" name="Ghost">
   <object id="287" x="480" y="912" width="190" height="25"/>
   <object id="288" x="625" y="768.5" width="190" height="31.6667"/>
-  <object id="289" x="4657" y="577.5" width="190" height="29.3333"/>
-  <object id="290" x="4896" y="770.5" width="190" height="25"/>
-  <object id="291" x="5136" y="674.5" width="190" height="27.6667"/>
+  <object id="289" x="4657" y="577.5" width="190" height="13.3333"/>
+  <object id="290" x="4896" y="770.5" width="190" height="13"/>
+  <object id="291" x="5136" y="674.5" width="190" height="17.6667"/>
   <object id="292" x="5521" y="722.5" width="190" height="19.6667"/>
-  <object id="293" x="5234" y="818.5" width="237" height="21"/>
-  <object id="294" x="4610" y="866.5" width="237" height="26"/>
-  <object id="464" x="5762" y="626" width="190" height="30"/>
+  <object id="293" x="5234" y="818.5" width="237" height="13"/>
+  <object id="294" x="4610" y="866.5" width="237" height="14"/>
+  <object id="464" x="5762" y="626" width="190" height="12"/>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
-  <object id="229" type="0" x="-56.7273" y="4" width="63.6364" height="1132.85"/>
-  <object id="231" type="0" x="-7.8485" y="1191.27" width="7619.19" height="24.2424"/>
-  <object id="236" type="2" x="7.03" y="330.061" width="7568.48" height="42.4242"/>
-  <object id="366" type="0" x="7584" y="0.90833" width="63.6364" height="1080.85"/>
+  <object id="229" type="0" x="7.2727" y="214" width="63.6364" height="1016.85"/>
+  <object id="236" type="2" x="73.03" y="240.061" width="7502.48" height="42.4242"/>
+  <object id="366" type="0" x="7584" y="226.908" width="63.6364" height="1100.85"/>
+  <object id="556" type="0" x="82.41" y="1149" width="7507.19" height="56.2424"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
   <object id="495" name="bcoin" type="1" x="1536" y="912.67" width="48" height="48"/>
@@ -489,10 +486,10 @@
     <property name="ani_id" value="32"/>
    </properties>
   </object>
-  <object id="539" name="brown_para_goomba" type="32" x="6376" y="926.667" width="41.3333" height="40"/>
+  <object id="539" name="brown_para_goomba" type="32" x="6492" y="832.667" width="41.3333" height="40"/>
  </objectgroup>
  <objectgroup id="27" name="Camera">
-  <object id="239" x="17.5152" y="420.55" width="764" height="760"/>
+  <object id="239" x="89.5152" y="506.55" width="760" height="600" visible="0"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>
@@ -511,5 +508,10 @@
   <object id="489" type="1" x="1584.18" y="863.833" width="48" height="49.3333"/>
   <object id="490" type="0" x="1389.33" y="864.667" width="48" height="49.3333"/>
   <object id="528" type="0" x="1487.5" y="769.333" width="48" height="49.3333"/>
+ </objectgroup>
+ <objectgroup id="39" name="Ground">
+  <object id="13" x="4418.67" y="1011.33" width="3162" height="44.6667"/>
+  <object id="5" x="3839.33" y="1008" width="528" height="52"/>
+  <object id="1" x="3.5" y="1010.5" width="3784" height="44"/>
  </objectgroup>
 </map>

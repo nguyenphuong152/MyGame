@@ -96,7 +96,7 @@ void CParaKoopa::SetState(int state)
 	if (GetLevel() == KOOPA_LEVEL_2)
 	{
 		isOnGround = false;
-		vy = -HIGH_JUMP_VELOCITY_Y;
+		vy = -PARA_KOOPA_HIGH_JUMP_VELOCITY_Y;
 	}
 	else {
 		CKoopas::SetState(state);

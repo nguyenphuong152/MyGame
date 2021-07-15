@@ -344,11 +344,11 @@ void CPlayScene::Update(DWORD dt)
 
 	UpdatePool(&coObjects,dt);
 
-	player->Update(dt, &coObjects);
-
 	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
 
 	HUD::GetInstance()->Update();
+
+	player->Update(dt, &coObjects);
 }
 
 void CPlayScene::RenderPool()
@@ -370,6 +370,7 @@ void CPlayScene::AddObjectToGrid()
 	}
 }
 
+
 void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
 {
 	CFireBallPool::GetInstance()->Update(dt,cobjects);
@@ -385,11 +386,11 @@ void CPlayScene::Render()
 
 	map->RenderMap();
 
-	RenderPool();
-
 	grid->Render();
 
 	player->Render();
+
+	RenderPool();
 
 	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
@@ -412,15 +413,22 @@ void CPlayScene::UnloadPool()
 
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
-		if (dynamic_cast<CCamera*>(objects[i])) continue;
 		delete objects[i];
 	}
 
 	objects.clear();
+
+	if (grid != NULL)
+	{
+		grid->Unload();
+		grid = NULL;
+	}
 	
 	HUD::GetInstance()->Unload();
+
+	CGame::GetInstance()->DeleteCam();
 
 	UnloadPool();
 
