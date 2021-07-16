@@ -59,5 +59,5 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			animated_start = 0;
 		}
 	}
-	grid->Move(this);
+	grid_->Move(this);
 }

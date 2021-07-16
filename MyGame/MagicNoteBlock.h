@@ -37,7 +37,7 @@ public:
 	CMagicNoteBlock(float x, float y, MagicNoteBlockType type);
 
 	MagicNoteBlockType GetType() { return type; };
-	void VisualBlock() { invisible = false; };
+	void VisualBlock() { invisible = false; type == MagicNoteBlockType::visible; };
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

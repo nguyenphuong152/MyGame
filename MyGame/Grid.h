@@ -4,7 +4,7 @@
 
 #define NUM_CELL	200
 
-#define CELL_SIZE	480
+#define CELL_SIZE	400
 
 class Grid {
 	Cell* cells[NUM_CELL][NUM_CELL] ;
@@ -25,4 +25,6 @@ public:
 
 	void GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, int& cell_endY);
 	void GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* objs);
+
+	~Grid();
 };

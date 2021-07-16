@@ -1,7 +1,7 @@
 #pragma once
 #include "MarioOnGroundStates.h"
 
-#define MARIO_TRANSFORM_TIME 1000
+#define MARIO_TRANSFORM_TIME 600
 
 class CMarioStateTransform : public CMarioOnGroundStates
 {

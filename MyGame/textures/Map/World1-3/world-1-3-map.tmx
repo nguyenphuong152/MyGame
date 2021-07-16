@@ -394,6 +394,9 @@
   <object id="299" x="2831" y="914.5" width="46" height="97"/>
   <object id="300" x="2113" y="815.833" width="190" height="49.6667"/>
   <object id="530" x="2838.67" y="868" width="36.6667" height="57.3333"/>
+  <object id="1" x="3.5" y="1010.5" width="3784" height="44"/>
+  <object id="5" x="3839.33" y="1008" width="528" height="52"/>
+  <object id="13" x="4418.67" y="1011.33" width="3162" height="44.6667"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
   <object id="287" x="480" y="912" width="190" height="25"/>
@@ -407,10 +410,10 @@
   <object id="464" x="5762" y="626" width="190" height="12"/>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
-  <object id="229" type="0" x="7.2727" y="214" width="63.6364" height="1016.85"/>
+  <object id="229" type="0" x="7.2727" y="214" width="13.6364" height="1016.85"/>
   <object id="236" type="2" x="73.03" y="240.061" width="7502.48" height="42.4242"/>
   <object id="366" type="0" x="7584" y="226.908" width="63.6364" height="1100.85"/>
-  <object id="556" type="0" x="82.41" y="1149" width="7507.19" height="56.2424"/>
+  <object id="556" type="0" x="18.41" y="1115" width="7507.19" height="56.2424"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks">
   <object id="495" name="bcoin" type="1" x="1536" y="912.67" width="48" height="48"/>
@@ -489,7 +492,7 @@
   <object id="539" name="brown_para_goomba" type="32" x="6492" y="832.667" width="41.3333" height="40"/>
  </objectgroup>
  <objectgroup id="27" name="Camera">
-  <object id="239" x="89.5152" y="506.55" width="760" height="600" visible="0"/>
+  <object id="239" x="89.5152" y="506.55" width="760" height="600"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>
@@ -508,10 +511,5 @@
   <object id="489" type="1" x="1584.18" y="863.833" width="48" height="49.3333"/>
   <object id="490" type="0" x="1389.33" y="864.667" width="48" height="49.3333"/>
   <object id="528" type="0" x="1487.5" y="769.333" width="48" height="49.3333"/>
- </objectgroup>
- <objectgroup id="39" name="Ground">
-  <object id="13" x="4418.67" y="1011.33" width="3162" height="44.6667"/>
-  <object id="5" x="3839.33" y="1008" width="528" height="52"/>
-  <object id="1" x="3.5" y="1010.5" width="3784" height="44"/>
  </objectgroup>
 </map>

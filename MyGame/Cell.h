@@ -3,11 +3,16 @@
 #include <unordered_set>
 
 class Cell {
+
 	unordered_set<LPGAMEOBJECT> objects;
+
 public:
 	void AddObjectToCell(LPGAMEOBJECT obj);
 	void RemoveObjectInCell(LPGAMEOBJECT obj);
-	void GetListObjectInCell();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* & coObj);
+	vector<LPGAMEOBJECT> GetListObjectInCell();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>*  coObj);
+
+	void DeleteObject();
+
 	void Render();
 };

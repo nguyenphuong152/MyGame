@@ -90,7 +90,7 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
     
-	grid->Move(this);
+	grid_->Move(this);
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 

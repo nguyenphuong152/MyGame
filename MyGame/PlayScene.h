@@ -41,9 +41,10 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 	void _ParseSection_HUD(string line);
-	void _ParseSection_Letters(string line);
+	void _ParseSection_LETTERS(string line);
+	void _ParseSection_GRID(string line);
 
-	void AddObjectToGrid();
+	//void AddObjectToGrid();
 
 	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
 	void RenderPool();

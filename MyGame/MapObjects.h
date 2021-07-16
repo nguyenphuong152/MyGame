@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
-#include "Unit.h"
+#include "Grid.h"
 
 class CMapObjects
 {
-	static CMapObjects* __instance;
+	Grid* grid;
 public:
+	CMapObjects(Grid* g);
 	void GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& objects);
-	static CMapObjects* GetInstance();
 };

@@ -1,4 +1,6 @@
 #include "Cell.h"
+#include "Ground.h"
+#include "Utils.h"
 
 
 
@@ -26,6 +28,8 @@ vector<LPGAMEOBJECT> Cell::GetListObjectInCell()
 		if (o->isEnable == true)
 			objs.push_back(o);
 	}
+
+	return objs;
 }
 
 void Cell::Update(DWORD dt, vector<LPGAMEOBJECT>* coObj)
@@ -39,4 +43,9 @@ void Cell::Update(DWORD dt, vector<LPGAMEOBJECT>* coObj)
 
 void Cell::Render()
 {
+	vector<LPGAMEOBJECT> validObjs = GetListObjectInCell();
+	for (size_t i = 0; i < validObjs.size(); i++)
+	{
+		validObjs[i]->Render();
+	}
 }

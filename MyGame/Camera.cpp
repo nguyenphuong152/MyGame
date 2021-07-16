@@ -16,8 +16,8 @@ CCamera* CCamera::__instance = NULL;
 
 void CCamera::SetProperty(float y,float width, float height)
 {
-	this->width = width;
-	this->height = height;
+	this->width = CAM_WIDTH;
+	this->height = CAM_HEIGHT;
 	
 	isEnable = true;
 
@@ -37,7 +37,7 @@ void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CCamera::Render()
 {
 	//DebugOut(L"cam y %f \n", y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CCamera::SetState(int state)
@@ -53,10 +53,9 @@ CCamera* CCamera::GetInstance()
 
 void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	
-	CGameObject::Update(dt);
+	if (player == NULL) return;
 
-	cam_center_X = x + width / 2 - MARIO_BIG_BBOX_WIDTH;
-	cam_center_Y = y + height / 2 + MARIO_BIG_BBOX_WIDTH;
+	CGameObject::Update(dt);
 
 	if (y > HIDDEN_SCENE_Y && state == CAMERA_STATE_HIDDEN_SCENE) y = HIDDEN_SCENE_Y;
 	  
@@ -67,8 +66,13 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	if (player->state != MARIO_STATE_DIE && player->marioState != CMarioState::walking_overworld.GetInstance())
 	{
+		cam_center_X = x + (width / 2 )- (MARIO_RACOON_BBOX_WIDTH/2);
+		cam_center_Y = y + (height / 2) - (MARIO_RACOON_BBOX_HEIGHT/2);
+
+		//DebugOut(L"[BF]%f  %f\n", vx );
 		FollowPlayerHorizontally();
 		FollowPlayerVertically();
+		//DebugOut(L"[AT]%f \n", vy);
 
 		CalcPotentialCollisions(colObject, coEvents);
 
@@ -92,29 +96,27 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<CBoundary*>(e->obj))
 				{
-					if (e->ny > 0)
-					{
-						isReachBoundaryTop = true;
-						isReachBoundaryBottom = false;
-					}
-					else if (e->ny < 0)
+					if (e->ny < 0)
 					{
 						isReachBoundaryBottom = true;
-						isReachBoundaryTop = false;
 					}
 				}
-				else if (e->nx != 0)
-				{
-					vx = player->vx;
-					x += dx;
+				else {
+					if (e->nx != 0)
+					{
+						FollowPlayerHorizontally();
+						x += dx;
+					}
+					if (e->ny != 0)
+					{
+						FollowPlayerVertically();
+						y += dy;
+					}
 				}
-				else if (e->ny != 0)
-				{
-					vy = player->vy;
-					y += dy;
-				}
+				
 			}
 		}
+
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 	else {
@@ -124,54 +126,40 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 void CCamera::FollowPlayerHorizontally()
 {
-	//DebugOut(L"startx %f ---- x %f --- camcentetr %f --- mario %f \n", start_x, x,cam_center_X,player->x);
 	if ((player->vx > 0 && player->x < cam_center_X) // walk right
 		|| (player->vx < 0 && player->x > cam_center_X))// walk left
 	{
 		vx = 0.0f;
 	}
-	else vx = player->vx;
+	else {
+		vx = player->vx;
+	}
 }
 
 void CCamera::FollowPlayerVertically()
 {
-	if (player->GetState() == CMarioState::fly.GetInstance()&& player->y<cam_center_Y)
+	if (player->GetState() == CMarioState::fly.GetInstance() && player->GetLevel() == MARIO_LEVEL_RACOON)
 	{
-		vy = player->vy;
 		isReachBoundaryBottom = false;
 	}
-	else if (isReachBoundaryBottom)
+	
+	if (isReachBoundaryBottom == false)
 	{
-		vy = 0;
-	}
-	else if (isReachBoundaryTop)
-	{
-		if (player->GetState() == CMarioState::drop.GetInstance() && player->y > cam_center_Y)
+		if ((player->vy<0 && player->y < cam_center_Y) ||
+			(player->vy>0 && player->y > cam_center_Y))
 		{
-			isReachBoundaryTop = false;
 			vy = player->vy;
-		}
-		else if (player->isOnGround)
-		{
-			vy = 0;
-		}
-	}
-	else if (!isReachBoundaryBottom && !isReachBoundaryTop)
-	{
-		if (player->isOnGround)
-		{
-			vy = 0;
 		}
 		else {
-			vy = player->vy;
+			vy = 0.0f;
 		}
 	}
 }
 
 void CCamera::InactiveCamera()
 {
-	vx = 0;
-	vy = 0;
+	vx = 0.0f;
+	vy = 0.0f;
 }
 
 void CCamera::InitCamera()
@@ -180,9 +168,7 @@ void CCamera::InitCamera()
 	float cx;
 	cx = player->x - this->width / 2;
 
-	if (cx < 0) cx = 22.0;
-
-	isReachBoundaryBottom = true;
+	if (cx < 0) cx = CAM_START_X;
 
 	SetPosition(cx, start_y);
 	SetState(CAMERA_STATE_NORMAL);

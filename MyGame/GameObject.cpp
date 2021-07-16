@@ -156,18 +156,11 @@ bool CGameObject::AABB(CGameObject* object)
 	return false;
 }
 
-void CGameObject::AddObjectToGrid(Grid* grid)
+void CGameObject::AddObjectToGrid(Grid* grid, int id)
 {
-	this->grid = grid;
-
-	prev = next = NULL;
-
-	this->grid->Add(this);
-}
-
-void CGameObject::Move()
-{
-	grid->Move(this);
+	//DebugOut(L"%d \n",id);
+	grid_ = grid;
+	grid_->Add(this, id);
 }
 
 void CGameObject::SetAnimation(int ani)

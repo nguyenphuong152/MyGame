@@ -154,6 +154,7 @@
     <ClCompile Include="BrownParaGoomBa.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Effect.cpp" />

@@ -40,9 +40,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_ANIMATIONS		3
 #define SCENE_SECTION_ANIMATION_SETS	4
 #define SCENE_SECTION_OBJECTS			5
-#define SCENE_SECTION_MAP				6
-#define SCENE_SECTION_HUD				7
-#define SCENE_SECTION_LETTERS			8
+#define SCENE_SECTION_GRID				6
+#define SCENE_SECTION_MAP				7
+#define SCENE_SECTION_HUD				8
+#define SCENE_SECTION_LETTERS			9
+
 
 #define OBJECT_TYPE_MARIO		0
 #define OBJECT_TYPE_FIREBALL	1
@@ -226,10 +228,9 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map->CreateTileSet();
 	map->HandleMap();
 	
-	map_objects = new CMapObjects();
+	map_objects = new CMapObjects(grid);
 	map_objects->GenerateObject(&path[0], objects);
 
-	AddObjectToGrid();
 }
 
 void CPlayScene::_ParseSection_HUD(string line)
@@ -252,7 +253,7 @@ void CPlayScene::_ParseSection_HUD(string line)
 		
 }
 
-void CPlayScene::_ParseSection_Letters(string line)
+void CPlayScene::_ParseSection_LETTERS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -263,9 +264,20 @@ void CPlayScene::_ParseSection_Letters(string line)
 	HUD::GetInstance()->AddLetter(name, texture);
 }
 
+void CPlayScene::_ParseSection_GRID(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	string path = tokens[1];
+
+	grid->ReadFile(&path[0]);
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
+	grid = new Grid();
 
 	ifstream f;
 	f.open(sceneFilePath);
@@ -304,6 +316,10 @@ void CPlayScene::Load()
 		{
 			section = SCENE_SECTION_HUD; continue;
 		}
+		if (line == "[GRID]")
+		{
+			section = SCENE_SECTION_GRID; continue;
+		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -319,14 +335,14 @@ void CPlayScene::Load()
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_HUD: _ParseSection_HUD(line); break;
-		case SCENE_SECTION_LETTERS:_ParseSection_Letters(line); break;
+		case SCENE_SECTION_LETTERS:_ParseSection_LETTERS(line); break;
+		case SCENE_SECTION_GRID:_ParseSection_GRID(line); break;
 		}
 	}
 
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	
 	//DebugOut(L"[OBJECT SIZE] %d \n", objects.size());
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -349,6 +365,7 @@ void CPlayScene::Update(DWORD dt)
 	HUD::GetInstance()->Update();
 
 	player->Update(dt, &coObjects);
+	
 }
 
 void CPlayScene::RenderPool()
@@ -359,16 +376,16 @@ void CPlayScene::RenderPool()
 	CMiniGoombaPool::GetInstance()->Render();
 }
 
-void CPlayScene::AddObjectToGrid()
-{
-	grid = new Grid();
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (dynamic_cast<CCamera*>(objects[i]) == false||dynamic_cast<CMarioTail*>(objects[i])== false) {
-			objects[i]->AddObjectToGrid(grid);
-		}
-	}
-}
+//void CPlayScene::AddObjectToGrid()
+//{
+//	grid = new Grid();
+//	for (size_t i = 1; i < objects.size(); i++)
+//	{
+//		if (dynamic_cast<CCamera*>(objects[i]) == false||dynamic_cast<CMarioTail*>(objects[i])== false) {
+//			objects[i]->AddObjectToGrid(grid);
+//		}
+//	}
+//}
 
 
 void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
@@ -397,6 +414,8 @@ void CPlayScene::Render()
 		map->RenderForeground();
 	}
 
+	//CGame::GetInstance()->GetMainCamera()->Render();
+
 	HUD::GetInstance()->Render();
 }
 
@@ -420,12 +439,8 @@ void CPlayScene::Unload()
 
 	objects.clear();
 
-	if (grid != NULL)
-	{
-		grid->Unload();
-		grid = NULL;
-	}
-	
+	delete grid;
+
 	HUD::GetInstance()->Unload();
 
 	CGame::GetInstance()->DeleteCam();
