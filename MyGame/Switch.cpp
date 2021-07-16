@@ -51,5 +51,5 @@ void CSwitch::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CSwitch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	grid->Move(this);
+	grid_->Move(this);
 }

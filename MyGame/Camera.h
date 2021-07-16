@@ -5,8 +5,13 @@
 #define HIDDEN_SCENE_X 5820
 #define HIDDEN_SCENE_Y 1364
 
+#define CAM_WIDTH	760
+#define CAM_HEIGHT	600
+
 #define CAMERA_STATE_NORMAL			1
 #define CAMERA_STATE_HIDDEN_SCENE	2
+
+#define CAM_START_X 20
 
 class CCamera :public CGameObject
 {
@@ -52,4 +57,6 @@ public:
 
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();
+
+	void Unload() { __instance = NULL; }
 };

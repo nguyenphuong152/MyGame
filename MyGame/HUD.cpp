@@ -72,7 +72,7 @@ void HUD::RenderBoundingBox()
 	b = y + HUD_HEIGHT;
 
 	rect.left = 0;
-	rect.top = 0;
+	rect.top = -0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 

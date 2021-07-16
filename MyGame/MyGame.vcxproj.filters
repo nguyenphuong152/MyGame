@@ -390,6 +390,9 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files\Game\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files\Game\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioState.h">
@@ -630,6 +633,9 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
+      <Filter>Header Files\Game\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
       <Filter>Header Files\Game\Grid</Filter>
     </ClInclude>
   </ItemGroup>

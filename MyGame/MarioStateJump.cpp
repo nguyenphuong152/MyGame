@@ -67,7 +67,11 @@ void CMarioStateJump::Update(DWORD dt, CMario& mario)
 			mario.canJumpHigh = false;
 		}
 		else if(mario.isOnMagicBlock){
-			mario.vy = -MARIO_JUMP_SPEED_Y/1.5;
+			mario.vy = -MARIO_JUMP_SPEED_Y/1.5f;
+		}
+		else if (mario.isStuckWithMiniGoomba)
+		{
+			mario.vy = -0.2f;
 		}
 		else {
 			mario.vy = -MARIO_JUMP_SPEED_Y;

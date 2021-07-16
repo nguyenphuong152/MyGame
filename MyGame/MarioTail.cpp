@@ -55,6 +55,10 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						brick->SetState(BRICK_STATE_TOUCHED);
 					}
+					else if (brick->GetType() == BrickType::twinkle_brick_no_item)
+					{
+						brick->DisableBrick();
+					}
 				}
 				else if (dynamic_cast<CGoomBa*>(coObjects->at(i)))
 				{

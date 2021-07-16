@@ -6,7 +6,7 @@
 class CMarioStateHoldShellAndJump : public CMarioHoldingShellStates
 {
 private:
-	DWORD _jumpingStart;
+	ULONGLONG _jumpingStart;
 public:
 	static CMarioStateHoldShellAndJump* __instance;
 	CMarioStateHoldShellAndJump();

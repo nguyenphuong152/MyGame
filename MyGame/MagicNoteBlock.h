@@ -13,8 +13,8 @@
 
 #define MAGIC_NOTE_BLOCK_ANI	45
 
-#define MAGIC_NOTE_DEFLECT_SPEED 0.2
-#define MAGIC_NOTE_RETURN_SPEED	0.02
+#define MAGIC_NOTE_DEFLECT_SPEED 0.2f
+#define MAGIC_NOTE_RETURN_SPEED	0.02f
 
 #define JUMP_ON -1
 #define JUMP_UNDER 1
@@ -37,7 +37,7 @@ public:
 	CMagicNoteBlock(float x, float y, MagicNoteBlockType type);
 
 	MagicNoteBlockType GetType() { return type; };
-	void VisualBlock() { invisible = false; };
+	void VisualBlock() { invisible = false; type == MagicNoteBlockType::visible; };
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

@@ -29,12 +29,9 @@
 #include "WoodBlock.h"
 #include "BrownParaGoomBa.h"
 
-CMapObjects* CMapObjects::__instance = NULL;
-
-CMapObjects* CMapObjects::GetInstance()
+CMapObjects::CMapObjects(Grid* g)
 {
-	if (__instance == NULL) __instance = new CMapObjects();
-	else return __instance;
+	this->grid = g;
 }
 
 void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& objects)
@@ -58,10 +55,12 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 		{
 			CGameObject* obj = NULL;
 			float x, y, width, height;
+			int id;
 			if (strcmp(attributeName, "Solid") == 0)
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
@@ -70,6 +69,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					obj = new CGround(width, height, GroundType::normal_ground);
 
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);				
 
 					element = element->NextSiblingElement();
@@ -80,22 +81,20 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
 
-					int groundCounts;
-
-					groundCounts = (int)floor(width / 48);
-					for (int i = 0; i < groundCounts + 1; i++)
-					{
-						obj = new CGround(48, height, GroundType::normal_ground);
-
-						obj->SetPosition(x + i * 48, y);
-						objects.push_back(obj);
-					}
+					obj = new CGround(width, height, GroundType::normal_ground);
+					obj->SetPosition(x , y);
+					
+					obj->AddObjectToGrid(grid, id);
+					
+					objects.push_back(obj);
+					
 					element = element->NextSiblingElement();
 				}
 				//DebugOut(L"[DONE LOADING SOLID] - %d \n", objects.size());
@@ -104,6 +103,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
@@ -111,6 +111,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 
 					obj = new CBox(width, height);
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -121,6 +123,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
@@ -132,7 +135,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						obj = new CMagicNoteBlock(x, y, MagicNoteBlockType::visible);
 					}
 
-					
+					obj->AddObjectToGrid(grid, id);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -143,6 +146,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
@@ -150,6 +154,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 
 					obj = new CBoundary(width, height);
 					obj->SetPosition(x, y);
+
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -160,6 +167,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
@@ -167,6 +175,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 
 					obj = new CObjectBoundary(width, height);
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -177,6 +187,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					element->QueryFloatAttribute("width", &width);
@@ -195,6 +206,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
@@ -209,6 +221,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						if (strcmp(element->Attribute("name"), "bcoin") == 0)
 						{
 							item = new CCoin(CoinType::jumping_coin, x, y);
+
+							item->AddObjectToGrid(grid, id);
+							
 							objects.push_back(item);
 						}
 						else if (strcmp(element->Attribute("name"), "tentimescoin") == 0)
@@ -217,12 +232,16 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 							{
 								item = new CCoin(CoinType::jumping_coin, x, y);
 								coins[i] = item;
+								item->AddObjectToGrid(grid, id);
+								
 								objects.push_back(item);
 							}
 						}
 						else if (strcmp(element->Attribute("name"), "powerup") == 0)
 						{
 							item = new CPowerUp(x, y);
+							item->AddObjectToGrid(grid, id);
+
 							objects.push_back(item);
 						}
 						else if (strcmp(element->Attribute("name"), "one-up") == 0)
@@ -230,7 +249,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 							item = new COneUpMushroom(x, y);
 							const char* aniRaw = element->Attribute("type");
 							int ani = atoi(aniRaw);
+
 							item->SetAnimation(ani);
+							item->AddObjectToGrid(grid, id);
+
 							objects.push_back(item);
 						}
 						else if (strcmp(element->Attribute("name"), "switch") == 0)
@@ -239,6 +261,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 							const char* aniRaw = element->Attribute("type");
 							int ani = atoi(aniRaw);
 							item->SetAnimation(ani);
+							item->AddObjectToGrid(grid, id);
+
 							objects.push_back(item);
 						}
 
@@ -262,6 +286,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						}
 					}
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 					element = element->NextSiblingElement();
 				}
@@ -271,6 +297,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
@@ -278,12 +305,16 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					if (strcmp(element->Attribute("name"), "powerup") == 0)
 					{
 						item = new CPowerUp(x, y);
+						item->AddObjectToGrid(grid, id);
+
 						objects.push_back(item);
 					}
 					
 					obj = new CWoodBlock(item, x);
 
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 					element = element->NextSiblingElement();
 				}
@@ -293,6 +324,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					const char* enemyName = element->Attribute("name");
@@ -338,6 +370,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 
 					obj->SetAnimation(ani);
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -348,11 +382,13 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
 					obj = new CCoin(CoinType::spinning_coin, x, y);
 					objects.push_back(obj);
+					obj->AddObjectToGrid(grid, id);
 
 					element = element->NextSiblingElement();
 				}
@@ -363,6 +399,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 				while (element)
 				{
 					obj = new CCard();
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					const char* aniRaw = element->Attribute("type");
@@ -370,6 +407,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					obj->SetAnimation(ani);
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
+					obj->AddObjectToGrid(grid, id);
 
 					element = element->NextSiblingElement();
 				}
@@ -379,11 +417,13 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
 					obj = new CBreakableBrick(x, y);
 					objects.push_back(obj);
+					obj->AddObjectToGrid(grid, id);
 
 					element = element->NextSiblingElement();
 				}
@@ -393,6 +433,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 					const char* type = element->Attribute("name");
@@ -408,6 +449,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					objects.push_back(obj);
 
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
 
 					element = element->NextSiblingElement();
 				}
@@ -417,6 +459,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					element->QueryIntAttribute("id", &id);
 					const char* itemName = element->Attribute("name");
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
@@ -434,6 +477,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					}
 					obj->SetAnimation(ani);
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -445,6 +490,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 				while (element)
 				{
 					int tex = 0;
+					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
 
@@ -469,6 +515,8 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					obj = new CPortal(tex, type);
 
 					obj->SetPosition(x, y);
+					obj->AddObjectToGrid(grid, id);
+
 					objects.push_back(obj);
 					element = element->NextSiblingElement();
 				}

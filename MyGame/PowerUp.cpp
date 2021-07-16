@@ -13,7 +13,7 @@ CPowerUp::CPowerUp(float x,float  y)
 	isEnable = true;
 	start_y = y;
 	powerup_type = PowerUpType::none;
-	SetPosition(x+0.1,y);
+	SetPosition(x+0.1f,y);
 	player = CGame::GetInstance()->GetPlayer();
 }
 
@@ -72,10 +72,6 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						this->nx = -this->nx;
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 					}
-					else if (e->ny < 0 && GetPowerUpType() == PowerUpType::super_leaf)
-					{
-						isEnable = false;
-					}
 				}
 				else if (dynamic_cast<CCamera*>(e->obj))
 				{
@@ -89,10 +85,6 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 					{
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 						x += dx;
-					}
-					else if (e->ny < 0 && GetPowerUpType() == PowerUpType::super_leaf)
-					{
-						isEnable = false;
 					}
 				}
 			}
@@ -171,6 +163,7 @@ void CPowerUp::SetStateForSuperLeaf()
 	{
 		vy = -LEAF_DEFLECT_SPEED;
 	}
+	StartMoving();
 }
 
 void CPowerUp::HandleUpdateSuperLeaf()
@@ -184,11 +177,16 @@ void CPowerUp::HandleUpdateSuperLeaf()
 		if (changeDirection == 0)  StartChangeDirection();
 	}
 
-	if (GetTickCount64() - changeDirection_start > FLOATING_TIME && changeDirection == 1)
+	if (GetTickCount64() - changeDirection_start > POWER_UP_FLOATING_TIME && changeDirection == 1)
 	{
 		changeDirection = 0;
 		changeDirection_start = 0;
 		direction = -direction;
+	}
+
+	if (GetTickCount64() - moving_start > POWER_UP_ALIVE_TIME && moving == 1)
+	{
+		isEnable = false;
 	}
 
 }
@@ -197,7 +195,7 @@ void CPowerUp::HandleUpdateSuperMushroom()
 {
 	if (state == POWERUP_STATE_WALKING) vy += POWER_UP_GRAVITY * dt;
 
-	if (y <= start_y - BRICK_BBOX_WIDTH )
+	if (y <= start_y - BRICK_BBOX_WIDTH-2 )
 	{
 		SetState(POWERUP_STATE_WALKING);
 	}

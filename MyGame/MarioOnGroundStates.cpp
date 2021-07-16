@@ -126,14 +126,21 @@ void CMarioOnGroundStates::SetStateWalking(int direction, CMario& mario)
 {
 	mario.SetDirection(direction);
 	mario.SetVelocityX(direction * MARIO_WALKING_SPEED);
+	if (mario.isStuckWithMiniGoomba)
+	{
+		mario.SetVelocityX(direction * MARIO_WALKING_SPEED/2);
+	}
 	mario.ChangeState(CMarioState::walk.GetInstance());
 }
 
 void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
 {
-	mario.SetDirection(direction);
-	mario.SetVelocityX(direction * MARIO_RUNNING_SPEED);
-	mario.ChangeState(CMarioState::run.GetInstance());
+	if (mario.isStuckWithMiniGoomba == false)
+	{
+		mario.SetDirection(direction);
+		mario.SetVelocityX(direction * MARIO_RUNNING_SPEED);
+		mario.ChangeState(CMarioState::run.GetInstance());
+	}
 }
 
 void CMarioOnGroundStates::SetStateJumping(float jumpSpeed, CMario& mario)

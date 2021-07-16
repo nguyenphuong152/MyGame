@@ -5,7 +5,7 @@
 class CMarioStateThrowFireballJumping : public CMarioStateJump
 {
 private:
-	DWORD _throwingStart;
+	ULONGLONG _throwingStart;
 public:
 	static CMarioStateThrowFireballJumping* __instance;
 

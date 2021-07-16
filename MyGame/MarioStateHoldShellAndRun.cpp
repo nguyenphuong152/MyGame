@@ -34,13 +34,13 @@ void CMarioStateHoldShellAndRun::HandleInput(CMario& mario, Input input)
 void CMarioStateHoldShellAndRun::Update(DWORD dt, CMario& mario)
 {
 	if (mario.vx > 0) {
-		mario.vx += -0.0004 * dt;
+		mario.vx += -0.0004f * dt;
 		if (mario.vx < 0) {
 			mario.ChangeState(CMarioState::holdshell_idle.GetInstance());
 		}
 	}
 	else if (mario.vx < 0) {
-		mario.vx += 0.0004 * dt;
+		mario.vx += 0.0004f * dt;
 		if (mario.vx > 0) {
 				mario.ChangeState(CMarioState::holdshell_idle.GetInstance());
 		}

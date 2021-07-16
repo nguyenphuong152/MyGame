@@ -5,6 +5,7 @@
 #include "PowerUp.h"
 #include "MiniGoomba.h"
 #include "MiniGoombaPool.h"
+#include "Grid.h"
 
 CBrownParaGoomba::CBrownParaGoomba()
 {
@@ -40,7 +41,7 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (level == GOOMBA_LEVEL_2)
 	{
 		CEnemy::Update(dt, coObjects);
-
+		
 		CheckGoombaMoving();
 
 		if(state== BROWN_PARA_GOOMBA_STATE_WALKING||state==BROWN_PARA_GOOMBA_STATE_DROP) 
@@ -55,6 +56,7 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//neu bay len qua dat khoang cach chuyen state bay tren troi
 		if (y < MAX_DISTANCE_TOP && state == BROWN_PARA_GOOMBA_STATE_FLY)
 		{
+			//DebugOut(L"chuey bay len troi\n");
 			SetState(BROWN_PARA_GOOMBA_STATE_WALKING_IN_AIR);
 		}
 
@@ -62,6 +64,7 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (spawning == 1 && GetTickCount64() - spawning_start > SPAWNING_TIME)
 			{
+				//DebugOut(L"de con\n");
 				ResetSpawning();
 				SpawnMiniGoomba();
 			}
@@ -111,8 +114,14 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							if (state != BROWN_PARA_GOOMBA_STATE_WALKING)
 							{
+
+								//DebugOut(L"rot xuong dat di\n");
 								SetState(BROWN_PARA_GOOMBA_STATE_WALKING);
 							}
+						}
+						else if (e->nx != 0)
+						{
+							x += dx;
 						}
 					}
 				}
@@ -120,6 +129,8 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+		grid_->Move(this);
 	}
 	else {
 		CGoomBa::Update(dt, coObjects);
@@ -146,6 +157,8 @@ void CBrownParaGoomba::Render()
 		}
 	}
 
+
+	//DebugOut(L"x y goomba %f -- %f \n", x, y);
 	animation_set->at(ani)->Render(nx, ny, x, y);
 	//RenderBoundingBox();
 }
@@ -190,7 +203,7 @@ void CBrownParaGoomba::SetState(int state)
 		else if (state == BROWN_PARA_GOOMBA_STATE_FLY)
 		{
 			isOnGround = false;
-			vy = -HIGH_JUMP_VELOCITY_Y;
+			vy = -BROWN_PARA_GOOMBA_HIGH_JUMP_VELOCITY_Y;
 
 		}
 		else if (state == BROWN_PARA_GOOMBA_STATE_WALKING_IN_AIR)
@@ -200,6 +213,7 @@ void CBrownParaGoomba::SetState(int state)
 			y = MAX_DISTANCE_TOP;
 			vx = nx * GOOMBA_WALKING_SPEED;
 			vy = 0;
+			//DebugOut(L"set state air xong \n");
 		}
 	}
 	else {
@@ -210,10 +224,14 @@ void CBrownParaGoomba::SetState(int state)
 
 void CBrownParaGoomba::SpawnMiniGoomba()
 {
+	//DebugOut(L"hello \n");
 	CMiniGoomba* minigoomba = CMiniGoombaPool::GetInstance()->Create();
 	if (minigoomba != NULL)
 	{
+		//DebugOut(L"k null \n");
 		minigoomba->StartSpawning(this);
+		
 	}
 	StartSpawning();
+	
 }

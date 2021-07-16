@@ -38,7 +38,8 @@ CMiniGoomba* CMiniGoombaPool::Create()
 
 void CMiniGoombaPool::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	if (_firstAvailable == NULL) return;
+	//if (_firstAvailable == NULL) return;
+
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		if (minigoombas[i]->_state.live.inUse == true)
@@ -85,7 +86,7 @@ CMiniGoombaPool* CMiniGoombaPool::GetInstance()
 
 void CMiniGoombaPool::Init(vector<LPGAMEOBJECT>& objects, int ani)
 {
-	SetBoomerangAnimation(ani);
+	SetMiniGoombaAnimation(ani);
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		objects.push_back(minigoombas[i]);

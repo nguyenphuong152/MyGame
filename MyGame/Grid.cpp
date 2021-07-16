@@ -6,6 +6,8 @@
 #include "Switch.h"
 #include "Koopas.h"
 #include "Pipe.h"
+#include "BrownParaGoomBa.h"
+#include "tinyxml.h"
 
 Grid::Grid()
 {
@@ -14,28 +16,89 @@ Grid::Grid()
     {
         for (int j = 0; j < NUM_CELL; j++)
         {
-            cells[i][j] = NULL ;
+            cells[i][j] = new Cell();
         }
     }
 }
 
-void Grid::Add(LPGAMEOBJECT object)
+void Grid::Add(LPGAMEOBJECT object,int id)
 {
-    //xac dinh unit thuoc o nao cua grid
-    int col = (int)(object->x/ CELL_SIZE);
-    int row = (int)(object->y/ CELL_SIZE);
-
-    //DebugOut(L"cell %d-%d \n", row, col);
-
-    //them no vao dau cai o ma no thuoc ve
-    object->prev = NULL;
-    object->next = cells[row][col];
    
-    cells[row][col] = object;
+   int cellx, celly, xEnd, yEnd;
+   
+   if (grid_objs.find(id) == grid_objs.end())
+   {
+       cellx = celly = yEnd = xEnd = 0;
+   }
+   else
+   {
+       D3DXVECTOR4 obj_info = grid_objs[id];
 
-    if (object->next != NULL)
+       cellx = (int)obj_info[0];
+       celly = (int)obj_info[1];
+       xEnd = (int)obj_info[2];
+       yEnd = (int)obj_info[3];
+   }
+
+    for (int i = cellx; i < xEnd+1; i++)
     {
-        object->next->prev = object;
+        for (int j = celly; j<yEnd+1; j++)
+        {
+            cells[i][j]->AddObjectToCell(object);
+        }
+    }
+}
+
+void Grid::ReadFile(const char* mapFilePath)
+{
+    TiXmlDocument doc(mapFilePath);
+    if (!doc.LoadFile())
+    {
+        DebugOut(L"[ERR] TMX FAILED %s\n", ToLPCWSTR(doc.ErrorDesc()));
+        return;
+    }
+
+    TiXmlElement* root = doc.RootElement();
+    TiXmlElement* layer = nullptr;
+
+    for (layer = root->FirstChildElement(); layer != NULL; layer = layer->NextSiblingElement())
+    {
+        TiXmlElement* element = layer->FirstChildElement();
+    
+        int id;
+        const char* cellx;
+        const char* celly;
+        const char* xEnd;
+        const char* yEnd;
+      
+        while (element)
+        {
+            TiXmlElement* ele = element->FirstChildElement();
+            while (ele)
+            {
+                ele->QueryIntAttribute("id", &id);
+                cellx = ele->Attribute("cellx");
+                celly = ele->Attribute("celly");
+
+                if (strcmp(ele->Attribute("xEnd"), "NaN") == 0 && strcmp(ele->Attribute("yEnd"), "NaN") == 0)
+                {
+                    xEnd = cellx;
+                    yEnd = celly;
+                }
+                else {
+                    xEnd = ele->Attribute("xEnd");
+                    yEnd = ele->Attribute("yEnd");
+                }
+
+                D3DXVECTOR4 obj_info = D3DXVECTOR4(atoi(cellx), atoi(celly), atoi(xEnd), atoi(yEnd));
+
+                grid_objs[id] = obj_info;
+
+                ele = ele->NextSiblingElement();
+            }
+
+            element = element->NextSiblingElement();
+        }
     }
 }
 
@@ -44,19 +107,11 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
     int cell_startX, cell_startY, cell_endX, cell_endY;
     GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
 
-    for (int i = cell_startY; i < cell_endY+1; i++)
+    for (int i = cell_startX; i < cell_endX+1; i++)
     {
-        for (int j = cell_startX; j < cell_endX+1; j++)
+        for (int j = cell_startY; j < cell_endY+1; j++)
         {
-            LPGAMEOBJECT obj = cells[i][j];
-            while (obj != NULL)
-            {
-                if (obj->isEnable)
-                {
-                    obj->Update(dt, coobjs);
-                }
-                obj = obj->next;
-            }
+            cells[i][j]->Update(dt, coobjs);
         }
     }
 }
@@ -66,19 +121,11 @@ void Grid::Render()
     int cell_startX, cell_startY, cell_endX, cell_endY;
     GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
 
-    for (int i = cell_startY; i < cell_endY+1; i++)
+    for (int i = cell_startX; i < cell_endX+1; i++)
     {
-        for (int j = cell_startX; j < cell_endX+1; j++)
+        for (int j = cell_startY; j < cell_endY+1; j++)
         {
-            LPGAMEOBJECT obj = cells[i][j];
-            while (obj != NULL)
-            {
-                if (obj->isEnable)
-                {
-                    obj->Render();
-                }
-                obj = obj->next;
-            }
+              cells[i][j]->Render();
         }
     }
 }
@@ -99,7 +146,6 @@ void Grid::GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, i
 
     if (cell_startX < 0) cell_startX = 0;
     if (cell_startY < 0) cell_startY = 0;
-
 }
 
 void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)
@@ -108,21 +154,15 @@ void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)
     int cell_startX, cell_startY, cell_endX, cell_endY;
     GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
 
-    //DebugOut(L"cell k null %d -- %d---%d---%d \n", cell_startX, cell_startY,cell_endX,cell_endY);
+  
 
-    for (int i = cell_startY; i < cell_endY+1; i++)
+    for (int i = cell_startX; i < cell_endX+1; i++)
     {
-        for (int j = cell_startX; j < cell_endX+1; j++)
+        for (int j = cell_startY; j < cell_endY+1; j++)
         {
-            LPGAMEOBJECT objs = cells[i][j];
-            while (objs != NULL)
-            {
-                if (objs->isEnable)
-                {
-                    units->push_back(objs);
-                }
-                objs = objs->next;    
-            }
+            vector<LPGAMEOBJECT> validObjs;
+            validObjs = cells[i][j]->GetListObjectInCell();
+            units->insert(units->end(), validObjs.begin(), validObjs.end());
         }
     }
 }
@@ -145,23 +185,29 @@ void Grid::Move(LPGAMEOBJECT object)
     // neu k thay doi thi out || ngoai vung thi out
     if (oldCellX == cellX && oldCellY == cellY ) return;
 
-    // thao ra khoi list unit thuoc old cell 
-    if (object->prev != NULL)
-    {
-        object->prev->next = object->next;
-    }
+    cells[oldCellX][oldCellY]->RemoveObjectInCell(object);
+    cells[cellX][cellY]->AddObjectToCell(object);
+}
 
-    if (object->next != NULL)
+void Grid::Unload()
+{
+    for (int i = 0; i < NUM_CELL; i++)
     {
-        object->next->prev = object->prev;
+        for (int j = 0; j < NUM_CELL; j++)
+        {
+            //cells[i][j]->DeleteObject();
+            cells[i][j] = NULL;
+        }
     }
+}
 
-    // neu no o dau list cua  oldcell thi go ra, va thay doi dau list cua old cell
-    if (cells[oldCellY][oldCellX] == object)
+Grid::~Grid()
+{
+    for (int x = 0; x < NUM_CELL; x++)
     {
-        cells[oldCellY][oldCellX] = object->next;
+        for (int y = 0; y < NUM_CELL; y++)
+        {
+            delete cells[x][y];
+        }
     }
-    // add lai vao grid , o list cua cell moi
-
-    Add(object);
 }

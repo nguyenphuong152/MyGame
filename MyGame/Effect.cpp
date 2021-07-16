@@ -79,7 +79,7 @@ void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	if (effect == EffectName::debris||effect ==EffectName::point)
 	{
-		vy += 0.0015 * dt;
+		vy += 0.0015f * dt;
 		if (vy > 0 && effect == EffectName::debris) {
 			vy = 0.2f;
 		}
@@ -90,10 +90,10 @@ void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	
 	if (effect == EffectName::debris)
 	{
-		DisableEffect(ANIMATED_TIME * 3);
+		DisableEffect(EFFECT_ANIMATED_TIME * 3);
 	}
 	else {
-		DisableEffect(ANIMATED_TIME );
+		DisableEffect(EFFECT_ANIMATED_TIME );
 	}
 	
 	

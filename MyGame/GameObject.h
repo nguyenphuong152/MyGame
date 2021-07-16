@@ -45,10 +45,7 @@ class CGameObject
 {
 	friend class Grid;
 protected:
-	Grid* grid;
-	CGameObject* prev;
-	CGameObject* next;
-
+	Grid* grid_;
 public:
 	//vi tri
 	float x;
@@ -102,8 +99,7 @@ public:
 	//aabb xét vật tĩnh đụng nhau
 	bool AABB(CGameObject* object);
 
-	void AddObjectToGrid(Grid* grid);
-	void Move();
+	void AddObjectToGrid(Grid* grid, int id);
 
 	void SetAnimation(int ani);
 

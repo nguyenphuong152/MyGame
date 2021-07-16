@@ -28,6 +28,7 @@ void CMarioStateTransform::Update(DWORD dt, CMario& mario)
 {
 	if (GetTickCount64() - _transformStart > MARIO_TRANSFORM_TIME && isTransform == 1)
 	{
+		mario.vx = 0;
 		
 		isTransform = 0;
 		_transformStart = 0;

@@ -1,24 +1,30 @@
 #pragma once
 #include "GameObject.h"
-
-#define CAM_WIDTH   760
-#define CAM_HEIGHT	600
+#include "Cell.h"
 
 #define NUM_CELL	200
 
-#define CELL_SIZE	480
+#define CELL_SIZE	400
 
 class Grid {
-	LPGAMEOBJECT cells[NUM_CELL][NUM_CELL] ;
+	Cell* cells[NUM_CELL][NUM_CELL] ;
+	unordered_map<int, D3DXVECTOR4> grid_objs;
+
 public:
 	Grid();
-	void Add(LPGAMEOBJECT obj);
+	void Add(LPGAMEOBJECT obj, int id);
+
+	void ReadFile(const char* mapFilePath);
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjs);
 	void Render();
 
 	void Move(LPGAMEOBJECT object);
 
+	void Unload();
+
 	void GetActiveRegion(int& cell_startX, int& cell_startY, int& cell_endX, int& cell_endY);
 	void GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* objs);
+
+	~Grid();
 };

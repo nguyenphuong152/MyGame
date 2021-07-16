@@ -5,8 +5,7 @@
 
 #define MAX_MAP_SIZE	200
 
-#define CAM_WIDTH	764
-#define CAM_HEIGHT	760
+
 
 
 class CMapLayer {

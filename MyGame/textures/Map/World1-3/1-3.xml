@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <config cellwidth="400" cellheight="400" width="19" height="6"/>
+  <data>
+    <group id="37" name="WoodBlock">
+        <object id="529" cellx="7" celly="2" xEnd="7" yEnd="2"/>
+    </group>
+    <group id="13" name="Solid">
+        <object id="296" cellx="6" celly="2" xEnd="6" yEnd="2"/>
+        <object id="297" cellx="9" celly="2" xEnd="9" yEnd="2"/>
+        <object id="298" cellx="8" celly="2" xEnd="8" yEnd="2"/>
+        <object id="299" cellx="7" celly="2" xEnd="7" yEnd="2"/>
+        <object id="300" cellx="5" celly="2" xEnd="5" yEnd="2"/>
+        <object id="530" cellx="7" celly="2" xEnd="7" yEnd="2"/>
+        <object id="1" cellx="0" celly="2" xEnd="9" yEnd="2"/>
+        <object id="5" cellx="9" celly="2" xEnd="10" yEnd="2"/>
+        <object id="13" cellx="11" celly="2" xEnd="18" yEnd="2"/>
+    </group>
+    <group id="14" name="Ghost">
+        <object id="287" cellx="1" celly="2" xEnd="1" yEnd="2"/>
+        <object id="288" cellx="1" celly="1" xEnd="2" yEnd="2"/>
+        <object id="289" cellx="11" celly="1" xEnd="12" yEnd="1"/>
+        <object id="290" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+        <object id="291" cellx="12" celly="1" xEnd="13" yEnd="1"/>
+        <object id="292" cellx="13" celly="1" xEnd="14" yEnd="1"/>
+        <object id="293" cellx="13" celly="2" xEnd="13" yEnd="2"/>
+        <object id="294" cellx="11" celly="2" xEnd="12" yEnd="2"/>
+        <object id="464" cellx="14" celly="1" xEnd="14" yEnd="1"/>
+    </group>
+    <group id="25" name="Boundary">
+        <object id="229" cellx="0" celly="0" xEnd="0" yEnd="3"/>
+        <object id="236" cellx="0" celly="0" xEnd="18" yEnd="0"/>
+        <object id="366" cellx="18" celly="0" xEnd="19" yEnd="3"/>
+        <object id="556" cellx="0" celly="2" xEnd="18" yEnd="2"/>
+    </group>
+    <group id="18" name="QuestionBlocks">
+        <object id="495" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="496" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="494" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="311" cellx="3" celly="2" xEnd="4" yEnd="2"/>
+        <object id="312" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="313" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="322" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="331" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="338" cellx="3" celly="2" xEnd="4" yEnd="2"/>
+        <object id="339" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="340" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="328" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="326" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="335" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="314" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="323" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="361" cellx="4" celly="1" xEnd="4" yEnd="2"/>
+        <object id="341" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="343" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="492" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="334" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="363" cellx="4" celly="1" xEnd="4" yEnd="2"/>
+        <object id="491" cellx="4" celly="1" xEnd="4" yEnd="2"/>
+        <object id="315" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="318" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="324" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="327" cellx="4" celly="2" xEnd="4" yEnd="2"/>
+        <object id="523" cellx="4" celly="1" xEnd="4" yEnd="2"/>
+    </group>
+    <group id="15" name="Coin">
+        <object id="367" cellx="7" celly="1" xEnd="7" yEnd="1"/>
+        <object id="368" cellx="7" celly="1" xEnd="7" yEnd="1"/>
+        <object id="369" cellx="7" celly="1" xEnd="7" yEnd="1"/>
+        <object id="370" cellx="8" celly="1" xEnd="8" yEnd="1"/>
+        <object id="371" cellx="8" celly="1" xEnd="8" yEnd="1"/>
+        <object id="372" cellx="8" celly="1" xEnd="8" yEnd="1"/>
+        <object id="373" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+        <object id="374" cellx="12" celly="1" xEnd="13" yEnd="1"/>
+        <object id="375" cellx="13" celly="1" xEnd="13" yEnd="1"/>
+        <object id="424" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+        <object id="425" cellx="11" celly="1" xEnd="11" yEnd="2"/>
+        <object id="455" cellx="16" celly="5" xEnd="16" yEnd="5"/>
+    </group>
+    <group id="15" name="Enemy">
+        <object id="471" cellx="4" celly="1" xEnd="4" yEnd="1"/>
+        <object id="479" cellx="12" celly="2" xEnd="NaN" yEnd="NaN"/>
+        <object id="487" cellx="2" celly="2" xEnd="2" yEnd="2"/>
+        <object id="524" cellx="6" celly="2" xEnd="NaN" yEnd="NaN"/>
+        <object id="525" cellx="7" celly="2" xEnd="7" yEnd="2"/>
+        <object id="527" cellx="8" celly="2" xEnd="8" yEnd="2"/>
+        <object id="534" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+        <object id="531" cellx="10" celly="2" xEnd="10" yEnd="2"/>
+        <object id="537" cellx="12" celly="2" xEnd="NaN" yEnd="NaN"/>
+        <object id="539" cellx="16" celly="2" xEnd="16" yEnd="2"/>
+    </group>
+    <group id="27" name="Camera">
+        <object id="239" cellx="0" celly="1" xEnd="2" yEnd="2"/>
+    </group>
+    <group id="28" name="ObjectBoundary">
+        <object id="244" cellx="4" celly="1" xEnd="4" yEnd="1"/>
+        <object id="245" cellx="4" celly="1" xEnd="4" yEnd="1"/>
+        <object id="485" cellx="2" celly="2" xEnd="2" yEnd="2"/>
+        <object id="486" cellx="2" celly="2" xEnd="2" yEnd="2"/>
+        <object id="532" cellx="10" celly="2" xEnd="10" yEnd="2"/>
+        <object id="533" cellx="10" celly="2" xEnd="10" yEnd="2"/>
+        <object id="535" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+        <object id="536" cellx="12" celly="1" xEnd="12" yEnd="1"/>
+    </group>
+    <group id="24" name="Card">
+        <object id="286" cellx="17" celly="1" xEnd="18" yEnd="1"/>
+    </group>
+    <group id="36" name="MagicNoteBlock">
+        <object id="489" cellx="3" celly="2" xEnd="4" yEnd="2"/>
+        <object id="490" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="528" cellx="3" celly="1" xEnd="3" yEnd="2"/>
+    </group>
+  </data>
+</grid>

@@ -1,13 +1,13 @@
 #pragma once
 #include "MarioOnGroundStates.h"
 
-#define SIT_JUMP_Y 0.15
+#define SIT_JUMP_Y 0.15f
 #define MARIO_JUMP_TIME 250
 
 class CMarioStateSit : public CMarioOnGroundStates
 {
 private:
-	DWORD _jumpingStart;
+	ULONGLONG _jumpingStart;
 public:
 	static CMarioStateSit* __instance;
 
