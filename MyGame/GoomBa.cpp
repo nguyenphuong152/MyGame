@@ -25,8 +25,6 @@ void CGoomBa::DieWithDeflect(AttackedBy obj)
 	}
 
 	SetState(GOOMBA_STATE_DIE_WITH_DEFLECT);
-	vy = -GOOMBA_DEFLECT_SPEED;
-	ny = -1;
 
 	if(obj!=AttackedBy::KoopaShell)
 	SetAttackedAnimation(obj, Points::NONE);
@@ -49,7 +47,6 @@ void CGoomBa::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CEnemy::Update(dt, coObjects);
 	
 	vy += GOOMBA_GRAVITY * dt;
 
@@ -57,62 +54,19 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isEnable = false;
 	}
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+	CEnemy::Update(dt, coObjects);
 
-	coEvents.clear();
 
-	CalcPotentialCollisions(coObjects, coEvents);
-	
-	if (coEvents.size() == 0)
+	if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
 	{
 		x += dx;
 		y += dy;
 	}
-	else
-	{
-		if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny = 0;
 
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			//day object ra mot khoang de k bi chong va cham
-			x += min_tx * dx + nx * 0.4f;
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
-
-			//collision logic with other objects
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj)||dynamic_cast<CGround*>(e->obj))
-				{
-					if (e->nx != 0)
-					{
-						this->nx = -this->nx;
-						vx = this->nx * GOOMBA_WALKING_SPEED;
-					}
-
-				}
-				else if (dynamic_cast<CBox*>(e->obj))
-				{
-					x += dx;
-				}
-			}
-		}
-		grid_->Move(this);
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
+	HandleCollision(coEventsResult);
+			
+	ClearCoEvents();
+	grid_->Move(this);
 }
 
 void CGoomBa::Render()
@@ -131,6 +85,29 @@ void CGoomBa::Render()
 	//RenderBoundingBox();
 }
 
+void CGoomBa::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	//collision logic with other objects
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj))
+		{
+			if (e->nx != 0)
+			{
+				this->nx = -this->nx;
+				vx = this->nx * GOOMBA_WALKING_SPEED;
+			}
+
+		}
+		else if (dynamic_cast<CBox*>(e->obj))
+		{
+			x += dx;
+		}
+	}
+}
+
 void CGoomBa::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -144,7 +121,9 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
-		vx = 5*GOOMBA_WALKING_SPEED*nx;
+		vx = 3*GOOMBA_WALKING_SPEED*nx;
+		vy = -GOOMBA_DEFLECT_SPEED;
+		ny = -1;
 		break;
 	}
 }

@@ -407,13 +407,13 @@ void CPlayScene::Render()
 
 	player->Render();
 
-	RenderPool();
 
 	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
 		map->RenderForeground();
 	}
 
+	RenderPool();
 	//CGame::GetInstance()->GetMainCamera()->Render();
 
 	HUD::GetInstance()->Render();

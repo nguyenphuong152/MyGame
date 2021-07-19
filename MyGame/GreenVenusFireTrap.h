@@ -7,12 +7,14 @@
 #define GREEN_POSITION_PIPE_Y				1110
 
 #define GREEN_TIME_SHOOTING				800
+#define GREEN_VENUS_MOVING_TIME			2500
 
 #define GREEN_FIREBALL_POSITION_X			5520
 #define GREEN_FIREBALL_POSITION_Y			344
 
 class CGreenVenusFireTrap : public CRedVenusFireTrap
 {
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 public:
 	CGreenVenusFireTrap();
 	virtual void Render();

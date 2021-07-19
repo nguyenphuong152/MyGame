@@ -6,11 +6,11 @@
 
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.1f
-#define KOOPA_GRAVITY			0.0025f
+#define KOOPA_GRAVITY			0.003f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
-#define KOOPA_BBOX_HEIGHT		82
+#define KOOPA_BBOX_HEIGHT		84
 #define KOOPA_BBOX_HEIGHT_DIE	48
 
 #define VALUE_ADJUST_SHELL		28
@@ -39,6 +39,11 @@ protected:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
+	
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	void SetTypeMoving(float bricky,int bbox);
+	void ChangeDirection(float speed);
+	void WalkThrough(float speed);
 public:
 	CKoopas();
 	bool isHolded = false;
@@ -50,7 +55,5 @@ public:
 	void UpdateShellPosition();
 
 	void AttackedByTail();
-	void ChangeDirection(float speed);
-	void WalkThrough(float speed);
 };
 

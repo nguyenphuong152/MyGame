@@ -16,16 +16,38 @@ CBreakableBrick::CBreakableBrick(float x, float y)
 void CBreakableBrick::SetState(int state)
 {
 	CGameObject::SetState(state);
+	if (state == BREAKABLE_BRICK_COIN_STATE)
+	{
+		StartCoinState();
+	}
+	else {
+		player->isJumpOnSwitch = false;
+		ResetCoinState();
+	}
 }
 
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (player->isJumpOnSwitch)
+
+	if (state == BREAKABLE_BRICK_COIN_STATE)
 	{
-		SetState(BREAKABLE_BRICK_COIN_STATE);
+		if (coinState == 1 && GetTickCount64() - coinstate_Start > TIME_IN_COIN_STATE)
+		{
+			SetState(BREAKABLE_BRICK_VISUAL_STATE);
+		}
 	}
+	else
+	{
+		if (player->isJumpOnSwitch)
+		{
+			SetState(BREAKABLE_BRICK_COIN_STATE);
+		}
+	}
+
+	
 }
+
 
 
 void CBreakableBrick::Render()
@@ -61,4 +83,6 @@ void CBreakableBrick::SetAttackedAnimation()
 		effect_3->SetEffect(EffectName::debris, this, 1, -1, Points::NONE);
 		effect_4->SetEffect(EffectName::debris, this, 1, 1, Points::NONE);
 	}
+
+	isEnable = false;
 }

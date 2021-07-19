@@ -6,8 +6,24 @@
 
 CPiranha::CPiranha()
 {
-	SetState(PIRANHA_STATE_ACTIVE);
-	vy = PIRANHA_VELOCITY_Y;
+	SetState(PIRANHA_STATE_GO_UP);
+}
+
+void CPiranha::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	if (state == PIRANHA_STATE_GO_UP)
+	{
+		vy = -PIRANHA_VELOCITY_Y;
+		StartChangeState();
+	}
+	else if (state == PIRANHA_STATE_GO_DOWN)
+	{
+		vy = PIRANHA_VELOCITY_Y;
+		StartChangeState();
+	}
+
 }
 
 void CPiranha::Render()
@@ -28,72 +44,40 @@ void CPiranha::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (GetTickCount64() - changeState_start > ACTIVE_TIME && changeState == 1)
+	{
+		ResetChangeState();
+		SetState(PIRANHA_STATE_GO_DOWN);
+	}
+
 	CEnemy::Update(dt, coObjects);
 
-	if (y < PIPE_POSITION_Y && active == 0) StartActive();
+	HandleCollision(coEventsResult);
+	
+	ClearCoEvents();
+	grid_->Move(this);
+}
 
-	if (GetTickCount64() - active_start > ACTIVE_TIME && active)
+void CPiranha::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
-		ResetActive();
-		vy = PIRANHA_VELOCITY_Y;
-	}
+		LPCOLLISIONEVENT e = coEventsResult[i];
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		float rdx = 0, rdy = 0;
-
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		y += min_ty * dy + ny * 0.4f;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (dynamic_cast<CGround*>(e->obj))
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CGround*>(e->obj))
+			if (e->ny != 0)
 			{
-				if (e->ny < 0 &&y >PIPE_POSITION_Y)
+				if (y > PIRANHA_PIPE_POSITION_Y)
 				{
-					vy = -PIRANHA_VELOCITY_Y;
+					SetState(PIRANHA_STATE_GO_UP);
 				}
-				else
-				{
-					vy = PIRANHA_VELOCITY_Y;
-					y += dy;
+				else {
+					SetState(PIRANHA_STATE_GO_DOWN);
 				}
+				y += dy;
 			}
 		}
 	}
-	grid_->Move(this);
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-
-void CPiranha::StartActive()
-{
-	active_start = GetTickCount64();
-	active = 1;
-	vy = 0;
-}
-
-void CPiranha::ResetActive()
-{
-	active = 0;
-	active_start = 0;
-}

@@ -85,7 +85,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::PRESS_S)
 	{
-		SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
+		SetStateJumping( mario);
 	}
 	else if (input == Input::PRESS_DOWN && mario.vx == 0)
 	{
@@ -143,7 +143,7 @@ void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
 	}
 }
 
-void CMarioOnGroundStates::SetStateJumping(float jumpSpeed, CMario& mario)
+void CMarioOnGroundStates::SetStateJumping(CMario& mario)
 {
 	if (mario.isOnGround)
 	{

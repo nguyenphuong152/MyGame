@@ -39,6 +39,7 @@ class CBrownParaGoomba :public CGoomBa {
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void Render();
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 
 	void CheckGoombaMoving();
 	void ChangeStateWhenOverWalkingTime();

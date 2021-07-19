@@ -43,65 +43,40 @@ void CRedVenusFireTrap::SetState(int state)
 {
 	CGameObject::SetState(state);
 
-	if (state == VENUS_STATE_GO_UP || state == VENUS_STATE_GO_DOWN)
+	if (state == VENUS_STATE_GO_UP)
 	{
-		if (vy <= 0) vy = VENUS_VELOCITY_Y;
-		else vy = -VENUS_VELOCITY_Y;
+	   vy = -VENUS_VELOCITY_Y;
+	   StartChangeState();
+	}
+	else if (state == VENUS_STATE_GO_DOWN)
+	{
+		vy = VENUS_VELOCITY_Y;
+		StartChangeState();
 	}
 
 }
 
 void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CEnemy::Update(dt, coObjects);
-
 	CheckDirectionForRender(POSITION_PIPE_X);
+
 	//go up and start shooting then change state go down when it go over the pipe
 	HandleShooting(POSITION_PIPE_Y, VENUS_BBOX_HEIGHT);
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
+	if (GetTickCount64() - changeState_start > RED_VENUS_MOVING_TIME && changeState == 1)
 	{
-		y += dy;
+		ResetChangeState();
+		SetState(VENUS_STATE_GO_DOWN);
 	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
 
-		float rdx = 0, rdy = 0;
+	CEnemy::Update(dt, coObjects);
 
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		y += min_ty * dy + ny * 0.4f;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CGround*>(e->obj))
-			{
-				if (e->ny < 0)
-				{
-					if(player->y> POSITION_PIPE_Y-45)
-						SetState(VENUS_STATE_GO_DOWN);
-					else SetState(VENUS_STATE_GO_UP);
-				}
-
-			}
-		}
-	}
+	//collision logic with other objects
+	HandleCollision(coEventsResult);
+	
+	ClearCoEvents();
 	grid_->Move(this);
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
+}
 
 
 void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -112,6 +87,30 @@ void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = y + VENUS_BBOX_HEIGHT;
 }
 
+void CRedVenusFireTrap::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<CGround*>(e->obj))
+		{
+			if (e->ny != 0)
+			{
+				if (y > POSITION_PIPE_Y)
+				{
+					SetState(VENUS_STATE_GO_UP);
+				}
+				else {
+					SetState(VENUS_STATE_GO_DOWN);
+				}
+				y += dy;
+			}
+		}
+	}
+
+}
+
 void CRedVenusFireTrap::CheckDirection()
 {
 	float mario_y = player->y;
@@ -120,7 +119,7 @@ void CRedVenusFireTrap::CheckDirection()
 		mario_y += MARIO_BIG_BBOX_HEIGHT-MARIO_SMALL_BBOX_HEIGHT;
 	}
 
-	if (mario_y> POSITION_PIPE_Y-50)
+	if (mario_y> POSITION_PIPE_Y-100)
 	{
 		state = VENUS_STATE_SHOOT_DOWN;
 	}
@@ -160,21 +159,12 @@ void CRedVenusFireTrap::HandleShooting(int position_pipe, int bbox_height)
 		}
 	}
 	else {
-		DWORD now = GetTickCount();
-		if (now - startShooting > TIME_SHOOTING)
+		if (GetTickCount64() - startShooting > TIME_SHOOTING)
 		{
 			isShootingUp = false;
 			isShooting = false;
 
-			startShooting = -1;
-			if (player->y > position_pipe - 45)
-			{
-				SetState(VENUS_STATE_GO_DOWN);
-			}
-			else
-			{
-				SetState(VENUS_STATE_GO_UP);
-			}
+			startShooting = -1;	
 		}
 	}
 }

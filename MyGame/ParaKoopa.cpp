@@ -2,6 +2,8 @@
 #include "Ground.h"
 #include "Box.h"
 #include "Utils.h"
+#include "Grid.h"
+#include "Boundary.h"
 
 CParaKoopa::CParaKoopa()
 {
@@ -26,48 +28,11 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (isOnGround) SetState(PARA_KOOPA_STATE_JUMPING);
 
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
+		//collision logic with other objects
+		HandleCollision(coEventsResult);
 
-		coEvents.clear();
-
-		CalcPotentialCollisions(coObjects, coEvents);
-
-		if (coEvents.size() == 0)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny = 0;
-
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			//day object ra mot khoang de k bi chong va cham
-			x += min_tx * dx + nx * 0.4f;
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
-
-			//collision logic with other objects
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
-				{
-					if (e->ny < 0)
-					{
-						isOnGround = true;
-					}
-				}
-			}
-		}
-
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		ClearCoEvents();
+		grid_->Move(this);
 	}
 	else
 	{
@@ -88,6 +53,26 @@ void CParaKoopa::Render()
 		CKoopas::Render();
 	}
 	//RenderBoundingBox();
+}
+
+void CParaKoopa::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
+		{
+			if (e->ny < 0)
+			{
+				isOnGround = true;
+			}
+		}
+		else if (dynamic_cast<CBoundary*>(e->obj))
+		{
+			isEnable = false;
+		}
+	}
 }
 
 void CParaKoopa::SetState(int state)

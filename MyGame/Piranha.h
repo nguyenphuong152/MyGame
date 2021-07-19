@@ -1,7 +1,8 @@
 #pragma once
 #include "RedVenusFireTrap.h"
 
-#define PIRANHA_STATE_ACTIVE 100
+#define PIRANHA_STATE_GO_UP 100
+#define PIRANHA_STATE_GO_DOWN 200
 
 #define PIRANHA_BBOX_WIDTH	50
 #define PIRANHA_BBOX_HEIGHT	75
@@ -10,19 +11,17 @@
 
 #define PIRANHA_ANI_ACTIVE	0
 
-#define PIPE_POSITION_Y		1087
+#define PIRANHA_PIPE_POSITION_Y		1155
 
-#define ACTIVE_TIME			300
+#define ACTIVE_TIME			1800
 
 class CPiranha : public CRedVenusFireTrap
 {
-	int active;
-	DWORD active_start;
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 public:
 	CPiranha();
+	virtual void SetState(int state);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
-	void StartActive();
-	void ResetActive();
 };

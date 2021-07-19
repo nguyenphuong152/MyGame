@@ -24,55 +24,29 @@ void CGreenVenusFireTrap::SetState(int state)
 
 void CGreenVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
 	CRedVenusFireTrap::CheckDirectionForRender(GREEN_POSITION_PIPE_X);
 
-	//go up and start shooting then change state go down when it go over the pipe
 	CRedVenusFireTrap::HandleShooting(GREEN_POSITION_PIPE_Y, GREEN_VENUS_BBOX_HEIGHT);
+
+	if (GetTickCount64() - changeState_start > GREEN_VENUS_MOVING_TIME && changeState == 1)
+	{
+		ResetChangeState();
+		SetState(VENUS_STATE_GO_DOWN);
+	}
 	
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+	HandleShooting(POSITION_PIPE_Y, VENUS_BBOX_HEIGHT);
+	
+	CEnemy::Update(dt, coObjects);
+	
+	HandleCollision(coEventsResult);
 
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		float rdx = 0, rdy = 0;
+	ClearCoEvents();
+}
 
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		y += min_ty * dy + ny * 0.4f;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CGround*>(e->obj))
-			{
-				if (e->ny < 0)
-				{
-					if (player->y > GREEN_POSITION_PIPE_Y - 45)
-						SetState(VENUS_STATE_GO_DOWN);
-					else SetState(VENUS_STATE_GO_UP);
-				}
-
-			}
-		}
-	}
-
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+void CGreenVenusFireTrap::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	CRedVenusFireTrap::HandleCollision(coEventRe);
 }
 
 

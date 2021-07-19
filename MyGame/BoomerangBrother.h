@@ -36,17 +36,19 @@ class CBoomerangBrother : public CEnemy
 	void ResetWalking() { isOnGround = false; _startWalking = 0; }
 	void StartThrowing() { _startThrowing = GetTickCount64(); disableThrowing = true; }
 	void ResetThrowing() { disableThrowing = false; _startThrowing = 0; countingTime = 0; }
+	
+	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render();
+
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 public:
 	bool isHitted;
 	int direction;
 
 	CBoomerangBrother();
-	virtual void SetState(int state);
-	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render();
-
 	void BoomerangBrotherJump();
 	void BoomerangBrotherThrowBoomerang();
 	void CheckDirection();
+	virtual void SetState(int state);
 };

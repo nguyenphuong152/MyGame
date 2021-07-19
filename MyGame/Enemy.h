@@ -17,17 +17,23 @@ protected:
 
 	CMario* player;
 
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+
 public:
 	CEnemy();
 	~CEnemy();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
-	virtual void SetState(int state);
-
 	void SetLevel(int level) { this->level = level; };
-	int GetLevel() { return this->level; };
+	int GetLevel() { return this->level; };	
 
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
-	void SetAttackedAnimation(AttackedBy obj,Points point);
-	
+	void SetAttackedAnimation(AttackedBy obj, Points point);
+
+	void ClearCoEvents();
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe) = 0;
+
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
+	virtual void SetState(int state);
 };

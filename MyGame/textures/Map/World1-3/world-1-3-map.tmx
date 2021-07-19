@@ -428,22 +428,22 @@
   <object id="339" name="none" type="101" x="1536" y="816.45" width="48" height="48"/>
   <object id="340" name="none" type="101" x="1488" y="816.447" width="48" height="48"/>
   <object id="328" name="none" type="101" x="1632" y="864.18" width="48" height="48"/>
-  <object id="326" name="none" type="101" x="1680.67" y="912.667" width="48" height="48"/>
-  <object id="335" name="none" type="101" x="1680.67" y="864.18" width="48" height="48"/>
+  <object id="326" name="none" type="101" x="1680" y="912.667" width="48" height="48"/>
+  <object id="335" name="none" type="101" x="1680" y="864.18" width="48" height="48"/>
   <object id="314" name="none" type="101" x="1776" y="960.667" width="48" height="48"/>
   <object id="323" name="none" type="101" x="1776" y="912.667" width="48" height="48"/>
-  <object id="361" name="none" type="101" x="1728.33" y="768.25" width="48" height="48"/>
+  <object id="361" name="none" type="101" x="1728" y="768.25" width="48" height="48"/>
   <object id="341" name="none" type="101" x="1776" y="816.45" width="48" height="48"/>
-  <object id="343" name="none" type="101" x="1728.33" y="816.45" width="48" height="48"/>
-  <object id="492" name="powerup" type="200" x="1728.5" y="912.67" width="48" height="48"/>
+  <object id="343" name="none" type="101" x="1728" y="816.45" width="48" height="48"/>
+  <object id="492" name="powerup" type="200" x="1728" y="912.67" width="48" height="48"/>
   <object id="334" name="none" type="101" x="1872" y="816.45" width="48" height="48"/>
   <object id="363" name="none" type="101" x="1872" y="768.25" width="48" height="48"/>
-  <object id="491" name="none" type="101" x="1824.33" y="768.25" width="48" height="48"/>
+  <object id="491" name="none" type="101" x="1824" y="768.25" width="48" height="48"/>
   <object id="315" name="none" type="101" x="1824" y="960.667" width="48" height="48"/>
   <object id="318" name="none" type="101" x="1872" y="960.667" width="48" height="48"/>
   <object id="324" name="none" type="101" x="1824" y="912.667" width="48" height="48"/>
   <object id="327" name="none" type="101" x="1872" y="912.667" width="48" height="48"/>
-  <object id="523" name="tentimescoin" type="100" x="1776.67" y="768.25" width="48" height="48"/>
+  <object id="523" name="tentimescoin" type="100" x="1776" y="768.25" width="48" height="48"/>
  </objectgroup>
  <objectgroup id="15" name="Coin">
   <object id="367" x="2976" y="720" width="48" height="48"/>
@@ -508,7 +508,7 @@
   <object id="286" type="55" x="7175.52" y="743.273" width="50" height="50"/>
  </objectgroup>
  <objectgroup id="36" name="MagicNoteBlock">
-  <object id="489" type="1" x="1584.18" y="863.833" width="48" height="49.3333"/>
+  <object id="489" type="1" x="1584" y="863.833" width="48" height="49.3333"/>
   <object id="490" type="0" x="1389.33" y="864.667" width="48" height="49.3333"/>
   <object id="528" type="0" x="1487.5" y="769.333" width="48" height="49.3333"/>
  </objectgroup>

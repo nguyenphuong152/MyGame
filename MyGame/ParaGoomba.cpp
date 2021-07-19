@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "Ground.h"
 #include "PowerUp.h"
+#include "Grid.h"
 
 CParaGoomba::CParaGoomba()
 {
@@ -57,57 +58,10 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				jumpingTimes += 1;
 			}
 		}
-
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(coObjects, coEvents);
-
-		if (coEvents.size() == 0)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny = 0;
-
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			//day object ra mot khoang de k bi chong va cham
-			x += min_tx * dx + nx * 0.4f;
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
-
 			//collision logic with other objects
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj)|| dynamic_cast<CGround*>(e->obj))
-				{
-					if (e->nx != 0)
-					{
-						this->nx = -this->nx;
-						vx = this->nx * GOOMBA_WALKING_SPEED;
-					}
-					else if (dynamic_cast<CGround*>(e->obj))
-					{
-						if (e->ny < 0)
-						{
-							isOnGround = true;
-						}
-					}
-				}
-			}
-		}
-
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		HandleCollision(coEventsResult);
+		ClearCoEvents();
+		grid_->Move(this);
 	}
 	else {
 		CGoomBa::Update(dt, coObjects);
@@ -136,6 +90,30 @@ void CParaGoomba::Render()
 	
 	animation_set->at(ani)->Render(nx,ny, x, y);
 	//RenderBoundingBox();
+}
+
+void CParaGoomba::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CPowerUp*>(e->obj) || dynamic_cast<CGround*>(e->obj))
+		{
+			if (e->nx != 0)
+			{
+				this->nx = -this->nx;
+				vx = this->nx * GOOMBA_WALKING_SPEED;
+			}
+			else if (dynamic_cast<CGround*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					isOnGround = true;
+				}
+			}
+		}
+	}
 }
 
 void CParaGoomba::SetState(int state)

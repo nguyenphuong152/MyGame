@@ -65,7 +65,7 @@ void CBrick::DisableBrick()
 void CBrick::Render()
 {
 	int ani = -1;
-	if (state == BRICK_STATE_UNTOUCH || type == BrickType::twinkle_brick_no_item || type == BrickType::twinkle_brick_coin&&coinCounts<NUMBER_OF_COINS-1)
+	if (state == BRICK_STATE_UNTOUCH || type == BrickType::twinkle_brick_no_item || type == BrickType::twinkle_brick_coin&&coinCounts<NUMBER_OF_COINS)
 	{
 		ani = BRICK_ANI_UNTOUCH;
 	}
@@ -152,4 +152,6 @@ void CBrick::SetAttackedAnimation()
 		effect_3->SetEffect(EffectName::debris, this, 1, -1, Points::NONE);
 		effect_4->SetEffect(EffectName::debris, this, 1, 1, Points::NONE);
 	}
+
+	isEnable = false;
 }

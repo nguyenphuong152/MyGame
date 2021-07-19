@@ -18,5 +18,5 @@ public:
 
 	void SetStateWalking(int direction, CMario& mario);
 	void SetStateRunning(int direction, CMario& mario);
-	void SetStateJumping(float jumpSpeed, CMario& mario);
+	void SetStateJumping(CMario& mario);
 };

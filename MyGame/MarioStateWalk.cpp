@@ -36,7 +36,7 @@ void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 	if (input == Input::PRESS_S)
 	{
 
-		CMarioOnGroundStates::SetStateJumping(MARIO_JUMP_SPEED_Y, mario);
+		CMarioOnGroundStates::SetStateJumping(mario);
 	}
 	else {
 		CMarioOnGroundStates::HandleInput(mario, input);
@@ -52,6 +52,7 @@ void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 	}
 	else if (mario.vy > MARIO_AVERAGE_VY_ON_GROUND)
 	{
+		mario.isOnGround = false;
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }

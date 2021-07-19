@@ -44,5 +44,12 @@ void CMarioOnAirStates::HandleInput(CMario& mario, Input input)
 	}
 }
 
+void CMarioOnAirStates::SetStateJumping( CMario& mario)
+{
+	mario.canJumpHigh = true;
+	mario.ChangeState(CMarioState::jump.GetInstance());
+	CMarioState::jump.GetInstance()->StartJumping();
+}
+
 
 

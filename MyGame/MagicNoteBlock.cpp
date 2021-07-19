@@ -1,6 +1,8 @@
 #include "MagicNoteBlock.h"
 #include "Game.h"
 #include "Utils.h"
+#include "MarioStateDrop.h"
+#include "MarioStateJump.h"
 
 CMagicNoteBlock::CMagicNoteBlock(float x, float y, MagicNoteBlockType type)
 {
@@ -38,17 +40,25 @@ void CMagicNoteBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	if (state == MAGIC_NOTE_BLOCK_STATE_JUMPING) {
+		CMario* p = CGame::GetInstance()->GetPlayer();
 		if (y > start_y&& dir ==JUMP_ON)
 		{
-			//DebugOut(L"%f ----- %f \n", y, start_y);
-			vy -= MAGIC_NOTE_RETURN_SPEED;
+			
+			p->isOnMagicBlock = true;
+			vy += -MAGIC_NOTE_RETURN_SPEED;
 		}
 		else if (y < start_y&& dir==JUMP_UNDER)
 		{
 			vy += MAGIC_NOTE_RETURN_SPEED;
 		}
 		else {
+			if (dir == JUMP_ON)
+			{
+				p->isOnMagicBlock = false;
+				p->vy = -PLAYER_DEFLECT;
+			}
 			y = start_y;
+			vy = 0;
 			SetState(MAGIC_NOTE_BLOCK_STATE_NORMAL, NORMAL);
 		}
 	}
