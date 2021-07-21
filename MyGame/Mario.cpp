@@ -22,6 +22,7 @@
 #include "Pipe.h"
 #include "Koopas.h"
 #include "MarioStateKick.h"
+#include "MarioStateSit.h"
 #include "Boundary.h"
 #include "Camera.h"
 #include "FireBallPool.h"
@@ -71,7 +72,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += MARIO_GRAVITY * dt;
 	}
 
-	//DebugOut(L"mario vx %f \n", vx);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -88,12 +88,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ResetUntouchable();
 	}
 
-
 	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME)
 	{
 		Recover();
 	}
 
+	//handle when mario jump out of cam
 	CheckMarioOutOfCamera();
 
 	////tru  power khi o trang thai k fly, hoac fly còn dư;
@@ -107,7 +107,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		//DebugOut(L"vco event size %d \n", coEvents.size());
 		float min_tx, min_ty, nx = 0, ny;
 
 		float rdx = 0, rdy = 0;
@@ -277,7 +276,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->ny < 0)
 				{
-					Die();
+					CCamera* cam = CGame::GetInstance()->GetMainCamera();
+					if(y< cam->y+(CAM_HEIGHT/2)) y += dy;
+					else Die();
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -311,8 +312,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CObjectBoundary*>(e->obj)) //when reach boundary for koopa
 			{
-				if (e->nx != 0)x += dx;
-				if (e->ny != 0)y += dy;
+			if (e->nx != 0)x += dx;
+			if (e->ny != 0)y += dy;
+				
 			}
 			else if (dynamic_cast<CSwitch*>(e->obj)) //when reach boundary for koopa
 			{
@@ -368,10 +370,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CPipe*>(e->obj)) {
 				CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
-				if (marioState == CMarioState::go_to_pipe.GetInstance() && CMarioState::go_to_pipe.GetInstance()->isChangeState == 0)
-				{
-					y += dy;
-				}
 				if (e->ny < 0)
 				{
 					isOnGround = true;
@@ -387,6 +385,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = true;
 						this->nx = 1;
+					}
+					else if (pipe->GetType() == PipeType::exit)
+					{
+						isOnGround = false;
+						ChangeState(CMarioState::drop.GetInstance());
+						y += dy;
 					}
 				}
 				else if (e->ny > 0)
@@ -436,9 +440,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING, JUMP_ON);
 					}
 
-					if ((magicBlock->GetType() == MagicNoteBlockType::invisible && magicBlock->invisible == true))
+					if (magicBlock->GetType() == MagicNoteBlockType::invisible)
 					{
-						isOnGround = true;
+						if (magicBlock->invisible == false)
+						{
+							isOnRedMagicBlock = true;
+						}
+						else {
+							y += dy;
+						}
 					}
 				}
 				else if (e->ny > 0)
@@ -528,7 +538,7 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 
 	/*if (level == MARIO_LEVEL_RACOON)
@@ -547,6 +557,14 @@ void  CMario::SetState(int state)
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		vx = 0;
 		StartDie();
+	}
+	else if (state == MARIO_WALKING_ON_HIDDEN_SCENE_3)
+	{
+		AutoWalk();
+		nx = 1;
+		vy = 0;
+		isOnRedMagicBlock = false;
+		isOnGround = true;
 	}
 }
 
@@ -575,18 +593,16 @@ void CMario::HandleInput(Input input)
 
 void CMario::LevelMarioDown(CGameObject* object, int enemy_condition)
 {
-	if (object->GetState() != enemy_condition||dynamic_cast<CBrownParaGoomba*>(object)
-		||dynamic_cast<CRedVenusFireTrap*>(object)||dynamic_cast<CFireball*>(object)
+	if (object->GetState() != enemy_condition || dynamic_cast<CBrownParaGoomba*>(object)
+		|| dynamic_cast<CRedVenusFireTrap*>(object) || dynamic_cast<CFireball*>(object)
 		)
 	{
 		StartUntouchable();
-		if (level <MARIO_LEVEL_SMALL)
+		if (level == MARIO_LEVEL_SMALL)
 		{
 			Die();
 		}
-		else {
-			level--;
-		}
+		level--;
 	}
 }
 
@@ -678,6 +694,7 @@ void CMario::Recover()
 {
 	ResetDie();
 	SetState(MARIO_STATE_ALIVE);
+	SetLevel(MARIO_LEVEL_SMALL);
 
 	isStuckWithMiniGoomba = false;
 
@@ -704,8 +721,16 @@ void CMario::CheckMarioOutOfCamera()
 	CGame::GetInstance()->GetMainCamera()->GetPosition(cx, cy);
 	if (y < cy)
 	{
-		marioState = CMarioState::drop.GetInstance();
-		y += dy;
+		if (isOnRedMagicBlock == false)
+		{
+			marioState = CMarioState::drop.GetInstance();
+			y += dy;
+		}
+		else {
+			SetPosition(MARIO_POSITION_HIDDEN_SCENE_3_X, MARIO_POSITION_HIDDEN_SCENE_3_Y);
+			CGame::GetInstance()->GetMainCamera()->AdjustPositionToHiddenScene();
+			SetState(MARIO_WALKING_ON_HIDDEN_SCENE_3);
+		}
 	}
 }
 
@@ -721,6 +746,45 @@ void CMario::RenderRaccoonMarioBoundingBox()
 	}
 	else {
 		CGame::GetInstance()->Draw(0, 0, x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	}
+}
+
+void CMario::MovingMarioWithCamera()
+{
+	CCamera* cam = CGame::GetInstance()->GetMainCamera();
+	if (x < cam->x)
+	{
+		isAutoWalk = true;
+		x = cam->x;
+	}
+	else if (x > (cam->x  +MARIO_BIG_BBOX_WIDTH))
+	{
+		isAutoWalk = false;
+	}
+	else if (x > (cam->x + CAM_WIDTH -100))
+	{
+		x = cam->x + CAM_WIDTH;
+	}
+
+	if (isAutoWalk) AutoWalk();
+}
+
+void CMario::AutoWalk()
+{
+	ChangeState(CMarioState::walk.GetInstance());
+	vx = MARIO_WALKING_SPEED;
+}
+
+void CMario::GoBackToNormalScene()
+{
+	if (CGame::GetInstance()->current_scene == WORLD1_1_MAP)
+	{
+		SetPosition(POSITION_PLAYER_OUT_PIPE_X_1, POSITION_PLAYER_OUT_PIPE_Y_1);
+	}
+	else if(CGame::GetInstance()->current_scene == WORLD1_3_MAP)
+	{
+		SetState(MARIO_STATE_ALIVE);
+		SetPosition(POSITION_PLAYER_OUT_PIPE_X_3, POSITION_PLAYER_OUT_PIPE_Y_3);
 	}
 }
 

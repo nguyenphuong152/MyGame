@@ -15,6 +15,7 @@
 #include "BreakableBrick.h"
 #include "MagicNoteBlock.h"
 #include "Grid.h"
+#include "Coin.h"
 
 
 CKoopas::CKoopas()
@@ -110,11 +111,12 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (GetState() == KOOPA_STATE_WALKING)
 				{
-					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT);
+					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT,KOOPA_WALKING_SPEED);
 				}
 				else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
 				{
-					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT_DIE);
+					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT_DIE, KOOPA_SHELL_VELOCITY_X);
+					
 					if (brick->GetState() == BRICK_STATE_UNTOUCH && brick->GetType() == BrickType::question_brick)
 					{
 						brick->SetState(BRICK_STATE_TOUCHED);
@@ -190,6 +192,15 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 				isOnGround = true;
 			}
 		}
+		else if (dynamic_cast<CCoin*>(e->obj))
+		{
+			if (e->nx != 0 || e->ny != 0)
+			{
+				if (state == KOOPA_STATE_WALKING)
+					WalkThrough(KOOPA_WALKING_SPEED);
+				else WalkThrough(KOOPA_SHELL_VELOCITY_X);
+			}
+		}
 		if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY && e->nx != 0)
 		{
 			WalkThrough(KOOPA_SHELL_VELOCITY_X);
@@ -210,14 +221,14 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 	}
 }
 
-void CKoopas::SetTypeMoving(float bricky, int bbox)
+void CKoopas::SetTypeMoving(float bricky, int bbox,float speed)
 {
-	if (bricky > (y + bbox))
+	if (bricky > (y + bbox-2) )
 	{
-		WalkThrough(KOOPA_WALKING_SPEED);
+		WalkThrough(speed);
 	}
 	else {
-		ChangeDirection(KOOPA_WALKING_SPEED);
+		ChangeDirection(speed);
 	}
 }
 
@@ -230,6 +241,7 @@ void CKoopas::SetState(int state)
 	{
 	case KOOPA_STATE_DIE:
 		vx = 0;
+		y -= 3;
 		break;
 	case KOOPA_STATE_WALKING:
 		if (recover && _recoverStart != 0) {

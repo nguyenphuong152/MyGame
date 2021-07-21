@@ -57,6 +57,8 @@ void CMarioStateDrop::Update(DWORD dt, CMario& mario)
 {
 	if (mario.isOnGround)
 	{
+		mario.isOnRedMagicBlock = false;
+		mario.canGoIntoPipe = false;
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}
 }

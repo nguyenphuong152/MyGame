@@ -37,7 +37,7 @@ void CMap::CreateTileSet()
 			int b = t + TILE_WIDTH;
 
 			CSprites::GetInstance()->Add(tileId, l, t, r, b, tex);
-			//DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", idd, l, t, r, b);
+			//DebugOut(L"[INFO] map added: %d, %d, %d, %d, %d \n", tileId, l, t, r, b);
 			tileId++;
 		}
 	}

@@ -1,8 +1,11 @@
 #pragma once
 #include "MarioOnGroundStates.h"
 
-#define POSITION_PLAYER_OUT_PIPE_X 6910
-#define POSITION_PLAYER_OUT_PIPE_Y 1180
+#define POSITION_PLAYER_OUT_PIPE_X_1 6910
+#define POSITION_PLAYER_OUT_PIPE_Y_1 1180
+
+#define POSITION_PLAYER_OUT_PIPE_X_3 6246
+#define POSITION_PLAYER_OUT_PIPE_Y_3 80
 
 #define POSITION_OUT_PIPE	1150
 
@@ -15,6 +18,17 @@ class CMarioStateGetIntoPipe : public CMarioOnGroundStates
 {
 private:
 	ULONGLONG _changeStateStart =  0;
+
+
+	int isInPipe = 0;
+	ULONGLONG inPipeStart;
+
+	
+	void ResetInPipe() { isInPipe = inPipeStart = 0; };
+
+	void HandleSecretScreen1_1(CMario &mario);
+	void HandleSecretScreen1_3(CMario& mario);
+
 public:
 	int isChangeState = 0;
 
@@ -38,4 +52,6 @@ public:
 	void SetPostionOut(float x, float y) { position_out_x = x; position_out_y = y; }
 	void SetPositionChangeCam(float x, float y) { position_toggle_cam_x = x; position_toggle_cam_y = y; };
 	void Reset();
+
+	void StartInPipe() { isInPipe = 1; inPipeStart = GetTickCount64(); };
 };

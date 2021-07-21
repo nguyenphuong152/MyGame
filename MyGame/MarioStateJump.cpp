@@ -67,17 +67,8 @@ void CMarioStateJump::Update(DWORD dt, CMario& mario)
 		{
 			mario.canJumpHigh = false;
 		}
-		else if(mario.isOnMagicBlock){
-			if (jumpOnMagicNote)
-			{
-				DebugOut(L"vo on magic \n");
-				mario.vy = -MARIO_JUMP_SPEED_Y / 5;
-			}
-			else {
-				
-				mario.vy = -MARIO_JUMP_SPEED_Y / 2;
-			}
-			
+		else if(mario.isOnRedMagicBlock){
+			mario.vy = -2.0f;
 		}
 		else if (mario.isStuckWithMiniGoomba)
 		{
@@ -89,11 +80,6 @@ void CMarioStateJump::Update(DWORD dt, CMario& mario)
 	}
 	else if( mario.vy>0 )
 	{
-		/* if (mario.isOnMagicBlock)
-		 {
-			 mario.isOnMagicBlock = false;
-			 jumpOnMagicNote = false;
-		 }*/
 		mario.ChangeState(CMarioState::drop.GetInstance());
 	}
 }

@@ -84,6 +84,7 @@ void CMagicNoteBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
+	if (invisible == true) r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH - 3;
 	b = y + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
 }
 

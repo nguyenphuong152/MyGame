@@ -23,6 +23,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::KEYSTATE)
 	{
+		mario.isAutoWalk = false;
 		if (game->IsKeyDown(DIK_LEFT)) {
 			if (mario.vx > 0)
 			{
@@ -73,7 +74,8 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 				if (mario.canGoIntoPipe)
 				{
 					mario.ChangeState(CMarioState::go_to_pipe.GetInstance());
-					CMarioState::go_to_pipe.GetInstance()->inPipe = 1;
+					CMarioState::go_to_pipe.GetInstance()->StartInPipe();
+					mario.SetPosition(mario.x, mario.y + 5);
 				}
 				else {
 					mario.ChangeState(CMarioState::sit.GetInstance());

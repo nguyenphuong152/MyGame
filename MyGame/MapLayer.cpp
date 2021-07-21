@@ -53,6 +53,7 @@ void CMapLayer::RenderLayer()
            for (int j = cell_startX; j < cell_endX + 1; j++)
            {
                if (tileset[i][j] != 0) {
+                   //DebugOut(L"tile %d \n", tileset[i][j]);
                    CSprites::GetInstance()->Get(tileset[i][j])->Draw(-1, 1, j * TILE_WIDTH, i * TILE_WIDTH);
                }
            }

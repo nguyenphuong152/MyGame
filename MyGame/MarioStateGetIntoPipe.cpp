@@ -7,23 +7,9 @@
 
 CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::__instance = NULL;
 
-CMarioStateGetIntoPipe::CMarioStateGetIntoPipe() {
-	DebugOut(L"[STATE] create go to pipe \n");
-}
 
-void CMarioStateGetIntoPipe::Enter(CMario& mario)
-{
-	mario.vx = 0;
-	if (isTouchHiddenPipe) mario.SetAnimation(MARIO_ANI_DROP_FROP_PIPE);
-	else mario.SetAnimation(MARIO_ANI_GET_INTO_PIPE);
-}
 
-void CMarioStateGetIntoPipe::HandleInput(CMario& mario, Input input)
-{
-
-}
-
-void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
+void CMarioStateGetIntoPipe::HandleSecretScreen1_1(CMario& mario)
 {
 	if (GetTickCount64() - _changeStateStart > CHANGE_STATE_TIME && isChangeState == 1)
 	{
@@ -47,7 +33,7 @@ void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 			{
 				inPipe = 0;
 				CCamera::GetInstance()->GoBackToNormal();
-				mario.SetPosition(POSITION_PLAYER_OUT_PIPE_X, POSITION_PLAYER_OUT_PIPE_Y);
+				mario.GoBackToNormalScene();
 			}
 		}
 		else {
@@ -55,13 +41,48 @@ void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 			{
 				inPipe = 0;
 				CCamera::GetInstance()->AdjustPositionToHiddenScene();
-				
+
 				mario.SetPosition(HIDDEN_SCENE_X + 420, HIDDEN_SCENE_Y + 5);
 			}
 			mario.vy = MARIO_IN_PIPE_VELOCITY_Y;
 		}
 	}
 	if (isTouchHiddenPipe) mario.vy = MARIO_IN_PIPE_VELOCITY_Y * 4;
+}
+
+void CMarioStateGetIntoPipe::HandleSecretScreen1_3(CMario& mario)
+{
+	mario.vy = MARIO_IN_PIPE_VELOCITY_Y;
+	if (isInPipe == 1 && GetTickCount64() - inPipeStart > 500)
+	{
+		ResetInPipe();
+		mario.GoBackToNormalScene();
+		CCamera::GetInstance()->GoBackToNormal();
+	}
+}
+
+CMarioStateGetIntoPipe::CMarioStateGetIntoPipe() {
+	DebugOut(L"[STATE] create go to pipe \n");
+}
+
+void CMarioStateGetIntoPipe::Enter(CMario& mario)
+{
+	if (isTouchHiddenPipe) mario.SetAnimation(MARIO_ANI_DROP_FROP_PIPE);
+	else mario.SetAnimation(MARIO_ANI_GET_INTO_PIPE);
+}
+
+void CMarioStateGetIntoPipe::HandleInput(CMario& mario, Input input)
+{
+
+}
+
+void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
+{
+	mario.vx = 0;
+	if (CGame::GetInstance()->current_scene == WORLD1_1_MAP)
+		HandleSecretScreen1_1(mario);
+	else if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
+		HandleSecretScreen1_3(mario);
 }
 
 CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::GetInstance()
@@ -75,3 +96,4 @@ void CMarioStateGetIntoPipe::Reset()
 	isUp = isTouchHiddenPipe = false;
 	position_out_x = position_out_y = inPipe = 0;
 }
+

@@ -11,7 +11,7 @@
 
 #define EFFECT_ANIMATED_TIME			300
 #define DEBRIS_VELOCITY_X		0.1f
-#define DEBRIS_VELOCITY_Y		0.5f
+#define DEBRIS_VELOCITY_Y		0.7f
 
 enum class EffectName {
 	attack_by_tail,

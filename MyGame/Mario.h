@@ -22,6 +22,7 @@ class CMarioState;
 
 #define MARIO_STATE_DIE			300
 #define MARIO_STATE_ALIVE		400
+#define MARIO_WALKING_ON_HIDDEN_SCENE_3	500
 
 //thu tu theo ani add trong file txt
 #define MARIO_ANI_SMALL_IDLE		0 
@@ -125,6 +126,9 @@ class CMarioState;
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
 
+#define MARIO_POSITION_HIDDEN_SCENE_3_X 4528
+#define MARIO_POSITION_HIDDEN_SCENE_3_Y 2150
+
 class CMario : public CGameObject
 {
 
@@ -160,6 +164,8 @@ public:
 	bool canChangeMap = false;
 	bool isHoldKoopa = false;
 	bool isOnMagicBlock = false;
+	bool isOnRedMagicBlock = false;
+	bool isAutoWalk = false;
 
 
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -220,6 +226,10 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderRaccoonMarioBoundingBox();
 
+	void MovingMarioWithCamera();
+	void AutoWalk();
+
+	void GoBackToNormalScene();
 	//static  CMario* GetInstance();
 };
 

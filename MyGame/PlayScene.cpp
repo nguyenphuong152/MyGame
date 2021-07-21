@@ -376,17 +376,6 @@ void CPlayScene::RenderPool()
 	CMiniGoombaPool::GetInstance()->Render();
 }
 
-//void CPlayScene::AddObjectToGrid()
-//{
-//	grid = new Grid();
-//	for (size_t i = 1; i < objects.size(); i++)
-//	{
-//		if (dynamic_cast<CCamera*>(objects[i]) == false||dynamic_cast<CMarioTail*>(objects[i])== false) {
-//			objects[i]->AddObjectToGrid(grid);
-//		}
-//	}
-//}
-
 
 void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
 {
