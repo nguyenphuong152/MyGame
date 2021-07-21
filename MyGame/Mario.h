@@ -144,6 +144,8 @@ class CMario : public CGameObject
 
 	int live;
 	int level;
+
+	Input input;
 public:
 	//static CMario* __instance;
 	CMarioState* marioState;
@@ -163,7 +165,6 @@ public:
 	bool canGoIntoPipe = false;
 	bool canChangeMap = false;
 	bool isHoldKoopa = false;
-	bool isOnMagicBlock = false;
 	bool isOnRedMagicBlock = false;
 	bool isAutoWalk = false;
 
@@ -217,6 +218,9 @@ public:
 	void SwitchOverworld();
 	void Recover();
 
+	void SetInput(Input i) { this->input = i; };
+	Input GetInput() { return this->input; };
+ 
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 

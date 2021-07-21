@@ -40,21 +40,24 @@ void CMagicNoteBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	if (state == MAGIC_NOTE_BLOCK_STATE_JUMPING) {
+
 		CMario* p = CGame::GetInstance()->GetPlayer();
-		if (y > start_y&& dir ==JUMP_ON)
+
+		if (y > start_y && dir ==JUMP_ON)
 		{
-			
-			p->isOnMagicBlock = true;
+			if (p->GetInput() == Input::PRESS_S)
+			{
+				CMarioState::drop.GetInstance()->SetStateJumping(*p);
+			}
 			vy += -MAGIC_NOTE_RETURN_SPEED;
 		}
-		else if (y < start_y&& dir==JUMP_UNDER)
+		else if (y < start_y && dir==JUMP_UNDER)
 		{
 			vy += MAGIC_NOTE_RETURN_SPEED;
 		}
 		else {
 			if (dir == JUMP_ON)
 			{
-				p->isOnMagicBlock = false;
 				p->vy = -PLAYER_DEFLECT;
 			}
 			y = start_y;

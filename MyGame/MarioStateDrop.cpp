@@ -40,16 +40,12 @@ void CMarioStateDrop::Enter(CMario& mario)
 }
 void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_S && mario.GetLevel() == MARIO_LEVEL_RACOON&& mario.isOnMagicBlock == false)
+	if (input == Input::PRESS_S )
 	{
 		mario.isFloating = true;
 		mario.SetVelocityY(-MARIO_SPEED_Y_WHEN_FLOATING);
 	}
 
-	if (input == Input::PRESS_S && mario.isOnMagicBlock == true)
-	{
-		SetStateJumping(mario);
-	}
 	CMarioOnAirStates::HandleInput(mario, input);
 }
 

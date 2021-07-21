@@ -1,6 +1,7 @@
 #pragma once
 enum class Input
 {
+	NONE,
 	KEYSTATE,
 	PRESS_S,
 	RELEASE_S,

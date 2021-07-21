@@ -477,20 +477,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMiniGoomba*>(e->obj))
 			{
 				CMiniGoomba* g = dynamic_cast<CMiniGoomba*>(e->obj);
-				isStuckWithMiniGoomba = true;
 				if (e->nx != 0)
 				{
 					//DebugOut(L"hello \n");
-					if (g->GetState() != MINIGOOMBA_STATE_SURROUND_MARIO)
+					if (g->GetState() == MINIGOOMBA_STATE_NORMAL)
 					{
+						isStuckWithMiniGoomba = true;
 						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
 					}
 				}
 				else if (e->ny != 0)
 				{
 					y -= 1;
-					if (g->GetState() != MINIGOOMBA_STATE_SURROUND_MARIO)
+					if (g->GetState() == MINIGOOMBA_STATE_NORMAL)
 					{
+						isStuckWithMiniGoomba = true;
 						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
 					}
 				}
@@ -587,6 +588,7 @@ void CMario::RecalculatePower()
 
 void CMario::HandleInput(Input input)
 {
+	SetInput(input);
 	marioState->HandleInput(*this, input);
 	marioState->Enter(*this);
 }

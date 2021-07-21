@@ -35,7 +35,6 @@ void CMarioStateIdle::HandleInput(CMario& mario,Input input)
 
 void CMarioStateIdle::Update(DWORD dt,CMario& mario)
 {
-	mario.isOnMagicBlock = false;
 	mario.vx = 0;
 }
 

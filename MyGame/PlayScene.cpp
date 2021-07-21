@@ -450,25 +450,21 @@ void CPlayScene::Unload()
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	Input input;
+	Input input = Input::NONE;
 	switch (KeyCode)
 	{
 	case DIK_S:
 		input = Input::PRESS_S;
-		mario->HandleInput(input);
 		mario->canChangeMap = true;
 		break;
 	case DIK_DOWN:
 		input = Input::PRESS_DOWN;
-		mario->HandleInput(input);
 		break;
 	case DIK_LEFT:
 		input = Input::PRESS_LEFT;
-		mario->HandleInput(input);
 		break;
 	case DIK_RIGHT:
 		input = Input::PRESS_RIGHT;
-		mario->HandleInput(input);
 		break;
 	case DIK_2:
 		mario->BigMario();
@@ -487,42 +483,38 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;
-		mario->HandleInput(input);
 		break;
 	case DIK_6 :
 		mario->SwitchOverworld();
 		break;
 	}
+	mario->HandleInput(input);
 }
 
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	Input input;
+	Input input = Input::NONE;
 	switch (KeyCode)
 	{
 	case DIK_LEFT:
 		input = Input::RELEASE_LEFT;
-		mario->HandleInput(input);
 		break;
 	case DIK_RIGHT:
 		input = Input::RELEASE_RIGHT;
-		mario->HandleInput(input);
 		break;
 	case DIK_DOWN:
 		input = Input::RELEASE_DOWN;
-		mario->HandleInput(input);
 		break;
 	case DIK_S:
 		input = Input::RELEASE_S;
-		mario->HandleInput(input);
 		break;
 	case DIK_A:
 		input = Input::RELEASE_A;
-		mario->HandleInput(input);
 		mario->powerMode = false;
 		break;
 	}
+	mario->HandleInput(input);
 }
 
 void CPlaySceneKeyHandler::KeyState(BYTE* states)

@@ -241,7 +241,6 @@ void CKoopas::SetState(int state)
 	{
 	case KOOPA_STATE_DIE:
 		vx = 0;
-		y -= 3;
 		break;
 	case KOOPA_STATE_WALKING:
 		if (recover && _recoverStart != 0) {

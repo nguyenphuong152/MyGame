@@ -156,9 +156,9 @@ void Grid::GetUnitsFromCameraRegion(vector<LPGAMEOBJECT>* units)
 
   
 
-    for (int i = cell_startX; i < cell_endX+1; i++)
+    for (int i = cell_startX; i < cell_endX+2; i++)
     {
-        for (int j = cell_startY; j < cell_endY+1; j++)
+        for (int j = cell_startY; j < cell_endY+2; j++)
         {
             vector<LPGAMEOBJECT> validObjs;
             validObjs = cells[i][j]->GetListObjectInCell();
