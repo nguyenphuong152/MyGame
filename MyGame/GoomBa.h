@@ -3,7 +3,7 @@
 
 #define GOOMBA_WALKING_SPEED	0.05f
 #define GOOMBA_GRAVITY			0.0015f
-#define GOOMBA_DEFLECT_SPEED    0.6f
+#define GOOMBA_DEFLECT_SPEED    0.5f
 #define GOOMBA_BBOX_WIDTH		50
 #define GOOMBA_BBOX_HEIGHT		51
 #define GOOMBA_BBOX_HEIGHT_DIE	30
@@ -27,6 +27,8 @@ protected:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void Render();
+
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 public:
 	CGoomBa();
 	void DieWithDeflect(AttackedBy obj);

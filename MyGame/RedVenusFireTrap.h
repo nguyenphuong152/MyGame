@@ -22,6 +22,7 @@
 #define POSITION_PIPE_Y				1105
 
 #define TIME_SHOOTING				800
+#define RED_VENUS_MOVING_TIME		3500
 
 #define FIREBALL_POSITION_X			360
 #define FIREBALL_POSITION_Y			344
@@ -29,9 +30,14 @@
 class CRedVenusFireTrap : public CEnemy
 {
 protected:
-	DWORD startShooting = -1;
+	ULONGLONG startShooting ;
 	bool isShooting;
 	bool isShootingUp;
+
+	ULONGLONG changeState_start;
+	int changeState;
+
+	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
 public:
 	CRedVenusFireTrap();
 	virtual void Render();
@@ -42,6 +48,9 @@ public:
 	void StartShooting();
 	void CheckDirection();
 	void CheckDirectionForRender(int position_pipe);
+
+	void StartChangeState() { changeState = 1; changeState_start = GetTickCount64(); };
+	void ResetChangeState() { changeState = 0; changeState_start = 0; };
 
 	void HandleShooting(int position_pipe, int bbox_height);
 

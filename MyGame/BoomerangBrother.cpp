@@ -26,8 +26,10 @@ void CBoomerangBrother::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CEnemy::Update(dt, coObjects);
+	//check dieu kien nhay
+	BoomerangBrotherJump();
 
+	CEnemy::Update(dt, coObjects);
 	vy += BOOMERANGBROTHER_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > DIETIME && die) isEnable = false;
@@ -35,63 +37,18 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//doi huong tuy theo mario
 	CheckDirection();
 
-	//check dieu kien nhay
-	BoomerangBrotherJump();
-
 	//check dieu kien quang bmr
 	BoomerangBrotherThrowBoomerang();
 	
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		y += dy;
+	if (state == BOOMERANGBROTHER_STATE_DIE) {
 		x += dx;
+		y += dy;
 	}
-	else
-	{
-
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0, rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		//collision logic with other objects
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CGround*>(e->obj))
-			{
-				if (e->ny < 0 && isOnGround == false)
-				{
-					StartWalking();
-					SetState(BOOMERANGBROTHER_STATE_WALKING);
-				}
-			}
-			else if (dynamic_cast<CObjectBoundary*>(e->obj))
-			{
-				if (e->nx != 0)
-				{
-					direction = -direction;
-					vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
-				}
-			}
-		}
-	}
+	//collision logic with other objects
+	HandleCollision(coEventsResult);
     
+	ClearCoEvents();
 	grid_->Move(this);
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CBoomerangBrother::Render()
@@ -106,6 +63,30 @@ void CBoomerangBrother::Render()
 	//change direction for koopas
 	animation_set->at(ani)->Render(nx, ny, x, y);
 	RenderBoundingBox();
+}
+
+void CBoomerangBrother::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+{
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+		if (dynamic_cast<CGround*>(e->obj))
+		{
+			if (e->ny < 0 && isOnGround == false)
+			{
+				StartWalking();
+				SetState(BOOMERANGBROTHER_STATE_WALKING);
+			}
+		}
+		else if (dynamic_cast<CObjectBoundary*>(e->obj))
+		{
+			if (e->nx != 0)
+			{
+				direction = -direction;
+				vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
+			}
+		}
+	}
 }
 
 void CBoomerangBrother::BoomerangBrotherJump()

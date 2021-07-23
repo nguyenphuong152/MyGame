@@ -17,8 +17,11 @@ void CMiniGoomba::StartSpawning(CBrownParaGoomba* goomba)
 	//DebugOut(L"do mini goomba %f\n",goomba->x);
 	CMario* player = CGame::GetInstance()->GetPlayer();
 	SetPosition(goomba->x - 3, goomba->y + 5);
+
 	if (goomba->x > player->x) nx = -1;
 	else nx = 1;
+	ny = 1;
+	player_jumping_time = 0;
 
 	isEnable = true;
 	_state.live.inUse = true;
@@ -34,7 +37,7 @@ void CMiniGoomba::StartSpawning(CBrownParaGoomba* goomba)
 void CMiniGoomba::Render()
 {
 	//DebugOut(L"hello \n");
-	animation_set->at(0)->Render(1, 1, x, y);
+	animation_set->at(0)->Render(1, ny, x, y);
 	//RenderBoundingBox();
 }
 
@@ -47,7 +50,28 @@ void CMiniGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	y += dy;
 
 	if (state == MINIGOOMBA_STATE_SURROUND_MARIO) {
+
 		CMario* player = CGame::GetInstance()->GetPlayer();
+
+		//when player jump to get out of minigoombas
+		if (player->GetInput() == Input::PRESS_S)
+		{
+			if (player_jumping_time == 0)
+				StartCountingJumpingTime();
+
+			player_jumping_time += 1;
+
+			if (_state.live.jumpable == 1 && (GetTickCount64() -_state.live.jumping_start>WAITING_TIME_FOR_MARIO_JUMP))
+			{
+				if (player_jumping_time >= MAX_PLAYER_JUMPING_TIME)
+				{
+					player->isStuckWithMiniGoomba = false;
+					SetState(MINIGOOMBA_STATE_DIE);
+				}
+				player_jumping_time = 0;
+				ResetCountingJumpingTime();
+			}
+		}
 
 		if (player->state != MARIO_STATE_DIE)
 		{
@@ -68,6 +92,15 @@ void CMiniGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		}
 		else {
 			SetState(MINIGOOMBA_STATE_NORMAL);
+		}
+	}
+	else if (state == MINIGOOMBA_STATE_DIE)
+	{
+		vy += MINIGOOMBA_GRAVITY;
+
+		if (_state.live.die == 1 && (GetTickCount64() - _state.live.die_start > DIE_TIME))
+		{
+			ResetDie();
 		}
 	}
 	else {
@@ -114,6 +147,13 @@ void CMiniGoomba::SetState(int state)
 	if (state == MINIGOOMBA_STATE_SURROUND_MARIO)
 	{
 		_state.live.isSurroundMario = true;
+	}
+	else if (state == MINIGOOMBA_STATE_DIE)
+	{
+		ny = -1;
+		y = y - 100;
+		vy = MINIGOOMBA_SPINNING_VELOCITY_Y;
+		StartDie();
 	}
 	else {
 		_state.live.isSurroundMario = false;

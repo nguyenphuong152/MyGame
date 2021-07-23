@@ -18,6 +18,7 @@ using namespace std;
 
 #define OVERWORLD_MAP	4
 #define WORLD1_1_MAP	3
+#define WORLD1_3_MAP	2
 
 class CGame
 {

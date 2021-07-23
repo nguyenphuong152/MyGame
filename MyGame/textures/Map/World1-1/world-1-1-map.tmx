@@ -545,7 +545,7 @@
   </object>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
-  <object id="235" x="6" y="84" width="8" height="1884"/>
+  <object id="235" x="6" y="84" width="10" height="1884"/>
   <object id="237" x="8443.52" y="-1.21212" width="88" height="1974.3"/>
   <object id="288" x="5812.12" y="1700" width="39.3939" height="263.636"/>
   <object id="300" x="11.3333" y="1339.67" width="8450" height="54"/>

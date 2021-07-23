@@ -12,7 +12,6 @@ CMarioStateIdle::CMarioStateIdle() {
 
 void CMarioStateIdle::Enter(CMario &mario)
 {
-	mario.vx = 0;
 	int marioLevel = mario.GetLevel();
 	if (marioLevel == MARIO_LEVEL_SMALL)
 	{
@@ -36,7 +35,7 @@ void CMarioStateIdle::HandleInput(CMario& mario,Input input)
 
 void CMarioStateIdle::Update(DWORD dt,CMario& mario)
 {
-
+	mario.vx = 0;
 }
 
 CMarioStateIdle* CMarioStateIdle::GetInstance()

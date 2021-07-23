@@ -22,6 +22,7 @@ class CMarioState;
 
 #define MARIO_STATE_DIE			300
 #define MARIO_STATE_ALIVE		400
+#define MARIO_WALKING_ON_HIDDEN_SCENE_3	500
 
 //thu tu theo ani add trong file txt
 #define MARIO_ANI_SMALL_IDLE		0 
@@ -106,7 +107,7 @@ class CMarioState;
 
 
 #define MARIO_BIG_BBOX_WIDTH  42
-#define MARIO_BIG_BBOX_HEIGHT 84
+#define MARIO_BIG_BBOX_HEIGHT 82
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
@@ -117,13 +118,16 @@ class CMarioState;
 #define MARIO_SMALL_BBOX_HEIGHT 48
 
 #define MARIO_UNTOUCHABLE_TIME 5000
-#define MARIO_DIE_TIME		   150
+#define MARIO_DIE_TIME		   100
 
 #define DIRECTION_LEFT_TO_RIGHT 1
 #define DIRECTION_RIGHT_TO_LEFT -1
 
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
+
+#define MARIO_POSITION_HIDDEN_SCENE_3_X 4528
+#define MARIO_POSITION_HIDDEN_SCENE_3_Y 2150
 
 class CMario : public CGameObject
 {
@@ -140,6 +144,8 @@ class CMario : public CGameObject
 
 	int live;
 	int level;
+
+	Input input;
 public:
 	//static CMario* __instance;
 	CMarioState* marioState;
@@ -159,7 +165,8 @@ public:
 	bool canGoIntoPipe = false;
 	bool canChangeMap = false;
 	bool isHoldKoopa = false;
-	bool isOnMagicBlock = false;
+	bool isOnRedMagicBlock = false;
+	bool isAutoWalk = false;
 
 
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -211,6 +218,9 @@ public:
 	void SwitchOverworld();
 	void Recover();
 
+	void SetInput(Input i) { this->input = i; };
+	Input GetInput() { return this->input; };
+ 
 	void LevelMarioDown(CGameObject* object,int enemy_condition);
 	void HandleInput(Input input);
 
@@ -220,6 +230,10 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void RenderRaccoonMarioBoundingBox();
 
+	void MovingMarioWithCamera();
+	void AutoWalk();
+
+	void GoBackToNormalScene();
 	//static  CMario* GetInstance();
 };
 

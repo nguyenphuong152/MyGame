@@ -11,11 +11,16 @@
 
 #define MINIGOOMBA_FLOATING_TIME	200
 #define MINIGOOMBA_LIVING_TIME		960
-#define MINIGOOMBA_GRAVITY			0.01f
+#define MINIGOOMBA_GRAVITY			0.008f
 #define MINIGOOMBA_SPINNING_VELOCITY_Y	0.18f
 
 #define MINIGOOMBA_STATE_SURROUND_MARIO	100
 #define MINIGOOMBA_STATE_NORMAL			200
+#define MINIGOOMBA_STATE_DIE			300
+
+#define MAX_PLAYER_JUMPING_TIME			3
+#define DIE_TIME						500
+#define WAITING_TIME_FOR_MARIO_JUMP		700
 
 class CMiniGoomba : public CGameObject
 {
@@ -34,10 +39,26 @@ private:
 
 			int alive;
 			ULONGLONG alive_start;
+
+			//count jumping time to kill mini goombas
+			int jumpable;
+			ULONGLONG jumping_start;
+			int die;
+			ULONGLONG die_start;
+
 		} live;
 		//state when it's available
 		CMiniGoomba* next;
 	} _state;
+
+	int player_jumping_time;
+
+	void StartCountingJumpingTime() { _state.live.jumpable = 1; _state.live.jumping_start = GetTickCount64(); };
+	void ResetCountingJumpingTime() { _state.live.jumpable = _state.live.jumping_start =  0; };
+
+	void StartDie() { _state.live.die = 1; _state.live.die_start = GetTickCount64(); };
+	void ResetDie() { _state.live.die = _state.live.die_start = 0; };
+
 public:
 	CMiniGoomba* GetNext() {
 		return _state.next;

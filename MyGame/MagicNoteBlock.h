@@ -9,12 +9,14 @@
 #define MAGIC_NOTE_ANI_NORMAL 0
 #define MAGIC_NOTE_ANI_INVISIBLE	1
 
-#define  MAGIC_NOTE_BLOCK_BBOX_WIDTH	45
+#define  MAGIC_NOTE_BLOCK_BBOX_WIDTH	48
 
 #define MAGIC_NOTE_BLOCK_ANI	45
 
-#define MAGIC_NOTE_DEFLECT_SPEED 0.2f
-#define MAGIC_NOTE_RETURN_SPEED	0.02f
+#define MAGIC_NOTE_DEFLECT_SPEED 0.5f
+#define MAGIC_NOTE_RETURN_SPEED	0.08f
+
+#define PLAYER_DEFLECT 0.5f
 
 #define JUMP_ON -1
 #define JUMP_UNDER 1
@@ -28,16 +30,16 @@ enum class MagicNoteBlockType {
 class CMagicNoteBlock : public CGameObject
 {
 	MagicNoteBlockType type;
-	bool invisible = false;
 
 	float start_y;
 	int dir;
 	CMario* player;
 public:
+	bool invisible = false;
 	CMagicNoteBlock(float x, float y, MagicNoteBlockType type);
 
 	MagicNoteBlockType GetType() { return type; };
-	void VisualBlock() { invisible = false; type == MagicNoteBlockType::visible; };
+	void VisualBlock() { invisible = false; };
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

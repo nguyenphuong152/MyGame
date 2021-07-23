@@ -14,9 +14,17 @@
 
 #define BREAKABLE_BRICK_BBOX_WIDTH	48
 
+#define TIME_IN_COIN_STATE		5000
+
 class CBreakableBrick : public CGameObject
 {
 	CMario* player;
+
+	int coinState;
+	ULONGLONG coinstate_Start;
+
+	void StartCoinState() { coinState = 1; coinstate_Start = GetTickCount64(); };
+	void ResetCoinState() { coinState = 0; coinstate_Start = 0; };
 public:
 	CBreakableBrick(float x, float y);
 	void SetAttackedAnimation();

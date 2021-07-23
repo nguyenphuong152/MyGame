@@ -1,6 +1,8 @@
 #include "MagicNoteBlock.h"
 #include "Game.h"
 #include "Utils.h"
+#include "MarioStateDrop.h"
+#include "MarioStateJump.h"
 
 CMagicNoteBlock::CMagicNoteBlock(float x, float y, MagicNoteBlockType type)
 {
@@ -38,17 +40,28 @@ void CMagicNoteBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	if (state == MAGIC_NOTE_BLOCK_STATE_JUMPING) {
-		if (y > start_y&& dir ==JUMP_ON)
+
+		CMario* p = CGame::GetInstance()->GetPlayer();
+
+		if (y > start_y && dir ==JUMP_ON)
 		{
-			//DebugOut(L"%f ----- %f \n", y, start_y);
-			vy -= MAGIC_NOTE_RETURN_SPEED;
+			if (p->GetInput() == Input::PRESS_S)
+			{
+				CMarioState::drop.GetInstance()->SetStateJumping(*p);
+			}
+			vy += -MAGIC_NOTE_RETURN_SPEED;
 		}
-		else if (y < start_y&& dir==JUMP_UNDER)
+		else if (y < start_y && dir==JUMP_UNDER)
 		{
 			vy += MAGIC_NOTE_RETURN_SPEED;
 		}
 		else {
+			if (dir == JUMP_ON)
+			{
+				p->vy = -PLAYER_DEFLECT;
+			}
 			y = start_y;
+			vy = 0;
 			SetState(MAGIC_NOTE_BLOCK_STATE_NORMAL, NORMAL);
 		}
 	}
@@ -74,6 +87,7 @@ void CMagicNoteBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
+	if (invisible == true) r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH - 3;
 	b = y + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
 }
 
