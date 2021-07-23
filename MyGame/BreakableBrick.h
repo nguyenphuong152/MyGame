@@ -12,9 +12,9 @@
 #define BREAKABLE_BRICK_TOUCHED_ANI	    1
 #define BREAKABLE_BRICK_COIN_ANI		2 
 
-#define BREAKABLE_BRICK_BBOX_WIDTH	48
+#define BREAKABLE_BRICK_BBOX_WIDTH	50
 
-#define TIME_IN_COIN_STATE		5000
+#define TIME_IN_COIN_STATE		6000
 
 class CBreakableBrick : public CGameObject
 {

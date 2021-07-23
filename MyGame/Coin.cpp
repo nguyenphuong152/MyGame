@@ -53,15 +53,8 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			float min_tx, min_ty, nx = 0, ny;
-
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
+			float nx = 0, ny;
+			FilterCollision(coEvents, coEventsResult,nx,ny);
 
 			//collision logic with other objects
 			for (UINT i = 0; i < coEventsResult.size(); i++)

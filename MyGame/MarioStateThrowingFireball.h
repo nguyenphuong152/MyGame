@@ -5,7 +5,7 @@
 class CMarioStateThrowFireball : public CMarioOnGroundStates
 {
 private:
-	DWORD _throwingStart;
+	ULONGLONG _throwingStart;
 public:
 	static CMarioStateThrowFireball* __instance;
 

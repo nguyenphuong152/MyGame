@@ -22,7 +22,6 @@ class CMarioStateHoldShellAndDrop;
 
 
 #include "Utils.h"
-#include <dinput.h>
 #include "Game.h"
 #include "Input.h"
 

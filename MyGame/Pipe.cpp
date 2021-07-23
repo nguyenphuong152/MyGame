@@ -16,6 +16,8 @@ void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = y + 10;
 }
 
+
+
 void CPipe::Render()
 {
 	//RenderBoundingBox();

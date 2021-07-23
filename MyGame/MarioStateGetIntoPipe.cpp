@@ -11,53 +11,43 @@ CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::__instance = NULL;
 
 void CMarioStateGetIntoPipe::HandleSecretScreen1_1(CMario& mario)
 {
-	if (GetTickCount64() - _changeStateStart > CHANGE_STATE_TIME && isChangeState == 1)
+	if (isInPipe == 1 && GetTickCount64() - inPipeStart > IN_PIPE_TIME/2)
 	{
-		_changeStateStart = 0;
-		isChangeState = 0;
-		mario.ChangeState(CMarioState::idle.GetInstance());
-	}
-	else if (isChangeState == 0)
-	{
-		if (isUp)
-		{
-			mario.vy = -MARIO_IN_PIPE_VELOCITY_Y;
-			//DebugOut(L"merio y: %f ---- ps: %f \n", mario.y, (position_out_y - MARIO_RACOON_BBOX_HEIGHT));
-			//set lại vị trí cũ sau khi mario đã chui ra khỏi ống
-			if (mario.y < POSITION_OUT_PIPE - MARIO_RACOON_BBOX_HEIGHT)
-			{
-				Reset();
-				StartChangeState();
-			} //kiểm tra vị trí để chuyển cam ra khỏi hidden scene
-			else if (inPipe == 1 && mario.y < position_toggle_cam_y)
-			{
-				inPipe = 0;
-				CCamera::GetInstance()->GoBackToNormal();
-				mario.GoBackToNormalScene();
-			}
-		}
-		else {
-			if (inPipe == 1 && mario.y > position_toggle_cam_y)
-			{
-				inPipe = 0;
-				CCamera::GetInstance()->AdjustPositionToHiddenScene();
+		ResetInPipe();
 
-				mario.SetPosition(HIDDEN_SCENE_X + 420, HIDDEN_SCENE_Y + 5);
-			}
-			mario.vy = MARIO_IN_PIPE_VELOCITY_Y;
+		CHiddenScene* h = CGame::GetInstance()->GetMainCamera()->hiddenscenes.at(0);
+		if (dir == DOWN)
+		{
+			mario.SetPosition((float)(h->player_pos_in_x),(float)( h->player_pos_in_y));
+			CGame::GetInstance()->GetMainCamera()->AdjustPositionToHiddenScene();
+			isTouchHiddenPipe = true;
+		}
+		else
+		{
+			dir = DOWN;
+			StartChangeState();
 		}
 	}
-	if (isTouchHiddenPipe) mario.vy = MARIO_IN_PIPE_VELOCITY_Y * 4;
+
+	if (isOutPipe == 1 && GetTickCount64() - outPipeStart > IN_PIPE_SHORT_TIME)
+	{
+		CCamera* cam = CGame::GetInstance()->GetMainCamera();
+		CHiddenScene* h = cam->hiddenscenes.at(0);
+
+		ResetOutPipe();
+		mario.SetPosition((float)(h->player_pos_out_pipe_x),(float)( h->player_pos_out_pipe_y));
+		cam->GoBackToNormal();
+		StartInPipe();
+	}
 }
 
 void CMarioStateGetIntoPipe::HandleSecretScreen1_3(CMario& mario)
 {
-	mario.vy = MARIO_IN_PIPE_VELOCITY_Y;
-	if (isInPipe == 1 && GetTickCount64() - inPipeStart > 500)
+	if (isInPipe == 1 && GetTickCount64() - inPipeStart > IN_PIPE_TIME)
 	{
 		ResetInPipe();
 		mario.GoBackToNormalScene();
-		CCamera::GetInstance()->GoBackToNormal();
+		CGame::GetInstance()->GetMainCamera()->GoBackToNormal();
 	}
 }
 
@@ -79,10 +69,18 @@ void CMarioStateGetIntoPipe::HandleInput(CMario& mario, Input input)
 void CMarioStateGetIntoPipe::Update(DWORD dt, CMario& mario)
 {
 	mario.vx = 0;
+	mario.vy = MARIO_IN_PIPE_VELOCITY_Y * dir;
+
 	if (CGame::GetInstance()->current_scene == WORLD1_1_MAP)
 		HandleSecretScreen1_1(mario);
 	else if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
 		HandleSecretScreen1_3(mario);
+
+	if (isChangeState == 1 && GetTickCount64() - _changeStateStart > CHANGE_STATE_TIME)
+	{
+		ResetChangeState();
+		mario.ChangeState(CMarioState::idle.GetInstance());
+	}
 }
 
 CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::GetInstance()
@@ -91,9 +89,5 @@ CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::GetInstance()
 	return __instance;
 }
 
-void CMarioStateGetIntoPipe::Reset()
-{
-	isUp = isTouchHiddenPipe = false;
-	position_out_x = position_out_y = inPipe = 0;
-}
+
 

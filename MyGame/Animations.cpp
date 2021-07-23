@@ -23,7 +23,7 @@ void CAnimation::Add(int spriteId, DWORD time)
 
 void CAnimation::Render(int nx,int ny,float x, float y, int alpha)
 {
-	DWORD now = GetTickCount64();
+	ULONGLONG now = GetTickCount64();
 
 	if (currentFrame == -1)
 	{

@@ -7,7 +7,7 @@ class CEffectPool
 
 	int ani_set = -1;
 
-	static const int POOL_SIZE = 32;
+	static const int POOL_SIZE = 80;
 	CEffect *effects[POOL_SIZE];
 	CEffect* _firstAvailable;
 	

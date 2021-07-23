@@ -599,15 +599,25 @@
   <object id="454" x="6622.34" y="2063.66" width="48" height="48"/>
   <object id="455" x="6575.66" y="2112.34" width="48" height="48"/>
  </objectgroup>
- <objectgroup id="36" name="SecretPipe">
-  <object id="496" name="pipe-in" x="7017" y="2160" width="70" height="25"/>
-  <object id="503" name="pipe-out" x="6240" y="205.333" width="92" height="28"/>
- </objectgroup>
  <objectgroup id="37" name="WoodBlock">
   <object id="504" name="powerup" x="2832" y="868" width="42.6667" height="44"/>
  </objectgroup>
  <objectgroup id="27" name="Camera">
   <object id="239" type="0" x="26.6667" y="506.55" width="800" height="600.606"/>
+ </objectgroup>
+ <objectgroup id="36" name="SecretPipe">
+  <object id="496" name="pipe-in" x="7017" y="2160" width="70" height="25">
+   <properties>
+    <property name="hidden_scene_camx" type="int" value="4538"/>
+    <property name="hidden_scene_camy" type="int" value="1732"/>
+    <property name="player_pos_in_x" type="int" value="4528"/>
+    <property name="player_pos_in_y" type="int" value="2150"/>
+    <property name="player_pos_out_pipex" type="int" value="6246"/>
+    <property name="player_pos_out_pipey" type="int" value="80"/>
+    <property name="scene" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="503" name="pipe-out" x="6240" y="205.333" width="92" height="28"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>

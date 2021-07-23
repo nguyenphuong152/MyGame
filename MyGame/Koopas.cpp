@@ -63,17 +63,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	////die ->recover
-	//if (GetTickCount64() - CEnemy::die_start > KOOPA_DIE_TIME && die) {
-	//	y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-	//	SetState(KOOPA_STATE_RECOVER);
-	//}
+	if (GetTickCount64() - CEnemy::die_start > KOOPA_DIE_TIME && die) {
+		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+		SetState(KOOPA_STATE_RECOVER);
+	}
 	////recover->live
-	//if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
-	//	//xet lai vi tri k thoi rua se bi roi xuong
-	//	y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-	//	if (ny == -1) ny = 1;
-	//	SetState(KOOPA_STATE_WALKING);
-	//}
+	if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
+		//xet lai vi tri k thoi rua se bi roi xuong
+		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+		if (ny == -1) ny = 1;
+		SetState(KOOPA_STATE_WALKING);
+	}
 
     //collision logic with other objects
 	HandleCollision(coEventsResult);
@@ -111,12 +111,10 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (GetState() == KOOPA_STATE_WALKING)
 				{
-					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT,KOOPA_WALKING_SPEED);
+					ChangeDirection(KOOPA_WALKING_SPEED);
 				}
 				else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
 				{
-					SetTypeMoving(brick->y, KOOPA_BBOX_HEIGHT_DIE, KOOPA_SHELL_VELOCITY_X);
-					
 					if (brick->GetState() == BRICK_STATE_UNTOUCH && brick->GetType() == BrickType::question_brick)
 					{
 						brick->SetState(BRICK_STATE_TOUCHED);
@@ -124,6 +122,7 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 					else if (brick->GetType() == BrickType::twinkle_brick_no_item) {
 						brick->DisableBrick();
 					}
+					ChangeDirection(KOOPA_SHELL_VELOCITY_X);
 				}
 			}
 			else if (e->ny != 0)
@@ -212,6 +211,14 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 					goomba->DieWithDeflect(AttackedBy::KoopaShell);
 				}
 			}
+			else if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
+				if (koopa->isOnGround)
+				{
+					koopa->AttackedByTail();
+				}
+			}
 		}
 
 		if (dynamic_cast<CBoundary*>(e->obj))
@@ -220,19 +227,6 @@ void CKoopas::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 		}
 	}
 }
-
-void CKoopas::SetTypeMoving(float bricky, int bbox,float speed)
-{
-	if (bricky > (y + bbox-2) )
-	{
-		WalkThrough(speed);
-	}
-	else {
-		ChangeDirection(speed);
-	}
-}
-
-
 
 void CKoopas::SetState(int state)
 {
@@ -255,6 +249,7 @@ void CKoopas::SetState(int state)
 		vx = KOOPA_SHELL_VELOCITY_X * nx;
 		break;
 	case KOOPA_STATE_RECOVER:
+		vx = 0;
 		CEnemy::die_start = 0;
 		die = 0;
 		StartRecover();

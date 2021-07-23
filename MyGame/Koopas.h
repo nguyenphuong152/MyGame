@@ -6,16 +6,16 @@
 
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.08f
-#define KOOPA_GRAVITY			0.003f
+#define KOOPA_GRAVITY			0.004f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
 #define KOOPA_BBOX_HEIGHT		82
-#define KOOPA_BBOX_HEIGHT_DIE	47
+#define KOOPA_BBOX_HEIGHT_DIE	48
 
 #define VALUE_ADJUST_SHELL		28
 #define KOOPA_DIE_TIME			5000
-#define KOOPA_RECOVER_TIME		1000
+#define KOOPA_RECOVER_TIME		2000
 
 #define KOOPA_STATE_WALKING				100
 #define KOOPA_STATE_DIE					200
@@ -41,7 +41,6 @@ protected:
 	virtual void Render();
 	
 	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
-	void SetTypeMoving(float bricky,int bbox, float speed);
 	void ChangeDirection(float speed);
 	void WalkThrough(float speed);
 public:

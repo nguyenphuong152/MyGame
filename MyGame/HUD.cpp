@@ -28,14 +28,10 @@ void HUD::Render()
 	RenderBoundingBox();
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
-		//(L"[RENDERHUD-1] %d \n",hud_texture);
 		CSprites::GetInstance()->Get(hud_texture)->Draw(-1, 1, x, y);
-		
 	}
 	else {
-		//DebugOut(L"[RENDERHUD-2] %d \n", hud_texture);
 		CSprites::GetInstance()->Get(hud_texture)->Draw(-1, 1, x+30, y);
-		//DebugOut(L"[RENDERHUD-2] \n");
 	}
 	HUDContent::GetInstance()->Render();
 
@@ -44,7 +40,7 @@ void HUD::Render()
 void HUD::SetPosition(float pos_hud)
 {
 	position_y = pos_hud;
-	CCamera* camera = CCamera::GetInstance();
+	CCamera* camera = CGame::GetInstance()->GetMainCamera();
 	x = floor(camera->x);
 	y = floor(camera->y+ pos_hud);
 
@@ -52,7 +48,7 @@ void HUD::SetPosition(float pos_hud)
 
 void HUD::UpdatePosition()
 {
-	CCamera* camera = CCamera::GetInstance();
+	CCamera* camera = CGame::GetInstance()->GetMainCamera();
 	x = floor(camera->x);
 	y = floor(camera->y + position_y);
 }

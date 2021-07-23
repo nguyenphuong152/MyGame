@@ -21,6 +21,7 @@
 #include "MiniGoombaPool.h"
 #include "Grid.h"
 #include "Switch.h"
+#include "Notification.h"
 
 using namespace std;
 
@@ -103,7 +104,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (UINT i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -125,7 +126,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	CAnimations* animations = CAnimations::GetInstance();
 
-	for (int i = 1; i < tokens.size(); i++)
+	for (UINT i = 1; i < tokens.size(); i++)
 	{
 		int ani_id = atoi(tokens[i].c_str());
 
@@ -148,8 +149,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());  //to f
+	double x = atof(tokens[1].c_str());
+	double y = atof(tokens[2].c_str());  //to f
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
@@ -166,8 +167,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y);
-		obj->SetPosition(x, y);
+		obj = new CMario((float)x,(float)y);
+		obj->SetPosition((float)x, (float)y);
 		player = (CMario*)obj;
 		CGame::GetInstance()->SetMainPlayer(player);
 
@@ -204,7 +205,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// General object setup
 	if (object_type == OBJECT_TYPE_MARIO)
 	{
-		obj->SetPosition(x, y);
+		obj->SetPosition((float)x, (float)y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
@@ -366,6 +367,8 @@ void CPlayScene::Update(DWORD dt)
 
 	player->Update(dt, &coObjects);
 	
+	if (CNotification::GetInstance()->visible)
+		CNotification::GetInstance()->Update();
 }
 
 void CPlayScene::RenderPool()
@@ -406,6 +409,9 @@ void CPlayScene::Render()
 	//CGame::GetInstance()->GetMainCamera()->Render();
 
 	HUD::GetInstance()->Render();
+
+	if(CNotification::GetInstance()->visible)
+	 CNotification::GetInstance()->Render();
 }
 
 /*
@@ -467,25 +473,28 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		input = Input::PRESS_RIGHT;
 		break;
 	case DIK_2:
-		mario->BigMario();
+		mario->ResetMario(MARIO_LEVEL_BIG);
 		break;
 	case DIK_1:
-		mario->RaccoonMario();
+		mario->ResetMario(MARIO_LEVEL_SMALL);
 		break;
 	case DIK_3:
-		mario->FireMario();
+		mario->ResetMario(MARIO_LEVEL_RACOON);
 		break;
 	case DIK_4:
-		mario->ImmortalMario();
+		mario->ResetMario(MARIO_LEVEL_FIRE);
 		break;
 	case DIK_5:
-		mario->Die();
+		mario->SetState(MARIO_STATE_DIE);
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;
 		break;
 	case DIK_6 :
 		mario->SwitchOverworld();
+		break;
+	case DIK_7:
+		mario->MoveToSecretScreen();
 		break;
 	}
 	mario->HandleInput(input);

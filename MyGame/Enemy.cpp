@@ -31,18 +31,8 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 	}
 	else
 	{
-
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0, rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult,nx,ny);
 	}
 
 }

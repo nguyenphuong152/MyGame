@@ -165,6 +165,7 @@
     <ClCompile Include="GreenVenusFireTrap.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="HiddenScene.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDContent.cpp" />
     <ClCompile Include="MagicNoteBlock.cpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="MarioTail.cpp" />
     <ClCompile Include="MiniGoomba.cpp" />
     <ClCompile Include="MiniGoombaPool.cpp" />
+    <ClCompile Include="Notification.cpp" />
     <ClCompile Include="One-upMushroom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PowerUp.cpp" />
@@ -249,6 +251,7 @@
     <ClInclude Include="GreenVenusFireTrap.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="HiddenScene.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
@@ -282,6 +285,7 @@
     <ClInclude Include="MarioTail.h" />
     <ClInclude Include="MiniGoomba.h" />
     <ClInclude Include="MiniGoombaPool.h" />
+    <ClInclude Include="Notification.h" />
     <ClInclude Include="One-upMushroom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PowerUp.h" />

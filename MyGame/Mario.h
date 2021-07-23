@@ -17,7 +17,7 @@ class CMarioState;
 #define MARIO_GRAVITY				0.002f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
-#define MARIO_ACCELERATION			0.0004f//giam lai con 0.0001f
+#define MARIO_ACCELERATION			0.0006f//giam lai con 0.0001f
 #define MARIO_DIE_DEFLECT_SPEED		0.7f
 
 #define MARIO_STATE_DIE			300
@@ -126,8 +126,8 @@ class CMarioState;
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
 
-#define MARIO_POSITION_HIDDEN_SCENE_3_X 4528
-#define MARIO_POSITION_HIDDEN_SCENE_3_Y 2150
+#define HIDDEN_SCENE_1_X	6830
+#define HIDDEN_SCENE_1_Y	1030
 
 class CMario : public CGameObject
 {
@@ -146,6 +146,7 @@ class CMario : public CGameObject
 	int level;
 
 	Input input;
+	
 public:
 	//static CMario* __instance;
 	CMarioState* marioState;
@@ -210,31 +211,27 @@ public:
 	void ResetUntouchable() { untouchable = 0; untouchable_start = 0; }
 	void ResetDie() { die = 0; die_start = 0; }
 
-	void BigMario();
-	void RaccoonMario();
-	void FireMario();
-	void ImmortalMario();
-	void Die();
+	void ResetMario(int level);
 	void SwitchOverworld();
 	void Recover();
 
 	void SetInput(Input i) { this->input = i; };
 	Input GetInput() { return this->input; };
  
-	void LevelMarioDown(CGameObject* object,int enemy_condition);
+	void LevelMarioDown();
 	void HandleInput(Input input);
 
-	void AttachTail(CMarioTail* tail);
+	void AttachTail(CMarioTail* tail) { this->tail = tail; };
 	void CheckMarioOutOfCamera();
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	void RenderRaccoonMarioBoundingBox();
+	//void RenderRaccoonMarioBoundingBox();
 
 	void MovingMarioWithCamera();
 	void AutoWalk();
 
 	void GoBackToNormalScene();
-	//static  CMario* GetInstance();
+	void MoveToSecretScreen();
 };
 
 

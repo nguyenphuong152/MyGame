@@ -16,12 +16,10 @@ void HUDContent::SetUpContent()
 {
 	world = new CText(Content::World, HUD_ALIGN_LEFT, HUD_ALIGN_TOP);
 	live = new CText(Content::Live, HUD_ALIGN_LEFT, HUD_ALIGN_BOTTOM);
-	//live->SetPlayer(player);
 	time = new CText(Content::Time, HUD_ALIGN_RIGHT, HUD_ALIGN_BOTTOM);
 	point = new CText(Content::Point, HUD_ALIGN_LEFT + HUD_BLANKSPACE * 2, HUD_ALIGN_BOTTOM);
 	coin = new CText(Content::Coin, HUD_ALIGN_RIGHT + HUD_BLANKSPACE, HUD_ALIGN_TOP);
 	power = new CText(Content::Power, HUD_ALIGN_LEFT + HUD_BLANKSPACE * 2, HUD_ALIGN_TOP);
-	//power->SetPlayer(player);
 }
 
 void HUDContent::Update()

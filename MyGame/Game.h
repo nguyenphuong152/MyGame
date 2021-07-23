@@ -1,14 +1,12 @@
 #pragma once
+#define DIRECTINPUT_VERSION 0x0800
+
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "Mario.h"
-
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
-
 #include<unordered_map>
-
 #include "Scene.h"
 #include "Camera.h"
 
@@ -73,8 +71,7 @@ public:
 
 	void DeletePlayer() { this->player = NULL; };
 	void DeleteCam() {
-		main_cam->Unload();
-		main_cam = NULL;
+		 main_cam = NULL;
 	}
 
 	int GetScreenWidth() { return screen_width; }

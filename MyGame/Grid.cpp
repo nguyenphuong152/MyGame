@@ -90,7 +90,7 @@ void Grid::ReadFile(const char* mapFilePath)
                     yEnd = ele->Attribute("yEnd");
                 }
 
-                D3DXVECTOR4 obj_info = D3DXVECTOR4(atoi(cellx), atoi(celly), atoi(xEnd), atoi(yEnd));
+                D3DXVECTOR4 obj_info = D3DXVECTOR4((float)atoi(cellx), (float)atoi(celly), (float)atoi(xEnd), (float)atoi(yEnd));
 
                 grid_objs[id] = obj_info;
 

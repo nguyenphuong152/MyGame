@@ -12,9 +12,8 @@
 #include "Brick.h"
 #include "HUD.h"
 
-CCamera* CCamera::__instance = NULL;
 
-void CCamera::SetProperty(float y,float width, float height)
+CCamera::CCamera(float y,float width, float height)
 {
 	this->width = CAM_WIDTH;
 	this->height = CAM_HEIGHT;
@@ -24,6 +23,8 @@ void CCamera::SetProperty(float y,float width, float height)
 	start_y = y;
 
 	InitCamera();
+
+	hiddenscenes.clear();
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -45,19 +46,13 @@ void CCamera::SetState(int state)
 	CGameObject::SetState(state);
 }
 
-CCamera* CCamera::GetInstance()
-{
-	if (__instance == NULL) __instance = new CCamera();
-	return __instance;
-}
-
 void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	
 	if (player == NULL) return;
 
 	CGameObject::Update(dt);
 
-	if (y > HIDDEN_SCENE_Y && state == CAMERA_STATE_HIDDEN_SCENE1) y = HIDDEN_SCENE_Y;
+	//if (y > HIDDEN_SCENE_Y && state == CAMERA_STATE_HIDDEN_SCENE1) y = HIDDEN_SCENE_Y;
 	  
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -80,13 +75,9 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		}
 		else
 		{
-			float min_tx, min_ty, nx = 0, ny = 0;
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
+        
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult,nx,ny);
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
@@ -187,40 +178,29 @@ void CCamera::InitCamera()
 
 void CCamera::AdjustPositionToHiddenScene()
 {
-	cam_old_x = x;
-	cam_old_y = y;
-
-	if (CGame::GetInstance()->current_scene == WORLD1_1_MAP)
+	SetState(CAMERA_STATE_HIDDEN_SCENE1);
+	if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
 	{
-		x = HIDDEN_SCENE_X;
-		y = HIDDEN_SCENE_Y;
-		SetState(CAMERA_STATE_HIDDEN_SCENE1);
-	}
-	else if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
-	{
-		x = HIDDEN_SCENE_X_3;
-		y = HIDDEN_SCENE_Y_3;
 		SetState(CAMERA_STATE_HIDDEN_SCENE3);
 	}
-	SetPosition(x, y);
+
+	SetPosition((float)hiddenscenes.at(0)->hidden_scene_cam_x, (float)hiddenscenes.at(0)->hidden_scene_cam_y);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
 	
 }
 
 void CCamera::GoBackToNormal()
 {
-	if (CGame::GetInstance()->current_scene == WORLD1_1_MAP)
+
+	float cy = start_y;
+	if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
 	{
-		x = cam_old_x;
-		y = cam_old_y;
+		cy = 10;
 	}
-	else if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
-	{
-		y = 10;
-		float cx = player->x - this->width / 2;
-		isReachBoundaryBottom = false;
-		SetPosition(cx, y);
-	}
+
+	float cx = player->x - this->width / 2;
+	isReachBoundaryBottom = false;
+	SetPosition(cx, cy);
 
 	//DebugOut(L"cam x player x %f %f\n", x, player->x);
 

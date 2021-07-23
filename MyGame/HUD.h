@@ -23,7 +23,7 @@ class HUD {
 	float x,y;
 	float position_y;
 
-	int countdown_start = GetTickCount64();
+	ULONGLONG countdown_start = GetTickCount64();
 	/*CMario* player;
 	*/
 
@@ -52,5 +52,5 @@ public:
 	void UpdatePosition();
 	
 	//void StartCountdown() { countdown_start = GetTickCount64(); };
-	int GetCountdownStart() { return countdown_start; };
+	ULONGLONG GetCountdownStart() { return countdown_start; };
 };
