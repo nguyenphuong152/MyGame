@@ -6,6 +6,9 @@
 
 CEnemy::CEnemy()
 {
+	level = 0;
+	die = 0;
+	die_start = 0;
 	isEnable = true;
 	player = CGame::GetInstance()->GetPlayer();
 }
@@ -56,6 +59,24 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 			effect->SetEffect(EffectName::point, this, 1, 1, point);
 		}
 	}
+	
+	int p = 0;
+	switch (point)
+	{
+	case Points::NONE:
+		break;
+	case Points::POINT_100:
+		p = 100;
+		break;
+	case Points::POINT_200:
+		p = 200;
+		break;
+	case Points::POINT_300:
+		p = 300;
+		break;
+	}
+
+	player->SetPoints(p);
 }
 
 void CEnemy::ClearCoEvents()

@@ -5,6 +5,14 @@
 #define FIRST_LINE_TIME 300
 #define SECOND_LINE_TIME 4000
 
+#define FIRST_LINE_POS_X 7900
+#define FIRST_LINE_POS_Y 810
+
+#define SECOND_LINE_POS_X 7840
+#define SECOND_LINE_POS_Y 880
+
+#define REWARD_POS_X 8210
+
 class CNotification {
 	vector<CText*> content;
 	static CNotification* __instance;

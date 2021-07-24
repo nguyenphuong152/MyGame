@@ -27,10 +27,19 @@ void HUD::Init(int texture, float pos_hud)
 void HUD::AddReward(reward type)
 {
 	Reward* r = new Reward(type);
-	float hx, hy;
-	GetPosition(hx, hy);
-	r->SetPosition((float)hx+REWARD_ALIGN_LEFT * (rewards.size()+1), (float) hy+HUD_ALIGN_TOP-4);
+	r->SetPosition((float)x+REWARD_ALIGN_LEFT * (rewards.size()+1), (float) y+HUD_ALIGN_TOP-4);
+	//DebugOut(L"Re %f %f \n", r->x,r->y);
+	
 	rewards.push_back(r);
+}
+
+void HUD::AddReward(string re)
+{
+	reward r;
+	if (re == "mushroom") r = reward::mushroom;
+	else if (re == "star") r = reward::star;
+	else r = reward::flower;
+	AddReward(r);
 }
 
 void HUD::Render()
@@ -55,12 +64,6 @@ void HUD::SetPosition(float pos_hud)
 	CCamera* camera = CGame::GetInstance()->GetMainCamera();
 	x = floor(camera->x);
 	y = floor(camera->y+ pos_hud);
-
-	for (UINT i = 0; i < rewards.size(); i++)
-	{
-		rewards[i]->SetPosition((float)(x + REWARD_ALIGN_LEFT * (rewards.size() + 1)), (float)(y + HUD_ALIGN_TOP - 4));
-	}	
-
 }
 
 void HUD::UpdatePosition()
@@ -95,6 +98,8 @@ void HUD::RenderBoundingBox()
 void HUD::Unload()
 {
 	hud_texture = -1;
+	//rewards.clear();
+	letters.clear();
 	HUDContent::GetInstance()->Unload();
 }
 
@@ -109,6 +114,9 @@ void HUD::Update()
 	UpdatePosition();
 	HUDContent::GetInstance()->Update();
 
-	for (UINT i = 0; i < rewards.size(); i++)
+	for (UINT i = 0; i < rewards.size(); i++) {
+		rewards[i]->SetPosition((float)(this->x + REWARD_ALIGN_LEFT * (i+1)), (float)(this->y + HUD_ALIGN_TOP - 4));
 		rewards[i]->Update();
+	}
+		
 }

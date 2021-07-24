@@ -8,6 +8,7 @@ CNotification* CNotification::__instance = NULL;
 string CNotification::ClassifyReward(int reward)
 {
 	string name;
+	CMario* player = CGame::GetInstance()->GetPlayer();
 	if (reward == MUSHROOM_CARD) {
 		re = reward::mushroom;
 		name = "mushroom";
@@ -20,6 +21,7 @@ string CNotification::ClassifyReward(int reward)
 		re = reward::flower;
 		name = "whiteflower";
 	}
+	player->SetReward(name);
 	
 	return name;
 }
@@ -34,9 +36,9 @@ void CNotification::Init(int reward)
 {
    string reward_name = ClassifyReward(reward);
 
-   CText* t1 = 	SetContent("course clear", 7900, 810);
-   CText* t2 = SetContent("you got a card", 7840, 880);
-   CText* t3 = SetContent(reward_name, 8210, 860);
+   CText* t1 = 	SetContent("course clear", FIRST_LINE_POS_X -1000, FIRST_LINE_POS_Y);
+   CText* t2 = SetContent("you got a card", SECOND_LINE_POS_X -1000, SECOND_LINE_POS_Y);
+   CText* t3 = SetContent(reward_name, REWARD_POS_X -1000, SECOND_LINE_POS_Y-20);
 
    content.push_back(t1);
    content.push_back(t2);
@@ -60,6 +62,7 @@ void CNotification::Update()
 
 void CNotification::Render()
 {
+	DebugOut(L"HUD %f %f \n", content[0]->start_x, content[0]->start_y);
 	content[0]->RenderText();
 	if (secondLine == 1)
 	{
@@ -77,6 +80,7 @@ CText* CNotification::SetContent(string c, float x, float y)
 
 void CNotification::ShowNoti(int reward)
 {
+	DebugOut(L"helo \n");
 	Init(reward);
 	visible = true;
 	FirstLineStart();

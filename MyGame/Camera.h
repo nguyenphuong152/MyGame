@@ -15,7 +15,7 @@
 #define CAM_START_X 20
 
 #define HIDDEN_SCENE_1_CAM_X 6700
-#define HIDDEN_SCENE_1_CAM_Y 820
+#define HIDDEN_SCENE_1_CAM_Y 750
 
 class CCamera :public CGameObject
 {

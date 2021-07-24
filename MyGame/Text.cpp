@@ -55,13 +55,13 @@ void CText::Update()
 		SetText("1");
 		break;
 	case Content::Point:
-		SetText("999999");
+		SetPoint();
 		break;
 	case Content::Time:
 		Countdown();
 		break;
 	case Content::Coin:
-		SetText("30");
+		SetCoin();
 		break;
 	case Content::Power:
 		SetPower(MAX_POWER);
@@ -172,6 +172,21 @@ void CText::SetLive()
 	int live = player->GetLive();
 	SetText(to_string(live));
 }
+
+void CText::SetPoint()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	int point = player->GetPoints();
+	SetText(to_string(point));
+}
+
+void CText::SetCoin()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	int coin = player->GetCoins();
+	SetText(to_string(coin));
+}
+
 
 /*Letter*/
 

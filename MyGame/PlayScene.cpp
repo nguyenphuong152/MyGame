@@ -45,6 +45,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_MAP				7
 #define SCENE_SECTION_HUD				8
 #define SCENE_SECTION_LETTERS			9
+#define SCENE_SECTION_PLAYER_DATA		10
 
 
 #define OBJECT_TYPE_MARIO		0
@@ -275,6 +276,30 @@ void CPlayScene::_ParseSection_GRID(string line)
 	grid->ReadFile(&path[0]);
 }
 
+void CPlayScene::_ParseSection_PLAYER_DATA(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+	string path = tokens[0];
+
+	string data;
+	ifstream f;
+	f.open(path);
+
+	while (getline(f, data)) {
+		vector<string> tokens = split(data);
+		string property = tokens[0];
+		if (property == "[LEVEL]")     player->SetLevel(atoi(tokens[1].c_str()));
+		else if (property == "[COIN]") player->SetCoins(atoi(tokens[1].c_str()));
+		else if (property == "[LIVE]") player->SetLive(atoi(tokens[1].c_str()));
+		else if (property == "[POINT]") player->SetPoints(atoi(tokens[1].c_str()));
+		else if (property == "[REWARD]") HUD::GetInstance()->AddReward(tokens[1]);
+	}
+	f.close();
+	
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -321,6 +346,10 @@ void CPlayScene::Load()
 		{
 			section = SCENE_SECTION_GRID; continue;
 		}
+		if (line == "[DATA]")
+		{
+			section = SCENE_SECTION_PLAYER_DATA; continue;
+		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -338,6 +367,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_HUD: _ParseSection_HUD(line); break;
 		case SCENE_SECTION_LETTERS:_ParseSection_LETTERS(line); break;
 		case SCENE_SECTION_GRID:_ParseSection_GRID(line); break;
+		case SCENE_SECTION_PLAYER_DATA: _ParseSection_PLAYER_DATA(line); break;
 		}
 	}
 
@@ -347,6 +377,7 @@ void CPlayScene::Load()
 	//DebugOut(L"[OBJECT SIZE] %d \n", objects.size());
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
+
 
 
 void CPlayScene::Update(DWORD dt)
@@ -435,8 +466,6 @@ void CPlayScene::Unload()
 	objects.clear();
 
 	delete grid;
-
-	HUD::GetInstance()->Unload();
 
 	CGame::GetInstance()->DeleteCam();
 

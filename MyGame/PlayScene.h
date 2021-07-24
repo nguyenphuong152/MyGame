@@ -43,8 +43,7 @@ protected:
 	void _ParseSection_HUD(string line);
 	void _ParseSection_LETTERS(string line);
 	void _ParseSection_GRID(string line);
-
-	//void AddObjectToGrid();
+	void _ParseSection_PLAYER_DATA(string line);
 
 	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
 	void RenderPool();

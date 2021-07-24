@@ -42,10 +42,11 @@ public:
 	int GetTextureOfLetter(string name) { return letters[name]; };
 
 	void Init(int texture, float pos_hud);
+
 	void AddReward(reward type);
+	void AddReward(string type);
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; };
-	
 	void SetPosition(float pos_hud);
 
 	void Render();

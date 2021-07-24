@@ -42,7 +42,6 @@ class CText {
 	Letter* letters;
 	Content content;
 	int size ;
-	float start_x, start_y;
 
 	ULONGLONG default_time ;
 	int power;
@@ -50,7 +49,7 @@ class CText {
 	int flashing ;
 public:
 	CText(Content content,float x,float y);
-	
+	float start_x, start_y;
 	void SetText(string text);
 	void SetPower(int number);
 	void Update();
@@ -58,6 +57,8 @@ public:
 	void RenderPower();
 	void Countdown();
 	void SetLive();
+	void SetPoint();
+	void SetCoin();
 	void StartFlashing() { flashing_start = GetTickCount64(); flashing = 1; };
 };
 

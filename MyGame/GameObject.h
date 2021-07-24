@@ -108,12 +108,10 @@ public:
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 
 	void FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& nx, float& ny);
-	void EnemyFilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& nx, float& ny);
 
 	void BlockObject(LPGAMEOBJECT objx, LPGAMEOBJECT objy, float min_tx, float min_ty, float nx, float ny);
 
 	CGameObject();
-
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

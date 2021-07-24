@@ -46,10 +46,14 @@
 #include "Boomerang.h"
 #include "Notification.h"
 
+#include <fstream>
+#include <iostream>
+
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
 	canChangeMap = false;
+	coins = 0;
 
 	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
@@ -61,6 +65,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	SetPosition(x, y);
 
 	SetLive(MARIO_DEFAULT_LIVE);
+	SetPoints(0);
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -341,6 +346,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						LevelUp();
 					}
 				}
+				else if (dynamic_cast<CCoin*>(e->obj))
+				{
+					SetPoints(100);
+					SetCoins();
+				}
 				else if (dynamic_cast<COneUpMushroom*>(e->obj))
 				{
 					live++;
@@ -522,7 +532,7 @@ void CMario::Render()
 
 	if (untouchable) alpha = 128;
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void  CMario::SetState(int state)
@@ -598,15 +608,11 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 			r = x + MARIO_RACOON_BBOX_WIDTH - 10;
 		}
 	}
-	else if (marioState == CMarioState::walking_overworld.GetInstance())
-	{
-		r = x + MARIO_SMALL_BBOX_WIDTH + 8;
-		b = y + MARIO_SMALL_BBOX_HEIGHT - 2;
-	}
 	else {
 		r = x + MARIO_SMALL_BBOX_WIDTH;
 		b = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
+
 	if (isSitting)
 	{
 		b = y + MARIO_BIG_BBOX_SIT_HEIGHT;
@@ -615,6 +621,10 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	{
 		l = x - 60;
 		r = x + MARIO_BIG_BBOX_WIDTH - 12;
+	}else if (marioState == CMarioState::walking_overworld.GetInstance())
+	{
+		r = x + MARIO_SMALL_BBOX_WIDTH + 8;
+		b = y + MARIO_SMALL_BBOX_HEIGHT - 2;
 	}
 }
 
@@ -632,6 +642,7 @@ void CMario::ResetMario(int level)
 
 void CMario::SwitchOverworld()
 {
+	SavePlayerData();
 	CGame::GetInstance()->SwitchScene(4);
 }
 
@@ -688,6 +699,24 @@ void CMario::CheckMarioOutOfCamera()
 //		CGame::GetInstance()->Draw(0, 0, x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 //	}
 //}
+
+void CMario::SavePlayerData()
+{
+	std::ofstream fs("player-data.txt");
+	if (!fs)
+	{
+		DebugOut(L"[ERROR] Cant create player data \n");
+		return;
+	}
+	fs << "[LEVEL]\t"; fs << level;
+	fs << "\n[LIVE]\t"; fs << live;
+	fs << "\n[COIN]\t"; fs << coins;
+	fs << "\n[POINT]\t"; fs << points;
+	fs << "\n[REWARD]\t"; fs << reward;
+
+	DebugOut(L"[DONE] Save player data \n");
+	fs.close();
+}
 
 void CMario::MovingMarioWithCamera()
 {

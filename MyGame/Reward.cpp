@@ -1,6 +1,7 @@
 #include "Reward.h"
 #include "Animations.h"
 #include "Utils.h"
+#include "Game.h"
 
 Reward::Reward(reward t)
 {
@@ -38,12 +39,20 @@ void Reward::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Reward::Update()
 {
-	if (flashing == 1 && GetTickCount64() - flashing_start > REWARD_FLASHING_TIME)
+	if ((flashing == 1 && GetTickCount64() - flashing_start > REWARD_FLASHING_TIME)
+		|| (CGame::GetInstance()->current_scene == OVERWORLD_MAP))
 		SetState(STATE_NORMAL);
 }
 
 void Reward::Render()
 {
 	int ani = GetAnimation(state, type);
-	animation_set->at(ani)->Render(1, 1, x, y);
+	if (CGame::GetInstance()->current_scene == OVERWORLD_MAP)
+	{
+		animation_set->at(ani)->Render(1, 1,x + 28, y);
+	}
+	else {
+		animation_set->at(ani)->Render(1, 1, x, y);
+	}
+	
 }

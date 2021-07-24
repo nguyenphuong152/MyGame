@@ -408,6 +408,8 @@ void CGame::SwitchScene(int scene_id)
 	CAnimations::GetInstance()->Clear();
 	CNotification::GetInstance()->Clear();
 
+	HUD::GetInstance()->Unload();
+
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyhHandler(s->GetKeyEventHandler());

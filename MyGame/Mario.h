@@ -129,6 +129,8 @@ class CMarioState;
 #define HIDDEN_SCENE_1_X	6830
 #define HIDDEN_SCENE_1_Y	1030
 
+using namespace std;
+
 class CMario : public CGameObject
 {
 
@@ -143,7 +145,11 @@ class CMario : public CGameObject
 	float start_y;
 
 	int live;
+	int points;
 	int level;
+	int coins;
+
+	string reward;
 
 	Input input;
 	
@@ -200,6 +206,16 @@ public:
 	void SetLive(int lives) { live = lives; };
 	int GetLive() { return live; };
 
+	void SetPoints(int point) { this->points+= point; };
+	int GetPoints() { return points; };
+
+	void SetCoins() { this->coins += 1; };
+	void SetCoins(int coin) { this->coins = coin; };
+	int GetCoins() { return coins; };
+
+	void SetReward(string r) { this->reward = r; };
+	string GetReward() { return reward; };
+
 	void LevelUp();
 	void RecalculatePower();
 	void SetAnimation(int ani) { animation = ani; }
@@ -226,6 +242,7 @@ public:
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	//void RenderRaccoonMarioBoundingBox();
+	void SavePlayerData();
 
 	void MovingMarioWithCamera();
 	void AutoWalk();

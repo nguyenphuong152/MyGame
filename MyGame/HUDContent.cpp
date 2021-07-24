@@ -11,7 +11,6 @@ HUDContent* HUDContent::GetInstance()
 	return __instance;
 }
 
-
 void HUDContent::SetUpContent()
 {
 	world = new CText(Content::World, HUD_ALIGN_LEFT, HUD_ALIGN_TOP);

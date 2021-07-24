@@ -14,9 +14,11 @@
 #include "One-upMushroom.h"
 CGameObject::CGameObject()
 {
+	state = 0;
 	x = y = old_x = old_y = 0;
 	vx = vy = 0;
 	nx = 1;
+	ny = 1;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -112,7 +114,7 @@ void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPC
 		if (c->nx != 0)
 		{
 			bool hasObjx = false;
-			if (objx != NULL && c->obj != NULL)
+			if (objx != NULL)
 			{
 				if (c->obj->y < objx->y) hasObjx = true;
 			}
@@ -127,6 +129,7 @@ void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPC
 		if (c->t < min_ty && c->ny != 0)
 		{
 			min_ty = c->t; ny = c->ny; min_iy = i;
+			objy = c->obj;
 		}
 
 	}
@@ -147,6 +150,8 @@ void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPC
 
 void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx, float min_ty, float nx, float ny)
 {
+	bool blockx = true;
+	bool blocky = true;
 	if (objx != NULL)
 	{
 		bool coinBrick = false;
@@ -159,10 +164,11 @@ void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx
 			|| dynamic_cast<COneUpMushroom*>(objx)
 			|| coinBrick == true)
 		{
-			x = x;
+			blockx = false;
 		}
 	}
-	else {
+	
+	if(blockx == true) {
 		x += min_tx * dx + nx * 0.4f;
 		if (nx != 0) vx = 0;
 	}
@@ -178,10 +184,11 @@ void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx
 		if (dynamic_cast<CCoin*>(objy) || dynamic_cast<CPowerUp*>(objy)
 			|| dynamic_cast<COneUpMushroom*>(objy) || coinBrick == true)
 		{
-			y = y;
+			blocky = false;
 		}
 	}
-	else {
+
+	if(blocky == true){
 		y += min_ty * dy + ny * 0.4f;
 		if (ny != 0) vy = 0;
 	}

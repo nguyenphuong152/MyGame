@@ -1,6 +1,7 @@
 #pragma once
 #include "Text.h"
 
+
 class HUDContent {
 	CText* world;
 	CText* live;
@@ -14,6 +15,7 @@ class HUDContent {
 
 public:
 	static HUDContent* GetInstance();
+
 	void Unload();
 	void Render();
 	void Update();
