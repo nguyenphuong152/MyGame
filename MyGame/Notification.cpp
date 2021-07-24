@@ -1,15 +1,25 @@
 #include "Notification.h"
 #include "Card.h"
 #include "Game.h"
+#include "HUD.h"
 
 CNotification* CNotification::__instance = NULL;
 
 string CNotification::ClassifyReward(int reward)
 {
 	string name;
-	if (reward == MUSHROOM_CARD) name = "mushroom";
-	else if (reward == STAR_CARD) name = "star";
-	else name = "whiteflower";
+	if (reward == MUSHROOM_CARD) {
+		re = reward::mushroom;
+		name = "mushroom";
+	}
+	else if (reward == STAR_CARD) {
+		re = reward::star;
+		name = "star";
+	}
+	else {
+		re = reward::flower;
+		name = "whiteflower";
+	}
 	
 	return name;
 }
@@ -35,12 +45,13 @@ void CNotification::Init(int reward)
 
 void CNotification::Update()
 {
-	if (firstLine == 1 && GetTickCount64() - firstLine_start > 300)
+	if (firstLine == 1 && GetTickCount64() - firstLine_start > FIRST_LINE_TIME)
 	{
 		ResetFirstLine();
 		SecondLineStart();
+		HUD::GetInstance()->AddReward(re);
 	}
-	if (secondLine == 1 && GetTickCount64() - secondLine_start > 500)
+	if (secondLine == 1 && GetTickCount64() - secondLine_start > SECOND_LINE_TIME)
 	{
 		ResetSecondLine();
 		CGame::GetInstance()->GetPlayer()->SwitchOverworld();

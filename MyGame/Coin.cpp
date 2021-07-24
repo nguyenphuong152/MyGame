@@ -5,6 +5,8 @@
 
 CCoin::CCoin(CoinType type, float x, float y)
 {
+	jump_start = 0;
+	jumping = 0;
 	this->type = type;
 	SetAnimation(COIN_ANI);
 	SetPosition(x, y);

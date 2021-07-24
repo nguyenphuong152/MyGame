@@ -209,6 +209,7 @@
     <ClCompile Include="RedVenusFireTrap.cpp" />
     <ClCompile Include="MarioStateIdle.cpp" />
     <ClCompile Include="MapLayer.cpp" />
+    <ClCompile Include="Reward.cpp" />
     <ClCompile Include="Switch.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="tinystr.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="RedVenusFireTrap.h" />
     <ClInclude Include="MapLayer.h" />
+    <ClInclude Include="Reward.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="tinystr.h" />

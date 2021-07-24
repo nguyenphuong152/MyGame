@@ -23,13 +23,13 @@ class CPlayScene : public CScene
 protected:
 	//create player for play scene
 	CMario* player;
-	Grid* grid;
+	Grid* grid ;
 
-	CMap* map;
+	CMap* map ;
 	CMapObjects* map_objects;
 
-	HUD* hud;
-	Letter* letters;
+	HUD* hud ;
+	Letter* letters ;
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> coObjects;

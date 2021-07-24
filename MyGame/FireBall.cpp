@@ -24,6 +24,7 @@ void CFireball::AllocateFireballToMario()
 
 	SetPosition(player->x+10, player->y+20);
 	_state.live.inUse = true;
+	_state.live.isBelongToVenus = false;
 
 	vx = player->nx * FIREBALL_VELOCITY_X;
 	vy = FIREBALL_VELOCITY_Y_NEAR;
@@ -38,7 +39,7 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 	_state.live.isBelongToVenus = true;
 	_state.live.isShootingUp = isShootingUp;
 
-	vx = nx * FIREBALL_VELOCITY_X*0.5f;
+	vx = nx * FIREBALL_VELOCITY_X/2;
 	vy = FIREBALL_VENUS_VELOCITY_Y_NEAR;
 	
 }

@@ -10,6 +10,12 @@ CText::CText(Content content,float x, float y)
 	start_x = x;
 	start_y = y;
 
+	default_time = 0;
+	power = 0;
+	flashing_start = 0;
+	flashing = 0;
+	size = 0;
+
 	switch (content)
 	{
 	case Content::Live:
@@ -169,6 +175,11 @@ void CText::SetLive()
 
 /*Letter*/
 
+
+Letter::Letter()
+{
+	x = y = 0.0f;
+}
 
 void Letter::SetLetter(int letter)
 {

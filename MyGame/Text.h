@@ -29,10 +29,9 @@ enum class Content {
 
 class Letter {
 	int texture = 0;
-
+	float x, y;
 public:
-	float x,  y;
-
+	Letter();
 	void SetLetter(int letter);
 	void SetLetter(string letter);
 	void SetPosition(float x, float y, Content type);
@@ -42,13 +41,13 @@ public:
 class CText {
 	Letter* letters;
 	Content content;
-	int size;
+	int size ;
 	float start_x, start_y;
 
-	ULONGLONG default_time;
+	ULONGLONG default_time ;
 	int power;
 	ULONGLONG flashing_start;
-	int flashing = 0;
+	int flashing ;
 public:
 	CText(Content content,float x,float y);
 	

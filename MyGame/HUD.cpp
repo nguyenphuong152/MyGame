@@ -18,9 +18,19 @@ HUD* HUD::GetInstance()
 
 void HUD::Init(int texture, float pos_hud)
 {
+	rewards.clear();
 	SetPosition(pos_hud);
 	hud_texture = texture;
 	HUDContent::GetInstance()->SetUpContent();
+}
+
+void HUD::AddReward(reward type)
+{
+	Reward* r = new Reward(type);
+	float hx, hy;
+	GetPosition(hx, hy);
+	r->SetPosition((float)hx+REWARD_ALIGN_LEFT * (rewards.size()+1), (float) hy+HUD_ALIGN_TOP-4);
+	rewards.push_back(r);
 }
 
 void HUD::Render()
@@ -35,6 +45,8 @@ void HUD::Render()
 	}
 	HUDContent::GetInstance()->Render();
 
+	for (UINT i = 0; i < rewards.size(); i++)
+		rewards[i]->Render();
 }
 
 void HUD::SetPosition(float pos_hud)
@@ -43,6 +55,11 @@ void HUD::SetPosition(float pos_hud)
 	CCamera* camera = CGame::GetInstance()->GetMainCamera();
 	x = floor(camera->x);
 	y = floor(camera->y+ pos_hud);
+
+	for (UINT i = 0; i < rewards.size(); i++)
+	{
+		rewards[i]->SetPosition((float)(x + REWARD_ALIGN_LEFT * (rewards.size() + 1)), (float)(y + HUD_ALIGN_TOP - 4));
+	}	
 
 }
 
@@ -91,5 +108,7 @@ void HUD::Update()
 {
 	UpdatePosition();
 	HUDContent::GetInstance()->Update();
-}
 
+	for (UINT i = 0; i < rewards.size(); i++)
+		rewards[i]->Update();
+}

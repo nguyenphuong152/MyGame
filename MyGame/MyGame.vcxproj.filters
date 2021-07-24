@@ -399,6 +399,9 @@
     <ClCompile Include="Notification.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Reward.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioState.h">
@@ -648,6 +651,9 @@
       <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
     <ClInclude Include="Notification.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Reward.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>

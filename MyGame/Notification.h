@@ -1,15 +1,20 @@
 #pragma once
 #include "Text.h"
+#include "Reward.h"
+
+#define FIRST_LINE_TIME 300
+#define SECOND_LINE_TIME 4000
 
 class CNotification {
 	vector<CText*> content;
 	static CNotification* __instance;
+	reward re;
 
-	int firstLine;
-	ULONGLONG firstLine_start;
+	int firstLine = 0;
+	ULONGLONG firstLine_start = 0;
 
-	int secondLine;
-	ULONGLONG secondLine_start;
+	int secondLine = 0;
+	ULONGLONG secondLine_start = 0;
 
 	void FirstLineStart() { firstLine = 1; firstLine_start = GetTickCount64(); };
 	void ResetFirstLine() { firstLine = 0; firstLine_start = 0; };
@@ -18,7 +23,6 @@ class CNotification {
 	void ResetSecondLine() { secondLine = 0; secondLine_start = 0; };
 
 	string ClassifyReward(int reward);
-
 public:
 	bool visible = false;
 

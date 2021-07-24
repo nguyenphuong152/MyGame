@@ -46,8 +46,6 @@
 #include "Boomerang.h"
 #include "Notification.h"
 
-//CMario* CMario::__instance = NULL;
-
 CMario::CMario(float x, float y) : CGameObject()
 {
 	isEnable = true;
