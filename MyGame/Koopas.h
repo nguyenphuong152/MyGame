@@ -6,7 +6,7 @@
 
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.08f
-#define KOOPA_GRAVITY			0.004f
+#define KOOPA_GRAVITY			0.003f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
@@ -40,16 +40,18 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	
-	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
 	void ChangeDirection(float speed);
 	void WalkThrough(float speed);
+
+	void ResetRecover() { recover = 0; _recoverStart = 0; };
 public:
 	CKoopas();
-	bool isHolded = false;
-	bool isOnGround = false;
+	bool isHolded;
+	bool isOnGround;
 	
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
-	
+	void LevelDown();
 	virtual void SetState(int state);
 	void UpdateShellPosition();
 

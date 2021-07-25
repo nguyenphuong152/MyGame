@@ -9,7 +9,6 @@ CParaKoopa::CParaKoopa()
 {
 	nx = -1;
 	ny = 1;
-	vx = KOOPA_WALKING_SPEED*nx;
 	SetLevel(KOOPA_LEVEL_2);
 	SetState(PARA_KOOPA_STATE_JUMPING);
 }
@@ -23,21 +22,10 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (GetLevel() == KOOPA_LEVEL_2)
 	{
-		CEnemy::Update(dt, coObjects);
-		vy += PARA_KOOPA_GRAVITY * dt;
-
+		vx = KOOPA_WALKING_SPEED * nx;
 		if (isOnGround) SetState(PARA_KOOPA_STATE_JUMPING);
-
-		//collision logic with other objects
-		HandleCollision(coEventsResult);
-
-		ClearCoEvents();
-		grid_->Move(this);
 	}
-	else
-	{
-		CKoopas::Update(dt, coObjects);
-	}
+	CKoopas::Update(dt, coObjects);
 }
 
 void CParaKoopa::Render()
@@ -55,37 +43,14 @@ void CParaKoopa::Render()
 	//RenderBoundingBox();
 }
 
-void CParaKoopa::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
-{
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-
-		if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
-		{
-			if (e->ny < 0)
-			{
-				isOnGround = true;
-			}
-		}
-		else if (dynamic_cast<CBoundary*>(e->obj))
-		{
-			isEnable = false;
-		}
-		
-	}
-}
 
 void CParaKoopa::SetState(int state)
 {
-	CGameObject::SetState(state);
 	if (GetLevel() == KOOPA_LEVEL_2)
 	{
 		isOnGround = false;
 		vy = -PARA_KOOPA_HIGH_JUMP_VELOCITY_Y;
 	}
-	else {
-		CKoopas::SetState(state);
-	}
+	CKoopas::SetState(state);
 
 }

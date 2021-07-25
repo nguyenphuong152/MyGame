@@ -1,8 +1,4 @@
-[LEVEL]	3
+[LEVEL]	1
 [LIVE]	4
-[COIN]	0
-[POINT]	0
-[REWARD]	star
-[REWARD]	star
-[REWARD]	whiteflower
-[REWARD]	whiteflower
+[COIN]	1
+[POINT]	100

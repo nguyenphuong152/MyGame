@@ -17,7 +17,7 @@
 
 class CPiranha : public CRedVenusFireTrap
 {
-	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	virtual void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
 public:
 	CPiranha();
 	virtual void SetState(int state);

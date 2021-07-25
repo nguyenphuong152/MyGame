@@ -107,6 +107,12 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 						ExplosedFireball();
 					}
 				}
+				else if (dynamic_cast<CEnemy*>(e->obj))
+				{
+					if (e->nx != 0 || e->ny!=0) {
+						ExplosedFireball();
+					}
+				}
 				else if (dynamic_cast<CCamera*>(e->obj) || dynamic_cast<CBoundary*>(e->obj))
 				{
 					if (e->nx != 0 || e->ny != 0)

@@ -14,7 +14,7 @@
 
 class CGreenVenusFireTrap : public CRedVenusFireTrap
 {
-	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	virtual void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
 public:
 	CGreenVenusFireTrap();
 	virtual void Render();

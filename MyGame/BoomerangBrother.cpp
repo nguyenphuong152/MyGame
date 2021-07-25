@@ -29,7 +29,7 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//check dieu kien nhay
 	BoomerangBrotherJump();
 
-	CEnemy::Update(dt, coObjects);
+	CEnemy::Update(dt);
 	vy += BOOMERANGBROTHER_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > DIETIME && die) isEnable = false;
@@ -45,9 +45,8 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += dy;
 	}
 	//collision logic with other objects
-	HandleCollision(coEventsResult);
-    
-	ClearCoEvents();
+	
+	HandleCollision(coObjects);
 	grid_->Move(this);
 }
 
@@ -65,28 +64,46 @@ void CBoomerangBrother::Render()
 	RenderBoundingBox();
 }
 
-void CBoomerangBrother::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+void CBoomerangBrother::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 {
-	for (UINT i = 0; i < coEventsResult.size(); i++)
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() == 0)
 	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (dynamic_cast<CGround*>(e->obj))
+		y += dy;
+		x += dx;
+	}
+	else
+	{
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			if (e->ny < 0 && isOnGround == false)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CGround*>(e->obj))
 			{
-				StartWalking();
-				SetState(BOOMERANGBROTHER_STATE_WALKING);
+				if (e->ny < 0 && isOnGround == false)
+				{
+					StartWalking();
+					SetState(BOOMERANGBROTHER_STATE_WALKING);
+				}
 			}
-		}
-		else if (dynamic_cast<CObjectBoundary*>(e->obj))
-		{
-			if (e->nx != 0)
+			else if (dynamic_cast<CObjectBoundary*>(e->obj))
 			{
-				direction = -direction;
-				vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
+				if (e->nx != 0)
+				{
+					direction = -direction;
+					vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
+				}
 			}
 		}
 	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CBoomerangBrother::BoomerangBrotherJump()

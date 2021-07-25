@@ -50,34 +50,52 @@ void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(PIRANHA_STATE_GO_DOWN);
 	}
 
-	CEnemy::Update(dt, coObjects);
+	CGameObject::Update(dt);
 
-	HandleCollision(coEventsResult);
-	
-	ClearCoEvents();
+	HandleCollision(coObjects);
+
 	grid_->Move(this);
 }
 
-void CPiranha::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+void CPiranha::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 {
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-		if (dynamic_cast<CGround*>(e->obj))
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		y += dy;
+		x += dx;
+	}
+	else
+	{
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			if (e->ny != 0)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<CGround*>(e->obj))
 			{
-				if (y > PIRANHA_PIPE_POSITION_Y)
+				if (e->ny != 0)
 				{
-					SetState(PIRANHA_STATE_GO_UP);
+					if (y > PIRANHA_PIPE_POSITION_Y)
+					{
+						SetState(PIRANHA_STATE_GO_UP);
+					}
+					else {
+						SetState(PIRANHA_STATE_GO_DOWN);
+					}
+					y += dy;
 				}
-				else {
-					SetState(PIRANHA_STATE_GO_DOWN);
-				}
-				y += dy;
 			}
 		}
 	}
+
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
