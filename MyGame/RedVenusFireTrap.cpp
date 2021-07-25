@@ -69,12 +69,10 @@ void CRedVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(VENUS_STATE_GO_DOWN);
 	}
 
-	CEnemy::Update(dt, coObjects);
+	CGameObject::Update(dt);
 
-	//collision logic with other objects
-	HandleCollision(coEventsResult);
 	
-	ClearCoEvents();
+	HandleCollision(coObjects);
 	grid_->Move(this);
 }
 
@@ -87,28 +85,46 @@ void CRedVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = y + VENUS_BBOX_HEIGHT;
 }
 
-void CRedVenusFireTrap::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+void CRedVenusFireTrap::HandleCollision(vector<LPGAMEOBJECT>* coEventRe)
 {
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
+	//collision logic with other objects
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-		if (dynamic_cast<CGround*>(e->obj))
+	coEvents.clear();
+
+	CalcPotentialCollisions(coEventRe, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		y += dy;
+		x += dx;
+	}
+	else
+	{
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			if (e->ny != 0)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<CGround*>(e->obj))
 			{
-				if (y > POSITION_PIPE_Y)
+				if (e->ny != 0)
 				{
-					SetState(VENUS_STATE_GO_UP);
+					if (y > POSITION_PIPE_Y)
+					{
+						SetState(VENUS_STATE_GO_UP);
+					}
+					else {
+						SetState(VENUS_STATE_GO_DOWN);
+					}
+					y += dy;
 				}
-				else {
-					SetState(VENUS_STATE_GO_DOWN);
-				}
-				y += dy;
 			}
 		}
 	}
-
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CRedVenusFireTrap::CheckDirection()

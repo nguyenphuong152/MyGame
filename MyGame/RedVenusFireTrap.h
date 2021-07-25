@@ -37,7 +37,7 @@ protected:
 	ULONGLONG changeState_start;
 	int changeState;
 
-	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	virtual void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
 public:
 	CRedVenusFireTrap();
 	virtual void Render();

@@ -41,7 +41,7 @@ class CBoomerangBrother : public CEnemy
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual void HandleCollision(vector<LPCOLLISIONEVENT> coEventRe);
+	virtual void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
 public:
 	bool isHitted;
 	int direction;

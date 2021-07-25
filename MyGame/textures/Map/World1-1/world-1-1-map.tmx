@@ -400,7 +400,7 @@
   <object id="362" x="6912" y="1153.5" width="92" height="69"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="28" x="737.523" y="1104.97" width="104.597" height="7.7797"/>
+  <object id="28" type="0" x="737.523" y="1104.97" width="104.597" height="7.7797"/>
   <object id="29" type="0" x="835.891" y="1008.86" width="108.712" height="7.74203"/>
   <object id="30" type="0" x="1200.45" y="1104.34" width="239.337" height="9.44637"/>
   <object id="31" type="0" x="1392.68" y="1008.23" width="190.967" height="10.2797"/>

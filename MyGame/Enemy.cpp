@@ -18,26 +18,9 @@ CEnemy::~CEnemy()
 
 }
 
-void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
+void CEnemy::Update(DWORD dt)
 {
-	CGameObject::Update(dt, colObject);
-
-	coEventsResult.clear();
-	coEvents.clear();
-
-	CalcPotentialCollisions(colObject, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		y += dy;
-		x += dx;
-	}
-	else
-	{
-		float nx = 0, ny;
-		FilterCollision(coEvents, coEventsResult,nx,ny);
-	}
-
+	//CGameObject::Update(dt);
 }
 
 void CEnemy::SetState(int state)
@@ -79,10 +62,6 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 	player->SetPoints(p);
 }
 
-void CEnemy::ClearCoEvents()
-{
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-}
 
 //void CEnemy::SetPlayerData(CMario& mario)
 //{

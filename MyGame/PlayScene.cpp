@@ -431,14 +431,15 @@ void CPlayScene::Render()
 	if (player->canWalkBehindMap == false)
 	{
 		map->RenderMap();
+		grid->Render();
 		player->Render();
 	}
 	else {
 		player->Render();
 		map->RenderMap();
+		grid->Render();
 	}
 
-	grid->Render();
 
 
 	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)

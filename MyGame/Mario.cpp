@@ -131,23 +131,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
 				//jummp  on top >> kill goomba and deflect a bit
-				if (e->ny < 0)
+				if (e->ny < 0 && goomba->GetState()!=GOOMBA_STATE_DIE)
 				{
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
-						if (goomba->GetLevel() == GOOMBA_LEVEL_2)
-						{
-							goomba->SetLevel(GOOMBA_LEVEL_1);
-							goomba->SetState(GOOMBA_STATE_WALKING);
-						}
-						else
-						{
-							goomba->SetState(GOOMBA_STATE_DIE);
-							goomba->StartDie();
-						}
-						goomba->SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
-					}
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					goomba->LevelDown();
 				}
 				else if (e->ny > 0)
 				{
@@ -166,21 +153,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//jummp  on top >> kill koopas and deflect a bit
 				if (e->ny < 0)
 				{
-					if (koopa->GetLevel() == KOOPA_LEVEL_2)
-					{
-						koopa->SetLevel(KOOPA_LEVEL_1);
-						koopa->SetState(PARA_KOOPA_STATE_WALKING);
-					}
-					else if (koopa->GetState() == KOOPA_STATE_WALKING)
-					{
-						koopa->SetState(KOOPA_STATE_DIE);
-						koopa->StartDie();
-					}
-					else if (koopa->GetState() == KOOPA_STATE_DIE)
-					{
+					if (koopa->GetState() == KOOPA_STATE_DIE)
 						koopa->SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
-					}
-					koopa->SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
+ 					else koopa->LevelDown();
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				else if (e->nx != 0)

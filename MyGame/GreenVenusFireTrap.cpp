@@ -36,17 +36,16 @@ void CGreenVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	HandleShooting(POSITION_PIPE_Y, VENUS_BBOX_HEIGHT);
 	
-	CEnemy::Update(dt, coObjects);
+	CGameObject::Update(dt);
 	
-	HandleCollision(coEventsResult);
+	HandleCollision(coObjects);
 
-	ClearCoEvents();
 }
 
 
-void CGreenVenusFireTrap::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
+void CGreenVenusFireTrap::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 {
-	CRedVenusFireTrap::HandleCollision(coEventRe);
+	CRedVenusFireTrap::HandleCollision(coObjects);
 }
 
 
