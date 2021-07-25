@@ -21,6 +21,9 @@ using namespace std;
 #define HUD_BLANKSPACE		24
 
 #define REWARD_ALIGN_LEFT 494
+#define MAX_REWARD_SIZE 3
+
+#define THREE_REWARDS_POINTS 5000
 
 class HUD {
 	float x,y;

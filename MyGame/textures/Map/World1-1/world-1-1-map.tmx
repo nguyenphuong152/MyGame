@@ -401,19 +401,19 @@
  </objectgroup>
  <objectgroup id="14" name="Ghost">
   <object id="28" x="737.523" y="1104.97" width="104.597" height="7.7797"/>
-  <object id="29" x="835.891" y="1008.86" width="108.712" height="7.74203"/>
-  <object id="30" x="1200.45" y="1104.34" width="239.337" height="9.44637"/>
-  <object id="31" x="1392.68" y="1008.23" width="190.967" height="10.2797"/>
-  <object id="32" x="1537.16" y="912.118" width="189.71" height="8.242"/>
-  <object id="33" x="1541.16" y="1152.71" width="281.194" height="8.5366"/>
-  <object id="34" x="3900.06" y="433.444" width="179.967" height="13.229"/>
-  <object id="37" x="6385.12" y="1104.31" width="142.349" height="21.9307"/>
-  <object id="38" x="6480.76" y="816.281" width="142.349" height="25.264"/>
-  <object id="39" x="3745.09" y="1152.82" width="333.545" height="24.2578"/>
-  <object id="40" x="3841.47" y="1056.44" width="334.813" height="18.193"/>
-  <object id="41" x="3936.59" y="960.051" width="333.545" height="22.924"/>
-  <object id="35" x="4176.77" y="576.041" width="190.967" height="19.1135"/>
-  <object id="36" x="4418" y="529.339" width="667.487" height="13.7697"/>
+  <object id="29" type="0" x="835.891" y="1008.86" width="108.712" height="7.74203"/>
+  <object id="30" type="0" x="1200.45" y="1104.34" width="239.337" height="9.44637"/>
+  <object id="31" type="0" x="1392.68" y="1008.23" width="190.967" height="10.2797"/>
+  <object id="32" type="0" x="1537.16" y="912.118" width="189.71" height="8.242"/>
+  <object id="33" type="0" x="1541.16" y="1152.71" width="281.194" height="8.5366"/>
+  <object id="34" type="0" x="3900.06" y="433.444" width="179.967" height="13.229"/>
+  <object id="37" type="0" x="6385.12" y="1104.31" width="142.349" height="21.9307"/>
+  <object id="38" type="0" x="6480.76" y="816.281" width="142.349" height="25.264"/>
+  <object id="39" type="0" x="3745.09" y="1152.82" width="333.545" height="24.2578"/>
+  <object id="40" type="0" x="3841.47" y="1056.44" width="334.813" height="18.193"/>
+  <object id="41" type="0" x="3936.59" y="960.051" width="333.545" height="22.924"/>
+  <object id="35" type="0" x="4176.77" y="576.041" width="190.967" height="19.1135"/>
+  <object id="36" type="0" x="4418" y="529.339" width="667.487" height="13.7697"/>
  </objectgroup>
  <objectgroup id="18" name="QuestionBlocks" visible="0">
   <object id="47" name="bcoin" type="1" x="541.167" y="1058"/>

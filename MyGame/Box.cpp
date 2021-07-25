@@ -2,11 +2,12 @@
 #include "Textures.h"
 #include "Game.h"
 
-CBox::CBox(float width, float height)
+CBox::CBox(float width, float height, BoxType t)
 {
 	this->width = width;
 	this->height = height;
 	isEnable = true;
+	this->type = t;
 }
 
 void CBox::GetBoundingBox(float& l, float& t, float& r, float& b)

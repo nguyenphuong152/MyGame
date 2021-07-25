@@ -109,7 +109,17 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CBox(width, height);
+					//const char* t = element->Attribute("type");
+
+					if (strcmp(element->Attribute("type"), "1") == 0)
+					{
+						DebugOut(L"true \n");
+						obj = new CBox(width, height, BoxType::special);
+					}
+					else {
+						obj = new CBox(width, height, BoxType::normal);
+					}
+					
 					obj->SetPosition(x, y);
 					obj->AddObjectToGrid(grid, id);
 

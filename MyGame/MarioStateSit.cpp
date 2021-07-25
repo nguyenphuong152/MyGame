@@ -72,6 +72,15 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 			mario.vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
+
+	if (mario.isOnSpecialBox && preparing == 0) StartPrepair();
+	if (preparing == 1 && GetTickCount64() - _prepareWalkBehindMapStart > SITTING_TIME)
+	{
+		ResetPrepair();
+		mario.isOnSpecialBox = false;
+		mario.canWalkBehindMap = true;
+		mario.WalkBehindStart();
+	}
 }
 
 void CMarioStateSit::SetPositionAferSitting(CMario& mario)

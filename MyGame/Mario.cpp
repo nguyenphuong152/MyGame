@@ -97,6 +97,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		Recover();
 	}
 
+	if (walkbehind == 1 && GetTickCount64() - walk_behind_start > MARIO_WALK_BEHIND_MAP_TIME)
+	{
+		ResetWalkBehind();
+		canWalkBehindMap = false;
+	}
+
 	//handle when mario jump out of cam
 	CheckMarioOutOfCamera();
 
@@ -223,6 +229,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							CMarioState::go_to_pipe.GetInstance()->isTouchHiddenPipe = false;
 							ChangeState(CMarioState::idle.GetInstance());
 
+						}
+					}
+					else if (dynamic_cast<CBox*>(e->obj))
+					{
+						CBox* box = dynamic_cast<CBox*>(e->obj);
+						if (box->GetType() == BoxType::special)
+						{
+							isOnSpecialBox = true;
+							if (canWalkBehindMap) {
+								y += 5;
+							}
 						}
 					}
 				}
@@ -712,10 +729,14 @@ void CMario::SavePlayerData()
 	fs << "\n[LIVE]\t"; fs << live;
 	fs << "\n[COIN]\t"; fs << coins;
 	fs << "\n[POINT]\t"; fs << points;
-	fs << "\n[REWARD]\t"; fs << reward;
+	for (UINT i = 0; i < reward.size();i++)
+	{
+		fs << "\n[REWARD]\t"; fs << reward[i];
+	}
 
-	DebugOut(L"[DONE] Save player data \n");
 	fs.close();
+	DebugOut(L"[DONE] Save player data \n");
+	
 }
 
 void CMario::MovingMarioWithCamera()

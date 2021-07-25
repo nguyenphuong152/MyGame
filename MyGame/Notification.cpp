@@ -22,7 +22,6 @@ string CNotification::ClassifyReward(int reward)
 		name = "whiteflower";
 	}
 	player->SetReward(name);
-	
 	return name;
 }
 
@@ -35,10 +34,19 @@ CNotification* CNotification::GetInstance()
 void CNotification::Init(int reward)
 {
    string reward_name = ClassifyReward(reward);
+   CText* t1 = NULL; CText* t2 = NULL; CText* t3 = NULL;
 
-   CText* t1 = 	SetContent("course clear", FIRST_LINE_POS_X -1000, FIRST_LINE_POS_Y);
-   CText* t2 = SetContent("you got a card", SECOND_LINE_POS_X -1000, SECOND_LINE_POS_Y);
-   CText* t3 = SetContent(reward_name, REWARD_POS_X -1000, SECOND_LINE_POS_Y-20);
+   if (CGame::GetInstance()->current_scene == WORLD1_3_MAP)
+   {
+	   t1 = SetContent("course clear", FIRST_LINE_POS_X - 900, FIRST_LINE_POS_Y - 220);
+	   t2 = SetContent("you got a card", SECOND_LINE_POS_X - 900, SECOND_LINE_POS_Y - 220);
+	   t3 = SetContent(reward_name, REWARD_POS_X - 900, SECOND_LINE_POS_Y - 240);
+   }
+   else {
+	   t1 = SetContent("course clear", FIRST_LINE_POS_X , FIRST_LINE_POS_Y);
+	   t2 = SetContent("you got a card", SECOND_LINE_POS_X , SECOND_LINE_POS_Y );
+	   t3 = SetContent(reward_name, REWARD_POS_X , SECOND_LINE_POS_Y - 20);
+   }
 
    content.push_back(t1);
    content.push_back(t2);
@@ -62,7 +70,6 @@ void CNotification::Update()
 
 void CNotification::Render()
 {
-	DebugOut(L"HUD %f %f \n", content[0]->start_x, content[0]->start_y);
 	content[0]->RenderText();
 	if (secondLine == 1)
 	{
@@ -80,7 +87,6 @@ CText* CNotification::SetContent(string c, float x, float y)
 
 void CNotification::ShowNoti(int reward)
 {
-	DebugOut(L"helo \n");
 	Init(reward);
 	visible = true;
 	FirstLineStart();

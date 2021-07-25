@@ -27,10 +27,22 @@ void HUD::Init(int texture, float pos_hud)
 void HUD::AddReward(reward type)
 {
 	Reward* r = new Reward(type);
-	r->SetPosition((float)x+REWARD_ALIGN_LEFT * (rewards.size()+1), (float) y+HUD_ALIGN_TOP-4);
-	//DebugOut(L"Re %f %f \n", r->x,r->y);
-	
+
+	if (rewards.size() == MAX_REWARD_SIZE)
+	{
+		CGame::GetInstance()->GetPlayer()->SetPoints(THREE_REWARDS_POINTS);
+		for (UINT i = 0; i < rewards.size(); i++)
+		{
+			delete rewards[i];
+		}
+		rewards.clear();
+	}
+
 	rewards.push_back(r);
+	
+
+	float start_x = x + REWARD_ALIGN_LEFT;
+	r->SetPosition((float)(start_x+(HUD_BLANKSPACE*3*rewards.size())), (float)y + HUD_ALIGN_TOP - 4);
 }
 
 void HUD::AddReward(string re)
@@ -114,8 +126,9 @@ void HUD::Update()
 	UpdatePosition();
 	HUDContent::GetInstance()->Update();
 
+	float start_x = x + REWARD_ALIGN_LEFT;
 	for (UINT i = 0; i < rewards.size(); i++) {
-		rewards[i]->SetPosition((float)(this->x + REWARD_ALIGN_LEFT * (i+1)), (float)(this->y + HUD_ALIGN_TOP - 4));
+		rewards[i]->SetPosition((float)(start_x + (HUD_BLANKSPACE*3 *i)), (float)(this->y + HUD_ALIGN_TOP - 4));
 		rewards[i]->Update();
 	}
 		

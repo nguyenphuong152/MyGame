@@ -1,5 +1,8 @@
 [LEVEL]	3
 [LIVE]	4
-[COIN]	32
-[POINT]	3300
+[COIN]	0
+[POINT]	0
+[REWARD]	star
+[REWARD]	star
+[REWARD]	whiteflower
 [REWARD]	whiteflower

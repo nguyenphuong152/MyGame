@@ -399,15 +399,15 @@
   <object id="512" x="7096.75" y="2162.25" width="5.5" height="188.5"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="287" x="480" y="912" width="190" height="15.6667"/>
-  <object id="288" x="625" y="768.5" width="190" height="22.3333"/>
-  <object id="289" x="4657" y="577.5" width="190" height="24"/>
-  <object id="290" x="4896" y="770.5" width="190" height="29"/>
-  <object id="291" x="5136" y="674.5" width="190" height="29"/>
-  <object id="292" x="5521" y="722.5" width="190" height="21"/>
-  <object id="293" x="5234" y="818.5" width="237" height="14.3333"/>
-  <object id="294" x="4610" y="866.5" width="237" height="12.6667"/>
-  <object id="464" x="5762" y="626" width="190" height="27.3333"/>
+  <object id="287" type="0" x="480" y="912" width="190" height="15.6667"/>
+  <object id="288" type="0" x="625" y="768.5" width="190" height="22.3333"/>
+  <object id="289" type="0" x="4657" y="577.5" width="190" height="24"/>
+  <object id="290" type="1" x="4896" y="770.5" width="190" height="29"/>
+  <object id="291" type="0" x="5136" y="674.5" width="190" height="29"/>
+  <object id="292" type="0" x="5521" y="722.5" width="190" height="21"/>
+  <object id="293" type="0" x="5234" y="818.5" width="237" height="14.3333"/>
+  <object id="294" type="0" x="4610" y="866.5" width="237" height="12.6667"/>
+  <object id="464" type="0" x="5762" y="626" width="190" height="27.3333"/>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
   <object id="229" type="0" x="-56.7273" y="4" width="63.6364" height="1132.85"/>

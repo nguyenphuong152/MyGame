@@ -294,7 +294,11 @@ void CPlayScene::_ParseSection_PLAYER_DATA(string line)
 		else if (property == "[COIN]") player->SetCoins(atoi(tokens[1].c_str()));
 		else if (property == "[LIVE]") player->SetLive(atoi(tokens[1].c_str()));
 		else if (property == "[POINT]") player->SetPoints(atoi(tokens[1].c_str()));
-		else if (property == "[REWARD]") HUD::GetInstance()->AddReward(tokens[1]);
+		else if (property == "[REWARD]")
+		{
+			player->SetReward(tokens[1]);
+			HUD::GetInstance()->AddReward(tokens[1]);
+		}
 	}
 	f.close();
 	
@@ -424,14 +428,20 @@ void CPlayScene::Render()
 {
 	if (player == NULL) return;
 
-	map->RenderMap();
+	if (player->canWalkBehindMap == false)
+	{
+		map->RenderMap();
+		player->Render();
+	}
+	else {
+		player->Render();
+		map->RenderMap();
+	}
 
 	grid->Render();
 
-	player->Render();
 
-
-	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
 		map->RenderForeground();
 	}

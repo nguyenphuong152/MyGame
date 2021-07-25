@@ -129,6 +129,8 @@ class CMarioState;
 #define HIDDEN_SCENE_1_X	6830
 #define HIDDEN_SCENE_1_Y	1030
 
+#define MARIO_WALK_BEHIND_MAP_TIME 12000
+
 using namespace std;
 
 class CMario : public CGameObject
@@ -140,6 +142,9 @@ class CMario : public CGameObject
 	int die;
 	ULONGLONG die_start;
 
+	int walkbehind;
+	ULONGLONG walk_behind_start;
+
 	// initial position of Mario at scene
 	float start_x;
 	float start_y;
@@ -149,7 +154,7 @@ class CMario : public CGameObject
 	int level;
 	int coins;
 
-	string reward;
+	vector<string> reward;
 
 	Input input;
 	
@@ -171,10 +176,11 @@ public:
 	bool isJumpOnSwitch = false;
 	bool canGoIntoPipe = false;
 	bool canChangeMap = false;
+	bool canWalkBehindMap = false;
 	bool isHoldKoopa = false;
 	bool isOnRedMagicBlock = false;
 	bool isAutoWalk = false;
-
+	bool isOnSpecialBox = false;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -213,8 +219,7 @@ public:
 	void SetCoins(int coin) { this->coins = coin; };
 	int GetCoins() { return coins; };
 
-	void SetReward(string r) { this->reward = r; };
-	string GetReward() { return reward; };
+	void SetReward(string r) { this->reward.push_back(r); };
 
 	void LevelUp();
 	void RecalculatePower();
@@ -249,6 +254,9 @@ public:
 
 	void GoBackToNormalScene();
 	void MoveToSecretScreen();
+
+	void WalkBehindStart() { walkbehind = 1; walk_behind_start = GetTickCount64(); }
+	void ResetWalkBehind() { walkbehind = 0; walk_behind_start = 0; };
 };
 
 
