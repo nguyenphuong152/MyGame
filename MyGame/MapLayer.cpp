@@ -54,7 +54,7 @@ void CMapLayer::RenderLayer()
            {
                if (tileset[i][j] != 0) {
                    //DebugOut(L"tile %d \n", tileset[i][j]);
-                   CSprites::GetInstance()->Get(tileset[i][j])->Draw(-1, 1, j * TILE_WIDTH, i * TILE_WIDTH);
+                   CSprites::GetInstance()->Get(tileset[i][j])->Draw(-1, 1, (float)(j * TILE_WIDTH),(float)(i * TILE_WIDTH));
                }
            }
        }

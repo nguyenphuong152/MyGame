@@ -10,6 +10,12 @@ CText::CText(Content content,float x, float y)
 	start_x = x;
 	start_y = y;
 
+	default_time = 0;
+	power = 0;
+	flashing_start = 0;
+	flashing = 0;
+	size = 0;
+
 	switch (content)
 	{
 	case Content::Live:
@@ -30,6 +36,9 @@ CText::CText(Content content,float x, float y)
 	case Content::Power:
 		size = POWER_TEXT_SIZE;
 		break;
+	case Content::Noti:
+		size = NOTI_TEXT_SIZE;
+		break;
 	}
 
 	letters = new Letter[size];
@@ -46,13 +55,13 @@ void CText::Update()
 		SetText("1");
 		break;
 	case Content::Point:
-		SetText("999999");
+		SetPoint();
 		break;
 	case Content::Time:
 		Countdown();
 		break;
 	case Content::Coin:
-		SetText("30");
+		SetCoin();
 		break;
 	case Content::Power:
 		SetPower(MAX_POWER);
@@ -81,13 +90,36 @@ void CText::RenderPower()
 
 void CText::SetText(string input)
 {
-	int number = atoi(input.c_str());
-	for (int i = 0; i < size; i++)
+	if (content != Content::Noti)
 	{
-		int a = number % 10;
-		number = number / 10;
-		letters[size - 1 - i].SetLetter(a);
-		letters[i].SetPosition(start_x + HUD_BLANKSPACE * i, start_y);
+		int number = atoi(input.c_str());
+		for (int i = 0; i < size; i++)
+		{
+			int a = number % 10;
+			number = number / 10;
+			letters[size - 1 - i].SetLetter(a);
+			letters[i].SetPosition(start_x + HUD_BLANKSPACE * i, start_y, Content::Coin);
+		}
+	}
+	else {
+		int i = 0;
+
+		if (input.compare("mushroom") == 0 || input.compare("whiteflower") == 0 || input.compare("star") == 0)
+		{
+			letters[i].SetLetter(input);
+			letters[i].SetPosition(start_x , start_y, Content::Noti);
+		}
+		else {
+			for (char& c : input)
+			{
+				string l;
+				l.push_back(c);
+
+				letters[i].SetLetter(l);
+				letters[i].SetPosition(start_x + HUD_BLANKSPACE * i, start_y, Content::Noti);
+				i++;
+			}
+		}
 	}
 }
 
@@ -105,7 +137,7 @@ void CText::SetPower(int number) {
 			letters[i].SetLetter("arrowBlack");
 		}
 		
-		letters[i].SetPosition(start_x + HUD_BLANKSPACE * i, start_y);
+		letters[i].SetPosition(start_x + HUD_BLANKSPACE * i, start_y, Content::Power);
 		
 	}
 
@@ -124,14 +156,13 @@ void CText::SetPower(int number) {
 		flashing = 0;
 	}
 
-	letters[size - 1].SetPosition(start_x + HUD_BLANKSPACE * (size-1), start_y);
+	letters[size - 1].SetPosition(start_x + HUD_BLANKSPACE * (size-1), start_y,Content::Power);
 }
 
 void CText::Countdown()
 {
-	int now = GetTickCount64();
-	int countdown_start = HUD::GetInstance()->GetCountdownStart();
-	default_time = GAME_TIME-(now - countdown_start) / 1000;
+	ULONGLONG countdown_start = HUD::GetInstance()->GetCountdownStart();
+	default_time = GAME_TIME -(GetTickCount64() - countdown_start) / 1000;
 	SetText(to_string(default_time));
 }
 
@@ -142,12 +173,32 @@ void CText::SetLive()
 	SetText(to_string(live));
 }
 
+void CText::SetPoint()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	int point = player->GetPoints();
+	SetText(to_string(point));
+}
+
+void CText::SetCoin()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	int coin = player->GetCoins();
+	SetText(to_string(coin));
+}
+
+
 /*Letter*/
 
 
+Letter::Letter()
+{
+	x = y = 0.0f;
+}
+
 void Letter::SetLetter(int letter)
 {
-	string l = to_string(letter);
+    string l = to_string(letter);
 	int tex = HUD::GetInstance()->GetTextureOfLetter(l);
 	if (tex != NULL) texture = tex;
 }
@@ -169,11 +220,18 @@ void Letter::Render()
 	}
 }
 
-void Letter::SetPosition(float x, float y)
+void Letter::SetPosition(float x, float y,Content type)
 {
-	float hud_x, hud_y;
-	HUD::GetInstance()->GetPosition(hud_x, hud_y);
-	this->x = floor(x+hud_x);
-	this->y = floor(y+hud_y);
+	if (type != Content::Noti)
+	{
+		float hud_x, hud_y;
+		HUD::GetInstance()->GetPosition(hud_x, hud_y);
+		this->x = floor(x + hud_x);
+		this->y = floor(y + hud_y);
+	}
+	else {
+		this->x = x;
+		this->y = y;
+	}
 }
 

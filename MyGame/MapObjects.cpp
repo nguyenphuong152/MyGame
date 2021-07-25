@@ -109,7 +109,17 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = new CBox(width, height);
+					//const char* t = element->Attribute("type");
+
+					if (strcmp(element->Attribute("type"), "1") == 0)
+					{
+						DebugOut(L"true \n");
+						obj = new CBox(width, height, BoxType::special);
+					}
+					else {
+						obj = new CBox(width, height, BoxType::normal);
+					}
+					
 					obj->SetPosition(x, y);
 					obj->AddObjectToGrid(grid, id);
 
@@ -193,9 +203,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("width", &width);
 					element->QueryFloatAttribute("height", &height);
 
-					obj = CCamera::GetInstance();
-					CCamera::GetInstance()->SetProperty(y, width, height); //sua vi tri cam
-					CGame::GetInstance()->SetMainCamera(CCamera::GetInstance());
+					obj = new CCamera(y, width, height);
+					CCamera* cam = (CCamera*)obj;
+					CGame::GetInstance()->SetMainCamera(cam);
 					objects.push_back(obj);
 
 					element = element->NextSiblingElement();
@@ -439,7 +449,37 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					const char* type = element->Attribute("name");
 
 					if (strcmp(type, "pipe-in") == 0)
+					{
 						obj = new CPipe(PipeType::entry);
+						int camx, camy, scene, mariox, marioy,mario_in_x,mario_in_y;
+						TiXmlElement* ele = element->FirstChild("properties")->FirstChild("property")->ToElement();
+						
+						while (ele)
+						{
+							const char* name = ele->Attribute("name");
+							const char* value = ele->Attribute("value");
+							
+							if (strcmp(name, "scene") == 0)
+								scene = atoi(value);
+							else if (strcmp(name, "hidden_scene_camx") == 0)
+								camx = atoi(value);
+							else if (strcmp(name, "hidden_scene_camy") == 0)
+								camy = atoi(value);
+							else if (strcmp(name, "player_pos_out_pipex") == 0)
+								mariox = atoi(value);
+							else if (strcmp(name, "player_pos_out_pipey") == 0)
+								marioy = atoi(value);
+							else if (strcmp(name, "player_pos_in_x") == 0)
+								mario_in_x = atoi(value);
+							else if (strcmp(name, "player_pos_in_y") == 0)
+								mario_in_y = atoi(value);
+
+							ele = ele->NextSiblingElement();
+						}
+
+						CHiddenScene* h = new CHiddenScene(scene, camx, camy, mariox, marioy, mario_in_x, mario_in_y);
+						CGame::GetInstance()->GetMainCamera()->hiddenscenes.push_back(h);
+					}
 					else if (strcmp(type, "hidden-pipe") == 0)
 						obj = new CPipe(PipeType::hidden);
 					else {

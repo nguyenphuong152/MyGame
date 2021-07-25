@@ -37,13 +37,15 @@ void CMarioStateRun::HandleInput(CMario& mario, Input input)
 
 void CMarioStateRun::Update(DWORD dt, CMario& mario)
 {
-	
-	if (!mario.powerMode)
+	if (mario.isAutoWalk == false)
 	{
-		mario.ChangeState(CMarioState::walk.GetInstance());
-	}
-	else {
-		mario.powerLevel += 10;
+		if (!mario.powerMode)
+		{
+			mario.ChangeState(CMarioState::walk.GetInstance());
+		}
+		else {
+			mario.powerLevel += 10;
+		}
 	}
 }
 

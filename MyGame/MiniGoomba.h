@@ -54,10 +54,10 @@ private:
 	int player_jumping_time;
 
 	void StartCountingJumpingTime() { _state.live.jumpable = 1; _state.live.jumping_start = GetTickCount64(); };
-	void ResetCountingJumpingTime() { _state.live.jumpable = _state.live.jumping_start =  0; };
+	void ResetCountingJumpingTime() { _state.live.jumpable = 0;  _state.live.jumping_start = 0; };
 
 	void StartDie() { _state.live.die = 1; _state.live.die_start = GetTickCount64(); };
-	void ResetDie() { _state.live.die = _state.live.die_start = 0; };
+	void ResetDie() { _state.live.die = 0; _state.live.die_start = 0; };
 
 public:
 	CMiniGoomba* GetNext() {
@@ -72,7 +72,7 @@ public:
 	void ResetChangeDirection() { _state.live.changeDirection = 0; _state.live.changeDirection_start = 0; }
 
 	void StartLiving() { _state.live.alive = 1; _state.live.alive_start = GetTickCount64(); }
-	void ResetLive(){ _state.live.alive = _state.live.alive_start = 0; };
+	void ResetLive() { _state.live.alive = 0; _state.live.alive_start = 0; };
 
 	void StartSpawning(CBrownParaGoomba* goomba);
 

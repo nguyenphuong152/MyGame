@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Effect.h"
 
 #define COIN_ANI			25
 
@@ -33,6 +34,8 @@ class CCoin : public CGameObject
 
 public:
 	CCoin(CoinType type, float x, float y);
+
+	void SetEffect(Points point);
 
 	void StartJumping() { jumping = 1; jump_start = GetTickCount64(); }
 	void ResetJumping() { jumping = 0; jump_start = 0; }

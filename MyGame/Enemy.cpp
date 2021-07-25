@@ -6,6 +6,9 @@
 
 CEnemy::CEnemy()
 {
+	level = 0;
+	die = 0;
+	die_start = 0;
 	isEnable = true;
 	player = CGame::GetInstance()->GetPlayer();
 }
@@ -31,18 +34,8 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 	}
 	else
 	{
-
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0, rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		//day object ra mot khoang de k bi chong va cham
-		
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		float nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult,nx,ny);
 	}
 
 }
@@ -66,6 +59,24 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 			effect->SetEffect(EffectName::point, this, 1, 1, point);
 		}
 	}
+	
+	int p = 0;
+	switch (point)
+	{
+	case Points::NONE:
+		break;
+	case Points::POINT_100:
+		p = 100;
+		break;
+	case Points::POINT_200:
+		p = 200;
+		break;
+	case Points::POINT_300:
+		p = 300;
+		break;
+	}
+
+	player->SetPoints(p);
 }
 
 void CEnemy::ClearCoEvents()

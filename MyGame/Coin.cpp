@@ -2,9 +2,13 @@
 #include "Utils.h"
 #include "Brick.h"
 #include "Grid.h"
+#include "EffectPool.h"
+#include "Game.h"
 
 CCoin::CCoin(CoinType type, float x, float y)
 {
+	jump_start = 0;
+	jumping = 0;
 	this->type = type;
 	SetAnimation(COIN_ANI);
 	SetPosition(x, y);
@@ -32,59 +36,13 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME) {
 			ResetJumping();
+			SetEffect(Points::POINT_100);
 			isEnable = false;
 			isActive = false;
 		}
 
 		if (type == CoinType::jumping_coin && state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
-
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(coObjects, coEvents);
-
-		//if no collision occured, proceed normally
-		if (coEvents.size() == 0)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
-
-			float rdx = 0, rdy = 0;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
-
-			//collision logic with other objects
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<CBrick*>(e->obj))
-				{
-					if (e->ny < 0)
-					{
-						//DebugOut(L"vo \n");
-						isEnable = false;
-						isDie = true;
-					}
-				}
-				else {
-					y += dy;
-				}
-			}
-		}
-
-		grid_->Move(this);
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		y += dy;
 	}
 }
 
@@ -109,4 +67,33 @@ void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y+1;
 	r = x + COIN_BBOX_WIDTH;
 	b = y + COIN_BBOX_HEIGHT;
+}
+
+void CCoin::SetEffect(Points point)
+{
+	CEffect* effect = CEffectPool::GetInstance()->Create();
+	if (effect != NULL)
+	{
+		effect->SetEffect(EffectName::point, this, 1, 1, point);
+	}
+
+	int p = 0;
+	switch (point)
+	{
+	case Points::NONE:
+		break;
+	case Points::POINT_100:
+		p = 100;
+		break;
+	case Points::POINT_200:
+		p = 200;
+		break;
+	case Points::POINT_300:
+		p = 300;
+		break;
+	}
+
+	CMario* mario = CGame::GetInstance()->GetPlayer();
+	mario->SetPoints(p);
+	mario->SetCoins();
 }

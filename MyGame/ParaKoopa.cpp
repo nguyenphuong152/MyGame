@@ -72,6 +72,7 @@ void CParaKoopa::HandleCollision(vector<LPCOLLISIONEVENT> coEventRe)
 		{
 			isEnable = false;
 		}
+		
 	}
 }
 

@@ -33,6 +33,7 @@ void CMarioStateKick::HandleInput(CMario& mario, Input input)
 
 void CMarioStateKick::Update(DWORD dt, CMario& mario)
 {
+	mario.vx = 0;
 	if (GetTickCount64()-_kickingStart > MARIO_KICKING_TIME)
 	{
 		_kickingStart = 0;

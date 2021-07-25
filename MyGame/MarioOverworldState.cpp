@@ -28,6 +28,7 @@ void CMarioOverworldState::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::KEYSTATE)
 	{
+		mario.canChangeMap = false;
 		if (game->IsKeyDown(DIK_LEFT)) {
 			mario.vx = -MARIO_SPEED;
 		}
@@ -50,7 +51,7 @@ void CMarioOverworldState::Update(DWORD dt, CMario& mario)
 {
 	if (scene_id != 0 && mario.canChangeMap == true)
 	{
-		CGame::GetInstance()->SwitchScene(scene_id);
+		 CGame::GetInstance()->SwitchScene(scene_id);
 	}
 }
 

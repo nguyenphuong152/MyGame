@@ -22,6 +22,8 @@ struct CCollisionEvent
 	LPGAMEOBJECT obj;
 	float t, nx, ny;
 
+	//bool collide_x, collide_y;
+
 	float dx, dy; //// *RELATIVE* movement distance between this object and obj
 
 	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
@@ -105,10 +107,11 @@ public:
 
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 
-	void FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy);
+	void FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coResults, float& nx, float& ny);
+
+	void BlockObject(LPGAMEOBJECT objx, LPGAMEOBJECT objy, float min_tx, float min_ty, float nx, float ny);
 
 	CGameObject();
-
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

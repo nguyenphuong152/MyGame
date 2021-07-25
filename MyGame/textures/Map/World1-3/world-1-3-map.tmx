@@ -399,15 +399,15 @@
   <object id="512" x="7096.75" y="2162.25" width="5.5" height="188.5"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="287" x="480" y="912" width="190" height="15.6667"/>
-  <object id="288" x="625" y="768.5" width="190" height="22.3333"/>
-  <object id="289" x="4657" y="577.5" width="190" height="24"/>
-  <object id="290" x="4896" y="770.5" width="190" height="29"/>
-  <object id="291" x="5136" y="674.5" width="190" height="29"/>
-  <object id="292" x="5521" y="722.5" width="190" height="21"/>
-  <object id="293" x="5234" y="818.5" width="237" height="14.3333"/>
-  <object id="294" x="4610" y="866.5" width="237" height="12.6667"/>
-  <object id="464" x="5762" y="626" width="190" height="27.3333"/>
+  <object id="287" type="0" x="480" y="912" width="190" height="15.6667"/>
+  <object id="288" type="0" x="625" y="768.5" width="190" height="22.3333"/>
+  <object id="289" type="0" x="4657" y="577.5" width="190" height="24"/>
+  <object id="290" type="1" x="4896" y="770.5" width="190" height="29"/>
+  <object id="291" type="0" x="5136" y="674.5" width="190" height="29"/>
+  <object id="292" type="0" x="5521" y="722.5" width="190" height="21"/>
+  <object id="293" type="0" x="5234" y="818.5" width="237" height="14.3333"/>
+  <object id="294" type="0" x="4610" y="866.5" width="237" height="12.6667"/>
+  <object id="464" type="0" x="5762" y="626" width="190" height="27.3333"/>
  </objectgroup>
  <objectgroup id="25" name="Boundary">
   <object id="229" type="0" x="-56.7273" y="4" width="63.6364" height="1132.85"/>
@@ -599,15 +599,25 @@
   <object id="454" x="6622.34" y="2063.66" width="48" height="48"/>
   <object id="455" x="6575.66" y="2112.34" width="48" height="48"/>
  </objectgroup>
- <objectgroup id="36" name="SecretPipe">
-  <object id="496" name="pipe-in" x="7017" y="2160" width="70" height="25"/>
-  <object id="503" name="pipe-out" x="6240" y="205.333" width="92" height="28"/>
- </objectgroup>
  <objectgroup id="37" name="WoodBlock">
   <object id="504" name="powerup" x="2832" y="868" width="42.6667" height="44"/>
  </objectgroup>
  <objectgroup id="27" name="Camera">
   <object id="239" type="0" x="26.6667" y="506.55" width="800" height="600.606"/>
+ </objectgroup>
+ <objectgroup id="36" name="SecretPipe">
+  <object id="496" name="pipe-in" x="7017" y="2160" width="70" height="25">
+   <properties>
+    <property name="hidden_scene_camx" type="int" value="4538"/>
+    <property name="hidden_scene_camy" type="int" value="1732"/>
+    <property name="player_pos_in_x" type="int" value="4528"/>
+    <property name="player_pos_in_y" type="int" value="2150"/>
+    <property name="player_pos_out_pipex" type="int" value="6246"/>
+    <property name="player_pos_out_pipey" type="int" value="80"/>
+    <property name="scene" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="503" name="pipe-out" x="6240" y="205.333" width="92" height="28"/>
  </objectgroup>
  <objectgroup id="28" name="ObjectBoundary">
   <object id="244" x="1904" y="673.667" width="14.6667" height="93"/>

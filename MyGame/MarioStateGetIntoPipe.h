@@ -1,46 +1,41 @@
 #pragma once
 #include "MarioOnGroundStates.h"
 
-#define POSITION_PLAYER_OUT_PIPE_X_1 6910
-#define POSITION_PLAYER_OUT_PIPE_Y_1 1180
-
-#define POSITION_PLAYER_OUT_PIPE_X_3 6246
-#define POSITION_PLAYER_OUT_PIPE_Y_3 80
-
-#define POSITION_OUT_PIPE	1150
-
-
-
-#define MARIO_IN_PIPE_VELOCITY_Y 0.2f
+#define MARIO_IN_PIPE_VELOCITY_Y 0.4f
 #define CHANGE_STATE_TIME	450
+#define IN_PIPE_TIME 440
+#define IN_PIPE_SHORT_TIME 80
+
+#define UP -1
+#define DOWN 1
 
 class CMarioStateGetIntoPipe : public CMarioOnGroundStates
 {
 private:
 	ULONGLONG _changeStateStart =  0;
-
+	int isChangeState = 0;
 
 	int isInPipe = 0;
 	ULONGLONG inPipeStart;
 
+	int isOutPipe = 0;
+	ULONGLONG outPipeStart = 0;
 	
-	void ResetInPipe() { isInPipe = inPipeStart = 0; };
+	void ResetInPipe() { isInPipe = 0; inPipeStart = 0; };
+
+	void StartChangeState() { _changeStateStart = GetTickCount64(); isChangeState = 1; };
+	void ResetChangeState() { isChangeState = 0; _changeStateStart = 0; };
+
+	void ResetOutPipe() { isOutPipe = 0; outPipeStart = 0; };
 
 	void HandleSecretScreen1_1(CMario &mario);
 	void HandleSecretScreen1_3(CMario& mario);
 
 public:
-	int isChangeState = 0;
-
 	bool isTouchHiddenPipe = false;
-	bool isUp = false;
-	int inPipe = 0;
+	int dir = 1;
 
-	float position_toggle_cam_x, position_toggle_cam_y;
-	float position_out_x, position_out_y;
 	static CMarioStateGetIntoPipe* __instance;
-
-	void StartChangeState() { _changeStateStart = GetTickCount64(); isChangeState = 1; };
 
 	CMarioStateGetIntoPipe();
 	virtual ~CMarioStateGetIntoPipe() {};
@@ -49,9 +44,7 @@ public:
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt, CMario& mario);
 	static CMarioStateGetIntoPipe* GetInstance();
-	void SetPostionOut(float x, float y) { position_out_x = x; position_out_y = y; }
-	void SetPositionChangeCam(float x, float y) { position_toggle_cam_x = x; position_toggle_cam_y = y; };
-	void Reset();
 
 	void StartInPipe() { isInPipe = 1; inPipeStart = GetTickCount64(); };
+	void StartOutPipe() { outPipeStart = GetTickCount64(); isOutPipe = 1; dir = UP; };
 };

@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "Mario.h"
 #include "HUDContent.h"
+#include "Reward.h"
 
 using namespace std;
 
@@ -19,16 +20,21 @@ using namespace std;
 #define HUD_ALIGN_LEFT		115 
 #define HUD_BLANKSPACE		24
 
+#define REWARD_ALIGN_LEFT 494
+#define MAX_REWARD_SIZE 3
+
+#define THREE_REWARDS_POINTS 5000
+
 class HUD {
 	float x,y;
 	float position_y;
 
-	int countdown_start = GetTickCount64();
-	/*CMario* player;
-	*/
-
+	ULONGLONG countdown_start = GetTickCount64();
+	
 	unordered_map<string, int> letters;
 	int hud_texture;
+
+	vector<Reward*> rewards;
 
 	static HUD* __instance;
 
@@ -39,8 +45,11 @@ public:
 	int GetTextureOfLetter(string name) { return letters[name]; };
 
 	void Init(int texture, float pos_hud);
+
+	void AddReward(reward type);
+	void AddReward(string type);
+
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; };
-	
 	void SetPosition(float pos_hud);
 
 	void Render();
@@ -51,6 +60,6 @@ public:
 	void Update();
 	void UpdatePosition();
 	
-	//void StartCountdown() { countdown_start = GetTickCount64(); };
-	int GetCountdownStart() { return countdown_start; };
+	ULONGLONG GetCountdownStart() { return countdown_start; };
 };
+

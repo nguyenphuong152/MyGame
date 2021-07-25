@@ -9,9 +9,10 @@
 #define POINT_TEXT_SIZE	7
 #define TIME_TEXT_SIZE 3
 #define COIN_TEXT_SIZE 2
+#define NOTI_TEXT_SIZE 100
 
 #define GAME_TIME 900
-#define FLASHING_TIME 65
+#define FLASHING_TIME 30
 #define MAX_POWER 6
 
 using namespace std;
@@ -23,32 +24,32 @@ enum class Content {
 	Time,
 	Coin,
 	Power,
+	Noti
 };
 
 class Letter {
-	float x, y;
 	int texture = 0;
-
+	float x, y;
 public:
+	Letter();
 	void SetLetter(int letter);
 	void SetLetter(string letter);
-	void SetPosition(float x, float y);
+	void SetPosition(float x, float y, Content type);
 	void Render();
 };
 
 class CText {
 	Letter* letters;
 	Content content;
-	int size;
-	float start_x, start_y;
+	int size ;
 
-	int default_time;
+	ULONGLONG default_time ;
 	int power;
-	DWORD flashing_start;
-	int flashing = 0;
+	ULONGLONG flashing_start;
+	int flashing ;
 public:
 	CText(Content content,float x,float y);
-	
+	float start_x, start_y;
 	void SetText(string text);
 	void SetPower(int number);
 	void Update();
@@ -56,6 +57,8 @@ public:
 	void RenderPower();
 	void Countdown();
 	void SetLive();
+	void SetPoint();
+	void SetCoin();
 	void StartFlashing() { flashing_start = GetTickCount64(); flashing = 1; };
 };
 

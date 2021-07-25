@@ -27,13 +27,13 @@
         <object id="209" cellx="16" celly="2" xEnd="17" yEnd="2"/>
         <object id="19" cellx="16" celly="1" xEnd="17" yEnd="2"/>
         <object id="320" cellx="17" celly="3" xEnd="17" yEnd="3"/>
-        <object id="356" cellx="17" celly="2" xEnd="17" yEnd="3"/>
         <object id="16" cellx="16" celly="3" xEnd="21" yEnd="3"/>
         <object id="13" cellx="12" celly="3" xEnd="16" yEnd="3"/>
         <object id="5" cellx="11" celly="3" xEnd="11" yEnd="3"/>
         <object id="4" cellx="8" celly="3" xEnd="11" yEnd="3"/>
         <object id="3" cellx="4" celly="2" xEnd="8" yEnd="3"/>
         <object id="1" cellx="0" celly="3" xEnd="4" yEnd="3"/>
+        <object id="362" cellx="17" celly="2" xEnd="17" yEnd="3"/>
     </group>
     <group id="14" name="Ghost">
         <object id="28" cellx="1" celly="2" xEnd="2" yEnd="2"/>
@@ -129,6 +129,8 @@
         <object id="260" cellx="6" celly="2" xEnd="6" yEnd="2"/>
         <object id="261" cellx="10" celly="2" xEnd="10" yEnd="2"/>
         <object id="302" cellx="15" celly="2" xEnd="15" yEnd="2"/>
+        <object id="360" cellx="9" celly="2" xEnd="9" yEnd="2"/>
+        <object id="361" cellx="10" celly="2" xEnd="10" yEnd="2"/>
     </group>
     <group id="23" name="Block">
         <object id="198" cellx="15" celly="2" xEnd="NaN" yEnd="NaN"/>
@@ -137,20 +139,18 @@
         <object id="202" cellx="20" celly="2" xEnd="NaN" yEnd="NaN"/>
     </group>
     <group id="25" name="Boundary">
-        <object id="235" cellx="0" celly="0" xEnd="0" yEnd="3"/>
+        <object id="235" cellx="0" celly="0" xEnd="0" yEnd="4"/>
         <object id="237" cellx="21" celly="0" xEnd="21" yEnd="4"/>
         <object id="288" cellx="14" celly="4" xEnd="14" yEnd="4"/>
         <object id="300" cellx="0" celly="3" xEnd="21" yEnd="3"/>
         <object id="340" cellx="0" celly="0" xEnd="21" yEnd="0"/>
     </group>
-    <group id="30" name="SecretPipe">
-        <object id="283" cellx="17" celly="2" xEnd="17" yEnd="2"/>
-        <object id="287" cellx="17" celly="2" xEnd="17" yEnd="2"/>
-        <object id="290" cellx="15" celly="3" xEnd="15" yEnd="3"/>
-        <object id="296" cellx="17" celly="3" xEnd="17" yEnd="3"/>
-    </group>
     <group id="26" name="Camera">
         <object id="243" cellx="0" celly="1" xEnd="2" yEnd="3"/>
+    </group>
+    <group id="30" name="SecretPipe">
+        <object id="287" cellx="17" celly="2" xEnd="17" yEnd="2"/>
+        <object id="296" cellx="17" celly="3" xEnd="17" yEnd="3"/>
     </group>
     <group id="28" name="ObjectBoundary">
         <object id="253" cellx="3" celly="2" xEnd="3" yEnd="2"/>

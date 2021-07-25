@@ -2,6 +2,7 @@
 #include "MarioStateDrop.h"
 #include "MarioStateIdle.h"
 #include "MarioStateWalk.h"
+#include "MarioStateRun.h"
 
 CMarioStateDrop* CMarioStateDrop::__instance = NULL;
 
@@ -40,7 +41,7 @@ void CMarioStateDrop::Enter(CMario& mario)
 }
 void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_S )
+	if (input == Input::PRESS_S && mario.GetLevel()==MARIO_LEVEL_RACOON)
 	{
 		mario.isFloating = true;
 		mario.SetVelocityY(-MARIO_SPEED_Y_WHEN_FLOATING);
@@ -51,11 +52,17 @@ void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 
 void CMarioStateDrop::Update(DWORD dt, CMario& mario)
 {
-	if (mario.isOnGround)
+	if (mario.isOnGround )
 	{
-		mario.isOnRedMagicBlock = false;
-		mario.canGoIntoPipe = false;
-		mario.ChangeState(CMarioState::idle.GetInstance());
+		if (mario.isAutoWalk)
+		{
+			mario.AutoWalk();
+		}
+		else {
+			mario.isOnRedMagicBlock = false;
+			mario.canGoIntoPipe = false;
+			mario.ChangeState(CMarioState::idle.GetInstance());
+		}
 	}
 }
 

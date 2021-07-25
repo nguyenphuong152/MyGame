@@ -1,6 +1,8 @@
 #include "Card.h"
 #include "Grid.h"
 #include "Utils.h"
+#include "Notification.h"
+
 
 CCard::CCard() {
 	isEnable = true;
@@ -57,6 +59,7 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			isEnable = false;
 			animated_start = 0;
+			CNotification::GetInstance()->ShowNoti(numbAni);
 		}
 	}
 	grid_->Move(this);

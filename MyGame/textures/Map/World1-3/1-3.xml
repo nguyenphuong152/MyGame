@@ -161,15 +161,15 @@
         <object id="454" cellx="16" celly="5" xEnd="16" yEnd="5"/>
         <object id="455" cellx="16" celly="5" xEnd="16" yEnd="5"/>
     </group>
-    <group id="36" name="SecretPipe">
-        <object id="496" cellx="17" celly="5" xEnd="17" yEnd="5"/>
-        <object id="503" cellx="15" celly="0" xEnd="15" yEnd="0"/>
-    </group>
     <group id="37" name="WoodBlock">
         <object id="504" cellx="7" celly="2" xEnd="7" yEnd="2"/>
     </group>
     <group id="27" name="Camera">
         <object id="239" cellx="0" celly="1" xEnd="2" yEnd="2"/>
+    </group>
+    <group id="36" name="SecretPipe">
+        <object id="496" cellx="17" celly="5" xEnd="17" yEnd="5"/>
+        <object id="503" cellx="15" celly="0" xEnd="15" yEnd="0"/>
     </group>
     <group id="28" name="ObjectBoundary">
         <object id="244" cellx="4" celly="1" xEnd="4" yEnd="1"/>

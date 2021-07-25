@@ -21,6 +21,7 @@
 #include "MiniGoombaPool.h"
 #include "Grid.h"
 #include "Switch.h"
+#include "Notification.h"
 
 using namespace std;
 
@@ -44,6 +45,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define SCENE_SECTION_MAP				7
 #define SCENE_SECTION_HUD				8
 #define SCENE_SECTION_LETTERS			9
+#define SCENE_SECTION_PLAYER_DATA		10
 
 
 #define OBJECT_TYPE_MARIO		0
@@ -103,7 +105,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (UINT i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -125,7 +127,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	CAnimations* animations = CAnimations::GetInstance();
 
-	for (int i = 1; i < tokens.size(); i++)
+	for (UINT i = 1; i < tokens.size(); i++)
 	{
 		int ani_id = atoi(tokens[i].c_str());
 
@@ -148,8 +150,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());  //to f
+	double x = atof(tokens[1].c_str());
+	double y = atof(tokens[2].c_str());  //to f
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
@@ -166,8 +168,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y);
-		obj->SetPosition(x, y);
+		obj = new CMario((float)x,(float)y);
+		obj->SetPosition((float)x, (float)y);
 		player = (CMario*)obj;
 		CGame::GetInstance()->SetMainPlayer(player);
 
@@ -204,7 +206,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// General object setup
 	if (object_type == OBJECT_TYPE_MARIO)
 	{
-		obj->SetPosition(x, y);
+		obj->SetPosition((float)x, (float)y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
@@ -274,6 +276,34 @@ void CPlayScene::_ParseSection_GRID(string line)
 	grid->ReadFile(&path[0]);
 }
 
+void CPlayScene::_ParseSection_PLAYER_DATA(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+	string path = tokens[0];
+
+	string data;
+	ifstream f;
+	f.open(path);
+
+	while (getline(f, data)) {
+		vector<string> tokens = split(data);
+		string property = tokens[0];
+		if (property == "[LEVEL]")     player->SetLevel(atoi(tokens[1].c_str()));
+		else if (property == "[COIN]") player->SetCoins(atoi(tokens[1].c_str()));
+		else if (property == "[LIVE]") player->SetLive(atoi(tokens[1].c_str()));
+		else if (property == "[POINT]") player->SetPoints(atoi(tokens[1].c_str()));
+		else if (property == "[REWARD]")
+		{
+			player->SetReward(tokens[1]);
+			HUD::GetInstance()->AddReward(tokens[1]);
+		}
+	}
+	f.close();
+	
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -320,6 +350,10 @@ void CPlayScene::Load()
 		{
 			section = SCENE_SECTION_GRID; continue;
 		}
+		if (line == "[DATA]")
+		{
+			section = SCENE_SECTION_PLAYER_DATA; continue;
+		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -337,6 +371,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_HUD: _ParseSection_HUD(line); break;
 		case SCENE_SECTION_LETTERS:_ParseSection_LETTERS(line); break;
 		case SCENE_SECTION_GRID:_ParseSection_GRID(line); break;
+		case SCENE_SECTION_PLAYER_DATA: _ParseSection_PLAYER_DATA(line); break;
 		}
 	}
 
@@ -346,6 +381,7 @@ void CPlayScene::Load()
 	//DebugOut(L"[OBJECT SIZE] %d \n", objects.size());
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
+
 
 
 void CPlayScene::Update(DWORD dt)
@@ -366,6 +402,8 @@ void CPlayScene::Update(DWORD dt)
 
 	player->Update(dt, &coObjects);
 	
+	if (CNotification::GetInstance()->visible)
+		CNotification::GetInstance()->Update();
 }
 
 void CPlayScene::RenderPool()
@@ -390,14 +428,20 @@ void CPlayScene::Render()
 {
 	if (player == NULL) return;
 
-	map->RenderMap();
+	if (player->canWalkBehindMap == false)
+	{
+		map->RenderMap();
+		player->Render();
+	}
+	else {
+		player->Render();
+		map->RenderMap();
+	}
 
 	grid->Render();
 
-	player->Render();
 
-
-	if(CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
 	{
 		map->RenderForeground();
 	}
@@ -406,6 +450,9 @@ void CPlayScene::Render()
 	//CGame::GetInstance()->GetMainCamera()->Render();
 
 	HUD::GetInstance()->Render();
+
+	if(CNotification::GetInstance()->visible)
+	 CNotification::GetInstance()->Render();
 }
 
 /*
@@ -429,8 +476,6 @@ void CPlayScene::Unload()
 	objects.clear();
 
 	delete grid;
-
-	HUD::GetInstance()->Unload();
 
 	CGame::GetInstance()->DeleteCam();
 
@@ -467,25 +512,28 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 		input = Input::PRESS_RIGHT;
 		break;
 	case DIK_2:
-		mario->BigMario();
+		mario->ResetMario(MARIO_LEVEL_BIG);
 		break;
 	case DIK_1:
-		mario->RaccoonMario();
+		mario->ResetMario(MARIO_LEVEL_SMALL);
 		break;
 	case DIK_3:
-		mario->FireMario();
+		mario->ResetMario(MARIO_LEVEL_RACOON);
 		break;
 	case DIK_4:
-		mario->ImmortalMario();
+		mario->ResetMario(MARIO_LEVEL_FIRE);
 		break;
 	case DIK_5:
-		mario->Die();
+		mario->SetState(MARIO_STATE_DIE);
 		break;
 	case DIK_A:
 		input = Input::PRESS_A;
 		break;
 	case DIK_6 :
 		mario->SwitchOverworld();
+		break;
+	case DIK_7:
+		mario->MoveToSecretScreen();
 		break;
 	}
 	mario->HandleInput(input);

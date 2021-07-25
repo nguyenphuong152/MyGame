@@ -11,6 +11,7 @@ enum class PipeType {
 
 class CPipe : public CGameObject
 {
+
 public:
 	PipeType type;
 	CPipe(PipeType type);

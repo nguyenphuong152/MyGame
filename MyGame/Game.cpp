@@ -8,6 +8,7 @@
 
 #include "PlayScene.h"
 #include "Textures.h"
+#include "Notification.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -79,7 +80,7 @@ void CGame::Draw(int nx,int ny,float x, float y, LPDIRECT3DTEXTURE9 texture, int
 	//flip image	
 	D3DXVECTOR2 center = D3DXVECTOR2((right - left) / 2+p.x, (bottom - top) / 2+p.y);
 
-	D3DXVECTOR2 flip = D3DXVECTOR2(nx>0?-1:1,ny>0?1:-1);
+	D3DXVECTOR2 flip = D3DXVECTOR2((float)(nx>0?-1:1),(float)(ny>0?1:-1));
 
 	D3DXMATRIX newTrans;
 	
@@ -405,6 +406,9 @@ void CGame::SwitchScene(int scene_id)
 	CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
+	CNotification::GetInstance()->Clear();
+
+	HUD::GetInstance()->Unload();
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];

@@ -1,12 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Mario.h"
-
-#define HIDDEN_SCENE_X 5820
-#define HIDDEN_SCENE_Y 1364
-
-#define HIDDEN_SCENE_X_3 4528
-#define HIDDEN_SCENE_Y_3 1732
+#include "HiddenScene.h"
 
 #define CAMERA_AUTO_VELOCITY_X 0.18f;
 
@@ -19,6 +14,9 @@
 
 #define CAM_START_X 20
 
+#define HIDDEN_SCENE_1_CAM_X 6700
+#define HIDDEN_SCENE_1_CAM_Y 750
+
 class CCamera :public CGameObject
 {
 	static CCamera* __instance;
@@ -29,22 +27,17 @@ class CCamera :public CGameObject
 	float cam_center_X;
 	float cam_center_Y;
 
-	float cam_old_x;
-	float cam_old_y;
-
 	float start_y;
 
-	bool isReachBoundaryRight = false;
-	bool isReachBoundaryTop = false;
-	bool isReachBoundaryLeft = false;
 	bool isReachBoundaryBottom = false;
 
 public:
+	vector<CHiddenScene*> hiddenscenes;
+
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
 	virtual void SetState(int state);
-	static CCamera* GetInstance();
 
 	void FollowPlayerHorizontally();
 	void FollowPlayerVertically();
@@ -56,7 +49,7 @@ public:
 		cam_height = this->height;
 	}
 
-	void SetProperty(float y,float width, float height);
+	CCamera(float y,float width, float height);
 
 	void InactiveCamera();
 	void InitCamera();
@@ -64,5 +57,5 @@ public:
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();
 
-	void Unload() { __instance = NULL; }
+	void AddHiddenScene(CHiddenScene* h) { hiddenscenes.push_back(h); };
 };

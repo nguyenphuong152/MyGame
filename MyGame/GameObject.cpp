@@ -8,11 +8,17 @@
 #include "Textures.h"
 #include "FireBallPool.h"
 #include "Grid.h"
+#include "Coin.h"
+#include "BreakableBrick.h"
+#include "PowerUp.h"
+#include "One-upMushroom.h"
 CGameObject::CGameObject()
 {
+	state = 0;
 	x = y = old_x = old_y = 0;
 	vx = vy = 0;
 	nx = 1;
+	ny = 1;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -87,10 +93,10 @@ void CGameObject::CalcPotentialCollisions(
 
 //flow :: 1 doi tuong game object goi CalpotentialColli->xet sweept aabbex++aabb cua thg goi cal voi thg dc truyen vao-
 
-void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coEventsResult, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
+void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coEventsResult, float& nx, float& ny )
 {
-	min_tx = 1.0f;
-	min_ty = 1.0f;
+	float min_tx = 1.0f;
+	float min_ty = 1.0f;
 	int min_ix = -1;
 	int min_iy = -1;
 
@@ -99,22 +105,93 @@ void CGameObject::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPC
 
 	coEventsResult.clear();
 
-	for (UINT i = 0;i < coEvents.size();i++)
+	LPGAMEOBJECT objx = NULL;
+	LPGAMEOBJECT objy = NULL;
+
+	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
-		if (c->t < min_tx && c->nx != 0)
+		if (c->nx != 0)
 		{
-			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
+			bool hasObjx = false;
+			if (objx != NULL)
+			{
+				if (c->obj->y < objx->y) hasObjx = true;
+			}
+
+			if (c->t < min_tx || (c->t==min_tx && hasObjx))
+			{
+				min_tx = c->t; nx = c->nx; min_ix = i;
+				objx = c->obj;
+			}
 		}
 
 		if (c->t < min_ty && c->ny != 0)
 		{
-			min_ty = c->t; ny = c->ny;min_iy = i; rdy = c->dy;
+			min_ty = c->t; ny = c->ny; min_iy = i;
+			objy = c->obj;
+		}
+
+	}
+
+	//neu va cham voi obj ma do gravity nen va cham theo hai chieu, skip chieu x va k push vao coEvents result
+	if (objx != NULL && objy != NULL && objx->y == objy->y)
+	{
+		min_tx = 1.0f;
+		nx = 0;
+	}
+	else if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
+
+	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+
+	BlockObject(objx, objy, min_tx, min_ty, nx, ny);
+}
+
+
+void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx, float min_ty, float nx, float ny)
+{
+	bool blockx = true;
+	bool blocky = true;
+	if (objx != NULL)
+	{
+		bool coinBrick = false;
+		if (dynamic_cast<CBreakableBrick*>(objx))
+		{
+			CBreakableBrick* b = dynamic_cast<CBreakableBrick*>(objx);
+			if (b->state == BREAKABLE_BRICK_COIN_STATE) coinBrick = true;
+		}
+		if (dynamic_cast<CCoin*>(objx) || dynamic_cast<CPowerUp*>(objx)
+			|| dynamic_cast<COneUpMushroom*>(objx)
+			|| coinBrick == true)
+		{
+			blockx = false;
+		}
+	}
+	
+	if(blockx == true) {
+		x += min_tx * dx + nx * 0.4f;
+		if (nx != 0) vx = 0;
+	}
+
+	if (objy != NULL)
+	{
+		bool coinBrick = false;
+		if (dynamic_cast<CBreakableBrick*>(objy))
+		{
+			CBreakableBrick* b = dynamic_cast<CBreakableBrick*>(objy);
+			if (b->state == BREAKABLE_BRICK_COIN_STATE) coinBrick = true;
+		}
+		if (dynamic_cast<CCoin*>(objy) || dynamic_cast<CPowerUp*>(objy)
+			|| dynamic_cast<COneUpMushroom*>(objy) || coinBrick == true)
+		{
+			blocky = false;
 		}
 	}
 
-	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+	if(blocky == true){
+		y += min_ty * dy + ny * 0.4f;
+		if (ny != 0) vy = 0;
+	}
 }
 
 
