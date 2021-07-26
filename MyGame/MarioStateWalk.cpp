@@ -45,8 +45,8 @@ void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 
 void CMarioStateWalk::Update(DWORD dt, CMario& mario)
 {
-	if(mario.isAutoWalk == false)
-        CalculateAcceleration(MARIO_ACCELERATION, dt, mario);
+	if (mario.isAutoWalk == false)
+		CalculateAcceleration(MARIO_ACCELERATION, dt, mario);
 	
 	if (mario.vx == 0)
 	{

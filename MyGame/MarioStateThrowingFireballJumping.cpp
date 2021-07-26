@@ -5,6 +5,7 @@
 CMarioStateThrowFireballJumping* CMarioStateThrowFireballJumping::__instance = NULL;
 
 CMarioStateThrowFireballJumping::CMarioStateThrowFireballJumping() {
+	_throwingStart = 0;
 	DebugOut(L"[STATE] create throw fireball jumping \n");
 }
 

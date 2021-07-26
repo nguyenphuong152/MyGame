@@ -25,7 +25,7 @@ CFireball* CFireBallPool::Create()
 	// Make sure the pool isn't full --- all fireballs are used.
 	if (_firstAvailable != NULL) {
 		CFireball* newBall = _firstAvailable;
-		newBall->SetAnimation(ani_set);
+		newBall->SetObjectAnimation(ani_set);
 		_firstAvailable = newBall->GetNext();
 		return newBall;
 	}

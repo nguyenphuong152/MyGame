@@ -402,6 +402,15 @@
     <ClCompile Include="Reward.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Curtain.cpp">
+      <Filter>Source Files\Objects\Misc\Decoration</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Source Files\Objects\Misc\Decoration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioState.h">
@@ -655,6 +664,15 @@
     </ClInclude>
     <ClInclude Include="Reward.h">
       <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Curtain.h">
+      <Filter>Header Files\Objects\Misc\Decoration</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Header Files\Objects\Misc\Decoration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

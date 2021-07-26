@@ -103,7 +103,7 @@ public:
 
 	void AddObjectToGrid(Grid* grid, int id);
 
-	void SetAnimation(int ani);
+	void SetObjectAnimation(int ani);
 
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 

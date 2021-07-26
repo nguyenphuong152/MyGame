@@ -48,14 +48,14 @@ void CMarioStateStop::CalculateSkidAcceleration(float accelerate, DWORD dt, CMar
 	if (mario.vx > 0) {
 		mario.vx += -accelerate * dt;
 		if (mario.vx < 0) {
-			mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
+			mario.nx = DIRECTION_RIGHT_TO_LEFT;
 			mario.ChangeState(CMarioState::idle.GetInstance());
 		}
 	}
 	else if (mario.vx < 0) {
 		mario.vx += accelerate * dt;
 		if (mario.vx > 0) {
-			mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
+			mario.nx = DIRECTION_LEFT_TO_RIGHT;
 			mario.ChangeState(CMarioState::idle.GetInstance());
 		}
 	}

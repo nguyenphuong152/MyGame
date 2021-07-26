@@ -5,6 +5,7 @@
 CMarioStateKick* CMarioStateKick::__instance = NULL;
 
 CMarioStateKick::CMarioStateKick() {
+	_kickingStart = 0;
 	DebugOut(L"[STATE] create kick \n");
 }
 

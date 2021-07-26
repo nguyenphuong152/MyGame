@@ -1,8 +1,8 @@
 [SETTINGS]
-start	2
+start	1
 #scene list
 [SCENES]
-1	scene1.txt
+1	intro.txt
 2	scene1-3.txt
 3	scene1-1.txt
 4	Overworld.txt

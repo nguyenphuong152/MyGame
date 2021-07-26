@@ -77,7 +77,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (player->GetState() == CMarioState::kick.GetInstance() 
 		&& player->isHoldKoopa && state == KOOPA_STATE_DIE)
 	{
-		DebugOut(L"alooo \n");
 		SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 	}
 

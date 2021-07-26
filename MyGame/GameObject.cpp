@@ -240,7 +240,7 @@ void CGameObject::AddObjectToGrid(Grid* grid, int id)
 	grid_->Add(this, id);
 }
 
-void CGameObject::SetAnimation(int ani)
+void CGameObject::SetObjectAnimation(int ani)
 {
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ani);

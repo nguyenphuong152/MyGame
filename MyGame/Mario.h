@@ -135,7 +135,7 @@ using namespace std;
 
 class CMario : public CGameObject
 {
-
+	int animation;
 	int untouchable;
 	ULONGLONG untouchable_start;
 
@@ -155,32 +155,29 @@ class CMario : public CGameObject
 	int coins;
 
 	vector<string> reward;
-
 	Input input;
-	
+	void ResetAllFlags();
 public:
-	//static CMario* __instance;
 	CMarioState* marioState;
 	CMarioTail* tail;
 
-	int animation;
 	int powerLevel;
 
-	bool isOnGround = false;
-	bool isSitting = false;
-	bool canJumpHigh = false;
-	bool isStuckWithMiniGoomba = false;
+	bool isOnGround ;
+	bool isSitting ;
+	bool canJumpHigh ;
+	bool isStuckWithMiniGoomba;
 
-	bool powerMode = false;
-	bool isFloating = false;
-	bool isJumpOnSwitch = false;
-	bool canGoIntoPipe = false;
-	bool canChangeMap = false;
-	bool canWalkBehindMap = false;
-	bool isHoldKoopa = false;
-	bool isOnRedMagicBlock = false;
-	bool isAutoWalk = false;
-	bool isOnSpecialBox = false;
+	bool powerMode ;
+	bool isFloating ;
+	bool isJumpOnSwitch ;
+	bool canGoIntoPipe ;
+	bool canChangeMap ;
+	bool canWalkBehindMap;
+	bool isHoldKoopa;
+	bool isOnRedMagicBlock ;
+	bool isAutoWalk;
+	bool isOnSpecialBox ;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -188,23 +185,9 @@ public:
 	virtual void SetState(int state);
 
 	void InitState();
-	void SetVelocityX(float velocity_x) {
-		vx = velocity_x;
-	}
-	void SetVelocityY(float velocity_y) {
-		vy = velocity_y;
-	}
-	void SetDirection(int dir) {
-		nx = dir;
-	}
-	void ChangeState(CMarioState* new_state) {
-		marioState = new_state;
-	}
-
-	CMarioState* GetState()
-	{
-		return marioState;
-	}
+	
+	void ChangeState(CMarioState* new_state) { marioState = new_state;}
+	CMarioState* GetState() { return marioState;}
 
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; };
@@ -220,6 +203,7 @@ public:
 	int GetCoins() { return coins; };
 
 	void SetReward(string r) { this->reward.push_back(r); };
+	vector<string> GetReward() { return this->reward; };
 
 	void LevelUp();
 	void RecalculatePower();
@@ -244,13 +228,10 @@ public:
 
 	void AttachTail(CMarioTail* tail) { this->tail = tail; };
 	void CheckMarioOutOfCamera();
-
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	//void RenderRaccoonMarioBoundingBox();
-	void SavePlayerData();
-
 	void MovingMarioWithCamera();
 	void AutoWalk();
+	void StandOnPlatform() { isOnGround = true; isFloating = false;}
 
 	void GoBackToNormalScene();
 	void MoveToSecretScreen();

@@ -25,9 +25,9 @@ void CBrick::InitBrick(float y, BrickType type)
 	this->type = type;
 	if (type == BrickType::question_brick)
 	{
-		SetAnimation(BRICK_ANI);
+		SetObjectAnimation(BRICK_ANI);
 	}
-	else SetAnimation(TWINKLE_BRICK_ANI);
+	else SetObjectAnimation(TWINKLE_BRICK_ANI);
 
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);

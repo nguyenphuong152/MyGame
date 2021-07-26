@@ -6,6 +6,8 @@ CMarioStateSpin* CMarioStateSpin::__instance = NULL;
 
 CMarioStateSpin::CMarioStateSpin() {
 	DebugOut(L"[STATE] create spin \n");
+	isAttack = false;
+	_spinningStart = 0;
 }
 
 void CMarioStateSpin::Enter(CMario& mario)

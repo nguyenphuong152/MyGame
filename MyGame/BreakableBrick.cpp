@@ -8,7 +8,7 @@ CBreakableBrick::CBreakableBrick(float x, float y)
 {
 	player = CGame::GetInstance()->GetPlayer();
 	isEnable = true;
-	SetAnimation(BREAKABLE_BRICK_ANI);
+	SetObjectAnimation(BREAKABLE_BRICK_ANI);
 	SetState(BREAKABLE_BRICK_VISUAL_STATE);
 	SetPosition(x, y);
 }

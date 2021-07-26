@@ -5,7 +5,7 @@
 CWoodBlock::CWoodBlock(CGameObject* item, float x)
 {
 	this->item = item;
-	SetAnimation(WOOD_BLOCK_ANI);
+	SetObjectAnimation(WOOD_BLOCK_ANI);
 	isEnable = true;
 	SetState(WOOD_BLOCK_STATE_UNTOUCH,0);
 	oldX = x;

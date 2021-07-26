@@ -63,6 +63,8 @@ public:
 
 class CPlaySceneKeyHandler : public CSceneKeyHandler
 {
+	void IntroHandleKeyDown(int keycode);
+	void PlaySceneHandleKeyDown(int keycode);
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);

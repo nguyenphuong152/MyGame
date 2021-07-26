@@ -8,7 +8,7 @@ Reward::Reward(reward t)
 	flashing = 0;
 	flashing_start = 0;
 	isEnable = true;
-	SetAnimation(REWARD_ANIMATION_SETS);
+	SetObjectAnimation(REWARD_ANIMATION_SETS);
 	type = t;
 	SetState(STATE_FLASHING);
 	StartFlashing();

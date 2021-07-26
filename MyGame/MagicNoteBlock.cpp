@@ -12,7 +12,7 @@ CMagicNoteBlock::CMagicNoteBlock(float x, float y, MagicNoteBlockType type)
 
 	player = CGame::GetInstance()->GetPlayer();
 
-	SetAnimation(MAGIC_NOTE_BLOCK_ANI);
+	SetObjectAnimation(MAGIC_NOTE_BLOCK_ANI);
 	SetState(MAGIC_NOTE_BLOCK_STATE_NORMAL,NORMAL);
 
 	SetPosition(x, y);

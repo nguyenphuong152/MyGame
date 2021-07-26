@@ -10,6 +10,8 @@
 CMarioStateJump* CMarioStateJump::__instance = NULL;
 
 CMarioStateJump::CMarioStateJump() {
+	jumpOnMagicNote = false;
+	_jumpingStart = 0;
 	DebugOut(L"[STATE] create jump \n");
 }
 

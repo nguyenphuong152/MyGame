@@ -125,12 +125,12 @@ void CPowerUp::DefinePowerUpType()
 	if (level == MARIO_LEVEL_SMALL)
 	{
 		SetPowerUpType(PowerUpType::super_mushroom);
-		SetAnimation(SUPER_MUSHROOM_ANI);
+		SetObjectAnimation(SUPER_MUSHROOM_ANI);
 	}
 	else
 	{
 		SetPowerUpType(PowerUpType::super_leaf);
-		SetAnimation(SUPER_LEAF_ANI);
+		SetObjectAnimation(SUPER_LEAF_ANI);
 	}
 }
 

@@ -15,7 +15,7 @@ private:
 public:
 	static CMarioStateSit* __instance;
 	
-	int preparing = 0;
+	int preparing;
 
 	CMarioStateSit();
 	virtual ~CMarioStateSit() {};

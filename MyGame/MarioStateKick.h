@@ -5,7 +5,7 @@
 class CMarioStateKick : public CMarioOnGroundStates
 {
 private:
-	ULONGLONG _kickingStart = 0;
+	ULONGLONG _kickingStart;
 public:
 	static CMarioStateKick* __instance;
 

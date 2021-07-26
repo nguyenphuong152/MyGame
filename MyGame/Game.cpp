@@ -393,7 +393,6 @@ void CGame::Load(LPCWSTR gameFile)
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 
 	SwitchScene(current_scene);
-
 }
 
 void CGame::SwitchScene(int scene_id)
@@ -402,6 +401,8 @@ void CGame::SwitchScene(int scene_id)
 
 	scenes[current_scene]->Unload();
 
+	if (scene_id == INTRO) SetBackgroundColor(BACKGROUND_COLOR_INTRO);
+	else SetBackgroundColor(BACKGROUND_COLOR);
 
 	CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
@@ -414,5 +415,29 @@ void CGame::SwitchScene(int scene_id)
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyhHandler(s->GetKeyEventHandler());
 	s->Load();
+
+}
+
+void CGame::SavePlayerData()
+{
+	std::ofstream fs("player-data.txt");
+	if (!fs)
+	{
+		DebugOut(L"[ERROR] Cant create player data \n");
+		return;
+	}
+	fs << "[LEVEL]\t"; fs << player->GetLevel();
+	fs << "\n[LIVE]\t"; fs << player->GetLive();
+	fs << "\n[COIN]\t"; fs << player->GetCoins();
+	fs << "\n[POINT]\t"; fs << player->GetPoints();
+
+	vector<string> re = player->GetReward();
+	for (UINT i = 0; i < re.size(); i++)
+	{
+		fs << "\n[REWARD]\t"; fs << re[i];
+	}
+
+	fs.close();
+	DebugOut(L"[DONE] Save player data \n");
 
 }

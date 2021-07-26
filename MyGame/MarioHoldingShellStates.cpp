@@ -14,14 +14,14 @@ void CMarioHoldingShellStates::HandleInput(CMario& mario, Input input)
 	if (game->IsKeyDown(DIK_LEFT))
 	{
 		//thiếu xoay qua phảo thắng lại miếng r chạy tiếp
-		mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
-		mario.SetVelocityX(mario.nx*MARIO_RUNNING_SPEED);
+		mario.nx = DIRECTION_RIGHT_TO_LEFT;
+		mario.vx = mario.nx*MARIO_RUNNING_SPEED;
 		mario.ChangeState(CMarioState::holdshell_run.GetInstance());
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
-		mario.SetVelocityX(mario.nx * MARIO_RUNNING_SPEED);
+		mario.nx = DIRECTION_LEFT_TO_RIGHT;
+		mario.vx = mario.nx * MARIO_RUNNING_SPEED;
 		mario.ChangeState(CMarioState::holdshell_run.GetInstance());
 	}
 

@@ -7,7 +7,7 @@ class CMarioStateTransform : public CMarioOnGroundStates
 {
 private:
 	ULONGLONG _transformStart;
-	int isTransform = 0;
+	int isTransform;
 
 public:
 	static CMarioStateTransform* __instance;

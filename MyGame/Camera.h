@@ -29,11 +29,10 @@ class CCamera :public CGameObject
 
 	float start_y;
 
-	bool isReachBoundaryBottom = false;
-
+	bool isReachBoundaryBottom;
+	CHiddenScene* hiddenscenes;
 public:
-	vector<CHiddenScene*> hiddenscenes;
-
+	
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
@@ -42,20 +41,13 @@ public:
 	void FollowPlayerHorizontally();
 	void FollowPlayerVertically();
 
-	void GetCamPos(float& x, float& y,float& cam_width, float &cam_height) {
-		x = this->x;
-		y = this->y;
-		cam_width = this->width;
-		cam_height = this->height;
-	}
-
+	CHiddenScene* GetHiddenScene() { return hiddenscenes; };
+	void GetCamPos(float& x, float& y, float& cam_width, float& cam_height);
+	
 	CCamera(float y,float width, float height);
-
 	void InactiveCamera();
 	void InitCamera();
-
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();
-
-	void AddHiddenScene(CHiddenScene* h) { hiddenscenes.push_back(h); };
+	void AddHiddenScene(CHiddenScene* h) { this->hiddenscenes = h; };
 };

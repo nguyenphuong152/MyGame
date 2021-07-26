@@ -5,6 +5,8 @@
 CMarioStateTransform* CMarioStateTransform::__instance = NULL;
 
 CMarioStateTransform::CMarioStateTransform() {
+	_transformStart = 0;
+	isTransform = 0;
 	DebugOut(L"[STATE] create trtansform \n");
 }
 

@@ -15,7 +15,7 @@ void CMarioStateGetIntoPipe::HandleSecretScreen1_1(CMario& mario)
 	{
 		ResetInPipe();
 
-		CHiddenScene* h = CGame::GetInstance()->GetMainCamera()->hiddenscenes.at(0);
+		CHiddenScene* h = CGame::GetInstance()->GetMainCamera()->GetHiddenScene();
 		if (dir == DOWN)
 		{
 			mario.SetPosition((float)(h->player_pos_in_x),(float)( h->player_pos_in_y));
@@ -32,7 +32,7 @@ void CMarioStateGetIntoPipe::HandleSecretScreen1_1(CMario& mario)
 	if (isOutPipe == 1 && GetTickCount64() - outPipeStart > IN_PIPE_SHORT_TIME)
 	{
 		CCamera* cam = CGame::GetInstance()->GetMainCamera();
-		CHiddenScene* h = cam->hiddenscenes.at(0);
+		CHiddenScene* h = cam->GetHiddenScene();
 
 		ResetOutPipe();
 		mario.SetPosition((float)(h->player_pos_out_pipe_x),(float)( h->player_pos_out_pipe_y));
@@ -52,6 +52,7 @@ void CMarioStateGetIntoPipe::HandleSecretScreen1_3(CMario& mario)
 }
 
 CMarioStateGetIntoPipe::CMarioStateGetIntoPipe() {
+	inPipeStart = 0;
 	DebugOut(L"[STATE] create go to pipe \n");
 }
 

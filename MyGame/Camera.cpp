@@ -17,14 +17,11 @@ CCamera::CCamera(float y,float width, float height)
 {
 	this->width = CAM_WIDTH;
 	this->height = CAM_HEIGHT;
-	
 	isEnable = true;
-
+	isReachBoundaryBottom = false;
 	start_y = y;
-
 	InitCamera();
-
-	hiddenscenes.clear();
+	hiddenscenes = NULL;
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -52,6 +49,12 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt);
 
+	if (CGame::GetInstance()->current_scene == INTRO)
+	{
+		vx = 0;
+		vy = 0;
+		return;
+	}
 	//if (y > HIDDEN_SCENE_Y && state == CAMERA_STATE_HIDDEN_SCENE1) y = HIDDEN_SCENE_Y;
 	  
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -157,6 +160,14 @@ void CCamera::FollowPlayerVertically()
 	}
 }
 
+void CCamera::GetCamPos(float& x, float& y, float& cam_width, float& cam_height)
+{
+	x = this->x;
+	y = this->y;
+	cam_width = this->width;
+	cam_height = this->height;
+}
+
 void CCamera::InactiveCamera()
 {
 	vx = 0.0f;
@@ -184,7 +195,7 @@ void CCamera::AdjustPositionToHiddenScene()
 		SetState(CAMERA_STATE_HIDDEN_SCENE3);
 	}
 
-	SetPosition((float)hiddenscenes.at(0)->hidden_scene_cam_x, (float)hiddenscenes.at(0)->hidden_scene_cam_y);
+	SetPosition((float)hiddenscenes->hidden_scene_cam_x, (float)hiddenscenes->hidden_scene_cam_y);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
 	
 }

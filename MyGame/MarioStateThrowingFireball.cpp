@@ -5,6 +5,7 @@
 CMarioStateThrowFireball* CMarioStateThrowFireball::__instance = NULL;
 
 CMarioStateThrowFireball::CMarioStateThrowFireball() {
+	_throwingStart = 0;
 	DebugOut(L"[STATE] create throw fireball \n");
 }
 

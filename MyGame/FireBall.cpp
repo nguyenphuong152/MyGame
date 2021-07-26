@@ -9,6 +9,7 @@
 #include "EffectPool.h"
 #include "Boundary.h"
 #include "Game.h"
+#include "BreakableBrick.h"
 
 CFireball::CFireball()
 {
@@ -90,37 +91,25 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-				if (dynamic_cast<CGround*>(e->obj) || dynamic_cast<CBox*>(e->obj))
-				{
-					if (e->ny != 0)
-					{
-						vy = -FIREBALL_DEFLECT_Y;
-					}
-					else if (e->nx != 0) {
-						ExplosedFireball();
-					}
+
+			if(dynamic_cast<CEnemy*>(e->obj))
+			{
+				if (e->nx != 0 || e->ny != 0) {
+					e->obj->isEnable = false;
+					ExplosedFireball();
 				}
-				else if (dynamic_cast<CBrick*>(e->obj))
+			}
+			else if (dynamic_cast<CCamera*>(e->obj) || dynamic_cast<CBoundary*>(e->obj))
+			{
+				if (e->nx != 0 || e->ny != 0)
 				{
-					if (e->nx != 0) {
-						ExplosedFireball();
-					}
+					isEnable = false;
 				}
-				else if (dynamic_cast<CEnemy*>(e->obj))
-				{
-					if (e->nx != 0 || e->ny!=0) {
-						e->obj->isEnable = false;
-						ExplosedFireball();
-					}
-				}
-				else if (dynamic_cast<CCamera*>(e->obj) || dynamic_cast<CBoundary*>(e->obj))
-				{
-					if (e->nx != 0 || e->ny != 0)
-					{
-						isEnable = false;
-					}
-				}
+			}
+			else {
+				if (e->nx != 0) ExplosedFireball();
+				if (e->ny < 0)  vy = -FIREBALL_DEFLECT_Y;
+			}
 		}
 	}
 

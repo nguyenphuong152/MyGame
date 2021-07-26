@@ -3,7 +3,6 @@
 #include "Utils.h"
 
 
-
 void Cell::AddObjectToCell(LPGAMEOBJECT obj)
 {
 	if (objects.find(obj) == objects.end())

@@ -6,11 +6,6 @@ class CMarioStateRun : public CMarioOnGroundStates
 public:
 	static CMarioStateRun* __instance;
 
-	float NewTime = 0;
-	float OldTime = 0;
-	float deltaTime = 0;
-	float power = 0;
-
 	CMarioStateRun();
 	virtual ~CMarioStateRun() {};
 

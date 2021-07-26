@@ -260,7 +260,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 							const char* aniRaw = element->Attribute("type");
 							int ani = atoi(aniRaw);
 
-							item->SetAnimation(ani);
+							item->SetObjectAnimation(ani);
 							item->AddObjectToGrid(grid, id);
 
 							objects.push_back(item);
@@ -270,7 +270,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 							item = new CSwitch();
 							const char* aniRaw = element->Attribute("type");
 							int ani = atoi(aniRaw);
-							item->SetAnimation(ani);
+							item->SetObjectAnimation(ani);
 							item->AddObjectToGrid(grid, id);
 
 							objects.push_back(item);
@@ -378,7 +378,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						obj = new CBrownParaGoomba();
 					}
 
-					obj->SetAnimation(ani);
+					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);
 					obj->AddObjectToGrid(grid, id);
 
@@ -414,7 +414,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					element->QueryFloatAttribute("y", &y);
 					const char* aniRaw = element->Attribute("type");
 					int ani = atoi(aniRaw);
-					obj->SetAnimation(ani);
+					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);
 					objects.push_back(obj);
 					obj->AddObjectToGrid(grid, id);
@@ -451,14 +451,15 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					if (strcmp(type, "pipe-in") == 0)
 					{
 						obj = new CPipe(PipeType::entry);
-						int camx, camy, scene, mariox, marioy,mario_in_x,mario_in_y;
+						int camx, camy, scene, mariox, marioy, mario_in_x, mario_in_y;
+						camx = camy = scene = mariox = marioy = mario_in_x = mario_in_y = 0;
 						TiXmlElement* ele = element->FirstChild("properties")->FirstChild("property")->ToElement();
-						
+
 						while (ele)
 						{
 							const char* name = ele->Attribute("name");
 							const char* value = ele->Attribute("value");
-							
+
 							if (strcmp(name, "scene") == 0)
 								scene = atoi(value);
 							else if (strcmp(name, "hidden_scene_camx") == 0)
@@ -478,7 +479,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						}
 
 						CHiddenScene* h = new CHiddenScene(scene, camx, camy, mariox, marioy, mario_in_x, mario_in_y);
-						CGame::GetInstance()->GetMainCamera()->hiddenscenes.push_back(h);
+						CGame::GetInstance()->GetMainCamera()->AddHiddenScene(h);
 					}
 					else if (strcmp(type, "hidden-pipe") == 0)
 						obj = new CPipe(PipeType::hidden);
@@ -515,7 +516,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					{
 						obj = new CDecoration(Type::Help);
 					}
-					obj->SetAnimation(ani);
+					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);
 					obj->AddObjectToGrid(grid, id);
 

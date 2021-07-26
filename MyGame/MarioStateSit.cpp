@@ -8,7 +8,9 @@ CMarioStateSit* CMarioStateSit::__instance = NULL;
 
 CMarioStateSit::CMarioStateSit() {
 	DebugOut(L"[STATE] create sit \n");
-
+	preparing = 0;
+	_jumpingStart = 0;
+	_prepareWalkBehindMapStart = 0;
 }
 
 void CMarioStateSit::Enter(CMario& mario)
@@ -42,7 +44,7 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 	{
 		if (mario.isOnGround)
 		{
-			mario.SetVelocityY(-SIT_JUMP_Y);
+			mario.vy = -SIT_JUMP_Y;
 			StartJumping();
 			mario.canJumpHigh = true;
 			mario.isOnGround = false;
