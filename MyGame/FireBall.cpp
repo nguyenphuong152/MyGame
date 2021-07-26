@@ -110,6 +110,7 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 				else if (dynamic_cast<CEnemy*>(e->obj))
 				{
 					if (e->nx != 0 || e->ny!=0) {
+						e->obj->isEnable = false;
 						ExplosedFireball();
 					}
 				}

@@ -28,7 +28,6 @@ void CMarioStateKick::Enter(CMario& mario)
 }
 void CMarioStateKick::HandleInput(CMario& mario, Input input)
 {
-	
 }
 
 void CMarioStateKick::Update(DWORD dt, CMario& mario)

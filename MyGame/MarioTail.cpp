@@ -71,7 +71,7 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CKoopas*>(coObjects->at(i)))
 				{
 					CKoopas* koopa = dynamic_cast<CKoopas*>(coObjects->at(i));
-					if (koopa->isOnGround)
+					if (koopa->isOnGround && koopa->GetState()!= KOOPA_STATE_DIE)
 					{
 						koopa->AttackedByTail();
 					}

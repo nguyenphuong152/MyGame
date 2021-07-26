@@ -27,6 +27,7 @@ void CMarioHoldingShellStates::HandleInput(CMario& mario, Input input)
 
 	if (input == Input::RELEASE_A)
 	{
+		mario.powerMode = false;
 		mario.ChangeState(CMarioState::kick.GetInstance());
 		CMarioState::kick.GetInstance()->StartKicking();
 	}else if (input == Input::PRESS_S)

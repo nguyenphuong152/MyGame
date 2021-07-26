@@ -50,7 +50,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
 
-	if (player->isHoldKoopa == true)
+	if (player->isHoldKoopa == true && state == KOOPA_STATE_DIE)
 	{
 		UpdateShellPosition();
 	}
@@ -58,27 +58,30 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += KOOPA_GRAVITY * dt;
 	}
 
-	if (player->GetState() == CMarioState::kick.GetInstance() && player->isHoldKoopa == true)
+	//////die ->recover
+	//if (state != KOOPA_STATE_DIE_WITH_VELOCITY)
+	//{
+	//	if ((GetTickCount64() - CEnemy::die_start) > KOOPA_DIE_TIME && die) {
+	//		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+	//		SetState(KOOPA_STATE_RECOVER);
+	//	}
+	//}
+	//////recover->live
+	//if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
+	//	//xet lai vi tri k thoi rua se bi roi xuong
+	//	y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
+	//	if (ny == -1) ny = 1;
+	//	SetState(KOOPA_STATE_WALKING);
+	//}
+
+	if (player->GetState() == CMarioState::kick.GetInstance() 
+		&& player->isHoldKoopa && state == KOOPA_STATE_DIE)
 	{
-		player->isHoldKoopa = false;
+		DebugOut(L"alooo \n");
 		SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 	}
 
-	////die ->recover
-	if (state != KOOPA_STATE_DIE_WITH_VELOCITY)
-	{
-		if ((GetTickCount64() - CEnemy::die_start) > KOOPA_DIE_TIME && die) {
-			y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-			SetState(KOOPA_STATE_RECOVER);
-		}
-	}
-	////recover->live
-	if (GetTickCount64() - _recoverStart > KOOPA_RECOVER_TIME && recover) {
-		//xet lai vi tri k thoi rua se bi roi xuong
-		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
-		if (ny == -1) ny = 1;
-		SetState(KOOPA_STATE_WALKING);
-	}
+	//DebugOut(L"state %d\n", state);
 
 	HandleCollision(coObjects);
 	grid_->Move(this);
@@ -274,6 +277,15 @@ void CKoopas::LevelDown()
 	}
 }
 
+void CKoopas::SetStateWhenPlayerJumpOn()
+{
+	if (state == KOOPA_STATE_DIE)
+		SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
+	else if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+		SetState(KOOPA_STATE_DIE);
+	else LevelDown();
+}
+
 void CKoopas::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -283,13 +295,11 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		break;
 	case KOOPA_STATE_WALKING:
-		if (recover && _recoverStart != 0) ResetRecover();
 		vx = nx * KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_DIE_WITH_VELOCITY:
-		if (player->nx > 0) nx = 1;
-		else nx = -1;
-		vx = KOOPA_SHELL_VELOCITY_X * nx;
+		player->isHoldKoopa = false;
+		vx = KOOPA_SHELL_VELOCITY_X * player->nx;
 		break;
 	case KOOPA_STATE_RECOVER:
 		vx = 0;
@@ -322,11 +332,9 @@ void CKoopas::UpdateShellPosition()
 void CKoopas::AttackedByTail()
 {
 	if (level == KOOPA_LEVEL_2) SetLevel(KOOPA_LEVEL_1);
-
-	SetState(KOOPA_STATE_DIE);
 	ny = -1;
 	vy = -KOOPA_DEFLECT_SPEED;
-	isOnGround = false;
+	SetState(KOOPA_STATE_DIE);
 
 	SetAttackedAnimation(AttackedBy::Tail, Points::NONE);
 }

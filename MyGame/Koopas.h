@@ -6,12 +6,12 @@
 
 #define KOOPA_SHELL_VELOCITY_X	0.5f
 #define KOOPA_WALKING_SPEED		0.08f
-#define KOOPA_GRAVITY			0.003f
+#define KOOPA_GRAVITY			0.004f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
 #define KOOPA_BBOX_HEIGHT		82
-#define KOOPA_BBOX_HEIGHT_DIE	48
+#define KOOPA_BBOX_HEIGHT_DIE	47
 
 #define VALUE_ADJUST_SHELL		28
 #define KOOPA_DIE_TIME			4000
@@ -52,6 +52,7 @@ public:
 	
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
 	void LevelDown();
+	void SetStateWhenPlayerJumpOn();
 	virtual void SetState(int state);
 	void UpdateShellPosition();
 
