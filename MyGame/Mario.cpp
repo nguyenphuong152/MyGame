@@ -136,7 +136,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 					goomba->LevelDown();
 				}
-				else if (e->ny > 0)
+				else if (e->ny > 0 && goomba->GetState() != GOOMBA_STATE_DIE)
 				{
 					y -= MARIO_BIG_BBOX_HEIGHT;
 					LevelMarioDown();
@@ -153,9 +153,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//jummp  on top >> kill koopas and deflect a bit
 				if (e->ny < 0)
 				{
-					if (koopa->GetState() == KOOPA_STATE_DIE)
-						koopa->SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
- 					else koopa->LevelDown();
+					koopa->SetStateWhenPlayerJumpOn();
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				else if (e->nx != 0)
@@ -167,16 +165,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
 							isHoldKoopa = true;
 						}
-						else {
+						else if(CMarioState::spin.GetInstance()->isAttack == false)
+						{
 							ChangeState(CMarioState::kick.GetInstance());
 							CMarioState::kick.GetInstance()->StartKicking();
 							koopa->SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
 						}
 					}
-					else if (untouchable == 0)
+
+					/*if (untouchable == 0)
 					{
-						if(koopa->GetState()!=KOOPA_STATE_DIE) LevelMarioDown();
-					}
+						 LevelMarioDown();
+					}*/
 				}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
@@ -268,7 +268,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (e->nx != 0)
+				if (e->nx != 0 && marioState == CMarioState::run.GetInstance())
 				{
 					RecalculatePower();
 					ChangeState(CMarioState::walk.GetInstance());
@@ -522,7 +522,9 @@ void CMario::Render()
 	if (state == MARIO_STATE_DIE) ani = MARIO_ANI_DIE;
 	int alpha = 255;
 
-	if (untouchable) alpha = 128;
+	if (untouchable) {
+		alpha = 0 + rand() % 255;
+	}
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
 	RenderBoundingBox();
 }

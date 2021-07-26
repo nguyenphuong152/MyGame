@@ -399,7 +399,7 @@
   <object id="512" x="7096.75" y="2162.25" width="5.5" height="188.5"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="287" type="0" x="480" y="912" width="190" height="15.6667"/>
+  <object id="287" type="0" x="480" y="912" width="190" height="9.1667"/>
   <object id="288" type="0" x="625" y="768.5" width="190" height="22.3333"/>
   <object id="289" type="0" x="4657" y="577.5" width="190" height="24"/>
   <object id="290" type="1" x="4896" y="770.5" width="190" height="29"/>
@@ -602,7 +602,7 @@
  <objectgroup id="37" name="WoodBlock">
   <object id="504" name="powerup" x="2832" y="868" width="42.6667" height="44"/>
  </objectgroup>
- <objectgroup id="27" name="Camera">
+ <objectgroup id="27" name="Camera" visible="0">
   <object id="239" type="0" x="26.6667" y="506.55" width="800" height="600.606"/>
  </objectgroup>
  <objectgroup id="36" name="SecretPipe">

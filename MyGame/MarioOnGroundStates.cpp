@@ -100,7 +100,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 	else if (input == Input::PRESS_A)
 	{
 		mario.powerMode = true;
-		if (mario.GetLevel() == MARIO_LEVEL_RACOON)
+		if (mario.GetLevel() == MARIO_LEVEL_RACOON && mario.isHoldKoopa == false)
 		{
 			CMarioState::spin.GetInstance()->isAttack = true;
 			mario.ChangeState(CMarioState::spin.GetInstance());

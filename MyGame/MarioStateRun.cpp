@@ -4,6 +4,7 @@
 #include "MarioStateStop.h"
 #include "MarioStatePreFly.h"
 #include "MarioStateWalk.h"
+#include "MarioStateHoldShellIdle.h"
 #include "Mario.h"
 
 CMarioStateRun* CMarioStateRun::__instance = NULL;

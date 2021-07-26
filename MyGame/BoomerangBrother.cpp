@@ -29,7 +29,7 @@ void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//check dieu kien nhay
 	BoomerangBrotherJump();
 
-	CEnemy::Update(dt);
+	CGameObject::Update(dt);
 	vy += BOOMERANGBROTHER_GRAVITY * dt;
 
 	if (GetTickCount64() - die_start > DIETIME && die) isEnable = false;
