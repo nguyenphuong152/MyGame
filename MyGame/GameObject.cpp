@@ -14,6 +14,13 @@
 #include "One-upMushroom.h"
 CGameObject::CGameObject()
 {
+	animation_set = 0;
+	isOnGround = false;
+	grid_ = NULL;
+	isEnable = false;
+
+	dt = 0;
+	dx = dy = 0;
 	state = 0;
 	x = y = old_x = old_y = 0;
 	vx = vy = 0;
@@ -189,7 +196,7 @@ void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx
 	}
 
 	if(blocky == true){
-		y += min_ty * dy + ny * 0.4f;
+		if(isOnGround == false)y += min_ty * dy + ny * 0.4f;
 		if (ny != 0) vy = 0;
 	}
 }

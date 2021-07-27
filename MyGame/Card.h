@@ -19,7 +19,7 @@
 class CCard : public CGameObject {
 private:
 	ULONGLONG animated_start;
-	int numbAni = 1;
+	int numbAni;
 public:
 	CCard();
 	virtual void Render();

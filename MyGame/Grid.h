@@ -9,7 +9,7 @@
 class Grid {
 	Cell* cells[NUM_CELL][NUM_CELL] ;
 	unordered_map<int, D3DXVECTOR4> grid_objs;
-
+	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
 public:
 	Grid();
 	void Add(LPGAMEOBJECT obj, int id);

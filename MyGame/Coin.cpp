@@ -13,6 +13,7 @@ CCoin::CCoin(CoinType type, float x, float y)
 	SetObjectAnimation(COIN_ANI);
 	SetPosition(x, y);
 	isEnable = true;
+	isActive = false;
 	if (type == CoinType::spinning_coin) isActive = true;
 }
 

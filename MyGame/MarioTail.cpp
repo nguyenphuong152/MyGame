@@ -92,7 +92,7 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMarioTail::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b)

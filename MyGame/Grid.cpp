@@ -8,6 +8,18 @@
 #include "Pipe.h"
 #include "BrownParaGoomBa.h"
 #include "tinyxml.h"
+#include "FireBallPool.h"
+#include "BoomerangPool.h"
+#include "MiniGoombaPool.h"
+#include "HUD.h"
+
+void Grid::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
+{
+    CFireBallPool::GetInstance()->Update(dt, cobjects);
+    CEffectPool::GetInstance()->Update(dt, cobjects);
+    CBoomerangPool::GetInstance()->Update(dt, cobjects);
+    CMiniGoombaPool::GetInstance()->Update(dt, cobjects);
+}
 
 Grid::Grid()
 {
@@ -107,6 +119,8 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
     int cell_startX, cell_startY, cell_endX, cell_endY;
     GetActiveRegion(cell_startX, cell_startY, cell_endX, cell_endY);
 
+    GetUnitsFromCameraRegion(coobjs);
+
     for (int i = cell_startX; i < cell_endX+1; i++)
     {
         for (int j = cell_startY; j < cell_endY+1; j++)
@@ -114,6 +128,12 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
             cells[i][j]->Update(dt, coobjs);
         }
     }
+
+    UpdatePool(coobjs, dt);
+
+    CGame::GetInstance()->GetMainCamera()->Update(dt, coobjs);
+
+    HUD::GetInstance()->Update();
 }
 
 void Grid::Render()

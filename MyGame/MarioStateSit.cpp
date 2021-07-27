@@ -15,8 +15,6 @@ CMarioStateSit::CMarioStateSit() {
 
 void CMarioStateSit::Enter(CMario& mario)
 {
-	mario.isSitting = true;
-	mario.vx = 0;
 	int marioLevel = mario.GetLevel();
 	if (marioLevel == MARIO_LEVEL_BIG)
 	{
@@ -64,6 +62,8 @@ void CMarioStateSit::HandleInput(CMario& mario,Input input)
 
 void CMarioStateSit::Update(DWORD dt, CMario& mario)
 {
+	mario.vx = 0;
+	mario.isSitting = true;
 	if (mario.canJumpHigh)
 	{
 		if (GetTickCount64() - _jumpingStart > MARIO_JUMP_TIME)
@@ -74,7 +74,6 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 			mario.vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
-
 	if (mario.isOnSpecialBox && preparing == 0) StartPrepair();
 	if (preparing == 1 && GetTickCount64() - _prepareWalkBehindMapStart > SITTING_TIME)
 	{
@@ -102,6 +101,12 @@ CMarioStateSit* CMarioStateSit::GetInstance()
 {
 	if (__instance == NULL) __instance = new CMarioStateSit();
 	return __instance;
+}
+
+void CMarioStateSit::GetBoundingBox(CMario& mario,float& l, float& t, float& r, float& b)
+{
+	CMarioState::GetBoundingBox(mario,l, t, r, b);
+	b = mario.y + MARIO_BIG_BBOX_SIT_HEIGHT;
 }
 
 void CMarioStateSit::SetPositionBeforeSitting(CMario &mario)

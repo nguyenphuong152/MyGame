@@ -10,6 +10,7 @@
 
 CBrick::CBrick(CGameObject* item, float y, BrickType type)
 {
+	coinCounts = 0;
 	this->item = item;
 	InitBrick(y,type);
 }

@@ -9,6 +9,7 @@
 #include "PlayScene.h"
 #include "Textures.h"
 #include "Notification.h"
+#include "FireBallPool.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -60,6 +61,11 @@ void CGame::Init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
+
+	current_scene = 0;
+	background_color = D3DCOLOR(BACKGROUND_COLOR);
+	main_cam = NULL;
+	player = NULL;
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
@@ -415,6 +421,8 @@ void CGame::SwitchScene(int scene_id)
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyhHandler(s->GetKeyEventHandler());
 	s->Load();
+	if(current_scene == WORLD1_1_MAP ||current_scene == WORLD1_3_MAP)
+	  HUD::GetInstance()->CountdownStart();
 
 }
 

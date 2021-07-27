@@ -28,10 +28,9 @@ void CMarioStateTransform::HandleInput(CMario& mario, Input input)
 
 void CMarioStateTransform::Update(DWORD dt, CMario& mario)
 {
+	mario.vx = 0;
 	if (GetTickCount64() - _transformStart > MARIO_TRANSFORM_TIME && isTransform == 1)
-	{
-		mario.vx = 0;
-		
+	{	
 		isTransform = 0;
 		_transformStart = 0;
 		

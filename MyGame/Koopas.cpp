@@ -157,9 +157,12 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CBreakableBrick* bBrick = dynamic_cast<CBreakableBrick*>(e->obj);
 				if (e->nx != 0)
 				{
-					if (GetState() == KOOPA_STATE_WALKING && bBrick->GetState() == BREAKABLE_BRICK_COIN_STATE)
+					if (bBrick->GetState() == BREAKABLE_BRICK_COIN_STATE)
 					{
-						WalkThrough(KOOPA_WALKING_SPEED);
+						if (GetState() == KOOPA_STATE_WALKING)
+							WalkThrough(KOOPA_WALKING_SPEED);
+						else
+							WalkThrough(KOOPA_SHELL_VELOCITY_X);
 					}
 					else if (bBrick->GetState() == BREAKABLE_BRICK_VISUAL_STATE)
 					{
@@ -175,7 +178,7 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (e->ny < 0)
 				{
-					if (bBrick->GetState() == BREAKABLE_BRICK_COIN_STATE && GetState() == KOOPA_STATE_WALKING)
+					if (bBrick->GetState() == BREAKABLE_BRICK_COIN_STATE)
 					{
 						isOnGround = false;
 						y += dy;
@@ -190,8 +193,9 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					{
 						ChangeDirection(KOOPA_WALKING_SPEED);
 					}
-					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
+					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY )
 					{
+						DebugOut(L"Avoooo nx %d %d\n", this->nx);
 						WalkThrough(KOOPA_SHELL_VELOCITY_X);
 					}
 				}
@@ -219,6 +223,15 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					isOnGround = true;
 				}
+				else if(e->nx!=0){
+					if (GetState() == KOOPA_STATE_WALKING)
+					{
+						WalkThrough(KOOPA_WALKING_SPEED);
+					}
+					else {
+						WalkThrough(KOOPA_SHELL_VELOCITY_X);
+					}
+				}
 			}
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
@@ -229,32 +242,30 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					else WalkThrough(KOOPA_SHELL_VELOCITY_X);
 				}
 			}
-			if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY && e->nx != 0)
+			else if (dynamic_cast<CGoomBa*>(e->obj))
 			{
-				WalkThrough(KOOPA_SHELL_VELOCITY_X);
-				if (dynamic_cast<CGoomBa*>(e->obj))
+				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
+				if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT && e->nx!=0)
 				{
-					CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
-					if (goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
-					{
-						goomba->DieWithDeflect(AttackedBy::KoopaShell);
-					}
+					goomba->DieWithDeflect(AttackedBy::KoopaShell);
+					WalkThrough(KOOPA_SHELL_VELOCITY_X);
 				}
-				else if (dynamic_cast<CKoopas*>(e->obj))
+			}
+			else if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
+				if (koopa->isOnGround && e->nx!=0)
 				{
-					CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
-					if (koopa->isOnGround)
-					{
-						koopa->AttackedByTail();
-					}
+					koopa->AttackedByTail();
+					x += dx;
 				}
-			}else if (dynamic_cast<CEnemy*>(e->obj))
+			}
+			else if (dynamic_cast<CEnemy*>(e->obj))
 			{
 				x += dx;
 				y += dy;
 			}
-
-			if (dynamic_cast<CBoundary*>(e->obj))
+			else if (dynamic_cast<CBoundary*>(e->obj))
 			{
 				isEnable = false;
 			}
@@ -294,11 +305,12 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		break;
 	case KOOPA_STATE_WALKING:
-		vx = nx * KOOPA_WALKING_SPEED;
+		vx = this->nx * KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_DIE_WITH_VELOCITY:
 		player->isHoldKoopa = false;
-		vx = KOOPA_SHELL_VELOCITY_X * player->nx;
+		this->nx = player->nx;
+		vx = KOOPA_SHELL_VELOCITY_X * this->nx;
 		break;
 	case KOOPA_STATE_RECOVER:
 		vx = 0;
@@ -332,6 +344,7 @@ void CKoopas::AttackedByTail()
 {
 	if (level == KOOPA_LEVEL_2) SetLevel(KOOPA_LEVEL_1);
 	ny = -1;
+	vx = 0.1f;
 	vy = -KOOPA_DEFLECT_SPEED;
 	SetState(KOOPA_STATE_DIE);
 

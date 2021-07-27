@@ -6,6 +6,9 @@
 #define IN_PIPE_TIME 440
 #define IN_PIPE_SHORT_TIME 80
 
+#define MARIO_GO_TO_PIPE_BBOX_WIDTH 30
+#define MARIO_GO_TO_PIPE_BBOX_HEIGHT 87
+
 #define UP -1
 #define DOWN 1
 
@@ -44,6 +47,7 @@ public:
 	virtual void Enter(CMario& mario);
 	virtual void Update(DWORD dt, CMario& mario);
 	static CMarioStateGetIntoPipe* GetInstance();
+	void GetBoundingBox(CMario &mario,float& l, float& t, float& r, float& b);
 
 	void StartInPipe() { isInPipe = 1; inPipeStart = GetTickCount64(); };
 	void StartOutPipe() { outPipeStart = GetTickCount64(); isOutPipe = 1; dir = UP; };

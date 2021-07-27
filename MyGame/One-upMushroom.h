@@ -8,7 +8,7 @@
 #define ONE_UP_MUSHROOM_STATE_WALKING		200
 
 class COneUpMushroom :public CGameObject {
-	bool isActive;
+	//bool isActive;
 	float start_y;
 	CMario* player;
 public:

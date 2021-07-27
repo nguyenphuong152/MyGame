@@ -176,6 +176,7 @@ void CBoomerangBrother::SetState(int state)
 		vx = 0;
 		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
 		ny = -1;
+		StartDie();
 	}
 
 }

@@ -11,10 +11,10 @@ enum class PipeType {
 
 class CPipe : public CGameObject
 {
-
+	float width, height;
 public:
 	PipeType type;
-	CPipe(PipeType type);
+	CPipe(PipeType type, float width, float height);
 	PipeType GetType() { return type; };
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

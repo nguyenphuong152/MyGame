@@ -1,4 +1,4 @@
-[LEVEL]	2
+[LEVEL]	3
 [LIVE]	4
 [COIN]	0
 [POINT]	0

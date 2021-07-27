@@ -33,14 +33,7 @@ void CMarioStateWalk::Enter(CMario& mario)
 }
 void CMarioStateWalk::HandleInput(CMario& mario, Input input)
 {
-	if (input == Input::PRESS_S)
-	{
-
-		CMarioOnGroundStates::SetStateJumping(mario);
-	}
-	else {
-		CMarioOnGroundStates::HandleInput(mario, input);
-	}
+	CMarioOnGroundStates::HandleInput(mario, input);
 }
 
 void CMarioStateWalk::Update(DWORD dt, CMario& mario)

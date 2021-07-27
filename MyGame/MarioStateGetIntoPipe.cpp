@@ -90,5 +90,12 @@ CMarioStateGetIntoPipe* CMarioStateGetIntoPipe::GetInstance()
 	return __instance;
 }
 
+void CMarioStateGetIntoPipe::GetBoundingBox(CMario& mario,float& l, float& t, float& r, float& b)
+{
+	CMarioState::GetBoundingBox(mario, l, t, r, b);
+	r = l + MARIO_GO_TO_PIPE_BBOX_WIDTH;
+	b = t + MARIO_BIG_BBOX_HEIGHT+5;
+}
+
 
 

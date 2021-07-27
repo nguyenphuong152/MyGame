@@ -611,7 +611,7 @@
     <property name="hidden_scene_camx" type="int" value="4538"/>
     <property name="hidden_scene_camy" type="int" value="1732"/>
     <property name="player_pos_in_x" type="int" value="4528"/>
-    <property name="player_pos_in_y" type="int" value="2150"/>
+    <property name="player_pos_in_y" type="int" value="2130"/>
     <property name="player_pos_out_pipex" type="int" value="6246"/>
     <property name="player_pos_out_pipey" type="int" value="80"/>
     <property name="scene" type="int" value="2"/>

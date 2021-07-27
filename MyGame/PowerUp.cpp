@@ -9,6 +9,11 @@
 
 CPowerUp::CPowerUp(float x,float  y)
 {
+	isActive = false;
+	moving = 0;
+	moving_start = 0;
+	changeDirection = 0;
+	direction = 1;
 	changeDirection_start = 0;
 	isEnable = true;
 	start_y = y;

@@ -13,7 +13,6 @@ class CMarioState;
 #define MARIO_FLYING_SPEED			0.3f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.6f
-#define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.002f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
@@ -106,7 +105,7 @@ class CMarioState;
 #define MARIO_LEVEL_IMMORTAL	5
 
 
-#define MARIO_BIG_BBOX_WIDTH  42
+#define MARIO_BIG_BBOX_WIDTH  44
 #define MARIO_BIG_BBOX_HEIGHT 82
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
@@ -126,8 +125,8 @@ class CMarioState;
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
 
-#define HIDDEN_SCENE_1_X	6830
-#define HIDDEN_SCENE_1_Y	1030
+#define HIDDEN_SCENE_1_X	6754
+#define HIDDEN_SCENE_1_Y	270
 
 #define MARIO_WALK_BEHIND_MAP_TIME 12000
 
@@ -163,7 +162,6 @@ public:
 
 	int powerLevel;
 
-	bool isOnGround ;
 	bool isSitting ;
 	bool canJumpHigh ;
 	bool isStuckWithMiniGoomba;

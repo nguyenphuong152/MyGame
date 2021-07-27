@@ -2,6 +2,7 @@
 
 CArrow::CArrow()
 {
+	start_y = 0;
 	startGame = false;
 	isEnable = true;
 	SetObjectAnimation(ARROW_ANI);

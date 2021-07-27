@@ -9,6 +9,7 @@ CWoodBlock::CWoodBlock(CGameObject* item, float x)
 	isEnable = true;
 	SetState(WOOD_BLOCK_STATE_UNTOUCH,0);
 	oldX = x;
+	dir = 0;
 }
 
 

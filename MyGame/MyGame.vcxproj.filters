@@ -411,6 +411,9 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Source Files\Objects\Misc\Decoration</Filter>
     </ClCompile>
+    <ClCompile Include="MarioStateTransformLevelDown.cpp">
+      <Filter>Source Files\Mario\OnGroundStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioState.h">
@@ -673,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="Arrow.h">
       <Filter>Header Files\Objects\Misc\Decoration</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioStateTransformLevelDown.h">
+      <Filter>Header Files\Mario\OnGroundStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

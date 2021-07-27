@@ -18,6 +18,7 @@ HUD* HUD::GetInstance()
 
 void HUD::Init(int texture, float pos_hud)
 {
+	countdown_start = 0;
 	rewards.clear();
 	SetPosition(pos_hud);
 	hud_texture = texture;

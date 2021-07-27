@@ -19,7 +19,7 @@ class CMarioStateHoldShellIdle;
 class CMarioStateHoldShellAndRun;
 class CMarioStateHoldShellAndJump;
 class CMarioStateHoldShellAndDrop;
-
+class CMarioStateTransformLevelDown;
 
 #include "Utils.h"
 #include "Game.h"
@@ -50,11 +50,12 @@ public:
 	static CMarioStateHoldShellAndJump holdshell_jump;
 	static CMarioStateHoldShellAndDrop holdshell_drop;
 	static CMarioOverworldState walking_overworld;
+	static CMarioStateTransformLevelDown level_down;
 
 	CMarioState();
 	virtual ~CMarioState() {};
 
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void GetBoundingBox(CMario& mario,float& l, float& t, float& r, float& b);
 	virtual void Enter(CMario& mario) = 0;
 	virtual void HandleInput(CMario& mario, Input input) = 0;
 	virtual void Update(DWORD dt,CMario& mario) = 0;

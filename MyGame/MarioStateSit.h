@@ -31,4 +31,5 @@ public:
 	void SetPositionBeforeSitting(CMario& mario);
 	static CMarioStateSit* GetInstance();
 
+	void GetBoundingBox(CMario &mario,float& l, float& t, float& r, float& b);
 };

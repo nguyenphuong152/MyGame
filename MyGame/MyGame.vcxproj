@@ -196,6 +196,7 @@
     <ClCompile Include="MarioStateStop.cpp" />
     <ClCompile Include="MarioStateThrowingFireball.cpp" />
     <ClCompile Include="MarioStateTransform.cpp" />
+    <ClCompile Include="MarioStateTransformLevelDown.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="MarioTail.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="MarioStateStop.h" />
     <ClInclude Include="MarioStateThrowingFireball.h" />
     <ClInclude Include="MarioStateTransform.h" />
+    <ClInclude Include="MarioStateTransformLevelDown.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="MarioTail.h" />

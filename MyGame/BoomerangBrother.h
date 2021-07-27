@@ -26,7 +26,6 @@
 
 class CBoomerangBrother : public CEnemy
 {
-	bool isOnGround;
 	bool isWalking;
 	ULONGLONG _startWalking;
 

@@ -5,6 +5,7 @@
 CMarioOverworldState* CMarioOverworldState::__instance = NULL;
 
 CMarioOverworldState::CMarioOverworldState() {
+	scene_id = -1;
 	DebugOut(L"[STATE] create idle \n");
 }
 
@@ -58,6 +59,13 @@ void CMarioOverworldState::Update(DWORD dt, CMario& mario)
 void CMarioOverworldState::SetSceneSwitching(int scene_id)
 {
 	this->scene_id = scene_id;
+}
+
+void CMarioOverworldState::GetBoundingBox(CMario &mario,float& l, float& t, float& r, float& b)
+{
+	CMarioState::GetBoundingBox(mario,l, t, r, b);
+	r = l + MARIO_OVERWORLD_BBOX_WIDTH;
+	b = t + MARIO_OVERWORLD_BBOX_WIDTH;
 }
 
 CMarioOverworldState* CMarioOverworldState::GetInstance()

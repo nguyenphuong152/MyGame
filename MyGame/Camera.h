@@ -3,7 +3,7 @@
 #include "Mario.h"
 #include "HiddenScene.h"
 
-#define CAMERA_AUTO_VELOCITY_X 0.18f;
+#define CAMERA_AUTO_VELOCITY_X 0.1f;
 
 #define CAM_WIDTH	760
 #define CAM_HEIGHT	600
@@ -16,6 +16,9 @@
 
 #define HIDDEN_SCENE_1_CAM_X 6700
 #define HIDDEN_SCENE_1_CAM_Y 750
+
+#define SECRET_PIPE_X_1	6500
+#define SECRET_PIPE_Y_1 100
 
 class CCamera :public CGameObject
 {
@@ -32,7 +35,6 @@ class CCamera :public CGameObject
 	bool isReachBoundaryBottom;
 	CHiddenScene* hiddenscenes;
 public:
-	
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
@@ -50,4 +52,5 @@ public:
 	void AdjustPositionToHiddenScene();
 	void GoBackToNormal();
 	void AddHiddenScene(CHiddenScene* h) { this->hiddenscenes = h; };
+	void AutoMoveToSecretScreen();
 };

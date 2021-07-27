@@ -35,7 +35,7 @@ class CMagicNoteBlock : public CGameObject
 	int dir;
 	CMario* player;
 public:
-	bool invisible = false;
+	bool invisible;
 	CMagicNoteBlock(float x, float y, MagicNoteBlockType type);
 
 	MagicNoteBlockType GetType() { return type; };

@@ -29,7 +29,7 @@ class HUD {
 	float x,y;
 	float position_y;
 
-	ULONGLONG countdown_start = GetTickCount64();
+	ULONGLONG countdown_start;
 	
 	unordered_map<string, int> letters;
 	int hud_texture;
@@ -61,5 +61,6 @@ public:
 	void UpdatePosition();
 	
 	ULONGLONG GetCountdownStart() { return countdown_start; };
+	void CountdownStart() { countdown_start = GetTickCount64(); };
 };
 

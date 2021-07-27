@@ -151,9 +151,6 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
@@ -204,12 +201,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
 	// General object setup
 	if (object_type == OBJECT_TYPE_MARIO)
-	{//rut gon lai
-		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		obj->SetAnimationSet(ani_set);
+	{//
+		obj->SetObjectAnimation(ani_set_id);
 		objects.push_back(obj);
 	}
 }
@@ -391,30 +386,17 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	coObjects.clear();
 	if (CGame::GetInstance()->current_scene == INTRO)
 	{
-		coObjects.clear();
-
-		grid->GetUnitsFromCameraRegion(&coObjects);
 		grid->Update(dt, &coObjects);
 		IntroScene::GetInstance()->Update(dt, &coObjects);
 	}
 	else {
-
 		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 		if (player == NULL) return;
 
-		coObjects.clear();
-
-		grid->GetUnitsFromCameraRegion(&coObjects);
 		grid->Update(dt, &coObjects);
-
-		UpdatePool(&coObjects, dt);
-
-		CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
-
-		HUD::GetInstance()->Update();
-
 		player->Update(dt, &coObjects);
 
 		if (CNotification::GetInstance()->visible)
@@ -431,15 +413,6 @@ void CPlayScene::RenderPool()
 }
 
 
-void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
-{
-	CFireBallPool::GetInstance()->Update(dt,cobjects);
-	CEffectPool::GetInstance()->Update(dt,cobjects);
-	CBoomerangPool::GetInstance()->Update(dt, cobjects);
-	CMiniGoombaPool::GetInstance()->Update(dt, cobjects);
-}
-
-
 void CPlayScene::Render()
 {
 	if (CGame::GetInstance()->current_scene == INTRO)
@@ -448,30 +421,7 @@ void CPlayScene::Render()
 		grid->Render();
 	}
 	else {
-		if (player == NULL) return;
-
-		if (player->canWalkBehindMap == false)
-		{
-			map->RenderMap();
-			grid->Render();
-			player->Render();
-		}
-		else {
-			player->Render();
-			map->RenderMap();
-			grid->Render();
-		}
-
-		if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
-		{
-			map->RenderForeground();
-		}
-
-		RenderPool();
-		HUD::GetInstance()->Render();
-
-		if (CNotification::GetInstance()->visible)
-			CNotification::GetInstance()->Render();
+		RenderPlayScene();
 	}
 }
 
@@ -486,12 +436,36 @@ void CPlayScene::UnloadPool()
 	CMiniGoombaPool::GetInstance()->Unload();
 }
 
+void CPlayScene::RenderPlayScene()
+{
+	if (player == NULL) return;
+
+	if (player->canWalkBehindMap == false)
+	{
+		map->RenderMap();
+		grid->Render();
+		player->Render();
+	}
+	else {
+		player->Render();
+		map->RenderMap();
+		grid->Render();
+	}
+
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+		map->RenderForeground();
+
+	RenderPool();
+	HUD::GetInstance()->Render();
+
+	if (CNotification::GetInstance()->visible)
+		CNotification::GetInstance()->Render();
+}
+
 void CPlayScene::Unload()
 {
 	for (size_t i = 0; i < objects.size(); i++)
-	{
 		delete objects[i];
-	}
 
 	objects.clear();
 

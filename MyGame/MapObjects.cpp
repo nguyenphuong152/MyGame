@@ -443,14 +443,18 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 			{
 				while (element)
 				{
+					float width, height;
+					width = height = 0;
 					element->QueryIntAttribute("id", &id);
 					element->QueryFloatAttribute("x", &x);
 					element->QueryFloatAttribute("y", &y);
+					element->QueryFloatAttribute("width", &width);
+					element->QueryFloatAttribute("height", &height);
 					const char* type = element->Attribute("name");
 
 					if (strcmp(type, "pipe-in") == 0)
 					{
-						obj = new CPipe(PipeType::entry);
+						obj = new CPipe(PipeType::entry,width,height);
 						int camx, camy, scene, mariox, marioy, mario_in_x, mario_in_y;
 						camx = camy = scene = mariox = marioy = mario_in_x = mario_in_y = 0;
 						TiXmlElement* ele = element->FirstChild("properties")->FirstChild("property")->ToElement();
@@ -482,9 +486,9 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						CGame::GetInstance()->GetMainCamera()->AddHiddenScene(h);
 					}
 					else if (strcmp(type, "hidden-pipe") == 0)
-						obj = new CPipe(PipeType::hidden);
+						obj = new CPipe(PipeType::hidden, width, height);
 					else {
-						obj = new CPipe(PipeType::exit);
+						obj = new CPipe(PipeType::exit , width, height);
 					}
 
 					objects.push_back(obj);

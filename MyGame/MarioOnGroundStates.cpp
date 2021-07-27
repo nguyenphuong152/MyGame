@@ -69,7 +69,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		}
 		else if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (mario.isOnGround && mario.GetLevel() != MARIO_LEVEL_SMALL)
+			if (mario.isOnGround)
 			{
 				if (mario.canGoIntoPipe)
 				{
@@ -78,9 +78,9 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 					CMarioState::go_to_pipe.GetInstance()->StartInPipe();
 					mario.SetPosition(mario.x, mario.y + 5);
 				}
-				else {
+				else if (mario.GetLevel() != MARIO_LEVEL_SMALL) {
 					mario.ChangeState(CMarioState::sit.GetInstance());
-					CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
+			        CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
 				}
 			}
 		}

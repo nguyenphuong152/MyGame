@@ -27,7 +27,7 @@ enum class BrickType {
 
 class CBrick :public CGameObject
 {
-	int coinCounts = 0;
+	int coinCounts;
 
 	CGameObject* item;
 	BrickType type;

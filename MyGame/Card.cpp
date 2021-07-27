@@ -6,6 +6,8 @@
 
 CCard::CCard() {
 	isEnable = true;
+	numbAni = 1;
+	animated_start = 0;
 	SetState(CARD_STATE_UNTOUCH);
 }
 
