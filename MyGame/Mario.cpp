@@ -137,7 +137,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CGoomBa*>(e->obj)) //if e->obj is Goomba
 			{
 				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
-				if (e->ny < 0 && goomba->GetState() != GOOMBA_STATE_DIE)
+				if (e->ny < 0 && goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState()!=GOOMBA_STATE_DIE_WITH_DEFLECT)
 				{
 					vy = -MARIO_JUMP_SPEED_Y;
 					SetPoints(100);
@@ -235,10 +235,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CBox*>(e->obj))
 						x += dx;
 					else if (dynamic_cast<CGround*>(e->obj))
-					{
 						RecalculatePower();
-						if (isHoldKoopa == false)ChangeState(CMarioState::walk.GetInstance());
-					}
 				}
 			}
 			else if (dynamic_cast<CBoundary*>(e->obj))
@@ -263,7 +260,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0 && marioState == CMarioState::run.GetInstance())
 				{
 					RecalculatePower();
-					if (isHoldKoopa == false)ChangeState(CMarioState::walk.GetInstance());
 				}
 				if (e->ny < 0) StandOnPlatform();
 				if (brick->GetState() == BRICK_STATE_UNTOUCH)
@@ -490,6 +486,7 @@ void CMario::InitState() {
 void CMario::RecalculatePower()
 {
 	if (powerLevel <= MARIO_POWER_LEVEL && powerLevel >= 10) {
+		CMarioState::run.GetInstance()->decreasePower = true;
 		powerLevel -= 10;
 	}
 }
@@ -543,7 +540,7 @@ void CMario::ResetMario(int level)
 void CMario::SwitchOverworld()
 {
 	CGame::GetInstance()->SavePlayerData();
-	CGame::GetInstance()->SwitchScene(4);
+	CGame::GetInstance()->SwitchScene(OVERWORLD_MAP);
 }
 
 void CMario::LevelUp()

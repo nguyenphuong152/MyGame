@@ -70,7 +70,9 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
+
 	int current_scene;
+	bool isFinish;
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 

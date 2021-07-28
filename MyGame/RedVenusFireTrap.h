@@ -27,6 +27,8 @@
 #define FIREBALL_POSITION_X			360
 #define FIREBALL_POSITION_Y			344
 
+#define RANGE_MARIO_WITH_VENUS	94
+
 class CRedVenusFireTrap : public CEnemy
 {
 protected:

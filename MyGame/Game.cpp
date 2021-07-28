@@ -44,6 +44,8 @@ void CGame::Init(HWND hWnd)
 	screen_height = r.bottom +1;
 	screen_width = r.right +1;
 
+	isFinish = false;
+
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -451,5 +453,6 @@ void CGame::SavePlayerData()
 
 	fs.close();
 	DebugOut(L"[DONE] Save player data \n");
+	isFinish = true;
 
 }

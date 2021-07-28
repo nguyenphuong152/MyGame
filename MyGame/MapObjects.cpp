@@ -520,6 +520,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					{
 						obj = new CDecoration(Type::Help);
 					}
+					else if (strcmp(itemName, "enemy") == 0)
+					{
+						obj = new CDecoration(Type::Enemy);
+					}
 					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);
 					obj->AddObjectToGrid(grid, id);

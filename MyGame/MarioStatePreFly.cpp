@@ -40,7 +40,7 @@ void CMarioStatePreFly::HandleInput(CMario& mario, Input input)
 
 void CMarioStatePreFly::Update(DWORD dt, CMario& mario)
 {
-	if (!mario.powerMode)
+	if (!mario.powerMode || CMarioState::run.GetInstance()->decreasePower)
 	{
 		mario.ChangeState(CMarioState::run.GetInstance());
 	}

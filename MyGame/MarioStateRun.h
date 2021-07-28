@@ -4,6 +4,7 @@
 class CMarioStateRun : public CMarioOnGroundStates
 {
 public:
+	bool decreasePower;
 	static CMarioStateRun* __instance;
 
 	CMarioStateRun();

@@ -310,7 +310,7 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 	grid = new Grid();
-
+	CGame::GetInstance()->isFinish = false;
 	ifstream f;
 	f.open(sceneFilePath);
 
@@ -517,54 +517,57 @@ void CPlaySceneKeyHandler::PlaySceneHandleKeyDown(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	Input input = Input::NONE;
-	switch (KeyCode)
+
+	if (CGame::GetInstance()->isFinish == false)
 	{
-	case DIK_S:
-		input = Input::PRESS_S;
-		mario->canChangeMap = true;
-		break;
-	case DIK_DOWN:
-		input = Input::PRESS_DOWN;
-		break;
-	case DIK_LEFT:
-		input = Input::PRESS_LEFT;
-		break;
-	case DIK_RIGHT:
-		input = Input::PRESS_RIGHT;
-		break;
-	case DIK_2:
-		mario->ResetMario(MARIO_LEVEL_BIG);
-		break;
-	case DIK_1:
-		mario->ResetMario(MARIO_LEVEL_SMALL);
-		break;
-	case DIK_3:
-		mario->ResetMario(MARIO_LEVEL_RACOON);
-		break;
-	case DIK_4:
-		mario->ResetMario(MARIO_LEVEL_FIRE);
-		break;
-	case DIK_A:
-		input = Input::PRESS_A;
-		break;
-	case DIK_6:
-		mario->SwitchOverworld();
-		break;
-	case DIK_7:
-		mario->MoveToSecretScreen();
-		break;
-	case DIK_8:
-		mario->MoveToCenter();
-		break;
+		switch (KeyCode)
+		{
+		case DIK_S:
+			input = Input::PRESS_S;
+			mario->canChangeMap = true;
+			break;
+		case DIK_DOWN:
+			input = Input::PRESS_DOWN;
+			break;
+		case DIK_LEFT:
+			input = Input::PRESS_LEFT;
+			break;
+		case DIK_RIGHT:
+			input = Input::PRESS_RIGHT;
+			break;
+		case DIK_2:
+			mario->ResetMario(MARIO_LEVEL_BIG);
+			break;
+		case DIK_1:
+			mario->ResetMario(MARIO_LEVEL_SMALL);
+			break;
+		case DIK_3:
+			mario->ResetMario(MARIO_LEVEL_RACOON);
+			break;
+		case DIK_4:
+			mario->ResetMario(MARIO_LEVEL_FIRE);
+			break;
+		case DIK_A:
+			input = Input::PRESS_A;
+			break;
+		case DIK_6:
+			mario->SwitchOverworld();
+			break;
+		case DIK_7:
+			mario->MoveToSecretScreen();
+			break;
+		case DIK_8:
+			mario->MoveToCenter();
+			break;
+		}
+		mario->HandleInput(input);
 	}
-	mario->HandleInput(input);
 }
 
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	if (mario == NULL) return;
 	
 	if (CGame::GetInstance()->current_scene == INTRO)
 		IntroHandleKeyDown(KeyCode);
@@ -574,14 +577,11 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-
-	if (mario == NULL) return;
-
 	Input input = Input::NONE;
 
 	if (CGame::GetInstance()->current_scene == INTRO)
 		IntroScene::GetInstance()->GetSecondMario()->HandleInput(input);
-	else {
+	else if(CGame::GetInstance()->isFinish == false) {
 		switch (KeyCode)
 		{
 		case DIK_LEFT:
@@ -609,8 +609,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	if (mario == NULL) return;
-	 if (CGame::GetInstance()->current_scene != INTRO)
+	 if (CGame::GetInstance()->current_scene != INTRO && CGame::GetInstance()->isFinish == false)
 	 {
 		 mario->HandleInput(Input::KEYSTATE);
 	 }

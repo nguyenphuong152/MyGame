@@ -143,6 +143,7 @@ void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
 		mario.nx = direction;
 		mario.vx = direction * MARIO_RUNNING_SPEED;
 		mario.ChangeState(CMarioState::run.GetInstance());
+		CMarioState::run.GetInstance()->decreasePower = false;
 	}
 }
 

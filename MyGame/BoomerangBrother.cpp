@@ -69,7 +69,7 @@ void CBoomerangBrother::Render()
 
 	//change direction for koopas
 	animation_set->at(ani)->Render(nx, ny, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBoomerangBrother::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
