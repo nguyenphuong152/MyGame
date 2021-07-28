@@ -31,11 +31,13 @@ void CEnemy::SetState(int state)
 void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 {
 	CEffect* effect = CEffectPool::GetInstance()->Create();
-	if (effect != NULL)
+	CEffect* effect1 = CEffectPool::GetInstance()->Create();
+	if (effect != NULL && effect1 !=NULL)
 	{
 		if (obj == AttackedBy::Tail)
 		{
 			effect->SetEffect(EffectName::attack_by_tail, this);
+			effect1->SetEffect(EffectName::point, this, 1, 1, point);
 		}
 		else if (obj == AttackedBy::Mario && point!=Points::NONE)
 		{
@@ -60,6 +62,7 @@ void CEnemy::SetAttackedAnimation(AttackedBy obj,Points point)
 	}
 
 	player->SetPoints(p);
+	player->SetCoins();
 }
 
 

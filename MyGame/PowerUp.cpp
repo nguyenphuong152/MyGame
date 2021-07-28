@@ -116,7 +116,7 @@ void CPowerUp::Render()
 	if (GetPowerUpType() != PowerUpType::none)
 	{
 		animation_set->at(POWER_UP_ANI)->Render(1,1, x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 

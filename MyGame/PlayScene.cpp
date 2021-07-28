@@ -282,13 +282,20 @@ void CPlayScene::_ParseSection_PLAYER_DATA(string line)
 	ifstream f;
 	f.open(path);
 
+	int level, coin, live, point;
+	level = coin = live = point = -1;
+
 	while (getline(f, data)) {
 		vector<string> tokens = split(data);
 		string property = tokens[0];
-		if (property == "[LEVEL]")     player->SetLevel(atoi(tokens[1].c_str()));
-		else if (property == "[COIN]") player->SetCoins(atoi(tokens[1].c_str()));
-		else if (property == "[LIVE]") player->SetLive(atoi(tokens[1].c_str()));
-		else if (property == "[POINT]") player->SetPoints(atoi(tokens[1].c_str()));
+		if (property == "[LEVEL]")     
+			player->SetLevel(atoi(tokens[1].c_str()));
+		else if (property == "[COIN]") 
+			player->SetCoins(atoi(tokens[1].c_str()));
+		else if (property == "[LIVE]") 
+			player->SetLive(atoi(tokens[1].c_str()));
+		else if (property == "[POINT]") 
+			player->SetPoints(atoi(tokens[1].c_str()));
 		else if (property == "[REWARD]")
 		{
 			player->SetReward(tokens[1]);
@@ -537,9 +544,6 @@ void CPlaySceneKeyHandler::PlaySceneHandleKeyDown(int KeyCode)
 	case DIK_4:
 		mario->ResetMario(MARIO_LEVEL_FIRE);
 		break;
-	case DIK_5:
-		mario->SetState(MARIO_STATE_DIE);
-		break;
 	case DIK_A:
 		input = Input::PRESS_A;
 		break;
@@ -549,6 +553,9 @@ void CPlaySceneKeyHandler::PlaySceneHandleKeyDown(int KeyCode)
 	case DIK_7:
 		mario->MoveToSecretScreen();
 		break;
+	case DIK_8:
+		mario->MoveToCenter();
+		break;
 	}
 	mario->HandleInput(input);
 }
@@ -556,6 +563,9 @@ void CPlaySceneKeyHandler::PlaySceneHandleKeyDown(int KeyCode)
 
 void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 {
+	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	if (mario == NULL) return;
+	
 	if (CGame::GetInstance()->current_scene == INTRO)
 		IntroHandleKeyDown(KeyCode);
 	else  PlaySceneHandleKeyDown(KeyCode);
@@ -564,6 +574,9 @@ void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+
+	if (mario == NULL) return;
+
 	Input input = Input::NONE;
 
 	if (CGame::GetInstance()->current_scene == INTRO)
@@ -596,6 +609,7 @@ void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	if (mario == NULL) return;
 	 if (CGame::GetInstance()->current_scene != INTRO)
 	 {
 		 mario->HandleInput(Input::KEYSTATE);

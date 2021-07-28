@@ -390,7 +390,7 @@
   <object id="296" x="2449" y="815" width="46" height="191"/>
   <object id="297" x="3601" y="818.5" width="46" height="191"/>
   <object id="298" x="3215" y="816.5" width="46" height="191"/>
-  <object id="299" x="2831" y="913.5" width="46" height="98"/>
+  <object id="299" x="2841.67" y="916.167" width="35.3333" height="95.3333"/>
   <object id="300" x="2113" y="815.833" width="190" height="49.6667"/>
   <object id="473" x="4416" y="2286.67" width="2594.67" height="66.6666"/>
   <object id="474" x="7105.33" y="2283.17" width="338.667" height="68.8333"/>
@@ -411,7 +411,7 @@
  </objectgroup>
  <objectgroup id="25" name="Boundary">
   <object id="229" type="0" x="-56.7273" y="4" width="63.6364" height="1132.85"/>
-  <object id="231" type="0" x="4.9697" y="1117.82" width="7619.19" height="24.2424"/>
+  <object id="231" type="0" x="19.6364" y="1104.49" width="7619.19" height="24.2424"/>
   <object id="236" type="0" x="108.363" y="0.727667" width="7568.48" height="42.4242"/>
   <object id="366" type="0" x="7550" y="4.90833" width="63.6364" height="1080.85"/>
   <object id="507" x="7360" y="1168" width="68" height="1132"/>
@@ -602,8 +602,8 @@
  <objectgroup id="37" name="WoodBlock">
   <object id="504" name="powerup" x="2832" y="868" width="42.6667" height="44"/>
  </objectgroup>
- <objectgroup id="27" name="Camera" visible="0">
-  <object id="239" type="0" x="26.6667" y="506.55" width="800" height="600.606"/>
+ <objectgroup id="27" name="Camera">
+  <object id="239" type="0" x="18.6667" y="495.883" width="800" height="600.606"/>
  </objectgroup>
  <objectgroup id="36" name="SecretPipe">
   <object id="496" name="pipe-in" x="7017" y="2160" width="70" height="25">

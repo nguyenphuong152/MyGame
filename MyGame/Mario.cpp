@@ -103,7 +103,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ResetUntouchable();
 
 	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME)
-		Recover();
+	{
+		live--;
+		if (live < 0) live = MARIO_DEFAULT_LIVE;
+		SwitchOverworld();
+		return;
+	}
 
 	if (walkbehind == 1 && GetTickCount64() - walk_behind_start > MARIO_WALK_BEHIND_MAP_TIME)
 	{
@@ -145,7 +150,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (untouchable == 0 && goomba->GetState() != GOOMBA_STATE_DIE)
+					if (untouchable == 0 && goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
 						LevelMarioDown();
 				}
 			}
@@ -361,7 +366,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CCard*>(e->obj))
 			{
 				CCard* card = dynamic_cast<CCard*>(e->obj);
-				if (e->ny > 0)
+				if (e->ny != 0||e->nx!=0)
 				{
 					card->SetState(CARD_STATE_TOUCH);
 					isAutoWalk = true;
@@ -372,8 +377,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CBoomerangBrother* bBrother = dynamic_cast<CBoomerangBrother*>(e->obj);
 				if (e->ny < 0)
 				{
-					SetPoints(200);
-					SetCoins();
 					bBrother->SetState(BOOMERANGBROTHER_STATE_DIE);
 				}
 				if (e->nx != 0 && bBrother->GetState() != BOOMERANGBROTHER_STATE_DIE)
@@ -410,7 +413,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CWoodBlock* woodBlock = dynamic_cast<CWoodBlock*>(e->obj);
 				if (e->nx != 0)
 				{
-					vx = e->nx * FORCE_PUSH_MARIO_AWAY;
 					woodBlock->SetState(WOOD_BLOCK_STATE_TOUCHED, e->nx);
 				}
 				else if (e->ny < 0) StandOnPlatform();
@@ -520,6 +522,14 @@ void CMario::GetBoundingBox(float& l, float& t, float& r, float& b)
 	marioState->GetBoundingBox(*this,l, t, r, b);
 }
 
+void CMario::MoveToCenter()
+{
+	SetPosition(MARIO_CENTER_POSITION_X, MARIO_CENTER_POSITION_Y);
+	CGame::GetInstance()->GetMainCamera()->InitCamera();
+	if(CGame::GetInstance()->current_scene == WORLD1_3_MAP)
+		HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
+}
+
 void CMario::ResetMario(int level)
 {
 	InitState();
@@ -534,20 +544,6 @@ void CMario::SwitchOverworld()
 {
 	CGame::GetInstance()->SavePlayerData();
 	CGame::GetInstance()->SwitchScene(4);
-}
-
-void CMario::Recover()
-{
-	ResetDie();
-	SetState(MARIO_STATE_ALIVE);
-	SetLevel(MARIO_LEVEL_SMALL);
-
-	isStuckWithMiniGoomba = false;
-	isOnRedMagicBlock = false;
-
-	InitState();
-	SetPosition(start_x, start_y);
-	CGame::GetInstance()->GetMainCamera()->InitCamera();
 }
 
 void CMario::LevelUp()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="32" nextobjectid="368">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="48" tileheight="48" infinite="0" nextlayerid="32" nextobjectid="372">
  <editorsettings>
   <export target="world-1-1-map.xml" format="tmx"/>
  </editorsettings>
@@ -521,17 +521,21 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="Enemy" visible="0">
+ <objectgroup id="15" name="Enemy">
   <object id="91" name="red_koopa" type="70" x="1704.75" y="1001.45" width="31" height="26"/>
   <object id="98" name="red_venus" type="60" x="1081.15" y="1132.97"/>
-  <object id="255" name="goomba" type="3" x="2565.76" y="1120.85" width="22.5" height="21.5"/>
+  <object id="255" name="goomba" type="3" x="2480.76" y="1122.52" width="22.5" height="21.5"/>
   <object id="256" name="piranha" type="64" x="5350.5" y="1164.5" width="25" height="23"/>
   <object id="258" name="green_venus" type="63" x="5542" y="1128" width="25.5" height="26"/>
-  <object id="260" name="para-goomba" type="31" x="2684" y="1117" width="24" height="26"/>
+  <object id="260" name="para-goomba" type="31" x="2930.33" y="1096.33" width="24" height="26"/>
   <object id="261" name="green_para-koopa" type="71" x="4079.79" y="865.784" width="27" height="32"/>
   <object id="302" name="red_koopa" type="70" x="6257.83" y="1055" width="31" height="26"/>
   <object id="360" name="green_para-koopa" type="71" x="3931.83" y="870.667" width="27" height="32"/>
   <object id="361" name="green_para-koopa" type="71" x="4223.83" y="866.667" width="27" height="32"/>
+  <object id="368" name="goomba" type="3" x="2698.08" y="1120.92" width="22.5" height="21.5"/>
+  <object id="369" name="goomba" type="3" x="854.75" y="1144.25" width="22.5" height="21.5"/>
+  <object id="370" name="goomba" type="3" x="1389.08" y="1151.92" width="22.5" height="21.5"/>
+  <object id="371" name="red_koopa" type="70" x="4313.83" y="1133.67" width="31" height="26"/>
  </objectgroup>
  <objectgroup id="23" name="Block" visible="0">
   <object id="198" x="6071.67" y="1126.33" visible="0">

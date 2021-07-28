@@ -34,6 +34,7 @@ void CMarioStateTransformLevelDown::Update(DWORD dt, CMario& mario)
 		isTransform = 0;
 		_transformStart = 0;
 		mario.SetLevel(mario.GetLevel() - 1);
+		if (mario.GetLevel() == MARIO_LEVEL_RACOON)  mario.tail->isEnable = true;
 
 		mario.ChangeState(CMarioState::idle.GetInstance());
 	}

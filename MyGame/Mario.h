@@ -9,8 +9,8 @@ class CMarioState;
 #define MARIO_WALKING_SPEED			0.25f 
 #define MARIO_RUNNING_SPEED			0.4f
 #define MARIO_PRE_FLYING_SPEED		0.5f
-#define MARIO_START_FLYING_SPEED	0.6f
-#define MARIO_FLYING_SPEED			0.3f
+#define MARIO_START_FLYING_SPEED	0.8f
+#define MARIO_FLYING_SPEED			0.4f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.6f
 #define MARIO_GRAVITY				0.002f
@@ -111,7 +111,7 @@ class CMarioState;
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
 #define MARIO_RACOON_BBOX_WIDTH  62
-#define MARIO_RACOON_BBOX_HEIGHT 84
+#define MARIO_RACOON_BBOX_HEIGHT 82
 
 #define MARIO_SMALL_BBOX_WIDTH  40
 #define MARIO_SMALL_BBOX_HEIGHT 48
@@ -129,6 +129,9 @@ class CMarioState;
 #define HIDDEN_SCENE_1_Y	270
 
 #define MARIO_WALK_BEHIND_MAP_TIME 12000
+
+#define MARIO_CENTER_POSITION_X	4577
+#define MARIO_CENTER_POSITION_Y 867
 
 using namespace std;
 
@@ -216,8 +219,7 @@ public:
 
 	void ResetMario(int level);
 	void SwitchOverworld();
-	void Recover();
-
+	
 	void SetInput(Input i) { this->input = i; };
 	Input GetInput() { return this->input; };
  
@@ -233,6 +235,8 @@ public:
 
 	void GoBackToNormalScene();
 	void MoveToSecretScreen();
+
+	void MoveToCenter();
 
 	void WalkBehindStart() { walkbehind = 1; walk_behind_start = GetTickCount64(); }
 	void ResetWalkBehind() { walkbehind = 0; walk_behind_start = 0; };

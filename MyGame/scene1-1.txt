@@ -767,4 +767,6 @@ mushroom	92001
 star	92002
 whiteflower	92003
 
+[DATA]
+player-data.txt
 

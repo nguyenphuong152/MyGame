@@ -88,7 +88,7 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CRedVenusFireTrap*> (coObjects->at(i)))
 				{
 					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(coObjects->at(i));
-					venus->SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
+					venus->SetAttackedAnimation(AttackedBy::Tail,Points::POINT_300);
 					venus->isEnable = false;
 				}
 			}

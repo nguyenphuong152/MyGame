@@ -29,7 +29,7 @@ void CGoomBa::DieWithDeflect(AttackedBy obj)
 
 	if (obj != AttackedBy::KoopaShell)
 	{
-		SetAttackedAnimation(obj, Points::NONE);
+		SetAttackedAnimation(AttackedBy::Tail, Points::POINT_300);
 	}
 }
 
@@ -154,9 +154,8 @@ void CGoomBa::SetState(int state)
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
 		vy = -GOOMBA_DEFLECT_SPEED;
-		vx = 0;
+		vx = 3*GOOMBA_WALKING_SPEED*this->nx;
 		ny = -1;
-		//StartDie();
 		break;
 	}
 }

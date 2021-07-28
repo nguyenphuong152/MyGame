@@ -122,6 +122,7 @@ void IntroScene::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
 
 	if (arrow->startGame) {
 		first_mario->SwitchOverworld();
+		first_mario->SetLevel(MARIO_LEVEL_SMALL);
 		first_mario->isEnable = false;
 	}
 

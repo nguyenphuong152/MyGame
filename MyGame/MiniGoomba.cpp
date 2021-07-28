@@ -37,9 +37,8 @@ void CMiniGoomba::StartSpawning(CBrownParaGoomba* goomba)
 
 void CMiniGoomba::Render()
 {
-	//DebugOut(L"hello \n");
 	animation_set->at(0)->Render(1, ny, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMiniGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {

@@ -17,11 +17,12 @@
 #include "Grid.h"
 #include "Coin.h"
 #include "BoomerangBrother.h"
+#include "Boomerang.h"
 
 
 CKoopas::CKoopas()
 {
-	nx = 1;
+	nx = -1;
 	ny = 1;
 	isOnGround = false;
 	recover = 0;
@@ -60,9 +61,10 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	////die ->recover
-	if (state != KOOPA_STATE_DIE_WITH_VELOCITY)
+	if (state == KOOPA_STATE_DIE)
 	{
 		if ((GetTickCount64() - CEnemy::die_start) > KOOPA_DIE_TIME && die) {
+			ResetDie();
 			y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
 			SetState(KOOPA_STATE_RECOVER);
 		}
@@ -226,7 +228,7 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				else if(e->nx!=0)
 					WalkThrough();
 			}
-			else if (dynamic_cast<CCoin*>(e->obj))
+			else if (dynamic_cast<CCoin*>(e->obj)||dynamic_cast<CBoomerang*>(e->obj))
 			{
 				if (e->nx != 0 || e->ny != 0)
 					WalkThrough();
@@ -261,8 +263,16 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				if (koopa->isOnGround && e->nx!=0)
 				{
 					WalkThrough();
-					if(koopa->GetState()==KOOPA_STATE_WALKING && state==KOOPA_STATE_DIE_WITH_VELOCITY)
-					    koopa->AttackedByTail();
+					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
+					{
+						if (koopa->GetState() == KOOPA_STATE_WALKING)
+							koopa->AttackedByTail();
+						else if (koopa->GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
+						{
+							koopa->isEnable = false;
+							isEnable = false;
+						}
+					}
 					
 				}
 			}
@@ -283,10 +293,13 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 void CKoopas::LevelDown()
 {
 	level--;
-	SetState(KOOPA_STATE_WALKING);
 	if (level == 0) {
 		SetState(KOOPA_STATE_DIE);
 		StartDie();
+	}
+	else if (level == KOOPA_LEVEL_1)
+	{
+		SetState(KOOPA_STATE_WALKING);
 	}
 	SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
 }
@@ -295,8 +308,6 @@ void CKoopas::SetStateWhenPlayerJumpOn()
 {
 	if (state == KOOPA_STATE_DIE)
 		SetState(KOOPA_STATE_DIE_WITH_VELOCITY);
-	else if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
-		SetState(KOOPA_STATE_DIE);
 	else LevelDown();
 }
 
@@ -353,7 +364,7 @@ void CKoopas::AttackedByTail()
 	vy = -KOOPA_DEFLECT_SPEED;
 	SetState(KOOPA_STATE_DIE);
 
-	SetAttackedAnimation(AttackedBy::Tail, Points::NONE);
+	SetAttackedAnimation(AttackedBy::Tail, Points::POINT_300);
 }
 
 void CKoopas::ChangeDirection()

@@ -32,7 +32,7 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (isActive)
 	{
-		//DebugOut(L"vooooo %d \n", dt);
+		//
 		CGameObject::Update(dt, coObjects);
 
 		if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME) {

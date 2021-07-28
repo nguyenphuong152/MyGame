@@ -1,6 +1,7 @@
 #include "WoodBlock.h"
 #include "PowerUp.h"
 #include "Utils.h"
+#include "Game.h"
 
 CWoodBlock::CWoodBlock(CGameObject* item, float x)
 {
@@ -34,9 +35,7 @@ void CWoodBlock::SetState(int state, float dir)
 	CGameObject::SetState(state);
 	if (state == WOOD_BLOCK_STATE_TOUCHED)
 	{
-		if (this->dir < 0)
-			vx = WOOD_BLOCK_SPEED;
-		else vx = -WOOD_BLOCK_SPEED;
+		 vx = -this->dir*WOOD_BLOCK_SPEED;
 
 		if (dynamic_cast<CPowerUp*>(item))
 		{
@@ -50,22 +49,18 @@ void CWoodBlock::SetState(int state, float dir)
 void CWoodBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	x += dx;
 
 	if (state == WOOD_BLOCK_STATE_TOUCHED)
 	{
-		if (dir < 0)
-		{
-			vx -= WOOD_BLOCK_TURNBACK_SPEED;
-		}
-		else {
-			vx += WOOD_BLOCK_TURNBACK_SPEED;
-		}
-		x += dx;
+		vx += dir*WOOD_BLOCK_TURNBACK_SPEED;
 	}
 	if (x <= oldX && dir <0||x>=oldX&&dir>0)
 	{
+		CGame::GetInstance()->GetPlayer()->vx = dir * FORCE_PUSH_MARIO_AWAY;
 		x = oldX;
 		vx = 0;
+		dir = 0;
 		SetState(WOOD_BLOCK_STATE_UNTOUCH, 0);
 	}
 }

@@ -24,6 +24,7 @@ public:
 	int GetLevel() { return this->level; };	
 
 	void StartDie() { die = 1; die_start = GetTickCount64(); }
+	void ResetDie() { die = 0; die_start = 0; }
 	void SetAttackedAnimation(AttackedBy obj, Points point);
 	virtual void HandleCollision(vector<LPGAMEOBJECT>* coObjects) = 0;
 

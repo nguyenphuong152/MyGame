@@ -125,11 +125,15 @@
         <object id="255" cellx="6" celly="2" xEnd="6" yEnd="2"/>
         <object id="256" cellx="13" celly="2" xEnd="13" yEnd="2"/>
         <object id="258" cellx="13" celly="2" xEnd="13" yEnd="2"/>
-        <object id="260" cellx="6" celly="2" xEnd="6" yEnd="2"/>
+        <object id="260" cellx="7" celly="2" xEnd="7" yEnd="2"/>
         <object id="261" cellx="10" celly="2" xEnd="10" yEnd="2"/>
         <object id="302" cellx="15" celly="2" xEnd="15" yEnd="2"/>
         <object id="360" cellx="9" celly="2" xEnd="9" yEnd="2"/>
         <object id="361" cellx="10" celly="2" xEnd="10" yEnd="2"/>
+        <object id="368" cellx="6" celly="2" xEnd="6" yEnd="2"/>
+        <object id="369" cellx="2" celly="2" xEnd="2" yEnd="2"/>
+        <object id="370" cellx="3" celly="2" xEnd="3" yEnd="2"/>
+        <object id="371" cellx="10" celly="2" xEnd="10" yEnd="2"/>
     </group>
     <group id="23" name="Block">
         <object id="198" cellx="15" celly="2" xEnd="NaN" yEnd="NaN"/>

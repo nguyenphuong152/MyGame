@@ -3,7 +3,7 @@
 
 #define GOOMBA_WALKING_SPEED	0.05f
 #define GOOMBA_GRAVITY			0.0015f
-#define GOOMBA_DEFLECT_SPEED    0.5f
+#define GOOMBA_DEFLECT_SPEED    0.7f
 #define GOOMBA_BBOX_WIDTH		50
 #define GOOMBA_BBOX_HEIGHT		51
 #define GOOMBA_BBOX_HEIGHT_DIE	30
@@ -18,7 +18,7 @@
 #define GOOMBA_ANI_WALKING				0
 #define GOOMBA_ANI_DIE					1
 
-#define GOOMBA_DIE_TIME		700
+#define GOOMBA_DIE_TIME		500
 
 
 class CGoomBa : public CEnemy

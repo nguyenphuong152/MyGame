@@ -44,6 +44,7 @@ void CBrick::HandleBrickHasTenCoins()
 		{
 			CCoin* coin = dynamic_cast<CCoin*>(coins[coinCounts]);
 			coin->SetState(COIN_STATE_JUMPING);
+			coin->SetEffect(Points::POINT_100);
 		}
 		IncreaseCoinCounts();
 		isTouch = false;

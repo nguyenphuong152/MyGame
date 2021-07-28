@@ -18,7 +18,6 @@ CCamera::CCamera(float y,float width, float height)
 	this->width = CAM_WIDTH;
 	this->height = CAM_HEIGHT;
 	isEnable = true;
-	isReachBoundaryBottom = false;
 	start_y = y;
 	InitCamera();
 	hiddenscenes = NULL;
@@ -193,9 +192,10 @@ void CCamera::InitCamera()
 	if (cx < 0) cx = CAM_START_X;
 
 	SetPosition(cx, start_y);
-	//SetPosition(cx, HIDDEN_SCENE_Y_3);
 	SetState(CAMERA_STATE_NORMAL);
+	isReachBoundaryBottom = false;
 }
+
 
 void CCamera::AdjustPositionToHiddenScene()
 {
