@@ -133,7 +133,7 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT>* coobjs)
 
     CGame::GetInstance()->GetMainCamera()->Update(dt, coobjs);
 
-    HUD::GetInstance()->Update();
+    if(CGame::GetInstance()->current_scene!=INTRO)HUD::GetInstance()->Update();
 }
 
 void Grid::Render()

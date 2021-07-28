@@ -10,6 +10,7 @@
 #include "Textures.h"
 #include "Notification.h"
 #include "FireBallPool.h"
+#include "IntroScene.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -414,6 +415,9 @@ void CGame::SwitchScene(int scene_id)
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 	CNotification::GetInstance()->Clear();
+
+	if (CGame::GetInstance()->current_scene != INTRO)
+		IntroScene::GetInstance()->Clear();
 
 	HUD::GetInstance()->Unload();
 

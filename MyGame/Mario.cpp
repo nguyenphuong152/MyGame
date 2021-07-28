@@ -132,7 +132,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CGoomBa*>(e->obj)) //if e->obj is Goomba
 			{
 				CGoomBa* goomba = dynamic_cast<CGoomBa*>(e->obj);
-				if (e->ny < 0 && goomba->GetState()!=GOOMBA_STATE_DIE)
+				if (e->ny < 0 && goomba->GetState() != GOOMBA_STATE_DIE)
 				{
 					vy = -MARIO_JUMP_SPEED_Y;
 					SetPoints(100);
@@ -141,7 +141,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->ny > 0 && goomba->GetState() != GOOMBA_STATE_DIE_WITH_DEFLECT)
 				{
-					//y -= MARIO_BIG_BBOX_HEIGHT;
 					LevelMarioDown();
 				}
 				else if (e->nx != 0)
@@ -169,7 +168,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							ChangeState(CMarioState::holdshell_idle.GetInstance());
 							isHoldKoopa = true;
 						}
-						else 
+						else
 						{
 							ChangeState(CMarioState::kick.GetInstance());
 							CMarioState::kick.GetInstance()->StartKicking();
@@ -184,8 +183,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0 || e->ny != 0)
 				{
 					CPortal* p = dynamic_cast<CPortal*>(e->obj);
-					vx = vy = 0.0f; 
-					SetPosition(p->x+2, p->y-2);
+					vx = vy = 0.0f;
+					SetPosition(p->x + 2, p->y - 2);
 					CMarioState::walking_overworld.GetInstance()->SetSceneSwitching(p->GetSceneId());
 				}
 			}
@@ -219,21 +218,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CBox*>(e->obj))
 					{
 						//if (marioState == CMarioState::fly.GetInstance() || marioState == CMarioState::jump.GetInstance())
-							y += dy;
+						y += dy;
 					}
 					else if (dynamic_cast<CGround*>(e->obj))
 					{
 						if (marioState == CMarioState::go_to_pipe.GetInstance()) y += dy;
 					}
 				}
-				else if (e->nx != 0  && marioState != CMarioState::walking_overworld.GetInstance())
+				else if (e->nx != 0 && marioState != CMarioState::walking_overworld.GetInstance())
 				{
 					if (dynamic_cast<CBox*>(e->obj))
 						x += dx;
 					else if (dynamic_cast<CGround*>(e->obj))
 					{
 						RecalculatePower();
-						ChangeState(CMarioState::walk.GetInstance());
+						if (isHoldKoopa == false)ChangeState(CMarioState::walk.GetInstance());
 					}
 				}
 			}
@@ -246,13 +245,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						ChangeState(CMarioState::drop.GetInstance());
 						powerMode = false;
 					}
-					else { y += dy;}
+					else { y += dy; }
 				}
 				else if (e->ny < 0)
 				{
-					CCamera* cam = CGame::GetInstance()->GetMainCamera();
-					if (y < cam->y + (CAM_HEIGHT / 2)) y += dy;
-					//else SetState(MARIO_STATE_DIE);
+					SetState(MARIO_STATE_DIE);
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -261,7 +258,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0 && marioState == CMarioState::run.GetInstance())
 				{
 					RecalculatePower();
-					ChangeState(CMarioState::walk.GetInstance());
+					if (isHoldKoopa == false)ChangeState(CMarioState::walk.GetInstance());
 				}
 				if (e->ny < 0) StandOnPlatform();
 				if (brick->GetState() == BRICK_STATE_UNTOUCH)
@@ -281,8 +278,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CObjectBoundary*>(e->obj)) //when reach boundary for koopa
 			{
-			if (e->nx != 0)x += dx;
-			if (e->ny != 0)y += dy;
+				if (e->nx != 0)x += dx;
+				if (e->ny != 0)y += dy;
 			}
 			else if (dynamic_cast<CSwitch*>(e->obj)) //when reach boundary for koopa
 			{
@@ -389,7 +386,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					isFloating = false;
 					vx = 0;
-					if ((magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING&&magicBlock->GetType()==MagicNoteBlockType::visible)||
+					if ((magicBlock->GetState() != MAGIC_NOTE_BLOCK_STATE_JUMPING && magicBlock->GetType() == MagicNoteBlockType::visible) ||
 						(magicBlock->GetType() == MagicNoteBlockType::invisible && magicBlock->invisible == false))
 					{
 						magicBlock->SetState(MAGIC_NOTE_BLOCK_STATE_JUMPING, JUMP_ON);
@@ -421,15 +418,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMiniGoomba*>(e->obj))
 			{
 				CMiniGoomba* g = dynamic_cast<CMiniGoomba*>(e->obj);
-				if (e->nx != 0)
-				{
-					if (g->GetState() == MINIGOOMBA_STATE_NORMAL)
-					{
-						isStuckWithMiniGoomba = true;
-						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
-					}
-				}
-				else if (e->ny != 0)
+				if (e->nx != 0|| e->ny != 0)
 				{
 					if (g->GetState() == MINIGOOMBA_STATE_NORMAL)
 					{
@@ -465,7 +454,7 @@ void CMario::Render()
 		alpha = 0 + rand() % 255;
 	}
 	animation_set->at(ani)->Render(nx, 1, x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void  CMario::SetState(int state)
@@ -474,6 +463,7 @@ void  CMario::SetState(int state)
 	if (state == MARIO_STATE_DIE) {
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		vx = 0;
+		live--;
 		StartDie();
 	}
 	else if (state == MARIO_WALKING_ON_HIDDEN_SCENE_3)
@@ -515,7 +505,9 @@ void CMario::HandleInput(Input input)
 void CMario::LevelMarioDown()
 {
 	StartUntouchable();
-	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
+	if (level == MARIO_LEVEL_SMALL) {
+		SetState(MARIO_STATE_DIE);
+	}
 	else {
 		ChangeState(CMarioState::level_down.GetInstance());
 		CMarioState::level_down.GetInstance()->StartTransform();
@@ -586,19 +578,23 @@ void CMario::MovingMarioWithCamera()
 {
 	CCamera* cam = CGame::GetInstance()->GetMainCamera();
 	bool autoWalk = false;
+
 	if (x < cam->x)
 	{
 		autoWalk = true;
 		x = cam->x;
 	}
 	else if (x > (cam->x  +MARIO_BIG_BBOX_WIDTH)) autoWalk = false;
-	else if (x > (cam->x + CAM_WIDTH -100)) x = cam->x + CAM_WIDTH;
+	
+	if (x > (cam->x + CAM_WIDTH- 100))
+		x = cam->x + CAM_WIDTH - 100;
 	if (autoWalk) AutoWalk();
 }
 
 void CMario::AutoWalk()
 {
-	if(isSitting==false)ChangeState(CMarioState::walk.GetInstance());
+	if(isSitting==false )
+	ChangeState(CMarioState::walk.GetInstance());
 	vx = MARIO_WALKING_SPEED/2;
 }
 

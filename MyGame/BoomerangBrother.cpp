@@ -173,6 +173,7 @@ void CBoomerangBrother::SetState(int state)
 		}
 	}
 	else {
+		SetAttackedAnimation(AttackedBy::Mario, Points::POINT_300);
 		vx = 0;
 		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
 		ny = -1;

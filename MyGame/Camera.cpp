@@ -206,9 +206,7 @@ void CCamera::AdjustPositionToHiddenScene()
 	}
 
 	SetPosition((float)hiddenscenes->hidden_scene_cam_x, (float)hiddenscenes->hidden_scene_cam_y);
-	DebugOut(L"hide %d %d\n", hiddenscenes->hidden_scene_cam_x, hiddenscenes->hidden_scene_cam_y);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
-	
 }
 
 void CCamera::GoBackToNormal()

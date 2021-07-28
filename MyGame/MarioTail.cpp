@@ -7,6 +7,7 @@
 #include "GoomBa.h"
 #include "Koopas.h"
 #include "RedVenusFireTrap.h"
+#include "BoomerangBrother.h"
 
 
 CMarioTail::CMarioTail()
@@ -74,6 +75,14 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (koopa->isOnGround && koopa->GetState()!= KOOPA_STATE_DIE)
 					{
 						koopa->AttackedByTail();
+					}
+				}
+				else if (dynamic_cast<CBoomerangBrother*>(coObjects->at(i)))
+				{
+					CBoomerangBrother* bmr = dynamic_cast<CBoomerangBrother*>(coObjects->at(i));
+					if (bmr->GetState() != BOOMERANGBROTHER_STATE_DIE)
+					{
+						bmr->SetState(BOOMERANGBROTHER_STATE_DIE);
 					}
 				}
 				else if (dynamic_cast<CRedVenusFireTrap*> (coObjects->at(i)))

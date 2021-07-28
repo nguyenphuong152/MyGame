@@ -169,9 +169,7 @@ void CGoomBa::LevelDown()
 		SetState(GOOMBA_STATE_DIE);
 		StartDie();
 	}
-	else {
-		SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
-	}
+	SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
 }
 
 

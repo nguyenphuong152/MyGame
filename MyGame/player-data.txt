@@ -1,4 +1,6 @@
-[LEVEL]	3
-[LIVE]	4
-[COIN]	0
-[POINT]	0
+[LEVEL]	2
+[LIVE]	5
+[COIN]	75
+[POINT]	8600
+[REWARD]	mushroom
+[REWARD]	mushroom

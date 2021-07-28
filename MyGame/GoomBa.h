@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-#define GOOMBA_WALKING_SPEED	0.1f
+#define GOOMBA_WALKING_SPEED	0.05f
 #define GOOMBA_GRAVITY			0.0015f
 #define GOOMBA_DEFLECT_SPEED    0.5f
 #define GOOMBA_BBOX_WIDTH		50

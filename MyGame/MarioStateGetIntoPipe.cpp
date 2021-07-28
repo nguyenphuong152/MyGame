@@ -43,7 +43,7 @@ void CMarioStateGetIntoPipe::HandleSecretScreen1_1(CMario& mario)
 
 void CMarioStateGetIntoPipe::HandleSecretScreen1_3(CMario& mario)
 {
-	if (isInPipe == 1 && GetTickCount64() - inPipeStart > IN_PIPE_TIME)
+	if (isInPipe == 1 && GetTickCount64() - inPipeStart > IN_PIPE_TIME/2)
 	{
 		ResetInPipe();
 		mario.GoBackToNormalScene();

@@ -93,7 +93,6 @@ void IntroScene::UpdateMarios(DWORD dt)
 		curtain->SetPosition(0, 0);
 		curtain_super_bros->isShowing = true;
 		curtain_three->isShowing = true;
-		first_mario->ChangeState(CMarioState::sit.GetInstance());
 		CGame::GetInstance()->SetBackgroundColor(BACKGROUND_COLOR_SHOWCASE);
 	}
 
@@ -101,18 +100,18 @@ void IntroScene::UpdateMarios(DWORD dt)
 	{
 		first_mario->vx = -MARIO_WALKING_SPEED / 1.2f;
 		first_mario->ChangeState(CMarioState::walk.GetInstance());
-		if (first_mario->x < -50) first_mario->vx = 0;
-    }
+	}
 
-	if (arrow->startGame) first_mario->SwitchOverworld();
+	second_mario->marioState->Enter(*second_mario);
+	first_mario->marioState->Enter(*first_mario);
 }
 
 void IntroScene::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
 {
+	if (first_mario == NULL && second_mario == NULL) return;
 
 	first_mario->Update(dt,coObjects);
-	if (second_mario->isEnable)
-		second_mario->Update(dt, coObjects);
+	second_mario->Update(dt, coObjects);
 	CGame::GetInstance()->GetMainCamera()->Update(dt, coObjects);
 	curtain->Update(dt, coObjects);
 	curtain_super_bros->Update(dt, coObjects);
@@ -120,10 +119,21 @@ void IntroScene::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
 	arrow->Update(dt, coObjects);
 
 	UpdateMarios(dt);
+
+	if (arrow->startGame) {
+		first_mario->SwitchOverworld();
+		first_mario->isEnable = false;
+	}
+
+	if (first_mario->isEnable == false && second_mario->isEnable == false)
+		return;
 }
 
 void IntroScene::Render()
 {
+	if (first_mario->isEnable == false && second_mario->isEnable == false)
+		return;
+
 	map->RenderMap();
 
 	if (curtain_three->showcase)
@@ -138,10 +148,7 @@ void IntroScene::Render()
 	}
 
 	first_mario->Render();
-	if (second_mario->isEnable)
-	{
-		second_mario->Render();
-	}
+	second_mario->Render();
 	
 	curtain_three->Render();
 	curtain_super_bros->Render();
