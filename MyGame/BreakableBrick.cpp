@@ -8,9 +8,10 @@ CBreakableBrick::CBreakableBrick(float x, float y)
 {
 	player = CGame::GetInstance()->GetPlayer();
 	isEnable = true;
-	SetAnimation(BREAKABLE_BRICK_ANI);
-	SetState(BREAKABLE_BRICK_VISUAL_STATE);
+	SetObjectAnimation(BREAKABLE_BRICK_ANI);
 	SetPosition(x, y);
+	ResetCoinState();
+	SetState(BREAKABLE_BRICK_VISUAL_STATE);
 }
 
 void CBreakableBrick::SetState(int state)

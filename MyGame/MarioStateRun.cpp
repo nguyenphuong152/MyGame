@@ -10,6 +10,7 @@
 CMarioStateRun* CMarioStateRun::__instance = NULL;
 
 CMarioStateRun::CMarioStateRun() {
+	decreasePower = false;
 	DebugOut(L"[STATE] create run \n");
 }
 
@@ -44,7 +45,8 @@ void CMarioStateRun::Update(DWORD dt, CMario& mario)
 		{
 			mario.ChangeState(CMarioState::walk.GetInstance());
 		}
-		else {
+		else if(decreasePower == false) {
+			DebugOut(L"helo \n");
 			mario.powerLevel += 10;
 		}
 	}

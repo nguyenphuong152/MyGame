@@ -9,11 +9,10 @@ class CMarioState;
 #define MARIO_WALKING_SPEED			0.25f 
 #define MARIO_RUNNING_SPEED			0.4f
 #define MARIO_PRE_FLYING_SPEED		0.5f
-#define MARIO_START_FLYING_SPEED	0.6f
-#define MARIO_FLYING_SPEED			0.3f
+#define MARIO_START_FLYING_SPEED	0.8f
+#define MARIO_FLYING_SPEED			0.4f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.6f
-#define MARIO_JUMP_DEFLECT_SPEED	0.4f
 #define MARIO_GRAVITY				0.002f
 #define MARIO_SPEED_Y_WHEN_FLOATING	0.005f
 #define MARIO_AVERAGE_VY_ON_GROUND	0.08f
@@ -106,13 +105,13 @@ class CMarioState;
 #define MARIO_LEVEL_IMMORTAL	5
 
 
-#define MARIO_BIG_BBOX_WIDTH  42
+#define MARIO_BIG_BBOX_WIDTH  44
 #define MARIO_BIG_BBOX_HEIGHT 82
 
 #define MARIO_BIG_BBOX_SIT_HEIGHT 55
 
 #define MARIO_RACOON_BBOX_WIDTH  62
-#define MARIO_RACOON_BBOX_HEIGHT 84
+#define MARIO_RACOON_BBOX_HEIGHT 82
 
 #define MARIO_SMALL_BBOX_WIDTH  40
 #define MARIO_SMALL_BBOX_HEIGHT 48
@@ -126,16 +125,19 @@ class CMarioState;
 #define MARIO_POWER_LEVEL 720
 #define MARIO_DEFAULT_LIVE 4
 
-#define HIDDEN_SCENE_1_X	6830
-#define HIDDEN_SCENE_1_Y	1030
+#define HIDDEN_SCENE_1_X	6754
+#define HIDDEN_SCENE_1_Y	270
 
 #define MARIO_WALK_BEHIND_MAP_TIME 12000
+
+#define MARIO_CENTER_POSITION_X	4577
+#define MARIO_CENTER_POSITION_Y 867
 
 using namespace std;
 
 class CMario : public CGameObject
 {
-
+	int animation;
 	int untouchable;
 	ULONGLONG untouchable_start;
 
@@ -155,32 +157,28 @@ class CMario : public CGameObject
 	int coins;
 
 	vector<string> reward;
-
 	Input input;
-	
+	void ResetAllFlags();
 public:
-	//static CMario* __instance;
 	CMarioState* marioState;
 	CMarioTail* tail;
 
-	int animation;
 	int powerLevel;
 
-	bool isOnGround = false;
-	bool isSitting = false;
-	bool canJumpHigh = false;
-	bool isStuckWithMiniGoomba = false;
+	bool isSitting ;
+	bool canJumpHigh ;
+	bool isStuckWithMiniGoomba;
 
-	bool powerMode = false;
-	bool isFloating = false;
-	bool isJumpOnSwitch = false;
-	bool canGoIntoPipe = false;
-	bool canChangeMap = false;
-	bool canWalkBehindMap = false;
-	bool isHoldKoopa = false;
-	bool isOnRedMagicBlock = false;
-	bool isAutoWalk = false;
-	bool isOnSpecialBox = false;
+	bool powerMode ;
+	bool isFloating ;
+	bool isJumpOnSwitch ;
+	bool canGoIntoPipe ;
+	bool canChangeMap ;
+	bool canWalkBehindMap;
+	bool isHoldKoopa;
+	bool isOnRedMagicBlock ;
+	bool isAutoWalk;
+	bool isOnSpecialBox ;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -188,23 +186,9 @@ public:
 	virtual void SetState(int state);
 
 	void InitState();
-	void SetVelocityX(float velocity_x) {
-		vx = velocity_x;
-	}
-	void SetVelocityY(float velocity_y) {
-		vy = velocity_y;
-	}
-	void SetDirection(int dir) {
-		nx = dir;
-	}
-	void ChangeState(CMarioState* new_state) {
-		marioState = new_state;
-	}
-
-	CMarioState* GetState()
-	{
-		return marioState;
-	}
+	
+	void ChangeState(CMarioState* new_state) { marioState = new_state;}
+	CMarioState* GetState() { return marioState;}
 
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; };
@@ -220,6 +204,7 @@ public:
 	int GetCoins() { return coins; };
 
 	void SetReward(string r) { this->reward.push_back(r); };
+	vector<string> GetReward() { return this->reward; };
 
 	void LevelUp();
 	void RecalculatePower();
@@ -234,8 +219,7 @@ public:
 
 	void ResetMario(int level);
 	void SwitchOverworld();
-	void Recover();
-
+	
 	void SetInput(Input i) { this->input = i; };
 	Input GetInput() { return this->input; };
  
@@ -244,16 +228,15 @@ public:
 
 	void AttachTail(CMarioTail* tail) { this->tail = tail; };
 	void CheckMarioOutOfCamera();
-
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	//void RenderRaccoonMarioBoundingBox();
-	void SavePlayerData();
-
 	void MovingMarioWithCamera();
 	void AutoWalk();
+	void StandOnPlatform() { isOnGround = true; isFloating = false;}
 
 	void GoBackToNormalScene();
 	void MoveToSecretScreen();
+
+	void MoveToCenter();
 
 	void WalkBehindStart() { walkbehind = 1; walk_behind_start = GetTickCount64(); }
 	void ResetWalkBehind() { walkbehind = 0; walk_behind_start = 0; };

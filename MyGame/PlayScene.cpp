@@ -22,11 +22,18 @@
 #include "Grid.h"
 #include "Switch.h"
 #include "Notification.h"
+#include "IntroScene.h"
 
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) : CScene(id, filePath)
 {
+	player = NULL;
+	grid = NULL;
+    map = NULL;
+	map_objects = NULL;
+	hud = NULL;
+	letters= NULL;
 	key_handler = new CPlaySceneKeyHandler(this);
 }
 
@@ -144,9 +151,6 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
@@ -163,11 +167,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_MARIO:
 	{
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
-		}
 		obj = new CMario((float)x,(float)y);
 		obj->SetPosition((float)x, (float)y);
 		player = (CMario*)obj;
@@ -202,14 +201,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
 	// General object setup
 	if (object_type == OBJECT_TYPE_MARIO)
-	{
-		obj->SetPosition((float)x, (float)y);
-		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-		obj->SetAnimationSet(ani_set);
+	{//
+		obj->SetObjectAnimation(ani_set_id);
 		objects.push_back(obj);
 	}
 }
@@ -287,13 +282,20 @@ void CPlayScene::_ParseSection_PLAYER_DATA(string line)
 	ifstream f;
 	f.open(path);
 
+	int level, coin, live, point;
+	level = coin = live = point = -1;
+
 	while (getline(f, data)) {
 		vector<string> tokens = split(data);
 		string property = tokens[0];
-		if (property == "[LEVEL]")     player->SetLevel(atoi(tokens[1].c_str()));
-		else if (property == "[COIN]") player->SetCoins(atoi(tokens[1].c_str()));
-		else if (property == "[LIVE]") player->SetLive(atoi(tokens[1].c_str()));
-		else if (property == "[POINT]") player->SetPoints(atoi(tokens[1].c_str()));
+		if (property == "[LEVEL]")     
+			player->SetLevel(atoi(tokens[1].c_str()));
+		else if (property == "[COIN]") 
+			player->SetCoins(atoi(tokens[1].c_str()));
+		else if (property == "[LIVE]") 
+			player->SetLive(atoi(tokens[1].c_str()));
+		else if (property == "[POINT]") 
+			player->SetPoints(atoi(tokens[1].c_str()));
 		else if (property == "[REWARD]")
 		{
 			player->SetReward(tokens[1]);
@@ -308,7 +310,7 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 	grid = new Grid();
-
+	CGame::GetInstance()->isFinish = false;
 	ifstream f;
 	f.open(sceneFilePath);
 
@@ -378,32 +380,35 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	//DebugOut(L"[OBJECT SIZE] %d \n", objects.size());
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+
+	if (CGame::GetInstance()->current_scene == INTRO)
+	{
+		IntroScene::GetInstance()->Init(objects, map);
+		player = CGame::GetInstance()->GetPlayer();
+	}
 }
 
 
 
 void CPlayScene::Update(DWORD dt)
 {
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
 	coObjects.clear();
+	if (CGame::GetInstance()->current_scene == INTRO)
+	{
+		grid->Update(dt, &coObjects);
+		IntroScene::GetInstance()->Update(dt, &coObjects);
+	}
+	else {
+		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+		grid->Update(dt, &coObjects);
+		player->Update(dt, &coObjects);
 
-	grid->GetUnitsFromCameraRegion(&coObjects);
-	grid->Update(dt, &coObjects);
-
-	UpdatePool(&coObjects,dt);
-
-	CGame::GetInstance()->GetMainCamera()->Update(dt, &coObjects);
-
-	HUD::GetInstance()->Update();
-
-	player->Update(dt, &coObjects);
-	
-	if (CNotification::GetInstance()->visible)
-		CNotification::GetInstance()->Update();
+		if (CNotification::GetInstance()->visible)
+			CNotification::GetInstance()->Update();
+	}
 }
 
 void CPlayScene::RenderPool()
@@ -415,45 +420,17 @@ void CPlayScene::RenderPool()
 }
 
 
-void CPlayScene::UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt)
-{
-	CFireBallPool::GetInstance()->Update(dt,cobjects);
-	CEffectPool::GetInstance()->Update(dt,cobjects);
-	CBoomerangPool::GetInstance()->Update(dt, cobjects);
-	CMiniGoombaPool::GetInstance()->Update(dt, cobjects);
-}
-
-
 void CPlayScene::Render()
 {
 	if (player == NULL) return;
-
-	if (player->canWalkBehindMap == false)
+	if (CGame::GetInstance()->current_scene == INTRO)
 	{
-		map->RenderMap();
+		IntroScene::GetInstance()->Render();
 		grid->Render();
-		player->Render();
 	}
 	else {
-		player->Render();
-		map->RenderMap();
-		grid->Render();
+		RenderPlayScene();
 	}
-
-
-
-	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
-	{
-		map->RenderForeground();
-	}
-
-	RenderPool();
-	//CGame::GetInstance()->GetMainCamera()->Render();
-
-	HUD::GetInstance()->Render();
-
-	if(CNotification::GetInstance()->visible)
-	 CNotification::GetInstance()->Render();
 }
 
 /*
@@ -467,12 +444,35 @@ void CPlayScene::UnloadPool()
 	CMiniGoombaPool::GetInstance()->Unload();
 }
 
+void CPlayScene::RenderPlayScene()
+{
+
+	if (player->canWalkBehindMap == false)
+	{
+		map->RenderMap();
+		grid->Render();
+		player->Render();
+	}
+	else {
+		player->Render();
+		map->RenderMap();
+		grid->Render();
+	}
+
+	if (CGame::GetInstance()->current_scene != OVERWORLD_MAP)
+		map->RenderForeground();
+
+	RenderPool();
+	HUD::GetInstance()->Render();
+
+	if (CNotification::GetInstance()->visible)
+		CNotification::GetInstance()->Render();
+}
+
 void CPlayScene::Unload()
 {
 	for (size_t i = 0; i < objects.size(); i++)
-	{
 		delete objects[i];
-	}
 
 	objects.clear();
 
@@ -492,82 +492,125 @@ void CPlayScene::Unload()
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
-
-void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
+void CPlaySceneKeyHandler::IntroHandleKeyDown(int KeyCode)
 {
-	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	CArrow* arrow = IntroScene::GetInstance()->GetArrow();
 	Input input = Input::NONE;
 	switch (KeyCode)
 	{
 	case DIK_S:
 		input = Input::PRESS_S;
-		mario->canChangeMap = true;
+		arrow->StartGame();
 		break;
 	case DIK_DOWN:
 		input = Input::PRESS_DOWN;
+		arrow->MoveDown();
 		break;
-	case DIK_LEFT:
-		input = Input::PRESS_LEFT;
-		break;
-	case DIK_RIGHT:
-		input = Input::PRESS_RIGHT;
-		break;
-	case DIK_2:
-		mario->ResetMario(MARIO_LEVEL_BIG);
-		break;
-	case DIK_1:
-		mario->ResetMario(MARIO_LEVEL_SMALL);
-		break;
-	case DIK_3:
-		mario->ResetMario(MARIO_LEVEL_RACOON);
-		break;
-	case DIK_4:
-		mario->ResetMario(MARIO_LEVEL_FIRE);
-		break;
-	case DIK_5:
-		mario->SetState(MARIO_STATE_DIE);
-		break;
-	case DIK_A:
-		input = Input::PRESS_A;
-		break;
-	case DIK_6 :
-		mario->SwitchOverworld();
-		break;
-	case DIK_7:
-		mario->MoveToSecretScreen();
+	case DIK_UP:
+		input = Input::PRESS_DOWN;
+		arrow->MoveUp();
 		break;
 	}
-	mario->HandleInput(input);
+}
+
+void CPlaySceneKeyHandler::PlaySceneHandleKeyDown(int KeyCode)
+{
+	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	Input input = Input::NONE;
+
+	if (CGame::GetInstance()->isFinish == false)
+	{
+		switch (KeyCode)
+		{
+		case DIK_S:
+			input = Input::PRESS_S;
+			mario->canChangeMap = true;
+			break;
+		case DIK_DOWN:
+			input = Input::PRESS_DOWN;
+			break;
+		case DIK_LEFT:
+			input = Input::PRESS_LEFT;
+			break;
+		case DIK_RIGHT:
+			input = Input::PRESS_RIGHT;
+			break;
+		case DIK_2:
+			mario->ResetMario(MARIO_LEVEL_BIG);
+			break;
+		case DIK_1:
+			mario->ResetMario(MARIO_LEVEL_SMALL);
+			break;
+		case DIK_3:
+			mario->ResetMario(MARIO_LEVEL_RACOON);
+			break;
+		case DIK_4:
+			mario->ResetMario(MARIO_LEVEL_FIRE);
+			break;
+		case DIK_A:
+			input = Input::PRESS_A;
+			break;
+		case DIK_6:
+			mario->SwitchOverworld();
+			break;
+		case DIK_7:
+			mario->MoveToSecretScreen();
+			break;
+		case DIK_8:
+			mario->MoveToCenter();
+			break;
+		}
+		mario->HandleInput(input);
+	}
+}
+
+
+void CPlaySceneKeyHandler::OnKeyDown(int KeyCode)
+{
+	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
+	
+	if (CGame::GetInstance()->current_scene == INTRO)
+		IntroHandleKeyDown(KeyCode);
+	else  PlaySceneHandleKeyDown(KeyCode);
 }
 
 void CPlaySceneKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
 	Input input = Input::NONE;
-	switch (KeyCode)
-	{
-	case DIK_LEFT:
-		input = Input::RELEASE_LEFT;
-		break;
-	case DIK_RIGHT:
-		input = Input::RELEASE_RIGHT;
-		break;
-	case DIK_DOWN:
-		input = Input::RELEASE_DOWN;
-		break;
-	case DIK_S:
-		input = Input::RELEASE_S;
-		break;
-	case DIK_A:
-		input = Input::RELEASE_A;
-		mario->powerMode = false;
-		break;
+
+	if (CGame::GetInstance()->current_scene == INTRO)
+		IntroScene::GetInstance()->GetSecondMario()->HandleInput(input);
+	else if(CGame::GetInstance()->isFinish == false) {
+		switch (KeyCode)
+		{
+		case DIK_LEFT:
+			input = Input::RELEASE_LEFT;
+			break;
+		case DIK_RIGHT:
+			input = Input::RELEASE_RIGHT;
+			break;
+		case DIK_DOWN:
+			input = Input::RELEASE_DOWN;
+			break;
+		case DIK_S:
+			input = Input::RELEASE_S;
+			break;
+		case DIK_A:
+			input = Input::RELEASE_A;
+			mario->powerMode = false;
+			break;
+		}
 	}
 	mario->HandleInput(input);
+	
 }
 
 void CPlaySceneKeyHandler::KeyState(BYTE* states)
 {
 	CMario* mario = ((CPlayScene*)scene)->GetPlayer();
-	mario->HandleInput(Input::KEYSTATE);
+	 if (CGame::GetInstance()->current_scene != INTRO && CGame::GetInstance()->isFinish == false)
+	 {
+		 mario->HandleInput(Input::KEYSTATE);
+	 }
 }

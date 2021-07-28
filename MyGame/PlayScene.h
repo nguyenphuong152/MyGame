@@ -45,9 +45,9 @@ protected:
 	void _ParseSection_GRID(string line);
 	void _ParseSection_PLAYER_DATA(string line);
 
-	void UpdatePool(vector<LPGAMEOBJECT>* cobjects, DWORD dt);
 	void RenderPool();
 	void UnloadPool();
+	void RenderPlayScene();
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
@@ -63,6 +63,8 @@ public:
 
 class CPlaySceneKeyHandler : public CSceneKeyHandler
 {
+	void IntroHandleKeyDown(int keycode);
+	void PlaySceneHandleKeyDown(int keycode);
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);

@@ -6,8 +6,13 @@
 #define TILE_WIDTH 48
 
 CMapLayer::CMapLayer(TiXmlElement* layer, float width, float height) {
-    mapInfo = layer->GetText();
 
+    for (int i = 0; i < MAX_MAP_SIZE; i++) {
+        for (int j = 0; j < MAX_MAP_SIZE; j++) {
+            tileset[i][j] = 0;
+        }
+    }
+    mapInfo = layer->GetText();
     this->height = height;
     this->width = width;
     //chuyển string vector thành int để vẽ
@@ -21,7 +26,6 @@ CMapLayer::CMapLayer(TiXmlElement* layer, float width, float height) {
         {
            if (id > tileIdSetRaw.size()) return;
            tileset[i][j] = atoi(tileIdSetRaw[id].c_str());
-            //DebugOut(L"helo %d --- %d ---- %d \n", i, j, atoi(tileIdSetRaw[id].c_str()));
            id++;
         }
     }

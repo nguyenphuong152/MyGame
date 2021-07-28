@@ -4,14 +4,14 @@
 #include "Mario.h"
 #include "GoomBa.h"
 
-#define KOOPA_SHELL_VELOCITY_X	0.5f
-#define KOOPA_WALKING_SPEED		0.08f
-#define KOOPA_GRAVITY			0.004f
+#define KOOPA_SHELL_VELOCITY_X	0.4f
+#define KOOPA_WALKING_SPEED		0.05f
+#define KOOPA_GRAVITY			0.002f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
 #define KOOPA_BBOX_WIDTH		52
 #define KOOPA_BBOX_HEIGHT		82
-#define KOOPA_BBOX_HEIGHT_DIE	47
+#define KOOPA_BBOX_HEIGHT_DIE	46
 
 #define VALUE_ADJUST_SHELL		28
 #define KOOPA_DIE_TIME			4000
@@ -41,14 +41,13 @@ protected:
 	virtual void Render();
 	
 	void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
-	void ChangeDirection(float speed);
-	void WalkThrough(float speed);
+	void ChangeDirection();
+	void WalkThrough();
 
 	void ResetRecover() { recover = 0; _recoverStart = 0; };
 public:
 	CKoopas();
 	bool isHolded;
-	bool isOnGround;
 	
 	void StartRecover() { recover = 1; _recoverStart = GetTickCount64(); }
 	void LevelDown();

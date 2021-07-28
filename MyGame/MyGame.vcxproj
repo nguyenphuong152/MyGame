@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="BoomerangBrother.cpp" />
     <ClCompile Include="BoomerangPool.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectPool.cpp" />
@@ -168,6 +170,7 @@
     <ClCompile Include="HiddenScene.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDContent.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="MagicNoteBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -193,6 +196,7 @@
     <ClCompile Include="MarioStateStop.cpp" />
     <ClCompile Include="MarioStateThrowingFireball.cpp" />
     <ClCompile Include="MarioStateTransform.cpp" />
+    <ClCompile Include="MarioStateTransformLevelDown.cpp" />
     <ClCompile Include="MarioStateWalk.cpp" />
     <ClCompile Include="MarioStateThrowingFireballJumping.cpp" />
     <ClCompile Include="MarioTail.cpp" />
@@ -231,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BoomerangBrother.h" />
     <ClInclude Include="BoomerangPool.h" />
@@ -243,6 +248,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Curtain.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectPool.h" />
@@ -256,6 +262,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDContent.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="MagicNoteBlock.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
@@ -281,6 +288,7 @@
     <ClInclude Include="MarioStateStop.h" />
     <ClInclude Include="MarioStateThrowingFireball.h" />
     <ClInclude Include="MarioStateTransform.h" />
+    <ClInclude Include="MarioStateTransformLevelDown.h" />
     <ClInclude Include="MarioStateWalk.h" />
     <ClInclude Include="MarioStateThrowingFireballJumping.h" />
     <ClInclude Include="MarioTail.h" />

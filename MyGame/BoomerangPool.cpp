@@ -25,7 +25,7 @@ CBoomerang* CBoomerangPool::Create()
 	// Make sure the pool isn't full --- all fireballs are used.
 	if (_firstAvailable != NULL) {
 		CBoomerang* newBoomerang = _firstAvailable;
-		newBoomerang->SetAnimation(ani_set);
+		newBoomerang->SetObjectAnimation(ani_set);
 		_firstAvailable = newBoomerang->GetNext();
 		return newBoomerang;
 	}

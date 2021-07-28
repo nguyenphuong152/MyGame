@@ -17,14 +17,10 @@ CCamera::CCamera(float y,float width, float height)
 {
 	this->width = CAM_WIDTH;
 	this->height = CAM_HEIGHT;
-	
 	isEnable = true;
-
 	start_y = y;
-
 	InitCamera();
-
-	hiddenscenes.clear();
+	hiddenscenes = NULL;
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -52,7 +48,12 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 
 	CGameObject::Update(dt);
 
-	//if (y > HIDDEN_SCENE_Y && state == CAMERA_STATE_HIDDEN_SCENE1) y = HIDDEN_SCENE_Y;
+	if (CGame::GetInstance()->current_scene == INTRO)
+	{
+		vx = 0;
+		vy = 0;
+		return;
+	}
 	  
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -109,7 +110,6 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	else {
 		InactiveCamera();
 	}
-	//if (state == CAMERA_STATE_HIDDEN_SCENE) vy = 0;
 }
 
 void CCamera::FollowPlayerHorizontally()
@@ -144,10 +144,15 @@ void CCamera::FollowPlayerVertically()
 		isReachBoundaryBottom = false;
 	}
 
+	if (state == CAMERA_STATE_HIDDEN_SCENE1) {
+		vy = 0;
+		isReachBoundaryBottom = true;
+	}
+
 	if (isReachBoundaryBottom == false)
 	{
 		if ((player->vy < 0 && player->y < cam_center_Y) ||
-			(player->vy > 0 && player->y > cam_center_Y))
+			(player->vy > 0 && player->y > cam_center_Y) )
 		{
 			vy = player->vy;
 		}
@@ -155,6 +160,21 @@ void CCamera::FollowPlayerVertically()
 			vy = 0.0f;
 		}
 	}
+}
+
+void CCamera::AutoMoveToSecretScreen()
+{
+	isReachBoundaryBottom = false;
+	CGame::GetInstance()->GetMainCamera()->SetPosition(SECRET_PIPE_X_1, SECRET_PIPE_Y_1);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
+}
+
+void CCamera::GetCamPos(float& x, float& y, float& cam_width, float& cam_height)
+{
+	x = this->x;
+	y = this->y;
+	cam_width = this->width;
+	cam_height = this->height;
 }
 
 void CCamera::InactiveCamera()
@@ -172,9 +192,10 @@ void CCamera::InitCamera()
 	if (cx < 0) cx = CAM_START_X;
 
 	SetPosition(cx, start_y);
-	//SetPosition(cx, HIDDEN_SCENE_Y_3);
 	SetState(CAMERA_STATE_NORMAL);
+	isReachBoundaryBottom = false;
 }
+
 
 void CCamera::AdjustPositionToHiddenScene()
 {
@@ -184,9 +205,8 @@ void CCamera::AdjustPositionToHiddenScene()
 		SetState(CAMERA_STATE_HIDDEN_SCENE3);
 	}
 
-	SetPosition((float)hiddenscenes.at(0)->hidden_scene_cam_x, (float)hiddenscenes.at(0)->hidden_scene_cam_y);
+	SetPosition((float)hiddenscenes->hidden_scene_cam_x, (float)hiddenscenes->hidden_scene_cam_y);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
-	
 }
 
 void CCamera::GoBackToNormal()

@@ -35,8 +35,8 @@ void CMarioStateFly::HandleInput(CMario& mario, Input input)
 	if (input == Input::PRESS_S&&mario.GetLevel()==MARIO_LEVEL_RACOON)
 	{
 		mario.isOnGround = false;
-		mario.SetVelocityY(-MARIO_FLYING_SPEED);
-		mario.SetVelocityX(mario.nx * MARIO_WALKING_SPEED);
+		mario.vy = -MARIO_FLYING_SPEED;
+		mario.vx = mario.nx * MARIO_WALKING_SPEED;
 	}
 	else {
 		CMarioOnAirStates::HandleInput(mario, input);

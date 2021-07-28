@@ -33,8 +33,8 @@ class CPowerUp : public CGameObject
 
 	float start_y;
 
-	int changeDirection = 0;
-	int direction = 1;
+	int changeDirection;
+	int direction;
 	ULONGLONG changeDirection_start;
 
 	int moving;
@@ -43,7 +43,7 @@ class CPowerUp : public CGameObject
 	CMario* player;
 public:
 
-	bool isActive = false;
+	bool isActive;
 	CPowerUp(float x,float y);
 
 	virtual void Render();

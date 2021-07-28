@@ -10,13 +10,19 @@
 #include "Scene.h"
 #include "Camera.h"
 
+
 using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
+#define BACKGROUND_COLOR	D3DCOLOR_XRGB(156, 252, 240)
+#define BACKGROUND_COLOR_INTRO	D3DCOLOR_XRGB(0,0,0)
+#define BACKGROUND_COLOR_SHOWCASE	 D3DCOLOR_XRGB(255, 216, 154)
+
 #define OVERWORLD_MAP	4
 #define WORLD1_1_MAP	3
 #define WORLD1_3_MAP	2
+#define INTRO			1
 
 class CGame
 {
@@ -37,8 +43,8 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	/*float cam_x = 0.0f;
-	float cam_y = 0.0f;*/
+	D3DCOLOR background_color;
+    
 	CCamera* main_cam;
 	CMario* player;
 
@@ -50,6 +56,11 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 public:
+	void SetBackgroundColor(D3DCOLOR color) { background_color = color; };
+	D3DXCOLOR GetBackgroundColor() {
+		return background_color;
+	}
+
 	void InitKeyboard();
 	void SetKeyhHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
@@ -59,7 +70,9 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
+
 	int current_scene;
+	bool isFinish;
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 
@@ -68,11 +81,10 @@ public:
 
 	CCamera* GetMainCamera() { return this->main_cam; }
 	CMario* GetPlayer() { return this->player; }
+	void SavePlayerData();
 
 	void DeletePlayer() { this->player = NULL; };
-	void DeleteCam() {
-		 main_cam = NULL;
-	}
+	void DeleteCam() { main_cam = NULL;}
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }

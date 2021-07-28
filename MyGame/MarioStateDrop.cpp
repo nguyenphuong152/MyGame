@@ -44,7 +44,7 @@ void CMarioStateDrop::HandleInput(CMario& mario, Input input)
 	if (input == Input::PRESS_S && mario.GetLevel()==MARIO_LEVEL_RACOON)
 	{
 		mario.isFloating = true;
-		mario.SetVelocityY(-MARIO_SPEED_Y_WHEN_FLOATING);
+		mario.vy = -MARIO_SPEED_Y_WHEN_FLOATING;
 	}
 
 	CMarioOnAirStates::HandleInput(mario, input);
@@ -55,9 +55,7 @@ void CMarioStateDrop::Update(DWORD dt, CMario& mario)
 	if (mario.isOnGround )
 	{
 		if (mario.isAutoWalk)
-		{
 			mario.AutoWalk();
-		}
 		else {
 			mario.isOnRedMagicBlock = false;
 			mario.canGoIntoPipe = false;

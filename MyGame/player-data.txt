@@ -1,4 +1,5 @@
-[LEVEL]	1
+[LEVEL]	3
 [LIVE]	4
-[COIN]	38
+[COIN]	30
 [POINT]	4000
+[REWARD]	whiteflower

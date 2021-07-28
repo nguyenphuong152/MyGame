@@ -13,7 +13,6 @@
 
 CGoomBa::CGoomBa()
 {
-	isOnGround = false;
 	ny = 1;
 	SetState(GOOMBA_STATE_WALKING);
 	SetLevel(GOOMBA_LEVEL_1);
@@ -30,7 +29,7 @@ void CGoomBa::DieWithDeflect(AttackedBy obj)
 
 	if (obj != AttackedBy::KoopaShell)
 	{
-		SetAttackedAnimation(obj, Points::NONE);
+		SetAttackedAnimation(AttackedBy::Tail, Points::POINT_300);
 	}
 }
 
@@ -53,18 +52,17 @@ void CGoomBa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOut(L"helo \n");
 	vy += GOOMBA_GRAVITY * dt;
 
+
 	if (GetTickCount64() - die_start > GOOMBA_DIE_TIME && die) {
 		isEnable = false;
 	}
 
-	if (state == GOOMBA_STATE_DIE_WITH_DEFLECT)
-	{
+	if(state!=GOOMBA_STATE_DIE_WITH_DEFLECT)
+		HandleCollision(coObjects);
+	else {
 		x += dx;
 		y += dy;
 	}
-
-	HandleCollision(coObjects);
-	
 	grid_->Move(this);
 }
 
@@ -81,7 +79,7 @@ void CGoomBa::Render()
 	}
 	
 	animation_set->at(ani)->Render(1,ny, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CGoomBa::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
@@ -155,10 +153,9 @@ void CGoomBa::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_WITH_DEFLECT:
-		vx = 3*GOOMBA_WALKING_SPEED*nx;
 		vy = -GOOMBA_DEFLECT_SPEED;
+		vx = 3*GOOMBA_WALKING_SPEED*this->nx;
 		ny = -1;
-		StartDie();
 		break;
 	}
 }
@@ -171,9 +168,7 @@ void CGoomBa::LevelDown()
 		SetState(GOOMBA_STATE_DIE);
 		StartDie();
 	}
-	else {
-		SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
-	}
+	SetAttackedAnimation(AttackedBy::Mario, Points::POINT_100);
 }
 
 

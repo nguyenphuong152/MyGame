@@ -46,6 +46,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		vx += BOOMERANG_TURNBACK_SPEED;
 	}
 
+	if (_state.live.bBrother->GetState() == BOOMERANGBROTHER_STATE_DIE) DisableBoomerang();
+
 	vy += BOOMERANG_GRAVITY;
 	
 	if (nx < 0 && vx > 0)

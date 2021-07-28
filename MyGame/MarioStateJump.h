@@ -8,7 +8,7 @@ private:
 	
 	ULONGLONG _jumpingStart;
 public:
-	bool jumpOnMagicNote = false;
+	bool jumpOnMagicNote;
 	static CMarioStateJump* __instance;
 	CMarioStateJump();
 	virtual ~CMarioStateJump() {};

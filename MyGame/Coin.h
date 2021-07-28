@@ -26,7 +26,7 @@ enum class CoinType {
 
 class CCoin : public CGameObject
 {
-	bool isActive = false;
+	bool isActive;
 	CoinType type;
 
 	ULONGLONG jump_start;

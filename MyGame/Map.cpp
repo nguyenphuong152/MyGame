@@ -18,6 +18,9 @@ CMap::CMap(int id, const char* mapFilePath, int texId, int tilePerRow, int tileP
 	this->texId = texId;
 	this->tilePerRow = tilePerRow;
 	this->tilePerColumn = tilePerColumn;
+
+	layerForeground = NULL;
+	layers.clear();
 }
 
 void CMap::CreateTileSet()

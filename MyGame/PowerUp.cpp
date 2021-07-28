@@ -9,6 +9,11 @@
 
 CPowerUp::CPowerUp(float x,float  y)
 {
+	isActive = false;
+	moving = 0;
+	moving_start = 0;
+	changeDirection = 0;
+	direction = 1;
 	changeDirection_start = 0;
 	isEnable = true;
 	start_y = y;
@@ -111,7 +116,7 @@ void CPowerUp::Render()
 	if (GetPowerUpType() != PowerUpType::none)
 	{
 		animation_set->at(POWER_UP_ANI)->Render(1,1, x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 
@@ -125,12 +130,12 @@ void CPowerUp::DefinePowerUpType()
 	if (level == MARIO_LEVEL_SMALL)
 	{
 		SetPowerUpType(PowerUpType::super_mushroom);
-		SetAnimation(SUPER_MUSHROOM_ANI);
+		SetObjectAnimation(SUPER_MUSHROOM_ANI);
 	}
 	else
 	{
 		SetPowerUpType(PowerUpType::super_leaf);
-		SetAnimation(SUPER_LEAF_ANI);
+		SetObjectAnimation(SUPER_LEAF_ANI);
 	}
 }
 

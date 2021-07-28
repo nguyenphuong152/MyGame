@@ -25,7 +25,7 @@ CMiniGoomba* CMiniGoombaPool::Create()
 	// Make sure the pool isn't full --- all fireballs are used.
 	if (_firstAvailable != NULL) {
 		CMiniGoomba* g = _firstAvailable;
-		g->SetAnimation(ani_set);
+		g->SetObjectAnimation(ani_set);
 		_firstAvailable = g->GetNext();
 		return g;
 	}

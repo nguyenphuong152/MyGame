@@ -8,7 +8,7 @@ private:
 	ULONGLONG _spinningStart;
 public:
 	static CMarioStateSpin* __instance;
-	bool isAttack = false;
+	bool isAttack;
 
 	CMarioStateSpin();
 	virtual ~CMarioStateSpin() {};

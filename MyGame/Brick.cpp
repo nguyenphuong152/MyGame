@@ -10,6 +10,7 @@
 
 CBrick::CBrick(CGameObject* item, float y, BrickType type)
 {
+	coinCounts = 0;
 	this->item = item;
 	InitBrick(y,type);
 }
@@ -25,9 +26,9 @@ void CBrick::InitBrick(float y, BrickType type)
 	this->type = type;
 	if (type == BrickType::question_brick)
 	{
-		SetAnimation(BRICK_ANI);
+		SetObjectAnimation(BRICK_ANI);
 	}
-	else SetAnimation(TWINKLE_BRICK_ANI);
+	else SetObjectAnimation(TWINKLE_BRICK_ANI);
 
 	isEnable = true;
 	SetState(BRICK_STATE_UNTOUCH);
@@ -43,6 +44,7 @@ void CBrick::HandleBrickHasTenCoins()
 		{
 			CCoin* coin = dynamic_cast<CCoin*>(coins[coinCounts]);
 			coin->SetState(COIN_STATE_JUMPING);
+			coin->SetEffect(Points::POINT_100);
 		}
 		IncreaseCoinCounts();
 		isTouch = false;

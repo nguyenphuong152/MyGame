@@ -34,7 +34,7 @@ void CParaGoomba::GetBoundingBox(float& l, float& t, float& r, float& b)
 	{
 		b = y + GOOMBA_BBOX_HEIGHT_DIE;
 	}
-	else b = y + PARA_GOOMBA_LEVEL_2_BBOX_HEIGHT_WALKING;
+	else b = y + GOOMBA_BBOX_HEIGHT;
 	
 }
 

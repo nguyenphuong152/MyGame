@@ -85,12 +85,14 @@ void CPiranha::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (y > PIRANHA_PIPE_POSITION_Y)
 					{
-						SetState(PIRANHA_STATE_GO_UP);
+						if (player->x<(x - MARIO_BIG_BBOX_WIDTH*2) || player->x>(x + MARIO_BIG_BBOX_WIDTH * 2))
+						  SetState(PIRANHA_STATE_GO_UP);
 					}
 					else {
 						SetState(PIRANHA_STATE_GO_DOWN);
 					}
-					y += dy;
+					if (player->x<(x - MARIO_BIG_BBOX_WIDTH*2) || player->x>(x + MARIO_BIG_BBOX_WIDTH * 2))
+					   y += dy;
 				}
 			}
 		}

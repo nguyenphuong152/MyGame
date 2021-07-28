@@ -47,39 +47,33 @@ class CGameObject
 {
 	friend class Grid;
 protected:
-	Grid* grid_;
-public:
-	//vi tri
-	float x;
-	float y;
-
     //old postition
 	float old_x;
 	float old_y;
-
-	//van toc
-	float vx;
-	float vy;
 
 	//quang duong
 	float dx;   //dx = vx*dt
 	float dy;
 
-	int nx; //huong; 
-	int ny;
-	//nx = 1 => left
+ 	//nx = 1 => left
 	//nx = -1 => right
-
-	int state; // trang thai
-
 	DWORD dt; //time
-
-	bool isEnable = false;
-	bool isDie = false;
-	
 	LPANIMATION_SET animation_set;
 
 public:
+	bool isOnGround;
+	Grid* grid_;
+	//vi tri
+	float x;
+	float y;
+	//van toc
+	float vx;
+	float vy;
+	int nx; //huong; 
+	int ny;
+	int state; // trang thai
+	bool isEnable;
+
 	void SetOldPosition(float x, float y) { this->old_x = x; this->old_y = y; };
 	void SetPosition(float x, float y) { this->x = x; this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
@@ -103,7 +97,7 @@ public:
 
 	void AddObjectToGrid(Grid* grid, int id);
 
-	void SetAnimation(int ani);
+	void SetObjectAnimation(int ani);
 
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObject, vector<LPCOLLISIONEVENT>& coEvents);;
 

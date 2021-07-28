@@ -6,6 +6,7 @@
 CMarioStateHoldShellAndJump* CMarioStateHoldShellAndJump::__instance = NULL;
 
 CMarioStateHoldShellAndJump::CMarioStateHoldShellAndJump() {
+	_jumpingStart = 0;
 	DebugOut(L"[STATE] create jump shell \n");
 
 }

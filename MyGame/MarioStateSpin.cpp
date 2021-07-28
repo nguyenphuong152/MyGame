@@ -6,6 +6,8 @@ CMarioStateSpin* CMarioStateSpin::__instance = NULL;
 
 CMarioStateSpin::CMarioStateSpin() {
 	DebugOut(L"[STATE] create spin \n");
+	isAttack = false;
+	_spinningStart = 0;
 }
 
 void CMarioStateSpin::Enter(CMario& mario)
@@ -19,6 +21,7 @@ void CMarioStateSpin::HandleInput(CMario& mario, Input input)
 
 void CMarioStateSpin::Update(DWORD dt, CMario& mario)
 {
+	mario.vx = 0;
 	if (GetTickCount64()-_spinningStart > MARIO_SPINNING_TIME)
 	{
 		isAttack = false;

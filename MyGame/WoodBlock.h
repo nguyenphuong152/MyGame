@@ -12,10 +12,10 @@
 
 #define WOOD_BLOCK_ANI			48
 
-#define WOOD_BLOCK_SPEED		0.5f
-#define WOOD_BLOCK_TURNBACK_SPEED	0.1f
+#define WOOD_BLOCK_SPEED		0.6f
+#define WOOD_BLOCK_TURNBACK_SPEED	0.2f
 
-#define FORCE_PUSH_MARIO_AWAY	0.15f
+#define FORCE_PUSH_MARIO_AWAY	0.25f
 
 class CWoodBlock :public CGameObject
 {

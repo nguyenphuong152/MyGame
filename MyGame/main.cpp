@@ -24,11 +24,9 @@
 
 #include "PlayScene.h"
 
-
 #define WINDOW_CLASS_NAME L"Game"
 #define MAIN_WINDOW_TITLE L"My Gamee"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(156, 252, 240)
 #define SCREEN_WIDTH 760
 #define SCREEN_HEIGHT 600
 
@@ -74,7 +72,10 @@ void Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+	/*	if(game->current_scene == INTRO) 
+		  d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR_INTRO);
+		else*/
+		d3ddv->ColorFill(bb, NULL, game->GetBackgroundColor());
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 

@@ -25,7 +25,7 @@ CEffect* CEffectPool::Create()
 	// Make sure the pool isn't full --- all fireballs are used.
 	if (_firstAvailable != NULL) {
 		CEffect* effect = _firstAvailable;
-		effect->SetAnimation(ani_set);
+		effect->SetObjectAnimation(ani_set);
 		_firstAvailable = effect->GetNext();
 		return effect;
 	}

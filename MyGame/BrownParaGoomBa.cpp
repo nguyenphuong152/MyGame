@@ -54,7 +54,6 @@ void CBrownParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = -BROWN_PARA_GOOMBA_SHORT_JUMP_VELOCITY_Y;
 			if (spawning == 1 && GetTickCount64() - spawning_start > SPAWNING_TIME)
 			{
-				//DebugOut(L"de con\n");
 				ResetSpawning();
 				SpawnMiniGoomba();
 			}
@@ -80,7 +79,7 @@ void CBrownParaGoomba::Render()
 
 	//DebugOut(L"x y goomba %d -- %d \n", state, ani);
 	animation_set->at(ani)->Render(nx, ny, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 

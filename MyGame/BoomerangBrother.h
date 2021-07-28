@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Utils.h"
 
 #define BOOMERANGBROTHER_WALKING_SPEED		0.1f
 #define BOOMERANGBROTHER_GRAVITY			0.0015f
@@ -25,18 +26,18 @@
 
 class CBoomerangBrother : public CEnemy
 {
-	bool isOnGround;
+	bool isWalking;
 	ULONGLONG _startWalking;
 
 	ULONGLONG _startThrowing;
 	bool disableThrowing;
-	int countingTime = 0;
+	int countingTime;
 
-	void StartWalking() { isOnGround = true; _startWalking = GetTickCount64(); }
-	void ResetWalking() { isOnGround = false; _startWalking = 0; }
+	void StartWalking() { isWalking = true; _startWalking = GetTickCount64(); }
+	void ResetWalking() { isWalking = _startWalking = 0; }
 	void StartThrowing() { _startThrowing = GetTickCount64(); disableThrowing = true; }
 	void ResetThrowing() { disableThrowing = false; _startThrowing = 0; countingTime = 0; }
-	
+
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

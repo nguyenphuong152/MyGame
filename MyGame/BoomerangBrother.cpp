@@ -1,6 +1,5 @@
 #include "BoomerangBrother.h"
 #include "ObjectBoundary.h"
-#include "Utils.h"
 #include "Ground.h"
 #include "Boomerang.h"
 #include "BoomerangPool.h"
@@ -11,8 +10,17 @@ CBoomerangBrother::CBoomerangBrother()
 {
 	nx = direction = -1;
 	ny = 1;
-	StartThrowing();
+
 	isHitted = true;
+	
+	isOnGround = false;
+	isWalking = false;
+	_startWalking = 0;
+    _startThrowing = 0;
+	disableThrowing = false;
+	countingTime = 0;
+
+	StartThrowing();
 	SetState(BOOMERANGBROTHER_STATE_WALKING);
 }
 
@@ -26,11 +34,11 @@ void CBoomerangBrother::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CBoomerangBrother::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//check dieu kien nhay
-	BoomerangBrotherJump();
-
 	CGameObject::Update(dt);
 	vy += BOOMERANGBROTHER_GRAVITY * dt;
+
+	//check dieu kien nhay
+	BoomerangBrotherJump();
 
 	if (GetTickCount64() - die_start > DIETIME && die) isEnable = false;
 
@@ -61,7 +69,7 @@ void CBoomerangBrother::Render()
 
 	//change direction for koopas
 	animation_set->at(ani)->Render(nx, ny, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBoomerangBrother::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
@@ -87,10 +95,9 @@ void CBoomerangBrother::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CGround*>(e->obj))
 			{
-				if (e->ny < 0 && isOnGround == false)
+				if (e->ny < 0)
 				{
-					StartWalking();
-					SetState(BOOMERANGBROTHER_STATE_WALKING);
+					isOnGround = true;
 				}
 			}
 			else if (dynamic_cast<CObjectBoundary*>(e->obj))
@@ -108,10 +115,10 @@ void CBoomerangBrother::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 
 void CBoomerangBrother::BoomerangBrotherJump()
 {
-	if (isOnGround && GetTickCount64() - _startWalking > WALKING_TIME)
-	{
+	if (isOnGround && GetTickCount64() - _startWalking > WALKING_TIME && isWalking)
 		SetState(BOOMERANGBROTHER_STATE_JUMPING);
-	}
+	if(isOnGround && !isWalking)
+	    SetState(BOOMERANGBROTHER_STATE_WALKING);
 }
 
 void CBoomerangBrother::CheckDirection()
@@ -128,7 +135,8 @@ void CBoomerangBrother::CheckDirection()
 
 void CBoomerangBrother::BoomerangBrotherThrowBoomerang()
 {
-	if (GetTickCount64() - _startThrowing > DISABLE_THROWING_TIME && disableThrowing == true && isHitted == true && countingTime < THROWING_TIMES)
+	if (GetTickCount64() - _startThrowing > DISABLE_THROWING_TIME && disableThrowing == true 
+		&& isHitted == true && countingTime < THROWING_TIMES)
 	{
 		SetState(BOOMERANGBROTHER_STATE_THROWING);
 		countingTime++;
@@ -145,14 +153,15 @@ void CBoomerangBrother::BoomerangBrotherThrowBoomerang()
 void CBoomerangBrother::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (state == BOOMERANGBROTHER_STATE_WALKING) 
+	if (state == BOOMERANGBROTHER_STATE_WALKING)
 	{
 		vx = BOOMERANGBROTHER_WALKING_SPEED * direction;
 		StartWalking();
 	}
-	else if(state == BOOMERANGBROTHER_STATE_JUMPING){
+	else if (state == BOOMERANGBROTHER_STATE_JUMPING) {
 		ResetWalking();
 		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
+		isOnGround = false;
 	}
 	else if (state == BOOMERANGBROTHER_STATE_THROWING)
 	{
@@ -164,8 +173,11 @@ void CBoomerangBrother::SetState(int state)
 		}
 	}
 	else {
+		SetAttackedAnimation(AttackedBy::Mario, Points::POINT_300);
 		vx = 0;
 		vy = -BOOMERANGBROTHER_DEFLECT_SPEED;
 		ny = -1;
+		StartDie();
 	}
+
 }

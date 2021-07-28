@@ -9,6 +9,8 @@
 #include "PlayScene.h"
 #include "Textures.h"
 #include "Notification.h"
+#include "FireBallPool.h"
+#include "IntroScene.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -42,6 +44,8 @@ void CGame::Init(HWND hWnd)
 	screen_height = r.bottom +1;
 	screen_width = r.right +1;
 
+	isFinish = false;
+
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -60,6 +64,11 @@ void CGame::Init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
+
+	current_scene = 0;
+	background_color = D3DCOLOR(BACKGROUND_COLOR);
+	main_cam = NULL;
+	player = NULL;
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
@@ -393,7 +402,6 @@ void CGame::Load(LPCWSTR gameFile)
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 
 	SwitchScene(current_scene);
-
 }
 
 void CGame::SwitchScene(int scene_id)
@@ -402,11 +410,16 @@ void CGame::SwitchScene(int scene_id)
 
 	scenes[current_scene]->Unload();
 
+	if (scene_id == INTRO) SetBackgroundColor(BACKGROUND_COLOR_INTRO);
+	else SetBackgroundColor(BACKGROUND_COLOR);
 
 	CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 	CNotification::GetInstance()->Clear();
+
+	if (CGame::GetInstance()->current_scene != INTRO)
+		IntroScene::GetInstance()->Clear();
 
 	HUD::GetInstance()->Unload();
 
@@ -414,5 +427,32 @@ void CGame::SwitchScene(int scene_id)
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyhHandler(s->GetKeyEventHandler());
 	s->Load();
+	if(current_scene == WORLD1_1_MAP ||current_scene == WORLD1_3_MAP)
+	  HUD::GetInstance()->CountdownStart();
+
+}
+
+void CGame::SavePlayerData()
+{
+	std::ofstream fs("player-data.txt");
+	if (!fs)
+	{
+		DebugOut(L"[ERROR] Cant create player data \n");
+		return;
+	}
+	fs << "[LEVEL]\t"; fs << player->GetLevel();
+	fs << "\n[LIVE]\t"; fs << player->GetLive();
+	fs << "\n[COIN]\t"; fs << player->GetCoins();
+	fs << "\n[POINT]\t"; fs << player->GetPoints();
+
+	vector<string> re = player->GetReward();
+	for (UINT i = 0; i < re.size(); i++)
+	{
+		fs << "\n[REWARD]\t"; fs << re[i];
+	}
+
+	fs.close();
+	DebugOut(L"[DONE] Save player data \n");
+	isFinish = true;
 
 }

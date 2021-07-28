@@ -27,7 +27,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		if (game->IsKeyDown(DIK_LEFT)) {
 			if (mario.vx > 0)
 			{
-				mario.SetDirection(DIRECTION_RIGHT_TO_LEFT);
+				mario.nx = DIRECTION_RIGHT_TO_LEFT;
 				mario.ChangeState(CMarioState::stop.GetInstance());
 			}
 			else if (mario.powerMode)
@@ -49,7 +49,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		{
 			if (mario.vx < 0)
 			{
-				mario.SetDirection(DIRECTION_LEFT_TO_RIGHT);
+				mario.nx = DIRECTION_LEFT_TO_RIGHT;
 				mario.ChangeState(CMarioState::stop.GetInstance());
 
 			}
@@ -69,7 +69,7 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 		}
 		else if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (mario.isOnGround && mario.GetLevel() != MARIO_LEVEL_SMALL)
+			if (mario.isOnGround)
 			{
 				if (mario.canGoIntoPipe)
 				{
@@ -78,9 +78,9 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 					CMarioState::go_to_pipe.GetInstance()->StartInPipe();
 					mario.SetPosition(mario.x, mario.y + 5);
 				}
-				else {
+				else if (mario.GetLevel() != MARIO_LEVEL_SMALL) {
 					mario.ChangeState(CMarioState::sit.GetInstance());
-					CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
+			        CMarioState::sit.GetInstance()->SetPositionBeforeSitting(mario);
 				}
 			}
 		}
@@ -127,11 +127,11 @@ void CMarioOnGroundStates::HandleInput(CMario& mario, Input input)
 
 void CMarioOnGroundStates::SetStateWalking(int direction, CMario& mario)
 {
-	mario.SetDirection(direction);
-	mario.SetVelocityX(direction * MARIO_WALKING_SPEED);
+	mario.nx = direction;
+	mario.vx = direction * MARIO_WALKING_SPEED;
 	if (mario.isStuckWithMiniGoomba)
 	{
-		mario.SetVelocityX(direction * MARIO_WALKING_SPEED/2);
+		mario.vx =direction * MARIO_WALKING_SPEED/2;
 	}
 	mario.ChangeState(CMarioState::walk.GetInstance());
 }
@@ -140,9 +140,10 @@ void CMarioOnGroundStates::SetStateRunning(int direction, CMario& mario)
 {
 	if (mario.isStuckWithMiniGoomba == false)
 	{
-		mario.SetDirection(direction);
-		mario.SetVelocityX(direction * MARIO_RUNNING_SPEED);
+		mario.nx = direction;
+		mario.vx = direction * MARIO_RUNNING_SPEED;
 		mario.ChangeState(CMarioState::run.GetInstance());
+		CMarioState::run.GetInstance()->decreasePower = false;
 	}
 }
 

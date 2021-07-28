@@ -7,9 +7,9 @@ class CMarioStateTransform : public CMarioOnGroundStates
 {
 private:
 	ULONGLONG _transformStart;
-	int isTransform = 0;
 
 public:
+	int isTransform;
 	static CMarioStateTransform* __instance;
 	void StartTransform() { _transformStart = GetTickCount64(); isTransform = 1; };
 	CMarioStateTransform();

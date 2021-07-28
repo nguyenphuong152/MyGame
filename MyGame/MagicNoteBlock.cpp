@@ -8,11 +8,13 @@ CMagicNoteBlock::CMagicNoteBlock(float x, float y, MagicNoteBlockType type)
 {
 	this->type = type;
 	isEnable = true;
+	dir = 0;
+	invisible = false;
 	if (type == MagicNoteBlockType::invisible) invisible = true;
 
 	player = CGame::GetInstance()->GetPlayer();
 
-	SetAnimation(MAGIC_NOTE_BLOCK_ANI);
+	SetObjectAnimation(MAGIC_NOTE_BLOCK_ANI);
 	SetState(MAGIC_NOTE_BLOCK_STATE_NORMAL,NORMAL);
 
 	SetPosition(x, y);
@@ -87,7 +89,7 @@ void CMagicNoteBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
-	if (invisible == true) r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH - 3;
+	if (invisible == true) r = x + MAGIC_NOTE_BLOCK_BBOX_WIDTH - 5;
 	b = y + MAGIC_NOTE_BLOCK_BBOX_WIDTH;
 }
 

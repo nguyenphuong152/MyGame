@@ -7,6 +7,7 @@
 #include "GoomBa.h"
 #include "Koopas.h"
 #include "RedVenusFireTrap.h"
+#include "BoomerangBrother.h"
 
 
 CMarioTail::CMarioTail()
@@ -76,10 +77,18 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						koopa->AttackedByTail();
 					}
 				}
+				else if (dynamic_cast<CBoomerangBrother*>(coObjects->at(i)))
+				{
+					CBoomerangBrother* bmr = dynamic_cast<CBoomerangBrother*>(coObjects->at(i));
+					if (bmr->GetState() != BOOMERANGBROTHER_STATE_DIE)
+					{
+						bmr->SetState(BOOMERANGBROTHER_STATE_DIE);
+					}
+				}
 				else if (dynamic_cast<CRedVenusFireTrap*> (coObjects->at(i)))
 				{
 					CRedVenusFireTrap* venus = dynamic_cast<CRedVenusFireTrap*>(coObjects->at(i));
-					venus->SetAttackedAnimation(AttackedBy::Tail,Points::NONE);
+					venus->SetAttackedAnimation(AttackedBy::Tail,Points::POINT_300);
 					venus->isEnable = false;
 				}
 			}
@@ -92,7 +101,7 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMarioTail::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b)

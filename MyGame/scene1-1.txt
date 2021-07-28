@@ -697,7 +697,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool
 #item id: -1 = null, 100 = coin, 101 = leaf, 102 = mushroom
 # MARIO
-0	4100	699	1
+0	50	1000	1
 
 # FIREBALL
 1	0	0	62
@@ -767,4 +767,6 @@ mushroom	92001
 star	92002
 whiteflower	92003
 
+[DATA]
+player-data.txt
 
