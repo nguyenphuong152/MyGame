@@ -46,6 +46,7 @@
 #include "MiniGoomba.h"
 #include "Boomerang.h"
 #include "HUD.h"
+#include "Chest.h"
 
 void CMario::ResetAllFlags()
 {
@@ -65,6 +66,7 @@ void CMario::ResetAllFlags()
 	isAutoWalk = false;
 	isOnSpecialBox = false;
 	canChangeMap = false;
+	isEatMagicWhistle = false;
 }
 
 CMario::CMario(float x, float y) : CGameObject()
@@ -102,15 +104,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 		ResetUntouchable();
 
-	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME)
+	if (die == 1 && GetTickCount64() - die_start > MARIO_DIE_TIME|| isEatMagicWhistle)
 	{
-		live--;
-		if (live < 0) live = MARIO_DEFAULT_LIVE;
+
+		if (isEatMagicWhistle == false) {
+			live--;
+			if (live < 0) live = MARIO_DEFAULT_LIVE;
+		}
 		SwitchOverworld();
 		return;
 	}
 
-	if (walkbehind == 1 && GetTickCount64() - walk_behind_start > MARIO_WALK_BEHIND_MAP_TIME)
+	if (walkbehind == 1 && GetTickCount64() - walk_behind_start > MARIO_WALK_BEHIND_MAP_TIME )
 	{
 		ResetWalkBehind();
 		canWalkBehindMap = false;
@@ -119,7 +124,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CheckMarioOutOfCamera();
 	////tru  power khi o trang thai k fly, hoac fly còn dư;
 	if (powerMode == false && isOnGround == true) RecalculatePower();
-	//if no collision occured, proceed normally
 
 	if (coEvents.size() == 0)
 	{
@@ -167,7 +171,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (koopa->GetState() == KOOPA_STATE_DIE)
+					if (koopa->GetState() == KOOPA_STATE_DIE && canWalkBehindMap == false)
 					{
 						if (powerMode)
 						{
@@ -252,6 +256,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (e->ny < 0)
 				{
 					SetState(MARIO_STATE_DIE);
+				}
+				else if (e->nx < 0)
+				{
+					if(canWalkBehindMap) MoveToHiddenScene();
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -414,6 +422,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->ny < 0) StandOnPlatform();
 			}
+			else if (dynamic_cast<CChest*>(e->obj))
+			{
+			    CChest* chest = dynamic_cast<CChest*>(e->obj);
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
 			else if (dynamic_cast<CFireball*>(e->obj) || dynamic_cast<CBoomerang*>(e->obj)
 			||dynamic_cast<CRedVenusFireTrap*>(e->obj)|| dynamic_cast<CBoomerangBrother*>(e->obj))
 			{
@@ -571,6 +585,17 @@ void CMario::MovingMarioWithCamera()
 	if (x > (cam->x + CAM_WIDTH- 100))
 		x = cam->x + CAM_WIDTH - 100;
 	if (autoWalk) AutoWalk();
+}
+
+void CMario::MoveToHiddenScene()
+{
+	SetPosition(MARIO_MAGIC_WHISTLE_SCENE_X, MARIO_MAGIC_WHISTLE_SCENE_Y);
+	canWalkBehindMap = false;
+	isOnSpecialBox = false;
+    vx = 0;
+	CMarioState::sit.GetInstance()->ResetPrepair();
+	ChangeState(CMarioState::idle.GetInstance());
+	CGame::GetInstance()->GetMainCamera()->MoveToHiddenScene();
 }
 
 void CMario::AutoWalk()

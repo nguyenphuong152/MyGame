@@ -12,6 +12,7 @@
 #include "BreakableBrick.h"
 #include "PowerUp.h"
 #include "One-upMushroom.h"
+#include "Chest.h"
 CGameObject::CGameObject()
 {
 	animation_set = 0;
@@ -169,7 +170,7 @@ void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx
 		}
 		if (dynamic_cast<CCoin*>(objx) || dynamic_cast<CPowerUp*>(objx)
 			|| dynamic_cast<COneUpMushroom*>(objx)
-			|| coinBrick == true)
+			|| coinBrick == true || dynamic_cast<CChest*>(objx))
 		{
 			blockx = false;
 		}
@@ -189,7 +190,7 @@ void CGameObject::BlockObject( LPGAMEOBJECT objx, LPGAMEOBJECT objy,float min_tx
 			if (b->state == BREAKABLE_BRICK_COIN_STATE) coinBrick = true;
 		}
 		if (dynamic_cast<CCoin*>(objy) || dynamic_cast<CPowerUp*>(objy)
-			|| dynamic_cast<COneUpMushroom*>(objy) || coinBrick == true)
+			|| dynamic_cast<COneUpMushroom*>(objy) || coinBrick == true|| dynamic_cast<CChest*>(objy))
 		{
 			blocky = false;
 		}

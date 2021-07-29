@@ -19,7 +19,9 @@ enum class Type {
 	Help,
 	M,
 	Enemy,
-	Dialog
+	Dialog,
+	Alibaba,
+	Instruction
 };
 
 class CDecoration : public CGameObject

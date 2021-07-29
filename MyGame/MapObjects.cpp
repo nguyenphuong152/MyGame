@@ -28,6 +28,8 @@
 #include "MagicNoteBlock.h"
 #include "WoodBlock.h"
 #include "BrownParaGoomBa.h"
+#include "MagicWhistle.h"
+#include "Chest.h"
 
 CMapObjects::CMapObjects(Grid* g)
 {
@@ -330,6 +332,34 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 				}
 			//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
 			}
+			else if (strcmp(attributeName, "Chest") == 0)
+			{
+			while (element)
+			{
+				element->QueryIntAttribute("id", &id);
+				element->QueryFloatAttribute("x", &x);
+				element->QueryFloatAttribute("y", &y);
+
+				CGameObject* item = NULL;
+				if (strcmp(element->Attribute("name"), "magic_whistle") == 0)
+				{
+					item = new CMagicWhistle();
+					item->SetPosition(x+50, y);
+					item->AddObjectToGrid(grid, id);
+
+					objects.push_back(item);
+				}
+
+				obj = new CChest(item);
+
+				obj->SetPosition(x, y);
+				obj->AddObjectToGrid(grid, id);
+
+				objects.push_back(obj);
+				element = element->NextSiblingElement();
+			}
+			//DebugOut(L"[DONE LOADING QUESTIONBLOCK] - %d \n", objects.size());
+			}
 			else if (strcmp(attributeName, "Enemy") == 0)
 			{
 				while (element)
@@ -527,6 +557,14 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					else if (strcmp(itemName, "dialog") == 0)
 					{
 						obj = new CDecoration(Type::Dialog);
+					}
+					else if (strcmp(itemName, "alibaba") == 0)
+					{
+						obj = new CDecoration(Type::Alibaba);
+					}
+					else if (strcmp(itemName, "instruction") == 0)
+					{
+						obj = new CDecoration(Type::Instruction);
 					}
 					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);

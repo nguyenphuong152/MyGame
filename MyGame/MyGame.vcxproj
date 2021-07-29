@@ -156,6 +156,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="Decoration.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="HUDContent.cpp" />
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="MagicNoteBlock.cpp" />
+    <ClCompile Include="MagicWhistle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObjects.cpp" />
@@ -247,6 +249,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Curtain.h" />
     <ClInclude Include="Decoration.h" />
@@ -264,6 +267,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="MagicNoteBlock.h" />
+    <ClInclude Include="MagicWhistle.h" />
     <ClInclude Include="MapObjects.h" />
     <ClInclude Include="MarioHoldingShellStates.h" />
     <ClInclude Include="MarioOverworldState.h" />

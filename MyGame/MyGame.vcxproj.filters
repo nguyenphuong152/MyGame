@@ -414,6 +414,12 @@
     <ClCompile Include="MarioStateTransformLevelDown.cpp">
       <Filter>Source Files\Mario\OnGroundStates</Filter>
     </ClCompile>
+    <ClCompile Include="Chest.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicWhistle.cpp">
+      <Filter>Source Files\Objects\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioState.h">
@@ -679,6 +685,12 @@
     </ClInclude>
     <ClInclude Include="MarioStateTransformLevelDown.h">
       <Filter>Header Files\Mario\OnGroundStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Chest.h">
+      <Filter>Header Files\Objects\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicWhistle.h">
+      <Filter>Header Files\Objects\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

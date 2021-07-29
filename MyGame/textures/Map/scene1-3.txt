@@ -9,6 +9,7 @@
 60	textures\brick-debris.png	255	255	255
 70	textures\hud.png	25	25	25
 80	textures\reward.png	255	255	255
+90	textures\instruc.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -407,7 +408,18 @@
 
 #minigoomba					
 32010	521	62	547	91	10
+#instruction
+32011	1	1	428	204	90
 
+#alibaba
+32012	468	207	510	283	20
+
+#chest
+32013	1025	626	1118	722	20
+32014	1137	629	1229	722	20
+
+#magic-whistle
+32015	1008	431	1026	479	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -690,7 +702,14 @@
 534	93002	100
 535	93003	300	0	300
 536	93003	100
-
+#alibaba
+537	32012	100
+538	32011	100
+#chest
+539	32013	100
+540	32014	100
+#magic-whistle
+541	32015	100
 
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -767,6 +786,14 @@
 #WOOD_BLOCK
 48	463	464
 
+#alibaba
+49	537	538
+
+#chest
+50	539	540
+
+#magic-whistle
+51	541
 
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id

@@ -19,8 +19,10 @@ CCamera::CCamera(float y,float width, float height)
 	this->height = CAM_HEIGHT;
 	isEnable = true;
 	start_y = y;
+	player = CGame::GetInstance()->GetPlayer();
 	InitCamera();
 	hiddenscenes = NULL;
+	inactive = false;
 }
 
 void CCamera::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -42,13 +44,21 @@ void CCamera::SetState(int state)
 	CGameObject::SetState(state);
 }
 
+void CCamera::CalculateCamX(float& cx)
+{
+	//player = CGame::GetInstance()->GetPlayer();
+	cx = player->x - this->width / 2;
+
+	if (cx < 0) cx = CAM_START_X;
+}
+
 void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	
 	if (player == NULL) return;
 
 	CGameObject::Update(dt);
 
-	if (CGame::GetInstance()->current_scene == INTRO)
+	if (CGame::GetInstance()->current_scene == INTRO||inactive)
 	{
 		vx = 0;
 		vy = 0;
@@ -108,7 +118,7 @@ void CCamera::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 	else {
-		InactiveCamera();
+		inactive = true;
 	}
 }
 
@@ -165,6 +175,7 @@ void CCamera::FollowPlayerVertically()
 void CCamera::AutoMoveToSecretScreen()
 {
 	isReachBoundaryBottom = false;
+	inactive = false;
 	CGame::GetInstance()->GetMainCamera()->SetPosition(SECRET_PIPE_X_1, SECRET_PIPE_Y_1);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
 }
@@ -177,19 +188,10 @@ void CCamera::GetCamPos(float& x, float& y, float& cam_width, float& cam_height)
 	cam_height = this->height;
 }
 
-void CCamera::InactiveCamera()
-{
-	vx = 0.0f;
-	vy = 0.0f;
-}
-
 void CCamera::InitCamera()
 {
-	player = CGame::GetInstance()->GetPlayer();
 	float cx;
-	cx = player->x - this->width / 2;
-
-	if (cx < 0) cx = CAM_START_X;
+	CalculateCamX(cx);
 
 	SetPosition(cx, start_y);
 	SetState(CAMERA_STATE_NORMAL);
@@ -207,6 +209,7 @@ void CCamera::AdjustPositionToHiddenScene()
 
 	SetPosition((float)hiddenscenes->hidden_scene_cam_x, (float)hiddenscenes->hidden_scene_cam_y);
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
+	inactive = false;
 }
 
 void CCamera::GoBackToNormal()
@@ -218,12 +221,21 @@ void CCamera::GoBackToNormal()
 		cy = 10;
 	}
 
-	float cx = player->x - this->width / 2;
+	float cx;
+	CalculateCamX(cx);
 	isReachBoundaryBottom = false;
+	inactive = false;
 	SetPosition(cx, cy);
-
-	//DebugOut(L"cam x player x %f %f\n", x, player->x);
 
 	HUD::GetInstance()->SetPosition(HUD_POSITION_Y);
 	SetState(CAMERA_STATE_NORMAL);
+}
+
+void CCamera::MoveToHiddenScene()
+{
+	float cx;
+	CalculateCamX(cx);
+	SetPosition(cx, MAGIC_WHISTLE_SCENE_Y);
+	HUD::GetInstance()->SetPosition(HUD_POSITION_Y+45);
+	inactive = true;
 }

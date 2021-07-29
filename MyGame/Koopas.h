@@ -5,7 +5,7 @@
 #include "GoomBa.h"
 
 #define KOOPA_SHELL_VELOCITY_X	0.4f
-#define KOOPA_WALKING_SPEED		0.05f
+#define KOOPA_WALKING_SPEED		0.03f
 #define KOOPA_GRAVITY			0.002f
 #define KOOPA_DEFLECT_SPEED		0.6f
 
