@@ -20,6 +20,8 @@
 #define SECRET_PIPE_X_1	6500
 #define SECRET_PIPE_Y_1 100
 
+#define MAGIC_WHISTLE_SCENE_Y	1136
+
 class CCamera :public CGameObject
 {
 	static CCamera* __instance;
@@ -34,7 +36,9 @@ class CCamera :public CGameObject
 
 	bool isReachBoundaryBottom;
 	CHiddenScene* hiddenscenes;
+	void CalculateCamX(float& cx);
 public:
+	bool inactive;
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colObject);
@@ -47,10 +51,12 @@ public:
 	void GetCamPos(float& x, float& y, float& cam_width, float& cam_height);
 	
 	CCamera(float y,float width, float height);
-	void InactiveCamera();
+	
 	void InitCamera();
-	void AdjustPositionToHiddenScene();
+
 	void GoBackToNormal();
 	void AddHiddenScene(CHiddenScene* h) { this->hiddenscenes = h; };
 	void AutoMoveToSecretScreen();
+	void AdjustPositionToHiddenScene();
+	void MoveToHiddenScene();
 };

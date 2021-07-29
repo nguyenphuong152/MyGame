@@ -14,7 +14,7 @@
 
 #define BREAKABLE_BRICK_BBOX_WIDTH	50
 
-#define TIME_IN_COIN_STATE		6000
+#define TIME_IN_COIN_STATE		9000
 
 class CBreakableBrick : public CGameObject
 {

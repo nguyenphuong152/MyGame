@@ -75,6 +75,7 @@ void CMarioStateSit::Update(DWORD dt, CMario& mario)
 		}
 	}
 	if (mario.isOnSpecialBox && preparing == 0) StartPrepair();
+	
 	if (preparing == 1 && GetTickCount64() - _prepareWalkBehindMapStart > SITTING_TIME)
 	{
 		ResetPrepair();

@@ -15,6 +15,27 @@
         <object id="497" cellx="17" celly="5" xEnd="17" yEnd="5"/>
         <object id="1" cellx="0" celly="2" xEnd="9" yEnd="2"/>
         <object id="512" cellx="17" celly="5" xEnd="17" yEnd="5"/>
+        <object id="514" cellx="0" celly="2" xEnd="1" yEnd="2"/>
+        <object id="515" cellx="1" celly="2" xEnd="1" yEnd="3"/>
+        <object id="516" cellx="1" celly="3" xEnd="1" yEnd="3"/>
+        <object id="517" cellx="1" celly="3" xEnd="2" yEnd="3"/>
+        <object id="518" cellx="1" celly="3" xEnd="2" yEnd="3"/>
+        <object id="519" cellx="1" celly="3" xEnd="2" yEnd="3"/>
+        <object id="520" cellx="1" celly="3" xEnd="1" yEnd="4"/>
+        <object id="521" cellx="0" celly="4" xEnd="1" yEnd="4"/>
+        <object id="522" cellx="0" celly="3" xEnd="0" yEnd="4"/>
+        <object id="523" cellx="0" celly="3" xEnd="0" yEnd="3"/>
+        <object id="524" cellx="0" celly="3" xEnd="0" yEnd="3"/>
+        <object id="525" cellx="0" celly="3" xEnd="0" yEnd="3"/>
+        <object id="526" cellx="0" celly="2" xEnd="0" yEnd="3"/>
+        <object id="529" cellx="0" celly="3" xEnd="0" yEnd="3"/>
+    </group>
+    <group id="39" name="Chest">
+        <object id="532" cellx="0" celly="3" xEnd="NaN" yEnd="NaN"/>
+    </group>
+    <group id="38" name="AnimatedBG">
+        <object id="530" cellx="0" celly="3" xEnd="NaN" yEnd="NaN"/>
+        <object id="531" cellx="1" celly="3" xEnd="NaN" yEnd="NaN"/>
     </group>
     <group id="14" name="Ghost">
         <object id="287" cellx="1" celly="2" xEnd="1" yEnd="2"/>
@@ -28,7 +49,7 @@
         <object id="464" cellx="14" celly="1" xEnd="14" yEnd="1"/>
     </group>
     <group id="25" name="Boundary">
-        <object id="229" cellx="0" celly="0" xEnd="0" yEnd="2"/>
+        <object id="229" cellx="0" celly="0" xEnd="0" yEnd="6"/>
         <object id="231" cellx="0" celly="2" xEnd="19" yEnd="2"/>
         <object id="236" cellx="0" celly="0" xEnd="19" yEnd="0"/>
         <object id="366" cellx="18" celly="0" xEnd="19" yEnd="2"/>

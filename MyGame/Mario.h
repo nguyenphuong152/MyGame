@@ -10,7 +10,7 @@ class CMarioState;
 #define MARIO_RUNNING_SPEED			0.4f
 #define MARIO_PRE_FLYING_SPEED		0.5f
 #define MARIO_START_FLYING_SPEED	0.8f
-#define MARIO_FLYING_SPEED			0.4f
+#define MARIO_FLYING_SPEED			0.5f
 //0.1f
 #define MARIO_JUMP_SPEED_Y			0.6f
 #define MARIO_GRAVITY				0.002f
@@ -133,6 +133,9 @@ class CMarioState;
 #define MARIO_CENTER_POSITION_X	4577
 #define MARIO_CENTER_POSITION_Y 867
 
+#define MARIO_MAGIC_WHISTLE_SCENE_X	117
+#define MARIO_MAGIC_WHISTLE_SCENE_Y 1370
+
 using namespace std;
 
 class CMario : public CGameObject
@@ -179,6 +182,7 @@ public:
 	bool isOnRedMagicBlock ;
 	bool isAutoWalk;
 	bool isOnSpecialBox ;
+	bool isEatMagicWhistle;
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector <LPGAMEOBJECT>* colliable_objects = NULL);
@@ -237,6 +241,7 @@ public:
 	void MoveToSecretScreen();
 
 	void MoveToCenter();
+	void MoveToHiddenScene();
 
 	void WalkBehindStart() { walkbehind = 1; walk_behind_start = GetTickCount64(); }
 	void ResetWalkBehind() { walkbehind = 0; walk_behind_start = 0; };

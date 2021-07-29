@@ -15,7 +15,7 @@ CDecoration::CDecoration(Type type)
 
 void CDecoration::Render()
 {
-	if (type == Type::Enemy)
+	if (type == Type::Enemy || type == Type::Alibaba)
 	{
 		animation_set->at(0)->Render(dir, 1, x, y);
 	}
@@ -25,8 +25,12 @@ void CDecoration::Render()
 		CSprites::GetInstance()->Get(NUMBER_1)->Draw(-1, 1, NUMBER_1_POS_X, NUMBER_1_POS_Y);
 		CSprites::GetInstance()->Get(NUMBER_4)->Draw(-1, 1, NUMBER_2_POS_X, NUMBER_2_POS_Y);
 	}
-	else if(type == Type::Help||type == Type::Tree) {
+	else if(type == Type::Help||type == Type::Tree ) {
 		animation_set->at(0)->Render(-1, 1, x, y);
+	}
+	else if (type == Type::Instruction)
+	{
+		animation_set->at(1)->Render(-1, 1, x, y);
 	}
 	
 	//RenderBoundingBox();
@@ -39,7 +43,7 @@ void CDecoration::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = x+42;
 	b = y + 48;
 
-	if (type == Type::Dialog) r = b = 0;
+	if (type == Type::Dialog||type==Type::Alibaba||type==Type::Instruction) r = b = 0;
 }
 
 void CDecoration::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
@@ -89,5 +93,11 @@ void CDecoration::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			CGame::GetInstance()->isFinish = false;
 			isEnable = false;
 		}
+	}
+	else if (type == Type::Alibaba)
+	{
+		CMario* player = CGame::GetInstance()->GetPlayer();
+		if (player->x > x) dir = 1;
+		else dir = -1;
 	}
 }

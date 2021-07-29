@@ -2,6 +2,7 @@
 #include "MarioStateFly.h"
 #include "MarioStateRun.h"
 #include "Mario.h"
+#include "MarioStateIdle.h"
 
 CMarioStatePreFly* CMarioStatePreFly::__instance = NULL;
 
@@ -44,6 +45,7 @@ void CMarioStatePreFly::Update(DWORD dt, CMario& mario)
 	{
 		mario.ChangeState(CMarioState::run.GetInstance());
 	}
+
 }
 
 

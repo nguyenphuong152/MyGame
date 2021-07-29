@@ -1,1 +1,4 @@
-[NEW PLAYER]	
+[LEVEL]	3
+[LIVE]	4
+[COIN]	6
+[POINT]	800
