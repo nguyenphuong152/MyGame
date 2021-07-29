@@ -39,7 +39,7 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt, coObjects);
 
 		if (state == COIN_STATE_JUMPING) {
-			if (type == CoinType::jumping_coin || type == CoinType::short_jumping_coin);
+			if (type == CoinType::jumping_coin || type == CoinType::short_jumping_coin)
 			vy += COIN_GRAVITY * dt;
 		}
 		y += dy;

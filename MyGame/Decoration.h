@@ -6,7 +6,7 @@
 #define NUMBER_1 99991	
 #define NUMBER_4 99994
 
-#define SHOWING_TIME 1500
+#define SHOWING_TIME 1100
 
 #define NUMBER_1_POS_X	440
 #define NUMBER_1_POS_Y 220

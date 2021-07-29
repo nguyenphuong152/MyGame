@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Box.h"
 #include "Game.h"
+#include "Enemy.h"
 
 CPowerUp::CPowerUp(float x,float  y)
 {
@@ -81,6 +82,11 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 						x += dx;
 					}
+				}
+				else if (dynamic_cast<CEnemy*>(e->obj))
+				{
+					x += dx;
+					y += dy;
 				}
 			}
 		}

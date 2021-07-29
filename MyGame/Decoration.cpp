@@ -6,6 +6,7 @@
 CDecoration::CDecoration(Type type)
 {
 	this->type = type;
+	showing_start = 0;
 	isEnable = true;
 	dir = 1;
 
