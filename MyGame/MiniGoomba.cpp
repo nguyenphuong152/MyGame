@@ -49,59 +49,17 @@ void CMiniGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	x += dx;
 	y += dy;
 
+	SurroundMario();
+
 	if (state == MINIGOOMBA_STATE_SURROUND_MARIO) {
-
-		CMario* player = CGame::GetInstance()->GetPlayer();
-
-		//when player jump to get out of minigoombas
-		if (player->GetInput() == Input::PRESS_S)
-		{
-			if (player_jumping_time == 0)
-				StartCountingJumpingTime();
-
-			player_jumping_time += 1;
-
-			if (_state.live.jumpable == 1 && (GetTickCount64() -_state.live.jumping_start>WAITING_TIME_FOR_MARIO_JUMP))
-			{
-				if (player_jumping_time >= MAX_PLAYER_JUMPING_TIME)
-				{
-					player->isStuckWithMiniGoomba = false;
-					SetState(MINIGOOMBA_STATE_DIE);
-				}
-				player_jumping_time = 0;
-				ResetCountingJumpingTime();
-			}
-		}
-
-		if (player->state != MARIO_STATE_DIE)
-		{
-			if (x > player->x + MARIO_BIG_BBOX_WIDTH)
-			{
-				vx = -MINIGOOMBA_VELOCITY_X / 2;
-			}
-			else if (x < player->x-5)
-			{
-				vx = MINIGOOMBA_VELOCITY_X / 2;
-			}
-
-			if (y > player->y + MARIO_BIG_BBOX_HEIGHT - MINIGOOMBA_BBOX_WIDTH)
-			{
-			   vy = -MINIGOOMBA_SPINNING_VELOCITY_Y;
-			}
-			vy += MINIGOOMBA_GRAVITY/2;
-		}
-		else {
-			SetState(MINIGOOMBA_STATE_NORMAL);
-		}
+		HandleMiniGoombaMoving();
 	}
 	else if (state == MINIGOOMBA_STATE_DIE)
 	{
 		vy += MINIGOOMBA_GRAVITY;
 
 		if (_state.live.die == 1 && (GetTickCount64() - _state.live.die_start > DIE_TIME))
-		{
 			ResetDie();
-		}
 	}
 	else {
 		vy += MINIGOOMBA_GRAVITY;
@@ -159,6 +117,64 @@ void CMiniGoomba::SetState(int state)
 		_state.live.isSurroundMario = false;
 		_state.live.inUse = false;
 		vy = 0;
+	}
+}
+
+void CMiniGoomba::SurroundMario()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+
+	if (abs(x - player->x) < MAX_DISTANCE_TO_PLAYER && abs(y - player->y) < MAX_DISTANCE_TO_PLAYER) {
+		if (state == MINIGOOMBA_STATE_NORMAL)
+		{
+			player->isStuckWithMiniGoomba = true;
+			SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
+		}
+	}
+}
+
+void CMiniGoomba::HandleMiniGoombaMoving()
+{
+	CMario* player = CGame::GetInstance()->GetPlayer();
+	//when player jump to get out of minigoombas
+	if (player->GetInput() == Input::PRESS_S)
+	{
+		if (player_jumping_time == 0)
+			StartCountingJumpingTime();
+
+		player_jumping_time += 1;
+
+		if (_state.live.jumpable == 1 && (GetTickCount64() - _state.live.jumping_start > WAITING_TIME_FOR_MARIO_JUMP))
+		{
+			if (player_jumping_time >= MAX_PLAYER_JUMPING_TIME)
+			{
+				player->isStuckWithMiniGoomba = false;
+				SetState(MINIGOOMBA_STATE_DIE);
+			}
+			player_jumping_time = 0;
+			ResetCountingJumpingTime();
+		}
+	}
+
+	if (player->state != MARIO_STATE_DIE)
+	{
+		if (x > player->x + MARIO_BIG_BBOX_WIDTH)
+		{
+			vx = -MINIGOOMBA_VELOCITY_X / 2;
+		}
+		else if (x < player->x - 5)
+		{
+			vx = MINIGOOMBA_VELOCITY_X / 2;
+		}
+
+		if (y > player->y + MARIO_BIG_BBOX_HEIGHT - MINIGOOMBA_BBOX_WIDTH)
+		{
+			vy = -MINIGOOMBA_SPINNING_VELOCITY_Y;
+		}
+		vy += MINIGOOMBA_GRAVITY / 2;
+	}
+	else {
+		SetState(MINIGOOMBA_STATE_NORMAL);
 	}
 }
 

@@ -1,5 +1,7 @@
 [LEVEL]	3
-[LIVE]	4
-[COIN]	30
-[POINT]	4000
-[REWARD]	whiteflower
+[LIVE]	2
+[COIN]	66
+[POINT]	7400
+[REWARD]	mushroom
+[REWARD]	mushroom
+[REWARD]	star

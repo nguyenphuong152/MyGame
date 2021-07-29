@@ -46,7 +46,6 @@ void CMarioStateRun::Update(DWORD dt, CMario& mario)
 			mario.ChangeState(CMarioState::walk.GetInstance());
 		}
 		else if(decreasePower == false) {
-			DebugOut(L"helo \n");
 			mario.powerLevel += 10;
 		}
 	}

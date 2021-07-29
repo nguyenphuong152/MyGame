@@ -240,7 +240,7 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 						{
 							for (int i = 0; i < NUMBER_OF_COINS; i++)
 							{
-								item = new CCoin(CoinType::jumping_coin, x, y);
+								item = new CCoin(CoinType::short_jumping_coin, x, y);
 								coins[i] = item;
 								item->AddObjectToGrid(grid, id);
 								
@@ -523,6 +523,10 @@ void CMapObjects::GenerateObject(const char* mapFilePath, vector<LPGAMEOBJECT>& 
 					else if (strcmp(itemName, "enemy") == 0)
 					{
 						obj = new CDecoration(Type::Enemy);
+					}
+					else if (strcmp(itemName, "dialog") == 0)
+					{
+						obj = new CDecoration(Type::Dialog);
 					}
 					obj->SetObjectAnimation(ani);
 					obj->SetPosition(x, y);

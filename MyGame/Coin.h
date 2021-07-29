@@ -21,7 +21,8 @@
 
 enum class CoinType {
 	jumping_coin,
-	spinning_coin
+	spinning_coin,
+	short_jumping_coin
 };
 
 class CCoin : public CGameObject
@@ -36,6 +37,7 @@ public:
 	CCoin(CoinType type, float x, float y);
 
 	void SetEffect(Points point);
+	void FinishJumping();
 
 	void StartJumping() { jumping = 1; jump_start = GetTickCount64(); }
 	void ResetJumping() { jumping = 0; jump_start = 0; }

@@ -45,6 +45,7 @@ void CGame::Init(HWND hWnd)
 	screen_width = r.right +1;
 
 	isFinish = false;
+	showDialog = false;
 
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
@@ -440,19 +441,24 @@ void CGame::SavePlayerData()
 		DebugOut(L"[ERROR] Cant create player data \n");
 		return;
 	}
-	fs << "[LEVEL]\t"; fs << player->GetLevel();
-	fs << "\n[LIVE]\t"; fs << player->GetLive();
-	fs << "\n[COIN]\t"; fs << player->GetCoins();
-	fs << "\n[POINT]\t"; fs << player->GetPoints();
 
-	vector<string> re = player->GetReward();
-	for (UINT i = 0; i < re.size(); i++)
+	if (current_scene == INTRO)
 	{
-		fs << "\n[REWARD]\t"; fs << re[i];
+		fs << "[NEW PLAYER]\t";
 	}
+	else {
+		fs << "[LEVEL]\t"; fs << player->GetLevel();
+		fs << "\n[LIVE]\t"; fs << player->GetLive();
+		fs << "\n[COIN]\t"; fs << player->GetCoins();
+		fs << "\n[POINT]\t"; fs << player->GetPoints();
 
+		vector<string> re = player->GetReward();
+		for (UINT i = 0; i < re.size(); i++)
+		{
+			fs << "\n[REWARD]\t"; fs << re[i];
+		}
+	}
 	fs.close();
 	DebugOut(L"[DONE] Save player data \n");
 	isFinish = true;
-
 }

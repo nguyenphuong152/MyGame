@@ -288,18 +288,25 @@ void CPlayScene::_ParseSection_PLAYER_DATA(string line)
 	while (getline(f, data)) {
 		vector<string> tokens = split(data);
 		string property = tokens[0];
-		if (property == "[LEVEL]")     
-			player->SetLevel(atoi(tokens[1].c_str()));
-		else if (property == "[COIN]") 
-			player->SetCoins(atoi(tokens[1].c_str()));
-		else if (property == "[LIVE]") 
-			player->SetLive(atoi(tokens[1].c_str()));
-		else if (property == "[POINT]") 
-			player->SetPoints(atoi(tokens[1].c_str()));
-		else if (property == "[REWARD]")
+		if (property == "[NEW PLAYER]")
 		{
-			player->SetReward(tokens[1]);
-			HUD::GetInstance()->AddReward(tokens[1]);
+			CGame::GetInstance()->showDialog = true;
+		}
+		else {
+			CGame::GetInstance()->showDialog = false;
+			if (property == "[LEVEL]")
+				player->SetLevel(atoi(tokens[1].c_str()));
+			else if (property == "[COIN]")
+				player->SetCoins(atoi(tokens[1].c_str()));
+			else if (property == "[LIVE]")
+				player->SetLive(atoi(tokens[1].c_str()));
+			else if (property == "[POINT]")
+				player->SetPoints(atoi(tokens[1].c_str()));
+			else if (property == "[REWARD]")
+			{
+				player->SetReward(tokens[1]);
+				HUD::GetInstance()->AddReward(tokens[1]);
+			}
 		}
 	}
 	f.close();
@@ -405,7 +412,6 @@ void CPlayScene::Update(DWORD dt)
 		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 		grid->Update(dt, &coObjects);
 		player->Update(dt, &coObjects);
-
 		if (CNotification::GetInstance()->visible)
 			CNotification::GetInstance()->Update();
 	}
