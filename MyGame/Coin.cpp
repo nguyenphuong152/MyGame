@@ -20,11 +20,14 @@ CCoin::CCoin(CoinType type, float x, float y)
 void CCoin::SetState(int state)
 {
 	CGameObject::SetState(state);
-	if (type == CoinType::jumping_coin&&state==COIN_STATE_JUMPING)
+	if (state==COIN_STATE_JUMPING)
 	{
-		isActive = true;
-		vy = -COIN_DEFLECT_SPEED;
-		StartJumping();
+		if (type == CoinType::jumping_coin || type == CoinType::short_jumping_coin)
+		{
+			isActive = true;
+			vy = -COIN_DEFLECT_SPEED;
+			StartJumping();
+		}
 	}
 }
 
@@ -35,15 +38,22 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		CGameObject::Update(dt, coObjects);
 
-		if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME) {
-			ResetJumping();
-			SetEffect(Points::POINT_100);
-			isEnable = false;
-			isActive = false;
+		if (state == COIN_STATE_JUMPING) {
+			if (type == CoinType::jumping_coin || type == CoinType::short_jumping_coin);
+			vy += COIN_GRAVITY * dt;
 		}
-
-		if (type == CoinType::jumping_coin && state == COIN_STATE_JUMPING) vy += COIN_GRAVITY * dt;
 		y += dy;
+
+		if (type == CoinType::jumping_coin)
+		{
+			if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME)
+				FinishJumping();
+		}
+		else if (type == CoinType::short_jumping_coin)
+		{
+			if (jumping == 1 && GetTickCount64() - jump_start > JUMPING_TIME / 2)
+				FinishJumping();
+		}
 	}
 }
 
@@ -51,15 +61,21 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CCoin::Render()
 {
 	int ani = -1;
-	if (type == CoinType::jumping_coin)
-		ani = COIN_ANI_JUMPING;
-	else
+	if (type == CoinType::spinning_coin)
 		ani = COIN_ANI_SPINNING;
+	else
+		ani = COIN_ANI_JUMPING;
 	if (isActive)
-	{
 		animation_set->at(ani)->Render(1, 1, x, y);
-	}
 	//RenderBoundingBox();
+}
+
+void CCoin::FinishJumping()
+{
+	ResetJumping();
+	SetEffect(Points::POINT_100);
+	isEnable = false;
+	isActive = false;
 }
 
 void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)

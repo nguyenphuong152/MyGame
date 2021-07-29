@@ -120,6 +120,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	////tru  power khi o trang thai k fly, hoac fly còn dư;
 	if (powerMode == false && isOnGround == true) RecalculatePower();
 	//if no collision occured, proceed normally
+
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -222,7 +223,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (dynamic_cast<CBox*>(e->obj))
 					{
-						//if (marioState == CMarioState::fly.GetInstance() || marioState == CMarioState::jump.GetInstance())
 						y += dy;
 					}
 					else if (dynamic_cast<CGround*>(e->obj))
@@ -267,6 +267,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->ny > 0) {
 						brick->SetState(BRICK_STATE_TOUCHED);
 						canJumpHigh = false;
+
 						if (brick->GetType() == BrickType::twinkle_brick_coin)
 							brick->isTouch = true;
 						else if (brick->GetType() == BrickType::twinkle_brick_no_item)
@@ -412,18 +413,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					woodBlock->SetState(WOOD_BLOCK_STATE_TOUCHED, e->nx);
 				}
 				else if (e->ny < 0) StandOnPlatform();
-			}
-			else if (dynamic_cast<CMiniGoomba*>(e->obj))
-			{
-				CMiniGoomba* g = dynamic_cast<CMiniGoomba*>(e->obj);
-				if (e->nx != 0|| e->ny != 0)
-				{
-					if (g->GetState() == MINIGOOMBA_STATE_NORMAL)
-					{
-						isStuckWithMiniGoomba = true;
-						g->SetState(MINIGOOMBA_STATE_SURROUND_MARIO);
-					}
-				}
 			}
 			else if (dynamic_cast<CFireball*>(e->obj) || dynamic_cast<CBoomerang*>(e->obj)
 			||dynamic_cast<CRedVenusFireTrap*>(e->obj)|| dynamic_cast<CBoomerangBrother*>(e->obj))

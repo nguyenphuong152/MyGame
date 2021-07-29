@@ -47,7 +47,10 @@ void CMarioStateFly::Update(DWORD dt, CMario& mario)
 {
 	if (mario.isOnGround)
 	{
-		mario.ChangeState(CMarioState::idle.GetInstance());
+		if (mario.isAutoWalk)
+			mario.AutoWalk();
+		else 
+		   mario.ChangeState(CMarioState::idle.GetInstance());
 	}
 }
 

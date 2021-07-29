@@ -163,6 +163,8 @@ void CText::Countdown()
 {
 	ULONGLONG countdown_start = HUD::GetInstance()->GetCountdownStart();
 	default_time = GAME_TIME -(GetTickCount64() - countdown_start) / 1000;
+
+	if (CGame::GetInstance()->current_scene == OVERWORLD_MAP) default_time = GAME_TIME;
 	SetText(to_string(default_time));
 }
 

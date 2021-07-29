@@ -22,6 +22,9 @@
 #define DIE_TIME						500
 #define WAITING_TIME_FOR_MARIO_JUMP		700
 
+#define MAX_DISTANCE_TO_PLAYER	100
+
+
 class CMiniGoomba : public CGameObject
 {
 	friend class CMiniGoombaPool;
@@ -58,6 +61,9 @@ private:
 
 	void StartDie() { _state.live.die = 1; _state.live.die_start = GetTickCount64(); };
 	void ResetDie() { _state.live.die = 0; _state.live.die_start = 0; };
+
+	void SurroundMario();
+	void HandleMiniGoombaMoving();
 
 public:
 	CMiniGoomba* GetNext() {

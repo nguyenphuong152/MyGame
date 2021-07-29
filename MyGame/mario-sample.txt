@@ -1,8 +1,8 @@
 [SETTINGS]
-start	4
+start	3
 #scene list
 [SCENES]
-1	intro.txt
-2	scene1-3.txt
-3	scene1-1.txt
-4	Overworld.txt
+1	textures\Map\intro.txt
+2	textures\Map\scene1-3.txt
+3	textures\Map\scene1-1.txt
+4	textures\Map\Overworld.txt

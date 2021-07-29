@@ -8,6 +8,7 @@
 80	textures\reward.png	255	255	255
 110	textures\dialogs.png	25	25	25
 
+
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # SMALL MARIO 
@@ -206,7 +207,6 @@
 4	1003
 #dialog
 21	214	215
-
 [OBJECTS]
 # type	x	y	ani_set_id	item_id item_ani_id
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = red venus, 4= koopas, 5= fireball_pool

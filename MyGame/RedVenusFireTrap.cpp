@@ -114,7 +114,6 @@ void CRedVenusFireTrap::HandleCollision(vector<LPGAMEOBJECT>* coEventRe)
 				{
 					if (y > POSITION_PIPE_Y)
 					{
-						DebugOut(L"x mario %f %f \n", x, player->x);
 						if (player->x<(x - RANGE_MARIO_WITH_VENUS) || player->x>(x + MARIO_BIG_BBOX_WIDTH * 2))
 							SetState(VENUS_STATE_GO_UP);
 					}

@@ -74,6 +74,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ResetRecover();
 		y -= KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE;
 		if (this->ny == -1) this->ny = 1;
+		SetLevel(KOOPA_LEVEL_1);
 		SetState(KOOPA_STATE_WALKING);
 	}
 
@@ -183,25 +184,17 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0)
 				{
 					if (GetState() == KOOPA_STATE_WALKING)
-					{
 						ChangeDirection();
-					}
 					else if (GetState() == KOOPA_STATE_DIE_WITH_VELOCITY )
-					{
 						WalkThrough();
-					}
 				}
 			}
 			else if (dynamic_cast<CGround*>(e->obj))
 			{
 				if (e->nx != 0)
-				{
 					ChangeDirection();
-				}
 				else if (e->ny < 0)
-				{
 					isOnGround = true;
-				}
 			}
 			else if (dynamic_cast<CMagicNoteBlock*>(e->obj))
 			{
@@ -209,17 +202,13 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					CMagicNoteBlock* block = dynamic_cast<CMagicNoteBlock*>(e->obj);
 					if (block->invisible == true)
-					{
 						WalkThrough();
-					}
-					else {
+					else 
 						ChangeDirection();
-					}
 				}
 				else if (e->ny < 0)
-				{
 					isOnGround = true;
-				}
+
 			}
 			else if (dynamic_cast<CBox*>(e->obj))
 			{
@@ -247,31 +236,31 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBoomerangBrother*>(e->obj))
 			{
-			CBoomerangBrother* bmr = dynamic_cast<CBoomerangBrother*>(e->obj);
-			if (e->nx != 0)
-			{
-				WalkThrough();
-				if (bmr->GetState() !=BOOMERANGBROTHER_STATE_DIE && state == KOOPA_STATE_DIE_WITH_VELOCITY)
+			    CBoomerangBrother* bmr = dynamic_cast<CBoomerangBrother*>(e->obj);
+				if (e->nx != 0)
 				{
-					bmr->SetState(BOOMERANGBROTHER_STATE_DIE);
+					WalkThrough();
+					if (bmr->GetState() !=BOOMERANGBROTHER_STATE_DIE && state == KOOPA_STATE_DIE_WITH_VELOCITY)
+					{
+						bmr->SetState(BOOMERANGBROTHER_STATE_DIE);
+					}
 				}
-			}
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
 				if (koopa->isOnGround && e->nx!=0)
 				{
-					WalkThrough();
 					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
 					{
+						isEnable = false;
 						if (koopa->GetState() == KOOPA_STATE_WALKING)
 							koopa->AttackedByTail();
 						else if (koopa->GetState() == KOOPA_STATE_DIE_WITH_VELOCITY)
-						{
 							koopa->isEnable = false;
-							isEnable = false;
-						}
+					}
+					else {
+						WalkThrough();
 					}
 					
 				}
@@ -318,6 +307,7 @@ void CKoopas::SetState(int state)
 	{
 	case KOOPA_STATE_DIE:
 		vx = 0;
+		StartDie();
 		break;
 	case KOOPA_STATE_WALKING:
 		vx = this->nx * KOOPA_WALKING_SPEED;
