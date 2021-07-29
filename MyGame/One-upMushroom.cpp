@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Game.h"
 #include "Grid.h"
+#include "Enemy.h"
 
 COneUpMushroom::COneUpMushroom(float x, float y)
 {
@@ -84,6 +85,11 @@ void COneUpMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject)
 						this->nx = -this->nx;
 						vx = this->nx * MUSHROOM_VELOCITY_X;
 					}
+				}
+				if (dynamic_cast<CEnemy*>(e->obj))
+				{
+					x += dx;
+					y += dy;
 				}
 				/*else if (dynamic_cast<CCamera*>(e->obj))
 				{
