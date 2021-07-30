@@ -25,6 +25,8 @@
 #define RANGE_X_LEFT	886
 #define RANGE_X_RIGHT	1280
 
+#define FIREBALL_ALIVE_TIME 5000
+
 class CFireball : public CGameObject
 {
 	friend class CFireBallPool;
@@ -33,6 +35,7 @@ private:
 	union {
 		struct
 		{
+			ULONGLONG alive_time;
 			bool isBelongToVenus;
 			bool isShootingUp;
 			bool inUse;
@@ -54,6 +57,8 @@ public:
 	void DisableFireballByCamera();
 	void HandleFireballForVenus();
 	void ExplosedFireball();
+
+	void StartAlive() { _state.live.alive_time = GetTickCount64(); };
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void Render();

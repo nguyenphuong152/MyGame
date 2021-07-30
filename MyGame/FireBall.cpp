@@ -16,6 +16,7 @@ CFireball::CFireball()
 	_state.live.isBelongToVenus = false;
 	_state.live.isShootingUp = false;
 	_state.live.inUse = false;
+	_state.live.alive_time = 0;
 }
 
 void CFireball::AllocateFireballToMario()
@@ -29,6 +30,7 @@ void CFireball::AllocateFireballToMario()
 
 	vx = player->nx * FIREBALL_VELOCITY_X;
 	vy = FIREBALL_VELOCITY_Y_NEAR;
+	StartAlive();
 }
 
 void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootingUp)
@@ -42,7 +44,7 @@ void CFireball::AllocateFireballToVenus(int nx, float x, float y, bool isShootin
 
 	vx = nx * FIREBALL_VELOCITY_X/2;
 	vy = FIREBALL_VENUS_VELOCITY_Y_NEAR;
-	
+	StartAlive();
 }
 
 void CFireball::Render()
@@ -63,6 +65,12 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* colObject) {
 	DisableFireballByCamera();
 
 	if (_state.live.isBelongToVenus) HandleFireballForVenus();
+
+	if (GetTickCount64() - _state.live.alive_time > FIREBALL_ALIVE_TIME && _state.live.alive_time > 0)
+	{
+		isEnable = false;
+		_state.live.alive_time = 0;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
