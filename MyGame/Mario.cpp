@@ -464,7 +464,6 @@ void  CMario::SetState(int state)
 	if (state == MARIO_STATE_DIE) {
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		vx = 0;
-		live--;
 		StartDie();
 	}
 	else if (state == MARIO_WALKING_ON_HIDDEN_SCENE_3)

@@ -249,7 +249,7 @@ void CKoopas::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopa = dynamic_cast<CKoopas*>(e->obj);
-				if (koopa->isOnGround && e->nx!=0)
+				if ( e->nx!=0)
 				{
 					if (state == KOOPA_STATE_DIE_WITH_VELOCITY)
 					{
